@@ -1,0 +1,190 @@
+<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/maven-v4_0_0.xsd">
+	<modelVersion>4.0.0</modelVersion>
+
+	<parent>
+		<artifactId>120482-parent</artifactId>
+		<groupId>com.hp.it.120482</groupId>
+		<version>2011.10-SNAPSHOT</version>
+	</parent>
+
+	<artifactId>data-match</artifactId>
+	<packaging>pom</packaging>
+	<name>Data matching tools</name>
+	<description>Data matching tools</description>
+
+	<organization>
+		<name>Common Architecture Services</name>
+		<url>http://cas.corp.hp.com/site/cas</url>
+	</organization>
+
+	<inceptionYear>2011</inceptionYear>
+
+	<properties>
+		<junitVersion>4.5</junitVersion>
+		<springVersion>2.5.6</springVersion>
+		<addressDoctorVersion>5.2.7.785</addressDoctorVersion>
+		<javaVersion>1.6</javaVersion>
+		<hamcrestVersion>1.1</hamcrestVersion>
+		<jmockVersion>2.5.1</jmockVersion>
+		<jaxBApiVersion>2.1</jaxBApiVersion>
+		<jaxBImplVersion>2.1.10</jaxBImplVersion>
+		<cxfVersion>2.2.9</cxfVersion>
+		<jerseyVersion>1.5</jerseyVersion>
+		<metroVersion>2.1.1</metroVersion>
+		<validationApiVersion>1.0.0.GA</validationApiVersion>
+		<aspectJVersion>1.6.7</aspectJVersion>
+		<oracleJdbcVersion>11.2.0.1.0</oracleJdbcVersion>
+	</properties>
+
+	<modules>
+		<module>data-match-engine</module>
+		<module>data-match-web</module>
+		<module>data-match-client</module>
+		<module>data-match-installer</module>
+	</modules>
+
+	<dependencyManagement>
+		<dependencies>
+			<dependency>
+				<groupId>junit</groupId>
+				<artifactId>junit</artifactId>
+				<version>${junitVersion}</version>
+				<scope>test</scope>
+			</dependency>
+
+			<dependency>
+				<groupId>com.addressdoctor</groupId>
+				<artifactId>addressdoctor</artifactId>
+				<version>${addressDoctorVersion}</version>
+			</dependency>
+
+			<dependency>
+				<groupId>org.hamcrest</groupId>
+				<artifactId>hamcrest-core</artifactId>
+				<version>${hamcrestVersion}</version>
+				<scope>test</scope>
+			</dependency>
+
+			<dependency>
+				<groupId>org.hamcrest</groupId>
+				<artifactId>hamcrest-library</artifactId>
+				<version>${hamcrestVersion}</version>
+				<scope>test</scope>
+			</dependency>
+
+			<dependency>
+				<groupId>org.jmock</groupId>
+				<artifactId>jmock-junit4</artifactId>
+				<version>${jmockVersion}</version>
+				<scope>test</scope>
+			</dependency>
+
+			<dependency>
+				<groupId>com.hp.it.118361</groupId>
+				<artifactId>foundation</artifactId>
+				<version>${casVersion}</version>
+			</dependency>
+
+			<dependency>
+				<groupId>com.hp.it.118361</groupId>
+				<artifactId>security-impl</artifactId>
+				<version>${casVersion}</version>
+			</dependency>
+
+
+			<dependency>
+				<groupId>com.sun.jersey</groupId>
+				<artifactId>jersey-server</artifactId>
+				<version>${jerseyVersion}</version>
+			</dependency>
+
+			<dependency>
+				<groupId>com.sun.jersey</groupId>
+				<artifactId>jersey-core</artifactId>
+				<version>${jerseyVersion}</version>
+			</dependency>
+
+			<dependency>
+				<groupId>org.glassfish.metro</groupId>
+				<artifactId>webservices-rt</artifactId>
+				<version>${metroVersion}</version>
+			</dependency>
+
+			<dependency>
+				<groupId>javax.validation</groupId>
+				<artifactId>validation-api</artifactId>
+				<version>${validationApiVersion}</version>
+			</dependency>
+
+			<dependency>
+				<groupId>org.aspectj</groupId>
+				<artifactId>aspectjrt</artifactId>
+				<version>${aspectJVersion}</version>
+			</dependency>
+
+			<dependency>
+				<groupId>com.oracle</groupId>
+				<artifactId>ojdbc5</artifactId>
+				<version>${oracleJdbcVersion}</version>
+				<scope>runtime</scope>
+			</dependency>
+
+		</dependencies>
+	</dependencyManagement>
+
+	<build>
+		<plugins>
+
+			<plugin>
+				<artifactId>maven-compiler-plugin</artifactId>
+				<inherited>true</inherited>
+				<configuration>
+					<source>${javaVersion}</source>
+					<target>${javaVersion}</target>
+					<encoding>8859_1</encoding>
+				</configuration>
+			</plugin>
+
+			<plugin>
+				<groupId>org.apache.maven.plugins</groupId>
+				<artifactId>maven-release-plugin</artifactId>
+				<configuration>
+					<autoVersionSubmodules>true</autoVersionSubmodules>
+					<preparationGoals>clean install</preparationGoals>
+					<goals>deploy</goals>
+				</configuration>
+			</plugin>
+
+			<plugin>
+				<groupId>org.apache.maven.plugins</groupId>
+				<artifactId>maven-source-plugin</artifactId>
+				<inherited>true</inherited>
+				<executions>
+					<execution>
+						<id>attach-source</id>
+						<phase>package</phase>
+						<goals>
+							<goal>jar</goal>
+						</goals>
+					</execution>
+				</executions>
+			</plugin>
+
+			<plugin>
+				<!-- group and version defined in reporting section -->
+				<artifactId>maven-javadoc-plugin</artifactId>
+				<inherited>true</inherited>
+				<executions>
+					<execution>
+						<id>attach-javadoc</id>
+						<phase>package</phase>
+						<goals>
+							<goal>jar</goal>
+						</goals>
+					</execution>
+				</executions>
+			</plugin>
+		</plugins>
+	</build>
+</project>

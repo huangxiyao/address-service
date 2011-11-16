@@ -1,0 +1,19 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE Parameters >
+<Parameters WriteXMLBOM="NEVER" WriteXMLEncoding="UTF-16">
+  <Process EnrichmentCASS="OFF" EnrichmentGeoCoding="OFF" EnrichmentSERP="OFF" EnrichmentSNA="OFF" EnrichmentSupplementaryGB="OFF" EnrichmentSupplementaryUS="OFF" Mode="BATCH"/>
+  <Input Encoding="UTF-16" FormatDelimiter="CRLF" FormatType="ALL" FormatWithCountry="OFF" WriteXMLBOM="NEVER"/>
+  <Result AddressComplete="ON" AddressElements="STANDARD" AddressLines="ON" CountryType="NAME_EN" Encoding="UTF-16" FormatDelimiter="CRLF" FormatMaxLines="19" FormatType="ALL" FormatWithCountry="OFF" PreferredScript="ASCII_EXTENDED" WriteXMLBOM="NEVER"/>
+  <AddressElementStandardize>
+    <DeliveryAddressLine MaxItemCount="3"/>
+    <Locality MaxItemCount="3"/>
+    <PostalCode MaxItemCount="1"/>
+    <Province MaxItemCount="1"/>
+    <Street MaxItemCount="1"/>
+    <Number MaxItemCount="1"/>
+    <Building MaxItemCount="1"/>
+    <SubBuilding MaxItemCount="1"/>
+    <DeliveryService MaxItemCount="1"/>
+    <Residue MaxItemCount="2"/>
+   </AddressElementStandardize>
+</Parameters>

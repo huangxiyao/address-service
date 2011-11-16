@@ -1,0 +1,9 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<Context>
+    <Resource name="jdbc/SecurityDatasource"
+              type="javax.sql.DataSource"
+              username="mdcp_cassec"
+              password="mdcp_cassec"
+              driverClassName="oracle.jdbc.OracleDriver"
+              url="jdbc:oracle:thin:@localhost:1521:XE"/>
+</Context>

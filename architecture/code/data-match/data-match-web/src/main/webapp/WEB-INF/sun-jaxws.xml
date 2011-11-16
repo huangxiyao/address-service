@@ -1,0 +1,8 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<endpoints xmlns='http://java.sun.com/xml/ns/jax-ws/ri/runtime' version='2.0'>
+    <endpoint
+        name='CASServiceSoapImplService'
+        implementation='com.hp.it.cas.match.address.web.soap.CASServiceSoapImpl'
+        url-pattern='/legacy-match/address/v1'/>
+</endpoints>

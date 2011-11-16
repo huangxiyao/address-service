@@ -1,0 +1,105 @@
+body {
+	font-family: "Lucida Grande", Verdana, Helvetica;
+	background-color: #E2DDDC;
+	color: #333;
+}
+a {
+	color: #b52;
+}
+body > h1 {
+	font-size: 2em;
+
+	border-bottom-width: thin;
+}
+body > h2,
+body > section > h1,
+body > aside > h1 {
+	font-size: 1.5em;	
+}
+body > h3,
+body > section > h2,
+body > section > section > h1,
+body > section > section > h2 {
+	font-size: 1em;
+}
+h1, h2, h3 {
+	color: #FF6400;
+	font-weight: normal;
+}
+header h1,
+header p {
+	display: inline-block;
+}
+header p {
+	margin-left: 20px;
+	font-size: larger;
+	font-weight: bold;
+	color: #b52;
+}
+ul {
+	margin: 0;
+}
+table ul {
+	padding: 0;
+	list-style-type: none;
+}
+section section {
+	margin-left: 20px;
+}
+section section > h1:first-child {
+	margin-left: -20px;
+}
+table,
+figure {
+	background-color: #EDEBEC;
+	border-radius: 10px;
+}
+table {
+	border-collapse: collapse;
+	width: 100%;
+	margin-bottom: 10px;
+}
+table caption {
+	text-align: left;
+	padding-left: 10px;
+	font-weight: bold;
+	margin-bottom: 5px;
+}
+table th,
+table td {
+	text-align: left;
+	font-size: smaller;
+	padding: .25em 10px;
+	vertical-align: top;
+}
+table td {
+	border-top: 1px solid #E2DDDC;
+}
+.summary table caption {
+	display: none;
+}
+figure {
+	margin: 0 0 10px 0;
+	width: 100%;
+	box-sizing: border-box;
+	padding: 10px;
+}
+figcaption,
+kbd {
+	font-weight: bold;
+}
+kbd {
+	display: block;
+}
+code {
+	white-space: pre;
+}
+kbd:before {
+	content: '⇢ ';
+}
+samp:before {
+	content: '⇠ ';
+}
+figure.example figcaption {
+	display: none;
+}

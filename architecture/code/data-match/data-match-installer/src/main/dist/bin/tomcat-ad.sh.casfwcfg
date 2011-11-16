@@ -1,0 +1,23 @@
+#!/bin/sh
+
+# This file is deployed into {casfw_home}/bin so let's walk up
+# the directory hierarchy to get to CASFW root directory
+CASFW_HOME="$(cd "$(dirname "$0")/.." && pwd)"
+
+source ${CASFW_HOME}/bin/.casfwrc
+AD_HOME="$(cd $(ls -d ${CASFW_HOME}/software/address-engine-* | tail -n1) && pwd)"
+default_catalina_opts="-Djava.awt.headless=true -Dcas.config.dir=${CASFW_HOME}/etc/address-engine -Djava.library.path=${AD_HOME}/lib64"
+
+# Find the latest tomcat 6
+export CATALINA_HOME="$(cd $(ls -d ${CASFW_HOME}/software/apache-tomcat-6.* | tail -n1) && pwd)"
+export CATALINA_BASE=${CASFW_HOME}/etc/tomcat-ad
+if [ -z "${AD_CATALINA_OPTS}" ]; then
+    export CATALINA_OPTS="${default_catalina_opts} -Xmx2048m -Dcom.sun.management.jmxremote -Dcom.sun.management.jmxremote.port=@@jmx_port@@ -Dcom.sun.management.jmxremote.ssl=false -Dcom.sun.management.jmxremote.authenticate=true -Dcom.sun.management.jmxremote.password.file=${CASFW_HOME}/etc/tomcat-ad/conf/jmxremote.password -Dcom.sun.management.jmxremote.access.file=${CASFW_HOME}/etc/tomcat-ad/conf/jmxremote.access"
+else
+    export CATALINA_OPTS="${default_catalina_opts} ${AD_CATALINA_OPTS}"
+fi
+
+export CATALINA_PID=${CASFW_HOME}/var/tomcat-ad.pid
+export DISPLAY=
+
+${CATALINA_HOME}/bin/catalina.sh $*

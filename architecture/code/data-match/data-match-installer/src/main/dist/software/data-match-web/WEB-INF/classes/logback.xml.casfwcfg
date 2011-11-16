@@ -1,0 +1,70 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<configuration>
+	<!-- Levels (case-insensitive) ALL OFF ERROR (highest value) WARN INFO DEBUG TRACE (lowest value) -->
+	<contextName>data-match-web</contextName>
+	
+	<jmxConfigurator />
+
+	<appender name="ad-legacy-service-log" class="ch.qos.logback.core.rolling.RollingFileAppender">
+		<file>@@casfw_home@@/var/log/data-match-web/ad-legacy-service.log</file>
+		<rollingPolicy class="ch.qos.logback.core.rolling.TimeBasedRollingPolicy">
+			<FileNamePattern>@@casfw_home@@/var/log/data-match-web/ad-legacy-service-log.%d{yyyy-MM-dd}.log</FileNamePattern>
+			<MaxHistory>4</MaxHistory> <!-- the number of days worth of history -->
+		</rollingPolicy>
+
+		<layout class="ch.qos.logback.classic.PatternLayout">
+			<Pattern>%date [%thread] [%mdc] %level %logger{0}.%method:%line %message%n</Pattern>
+		</layout>
+	</appender>
+	
+	<appender name="ad-service-log" class="ch.qos.logback.core.rolling.RollingFileAppender">
+		<file>@@casfw_home@@/var/log/data-match-web/ad-service.log</file>
+		<rollingPolicy class="ch.qos.logback.core.rolling.TimeBasedRollingPolicy">
+			<FileNamePattern>@@casfw_home@@/var/log/data-match-web/ad-service-log.%d{yyyy-MM-dd}.log</FileNamePattern>
+			<MaxHistory>4</MaxHistory> <!-- the number of days worth of history -->
+		</rollingPolicy>
+
+		<layout class="ch.qos.logback.classic.PatternLayout">
+			<Pattern>%date [%thread] [%mdc] %level %logger{0}.%method:%line %message%n</Pattern>
+		</layout>
+	</appender>
+
+	<appender name="ad-engine-log" class="ch.qos.logback.core.rolling.RollingFileAppender">
+		<file>@@casfw_home@@/var/log/data-match-web/ad-engine.log</file>
+		<rollingPolicy class="ch.qos.logback.core.rolling.TimeBasedRollingPolicy">
+			<FileNamePattern>@@casfw_home@@/var/log/data-match-web/ad-engine-log.%d{yyyy-MM-dd}.log</FileNamePattern>
+			<MaxHistory>4</MaxHistory> <!-- the number of days worth of history -->
+		</rollingPolicy>
+
+		<layout class="ch.qos.logback.classic.PatternLayout">
+			<Pattern>%date [%thread] [%mdc] %level %logger{0}.%method:%line %message%n</Pattern>
+		</layout>
+	</appender>
+	
+	<!-- Prints out configuration of the engine itself -->
+	<logger name="com.hp.it.cas.match.address.engine.AddressDoctorEngine" level="INFO" additivity="false">
+    	<appender-ref ref="ad-engine-log"/>
+	</logger>
+
+	<logger name="com.hp.it.cas.match.address.engine.legacy.LegacyAddressDoctorAddressAnalyzer" level="INFO" additivity="false">
+		<appender-ref ref="ad-legacy-service-log"/>
+	</logger>
+
+	<logger name="com.hp.it.cas.match.address.engine.legacy.LegacyAddressDoctorAddressAnalyzerRequestLogger" level="DEBUG" additivity="false">
+		<appender-ref ref="ad-legacy-service-log" />
+	</logger>
+	
+	<logger name="com.hp.it.cas.match.address.engine.AddressFinderRequestLogger" level="DEBUG" additivity="false">
+		<appender-ref ref="ad-service-log" />
+	</logger>
+	
+	<logger name="com.hp.it.cas.match.address.engine.AddressFinder" level="INFO" additivity="false">
+		<appender-ref ref="ad-service-log" />
+	</logger>
+
+	<root level="WARN">
+		<appender-ref ref="ad-legacy-service-log" />
+		<appender-ref ref="ad-service-log" />
+	</root>
+
+</configuration>

@@ -1,0 +1,66 @@
+<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/maven-v4_0_0.xsd">
+	<modelVersion>4.0.0</modelVersion>
+	<parent>
+		<artifactId>data-match</artifactId>
+		<groupId>com.hp.it.120482</groupId>
+		<version>2011.10-SNAPSHOT</version>
+	</parent>
+
+	<groupId>com.hp.it.120482</groupId>
+	<artifactId>data-match-installer</artifactId>
+
+	<packaging>cdi</packaging>
+
+	<properties>
+		<project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
+		<apacheTomcatVersion>6.0.32</apacheTomcatVersion>
+		<oracleJavaVersion>1.6.0_24</oracleJavaVersion>
+		<scmRevision>UNDEFINED</scmRevision>
+	</properties>
+
+	<name>Data Match Installer</name>
+	<description>Installer for data match web services</description>
+
+	<build>
+		<plugins>
+			<plugin>
+				<groupId>com.hp.it.118361</groupId>
+				<artifactId>install-assembler-maven-plugin</artifactId>
+				<version>${casVersion}</version>
+				<extensions>true</extensions>
+				<configuration>
+					<installDirectoryName>data-match-${project.version}</installDirectoryName>
+					<scmRevision>${scmRevision}</scmRevision>
+					<software>
+						<artifact>
+							<groupId>com.oracle.java</groupId>
+							<artifactId>oracle-java</artifactId>
+							<version>${oracleJavaVersion}</version>
+							<classifier>linux-x64</classifier>
+							<type>tar.gz</type>
+						</artifact>
+						<artifact>
+							<groupId>org.apache.tomcat</groupId>
+							<artifactId>apache-tomcat</artifactId>
+							<version>${apacheTomcatVersion}</version>
+							<type>tar.gz</type>
+						</artifact>
+						<artifact>
+							<groupId>${project.groupId}</groupId>
+							<artifactId>data-match-web</artifactId>
+							<version>${project.version}</version>
+							<type>war</type>
+						</artifact>
+						<artifact>
+							<groupId>com.addressdoctor</groupId>
+							<artifactId>address-engine</artifactId>
+							<version>${addressDoctorVersion}</version>
+							<classifier>linux-x64</classifier>
+							<type>tar.gz</type>
+						</artifact>
+					</software>
+				</configuration>
+			</plugin>
+		</plugins>
+	</build>
+</project>

@@ -1,0 +1,11 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<Context path="/" docBase="@@casfw_home@@/software/data-match-web-@@data_match_web_version@@" >
+ <Resource name="jdbc/SecurityDatasource" auth="Container" type="javax.sql.DataSource"
+              maxActive="100" maxIdle="30" maxWait="10000"
+              driverClassName="oracle.jdbc.OracleDriver"
+              connectionProperties="oracle.jdbc.timezoneAsRegion=false"
+              username="@@application_db_user@@"
+              password="@@application_db_pwd@@"
+              url="@@application_db_url@@" />
+
+</Context>

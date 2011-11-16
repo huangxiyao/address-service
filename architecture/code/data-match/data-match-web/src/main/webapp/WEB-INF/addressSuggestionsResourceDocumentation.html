@@ -1,0 +1,2904 @@
+<!DOCTYPE HTML>
+<html>
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+<title>match/addressSuggestions</title>
+
+<STYLE TYPE="text/css" MEDIA="screen, projection">
+<!--
+@import url(../../styles/prettify.css);
+
+@import url(../../styles/api-style.css);
+-->
+</STYLE>
+
+
+<script type="text/javascript" src="../../scripts/prettify.js"></script>
+<body onload="prettyPrint()">
+	<header>
+		<h1>Address Suggestions</h1>
+		<p>match/addressSuggestions</p>
+	</header>
+	<p>Finds a number of address suggestions. When working in
+		interactive environments, it is often useful to generate suggestions
+		when an address input is ambiguous. This can be achieved by using this
+		operation. This validation type is especially useful in Web based data
+		entry environments when capturing data from customers or prospects. It
+		requires the input of an almost complete address and will attempt to
+		validate or correct the data provided. If ambiguities are detected,
+		this validation type will generate up to 20 suggestions that can be
+		used for pick lists. The Interactive processing mode will fall back to
+		Parse Only, when the respective database is missing for a specific
+		country.</p>
+	<section class="method summary">
+		<h1>Method summary</h1>
+		<table>
+			<caption>Methods</caption>
+			<thead>
+				<tr>
+					<th>Method</th>
+					<th>Description</th>
+				</tr>
+			</thead>
+			<tbody>
+				<tr>
+					<td>OPTIONS</td>
+					<td>Returns this documentation. Equivalent to <a
+						href="http://mdcp.corp.hp.com/addressSuggestions/documentation">
+							GET /match/addressSuggestions/documentation</a>.
+					</td>
+				</tr>
+				<tr>
+					<td><a href="#method-get" title="GET method">GET</a></td>
+					<td>Returns address suggestions entities satisfying search
+						criteria.</td>
+				</tr>
+			</tbody>
+		</table>
+	</section>
+
+	<section class="method detail">
+		<h1>Method detail</h1>
+		<section id="method-get">
+			<h1>GET</h1>
+			<p>Returns address suggestions satisfying search criteria.</p>
+			<table>
+				<caption>Variants</caption>
+				<thead>
+					<tr>
+						<th>Content-Type</th>
+						<th>Content-Encoding</th>
+						<th>Accept</th>
+						<th>Accept-Language</th>
+						<th>Accept-Encoding</th>
+					</tr>
+				</thead>
+				<tbody>
+					<tr>
+						<td>none</td>
+						<td><ul>
+								<li>identity</li>
+								<li>gzip</li>
+							</ul></td>
+						<td><a href="#accept-json">application/json</a></td>
+						<td>en</td>
+						<td><ul>
+								<li>identity</li>
+								<li>gzip</li>
+							</ul></td>
+					</tr>
+				</tbody>
+			</table>
+			<br>
+			<br>
+			<table>
+				<caption>Parameters</caption>
+				<thead>
+					<tr>
+						<th>Name</th>
+						<th>Example</th>
+						<th>Description</th>
+					</tr>
+				</thead>
+				<tbody>
+					<tr>
+						<td>key1/2/3</td>
+						<td></td>
+						<td>Reflected value. The key that is handed in will be
+							returned with the address query result. Maximum 3 values.</td>
+					</tr>
+					<tr>
+						<td>country1/2/3</td>
+						<td><ul>
+								<li>United States</li>
+								<li>USA</li>
+							</ul></td>
+						<td>Name of a country. Maximum 3 values.</td>
+					</tr>
+					<tr>
+						<td>addressComplete</td>
+						<td>745 Riverhaven Drive Suwanee, GA 30024</td>
+						<td>The complete address as one string, lines are separated
+							by delimiters. Error if combined with any of the following
+							<ul>
+								<li>building</li>
+								<li>contact</li>
+								<li>countrySpecificLocalityLine</li>
+								<li>deliveryAddressLine</li>
+								<li>deliveryService</li>
+								<li>formattedAddressLine</li>
+								<li>locality</li>
+								<li>number</li>
+								<li>organization</li>
+								<li>postalCode</li>
+								<li>province</li>
+								<li>recipientLine</li>
+								<li>residue</li>
+								<li>street</li>
+								<li>subBuilding</li>
+							</ul>
+						</td>
+					</tr>
+					<tr>
+						<td>building1/2/3/4/5/6</td>
+						<td>Sears tower</td>
+						<td>Building names. Frequently used in the United Kingdom.
+							Maximum 6 values.</td>
+					</tr>
+					<tr>
+						<td>locality1/2/3/4/5/6</td>
+						<td>Suwanee</td>
+						<td>A country city. Maximum 6 values.</td>
+					</tr>
+					<tr>
+						<td>postalCode1/2/3</td>
+						<td>30024</td>
+						<td>Postal codes or zip codes. Maximum 3 values.</td>
+					</tr>
+					<tr>
+						<td>countrySpecificLocalityLine1/2/3/4/5/6</td>
+						<td>745 Riverhaven Drive</td>
+						<td>TODO Don't have a very good definition of address lines.
+							Maximum 6 values.</td>
+					</tr>
+					<tr>
+						<td>street1/2/3/4/5/6</td>
+						<td>Riverhaven Drive</td>
+						<td>Names of the streets or thoroughfares. Maximum 6 values.</td>
+					</tr>
+					<tr>
+						<td>number1/2/3/4/5/6</td>
+						<td>745</td>
+						<td>Returns numbers of a Building/House in a street.
+							Placement varies by country. Maximum 6 values.</td>
+					</tr>
+					<tr>
+						<td>province1/2/3/4/5/6</td>
+						<td>GA</td>
+						<td>Returns a state, province, canton, prefecture or other
+							sub-division of a country. Maximum 6 values.</td>
+					</tr>
+					<tr>
+						<td>deliveryAddressLine1/2/3/4/5/6</td>
+						<td>745 Riverhaven Drive</td>
+						<td>TODO Don't have a very good definition of address lines.
+							Maximum 6 values.</td>
+					</tr>
+					<tr>
+						<td>deliveryService1/2/3/4/5/6</td>
+						<td></td>
+						<td>Code of the respective post office in charge of delivery.
+							Maximum 6 values.</td>
+					</tr>
+					<tr>
+						<td>formattedAddressLine1/2/3/4/5/6/7/8/9/10/11/12/13/14/15/16/17/18/19</td>
+						<td>745 Riverhaven Drive</td>
+						<td>TODO Don't have a very good definition of address lines.
+							Maximum 19 values.</td>
+					</tr>
+					<tr>
+						<td>organization1/2/3</td>
+						<td>Hewlett Packard</td>
+						<td>Company or Organization name including a company type
+							descriptor such as Inc., AG, or GmbH. Maximum 3 values.</td>
+					</tr>
+					<tr>
+						<td>contact1/2/3</td>
+						<td>Paul Truax</td>
+						<td>Name of contact. Maximum 3 values.</td>
+					</tr>
+					<tr>
+						<td>recipientLine1/2/3</td>
+						<td>745 Riverhaven Drive</td>
+						<td>TODO Don't have a very good definition of address lines.
+							Maximum 3 values.</td>
+					</tr>
+					<tr>
+						<td>residue1/2/3/4/5/6</td>
+						<td></td>
+						<td>Postally irrelevant information. Maximum 6 values.</td>
+					</tr>
+					<tr>
+						<td>subBuilding1/2/3/4/5/6</td>
+						<td></td>
+						<td>Information that further subdivides a Building, e.g. the
+							floor. Maximum 6 values.</td>
+					</tr>
+				</tbody>
+			</table>
+
+			<h2>Examples</h2>
+			<figure id="accept-json" class="method example">
+				<figcaption>JSON</figcaption>
+				<kbd>
+					GET
+					match/addressSuggestions?country=US&street=Riverhaven%20Drive&postalCode=30024/kbd>
+					<kbd>Accept: application/json</kbd>
+					<pre>
+					<code class="prettyprint linenums"> 
+
+{
+   "content":{
+      "result":{
+         "countryCode":"USA",
+         "modeUsed":"INTERACTIVE",
+         "preferredLanguage":"DATABASE",
+         "preferredScript":"DATABASE",
+         "processStatus":"I3"
+      },
+      "resultData":[
+         {
+            "elementInputStatus":"60000060000000000060",
+            "elementResultStatus":"F08088E08000000000E0",
+            "elementRelevance":"00000000000000000000",
+            "mailabilityScore":"1",
+            "resultPercentage":"65.09",
+            "cassStatus":"ECA0",
+            "serpStatus":"ESE0",
+            "snaStatus":"ESN0",
+            "supplementaryGBStatus":"EGB0",
+            "supplementaryUSStatus":"EUS1",
+            "key":[
+
+            ],
+            "country":[
+               {
+                  "type":"ISO2",
+                  "value":"US"
+               },
+               {
+                  "type":"ISO3",
+                  "value":"USA"
+               },
+               {
+                  "type":"ISO_NUMBER",
+                  "value":"840"
+               },
+               {
+                  "type":"NAME_CN",
+                  "value":"美国"
+               },
+               {
+                  "type":"NAME_DA",
+                  "value":"AMERIKAS FORENEDE STATER"
+               },
+               {
+                  "type":"NAME_DE",
+                  "value":"VEREINIGTE STAATEN VON AMERIKA"
+               },
+               {
+                  "type":"NAME_EN",
+                  "value":"UNITED STATES"
+               },
+               {
+                  "type":"NAME_ES",
+                  "value":"ESTADOS UNIDOS (LOS)"
+               },
+               {
+                  "type":"NAME_FI",
+                  "value":"YHDYSVALLAT"
+               },
+               {
+                  "type":"NAME_FR",
+                  "value":"ÉTATS-UNIS"
+               },
+               {
+                  "type":"NAME_GR",
+                  "value":"ΗΠΑ"
+               },
+               {
+                  "type":"NAME_HU",
+                  "value":"EGYESÜLT ÁLLAMOK"
+               },
+               {
+                  "type":"NAME_IT",
+                  "value":"STATI UNITI D'AMERICA"
+               },
+               {
+                  "type":"NAME_JP",
+                  "value":"アメリカ合衆国"
+               },
+               {
+                  "type":"NAME_KR",
+                  "value":"미국"
+               },
+               {
+                  "type":"NAME_NL",
+                  "value":"VERENIGDE STATEN VAN AMERICA (VS)"
+               },
+               {
+                  "type":"NAME_PL",
+                  "value":"STANY ZJEDNOCZONE AMERYKI"
+               },
+               {
+                  "type":"NAME_PT",
+                  "value":"ESTADOS UNIDOS DA AMÉRICA (EUA)"
+               },
+               {
+                  "type":"NAME_RU",
+                  "value":"США"
+               },
+               {
+                  "type":"NAME_SA",
+                  "value":"الولايات المتحدة"
+               },
+               {
+                  "type":"NAME_SE",
+                  "value":"USA"
+               }
+            ],
+            "locality":[
+               {
+                  "type":"COMPLETE",
+                  "value":"SUWANEE"
+               },
+               {
+                  "type":"NAME",
+                  "value":"SUWANEE"
+               }
+            ],
+            "postalCode":[
+               {
+                  "type":"BASE",
+                  "value":"30024"
+               },
+               {
+                  "type":"FORMATTED",
+                  "value":"30024"
+               },
+               {
+                  "type":"UNFORMATTED",
+                  "value":"30024"
+               }
+            ],
+            "province":[
+               {
+                  "type":"ABBREVIATION",
+                  "value":"GA"
+               },
+               {
+                  "type":"COUNTRY_STANDARD",
+                  "value":"GA"
+               },
+               {
+                  "type":"EXTENDED",
+                  "value":"GEORGIA"
+               }
+            ],
+            "street":[
+               {
+                  "type":"COMPLETE",
+                  "value":"RIVERHAVEN DR"
+               },
+               {
+                  "type":"COMPLETE_WITH_NUMBER",
+                  "value":"600-698 RIVERHAVEN DR"
+               },
+               {
+                  "type":"POST_DESCRIPTOR",
+                  "value":"DR"
+               }
+            ],
+            "number":[
+               {
+                  "type":"NUMBER",
+                  "value":"600-698"
+               },
+               {
+                  "type":"COMPLETE",
+                  "value":"600-698"
+               }
+            ],
+            "building":[
+
+            ],
+            "subBuilding":[
+
+            ],
+            "deliveryService":[
+
+            ],
+            "organization":[
+
+            ],
+            "contact":[
+
+            ],
+            "residue":[
+
+            ],
+            "recipientLines":[
+
+            ],
+            "deliveryAddressLine":[
+               "600-698 RIVERHAVEN DR"
+            ],
+            "countrySpecificLocalityLine":[
+               "SUWANEE GA 30024"
+            ],
+            "formattedAddressLine":[
+               "600-698 RIVERHAVEN DR",
+               "SUWANEE GA 30024"
+            ],
+            "completeAddress":"600-698 RIVERHAVEN DR\r\nSUWANEE GA 30024"
+         },
+         {
+            "elementInputStatus":"60000060000000000060",
+            "elementResultStatus":"F08088E08000000000E0",
+            "elementRelevance":"00000000000000000000",
+            "mailabilityScore":"1",
+            "resultPercentage":"65.09",
+            "cassStatus":"ECA0",
+            "serpStatus":"ESE0",
+            "snaStatus":"ESN0",
+            "supplementaryGBStatus":"EGB0",
+            "supplementaryUSStatus":"EUS1",
+            "key":[
+
+            ],
+            "country":[
+               {
+                  "type":"ISO2",
+                  "value":"US"
+               },
+               {
+                  "type":"ISO3",
+                  "value":"USA"
+               },
+               {
+                  "type":"ISO_NUMBER",
+                  "value":"840"
+               },
+               {
+                  "type":"NAME_CN",
+                  "value":"美国"
+               },
+               {
+                  "type":"NAME_DA",
+                  "value":"AMERIKAS FORENEDE STATER"
+               },
+               {
+                  "type":"NAME_DE",
+                  "value":"VEREINIGTE STAATEN VON AMERIKA"
+               },
+               {
+                  "type":"NAME_EN",
+                  "value":"UNITED STATES"
+               },
+               {
+                  "type":"NAME_ES",
+                  "value":"ESTADOS UNIDOS (LOS)"
+               },
+               {
+                  "type":"NAME_FI",
+                  "value":"YHDYSVALLAT"
+               },
+               {
+                  "type":"NAME_FR",
+                  "value":"ÉTATS-UNIS"
+               },
+               {
+                  "type":"NAME_GR",
+                  "value":"ΗΠΑ"
+               },
+               {
+                  "type":"NAME_HU",
+                  "value":"EGYESÜLT ÁLLAMOK"
+               },
+               {
+                  "type":"NAME_IT",
+                  "value":"STATI UNITI D'AMERICA"
+               },
+               {
+                  "type":"NAME_JP",
+                  "value":"アメリカ合衆国"
+               },
+               {
+                  "type":"NAME_KR",
+                  "value":"미국"
+               },
+               {
+                  "type":"NAME_NL",
+                  "value":"VERENIGDE STATEN VAN AMERICA (VS)"
+               },
+               {
+                  "type":"NAME_PL",
+                  "value":"STANY ZJEDNOCZONE AMERYKI"
+               },
+               {
+                  "type":"NAME_PT",
+                  "value":"ESTADOS UNIDOS DA AMÉRICA (EUA)"
+               },
+               {
+                  "type":"NAME_RU",
+                  "value":"США"
+               },
+               {
+                  "type":"NAME_SA",
+                  "value":"الولايات المتحدة"
+               },
+               {
+                  "type":"NAME_SE",
+                  "value":"USA"
+               }
+            ],
+            "locality":[
+               {
+                  "type":"COMPLETE",
+                  "value":"SUWANEE"
+               },
+               {
+                  "type":"NAME",
+                  "value":"SUWANEE"
+               }
+            ],
+            "postalCode":[
+               {
+                  "type":"BASE",
+                  "value":"30024"
+               },
+               {
+                  "type":"FORMATTED",
+                  "value":"30024"
+               },
+               {
+                  "type":"UNFORMATTED",
+                  "value":"30024"
+               }
+            ],
+            "province":[
+               {
+                  "type":"ABBREVIATION",
+                  "value":"GA"
+               },
+               {
+                  "type":"COUNTRY_STANDARD",
+                  "value":"GA"
+               },
+               {
+                  "type":"EXTENDED",
+                  "value":"GEORGIA"
+               }
+            ],
+            "street":[
+               {
+                  "type":"COMPLETE",
+                  "value":"RIVERHAVEN DR"
+               },
+               {
+                  "type":"POST_DESCRIPTOR",
+                  "value":"DR"
+               }
+            ],
+            "number":[
+               {
+                  "type":"NUMBER",
+                  "value":"601-699"
+               },
+               {
+                  "type":"COMPLETE",
+                  "value":"601-699"
+               }
+            ],
+            "building":[
+
+            ],
+            "subBuilding":[
+
+            ],
+            "deliveryService":[
+
+            ],
+            "organization":[
+
+            ],
+            "contact":[
+
+            ],
+            "residue":[
+
+            ],
+            "recipientLines":[
+
+            ],
+            "deliveryAddressLine":[
+               "601-699 RIVERHAVEN DR"
+            ],
+            "countrySpecificLocalityLine":[
+               "SUWANEE GA 30024"
+            ],
+            "formattedAddressLine":[
+               "601-699 RIVERHAVEN DR",
+               "SUWANEE GA 30024"
+            ],
+            "completeAddress":"601-699 RIVERHAVEN DR\r\nSUWANEE GA 30024"
+         },
+         {
+            "elementInputStatus":"60000060000000000060",
+            "elementResultStatus":"F08088E08000000000E0",
+            "elementRelevance":"00000000000000000000",
+            "mailabilityScore":"1",
+            "resultPercentage":"65.09",
+            "cassStatus":"ECA0",
+            "serpStatus":"ESE0",
+            "snaStatus":"ESN0",
+            "supplementaryGBStatus":"EGB0",
+            "supplementaryUSStatus":"EUS1",
+            "key":[
+
+            ],
+            "country":[
+               {
+                  "type":"ISO2",
+                  "value":"US"
+               },
+               {
+                  "type":"ISO3",
+                  "value":"USA"
+               },
+               {
+                  "type":"ISO_NUMBER",
+                  "value":"840"
+               },
+               {
+                  "type":"NAME_CN",
+                  "value":"美国"
+               },
+               {
+                  "type":"NAME_DA",
+                  "value":"AMERIKAS FORENEDE STATER"
+               },
+               {
+                  "type":"NAME_DE",
+                  "value":"VEREINIGTE STAATEN VON AMERIKA"
+               },
+               {
+                  "type":"NAME_EN",
+                  "value":"UNITED STATES"
+               },
+               {
+                  "type":"NAME_ES",
+                  "value":"ESTADOS UNIDOS (LOS)"
+               },
+               {
+                  "type":"NAME_FI",
+                  "value":"YHDYSVALLAT"
+               },
+               {
+                  "type":"NAME_FR",
+                  "value":"ÉTATS-UNIS"
+               },
+               {
+                  "type":"NAME_GR",
+                  "value":"ΗΠΑ"
+               },
+               {
+                  "type":"NAME_HU",
+                  "value":"EGYESÜLT ÁLLAMOK"
+               },
+               {
+                  "type":"NAME_IT",
+                  "value":"STATI UNITI D'AMERICA"
+               },
+               {
+                  "type":"NAME_JP",
+                  "value":"アメリカ合衆国"
+               },
+               {
+                  "type":"NAME_KR",
+                  "value":"미국"
+               },
+               {
+                  "type":"NAME_NL",
+                  "value":"VERENIGDE STATEN VAN AMERICA (VS)"
+               },
+               {
+                  "type":"NAME_PL",
+                  "value":"STANY ZJEDNOCZONE AMERYKI"
+               },
+               {
+                  "type":"NAME_PT",
+                  "value":"ESTADOS UNIDOS DA AMÉRICA (EUA)"
+               },
+               {
+                  "type":"NAME_RU",
+                  "value":"США"
+               },
+               {
+                  "type":"NAME_SA",
+                  "value":"الولايات المتحدة"
+               },
+               {
+                  "type":"NAME_SE",
+                  "value":"USA"
+               }
+            ],
+            "locality":[
+               {
+                  "type":"COMPLETE",
+                  "value":"SUWANEE"
+               },
+               {
+                  "type":"NAME",
+                  "value":"SUWANEE"
+               }
+            ],
+            "postalCode":[
+               {
+                  "type":"BASE",
+                  "value":"30024"
+               },
+               {
+                  "type":"FORMATTED",
+                  "value":"30024"
+               },
+               {
+                  "type":"UNFORMATTED",
+                  "value":"30024"
+               }
+            ],
+            "province":[
+               {
+                  "type":"ABBREVIATION",
+                  "value":"GA"
+               },
+               {
+                  "type":"COUNTRY_STANDARD",
+                  "value":"GA"
+               },
+               {
+                  "type":"EXTENDED",
+                  "value":"GEORGIA"
+               }
+            ],
+            "street":[
+               {
+                  "type":"COMPLETE",
+                  "value":"RIVERHAVEN DR"
+               },
+               {
+                  "type":"POST_DESCRIPTOR",
+                  "value":"DR"
+               }
+            ],
+            "number":[
+               {
+                  "type":"NUMBER",
+                  "value":"700-798"
+               },
+               {
+                  "type":"COMPLETE",
+                  "value":"700-798"
+               }
+            ],
+            "building":[
+
+            ],
+            "subBuilding":[
+
+            ],
+            "deliveryService":[
+
+            ],
+            "organization":[
+
+            ],
+            "contact":[
+
+            ],
+            "residue":[
+
+            ],
+            "recipientLines":[
+
+            ],
+            "deliveryAddressLine":[
+               "700-798 RIVERHAVEN DR"
+            ],
+            "countrySpecificLocalityLine":[
+               "SUWANEE GA 30024"
+            ],
+            "formattedAddressLine":[
+               "700-798 RIVERHAVEN DR",
+               "SUWANEE GA 30024"
+            ],
+            "completeAddress":"700-798 RIVERHAVEN DR\r\nSUWANEE GA 30024"
+         },
+         {
+            "elementInputStatus":"60000060000000000060",
+            "elementResultStatus":"F08088E08000000000E0",
+            "elementRelevance":"00000000000000000000",
+            "mailabilityScore":"1",
+            "resultPercentage":"65.09",
+            "cassStatus":"ECA0",
+            "serpStatus":"ESE0",
+            "snaStatus":"ESN0",
+            "supplementaryGBStatus":"EGB0",
+            "supplementaryUSStatus":"EUS1",
+            "key":[
+
+            ],
+            "country":[
+               {
+                  "type":"ISO2",
+                  "value":"US"
+               },
+               {
+                  "type":"ISO3",
+                  "value":"USA"
+               },
+               {
+                  "type":"ISO_NUMBER",
+                  "value":"840"
+               },
+               {
+                  "type":"NAME_CN",
+                  "value":"美国"
+               },
+               {
+                  "type":"NAME_DA",
+                  "value":"AMERIKAS FORENEDE STATER"
+               },
+               {
+                  "type":"NAME_DE",
+                  "value":"VEREINIGTE STAATEN VON AMERIKA"
+               },
+               {
+                  "type":"NAME_EN",
+                  "value":"UNITED STATES"
+               },
+               {
+                  "type":"NAME_ES",
+                  "value":"ESTADOS UNIDOS (LOS)"
+               },
+               {
+                  "type":"NAME_FI",
+                  "value":"YHDYSVALLAT"
+               },
+               {
+                  "type":"NAME_FR",
+                  "value":"ÉTATS-UNIS"
+               },
+               {
+                  "type":"NAME_GR",
+                  "value":"ΗΠΑ"
+               },
+               {
+                  "type":"NAME_HU",
+                  "value":"EGYESÜLT ÁLLAMOK"
+               },
+               {
+                  "type":"NAME_IT",
+                  "value":"STATI UNITI D'AMERICA"
+               },
+               {
+                  "type":"NAME_JP",
+                  "value":"アメリカ合衆国"
+               },
+               {
+                  "type":"NAME_KR",
+                  "value":"미국"
+               },
+               {
+                  "type":"NAME_NL",
+                  "value":"VERENIGDE STATEN VAN AMERICA (VS)"
+               },
+               {
+                  "type":"NAME_PL",
+                  "value":"STANY ZJEDNOCZONE AMERYKI"
+               },
+               {
+                  "type":"NAME_PT",
+                  "value":"ESTADOS UNIDOS DA AMÉRICA (EUA)"
+               },
+               {
+                  "type":"NAME_RU",
+                  "value":"США"
+               },
+               {
+                  "type":"NAME_SA",
+                  "value":"الولايات المتحدة"
+               },
+               {
+                  "type":"NAME_SE",
+                  "value":"USA"
+               }
+            ],
+            "locality":[
+               {
+                  "type":"COMPLETE",
+                  "value":"SUWANEE"
+               },
+               {
+                  "type":"NAME",
+                  "value":"SUWANEE"
+               }
+            ],
+            "postalCode":[
+               {
+                  "type":"BASE",
+                  "value":"30024"
+               },
+               {
+                  "type":"FORMATTED",
+                  "value":"30024"
+               },
+               {
+                  "type":"UNFORMATTED",
+                  "value":"30024"
+               }
+            ],
+            "province":[
+               {
+                  "type":"ABBREVIATION",
+                  "value":"GA"
+               },
+               {
+                  "type":"COUNTRY_STANDARD",
+                  "value":"GA"
+               },
+               {
+                  "type":"EXTENDED",
+                  "value":"GEORGIA"
+               }
+            ],
+            "street":[
+               {
+                  "type":"COMPLETE",
+                  "value":"RIVERHAVEN DR"
+               },
+               {
+                  "type":"POST_DESCRIPTOR",
+                  "value":"DR"
+               }
+            ],
+            "number":[
+               {
+                  "type":"NUMBER",
+                  "value":"701-799"
+               },
+               {
+                  "type":"COMPLETE",
+                  "value":"701-799"
+               }
+            ],
+            "building":[
+
+            ],
+            "subBuilding":[
+
+            ],
+            "deliveryService":[
+
+            ],
+            "organization":[
+
+            ],
+            "contact":[
+
+            ],
+            "residue":[
+
+            ],
+            "recipientLines":[
+
+            ],
+            "deliveryAddressLine":[
+               "701-799 RIVERHAVEN DR"
+            ],
+            "countrySpecificLocalityLine":[
+               "SUWANEE GA 30024"
+            ],
+            "formattedAddressLine":[
+               "701-799 RIVERHAVEN DR",
+               "SUWANEE GA 30024"
+            ],
+            "completeAddress":"701-799 RIVERHAVEN DR\r\nSUWANEE GA 30024"
+         },
+         {
+            "elementInputStatus":"60000060000000000060",
+            "elementResultStatus":"F08088E08000000000E0",
+            "elementRelevance":"00000000000000000000",
+            "mailabilityScore":"1",
+            "resultPercentage":"65.09",
+            "cassStatus":"ECA0",
+            "serpStatus":"ESE0",
+            "snaStatus":"ESN0",
+            "supplementaryGBStatus":"EGB0",
+            "supplementaryUSStatus":"EUS1",
+            "key":[
+
+            ],
+            "country":[
+               {
+                  "type":"ISO2",
+                  "value":"US"
+               },
+               {
+                  "type":"ISO3",
+                  "value":"USA"
+               },
+               {
+                  "type":"ISO_NUMBER",
+                  "value":"840"
+               },
+               {
+                  "type":"NAME_CN",
+                  "value":"美国"
+               },
+               {
+                  "type":"NAME_DA",
+                  "value":"AMERIKAS FORENEDE STATER"
+               },
+               {
+                  "type":"NAME_DE",
+                  "value":"VEREINIGTE STAATEN VON AMERIKA"
+               },
+               {
+                  "type":"NAME_EN",
+                  "value":"UNITED STATES"
+               },
+               {
+                  "type":"NAME_ES",
+                  "value":"ESTADOS UNIDOS (LOS)"
+               },
+               {
+                  "type":"NAME_FI",
+                  "value":"YHDYSVALLAT"
+               },
+               {
+                  "type":"NAME_FR",
+                  "value":"ÉTATS-UNIS"
+               },
+               {
+                  "type":"NAME_GR",
+                  "value":"ΗΠΑ"
+               },
+               {
+                  "type":"NAME_HU",
+                  "value":"EGYESÜLT ÁLLAMOK"
+               },
+               {
+                  "type":"NAME_IT",
+                  "value":"STATI UNITI D'AMERICA"
+               },
+               {
+                  "type":"NAME_JP",
+                  "value":"アメリカ合衆国"
+               },
+               {
+                  "type":"NAME_KR",
+                  "value":"미국"
+               },
+               {
+                  "type":"NAME_NL",
+                  "value":"VERENIGDE STATEN VAN AMERICA (VS)"
+               },
+               {
+                  "type":"NAME_PL",
+                  "value":"STANY ZJEDNOCZONE AMERYKI"
+               },
+               {
+                  "type":"NAME_PT",
+                  "value":"ESTADOS UNIDOS DA AMÉRICA (EUA)"
+               },
+               {
+                  "type":"NAME_RU",
+                  "value":"США"
+               },
+               {
+                  "type":"NAME_SA",
+                  "value":"الولايات المتحدة"
+               },
+               {
+                  "type":"NAME_SE",
+                  "value":"USA"
+               }
+            ],
+            "locality":[
+               {
+                  "type":"COMPLETE",
+                  "value":"SUWANEE"
+               },
+               {
+                  "type":"NAME",
+                  "value":"SUWANEE"
+               }
+            ],
+            "postalCode":[
+               {
+                  "type":"BASE",
+                  "value":"30024"
+               },
+               {
+                  "type":"FORMATTED",
+                  "value":"30024"
+               },
+               {
+                  "type":"UNFORMATTED",
+                  "value":"30024"
+               }
+            ],
+            "province":[
+               {
+                  "type":"ABBREVIATION",
+                  "value":"GA"
+               },
+               {
+                  "type":"COUNTRY_STANDARD",
+                  "value":"GA"
+               },
+               {
+                  "type":"EXTENDED",
+                  "value":"GEORGIA"
+               }
+            ],
+            "street":[
+               {
+                  "type":"COMPLETE",
+                  "value":"RIVERHAVEN DR"
+               },
+               {
+                  "type":"POST_DESCRIPTOR",
+                  "value":"DR"
+               }
+            ],
+            "number":[
+               {
+                  "type":"NUMBER",
+                  "value":"800-898"
+               },
+               {
+                  "type":"COMPLETE",
+                  "value":"800-898"
+               }
+            ],
+            "building":[
+
+            ],
+            "subBuilding":[
+
+            ],
+            "deliveryService":[
+
+            ],
+            "organization":[
+
+            ],
+            "contact":[
+
+            ],
+            "residue":[
+
+            ],
+            "recipientLines":[
+
+            ],
+            "deliveryAddressLine":[
+               "800-898 RIVERHAVEN DR"
+            ],
+            "countrySpecificLocalityLine":[
+               "SUWANEE GA 30024"
+            ],
+            "formattedAddressLine":[
+               "800-898 RIVERHAVEN DR",
+               "SUWANEE GA 30024"
+            ],
+            "completeAddress":"800-898 RIVERHAVEN DR\r\nSUWANEE GA 30024"
+         },
+         {
+            "elementInputStatus":"60000060000000000060",
+            "elementResultStatus":"F08088E08000000000E0",
+            "elementRelevance":"00000000000000000000",
+            "mailabilityScore":"1",
+            "resultPercentage":"65.09",
+            "cassStatus":"ECA0",
+            "serpStatus":"ESE0",
+            "snaStatus":"ESN0",
+            "supplementaryGBStatus":"EGB0",
+            "supplementaryUSStatus":"EUS1",
+            "key":[
+
+            ],
+            "country":[
+               {
+                  "type":"ISO2",
+                  "value":"US"
+               },
+               {
+                  "type":"ISO3",
+                  "value":"USA"
+               },
+               {
+                  "type":"ISO_NUMBER",
+                  "value":"840"
+               },
+               {
+                  "type":"NAME_CN",
+                  "value":"美国"
+               },
+               {
+                  "type":"NAME_DA",
+                  "value":"AMERIKAS FORENEDE STATER"
+               },
+               {
+                  "type":"NAME_DE",
+                  "value":"VEREINIGTE STAATEN VON AMERIKA"
+               },
+               {
+                  "type":"NAME_EN",
+                  "value":"UNITED STATES"
+               },
+               {
+                  "type":"NAME_ES",
+                  "value":"ESTADOS UNIDOS (LOS)"
+               },
+               {
+                  "type":"NAME_FI",
+                  "value":"YHDYSVALLAT"
+               },
+               {
+                  "type":"NAME_FR",
+                  "value":"ÉTATS-UNIS"
+               },
+               {
+                  "type":"NAME_GR",
+                  "value":"ΗΠΑ"
+               },
+               {
+                  "type":"NAME_HU",
+                  "value":"EGYESÜLT ÁLLAMOK"
+               },
+               {
+                  "type":"NAME_IT",
+                  "value":"STATI UNITI D'AMERICA"
+               },
+               {
+                  "type":"NAME_JP",
+                  "value":"アメリカ合衆国"
+               },
+               {
+                  "type":"NAME_KR",
+                  "value":"미국"
+               },
+               {
+                  "type":"NAME_NL",
+                  "value":"VERENIGDE STATEN VAN AMERICA (VS)"
+               },
+               {
+                  "type":"NAME_PL",
+                  "value":"STANY ZJEDNOCZONE AMERYKI"
+               },
+               {
+                  "type":"NAME_PT",
+                  "value":"ESTADOS UNIDOS DA AMÉRICA (EUA)"
+               },
+               {
+                  "type":"NAME_RU",
+                  "value":"США"
+               },
+               {
+                  "type":"NAME_SA",
+                  "value":"الولايات المتحدة"
+               },
+               {
+                  "type":"NAME_SE",
+                  "value":"USA"
+               }
+            ],
+            "locality":[
+               {
+                  "type":"COMPLETE",
+                  "value":"SUWANEE"
+               },
+               {
+                  "type":"NAME",
+                  "value":"SUWANEE"
+               }
+            ],
+            "postalCode":[
+               {
+                  "type":"BASE",
+                  "value":"30024"
+               },
+               {
+                  "type":"FORMATTED",
+                  "value":"30024"
+               },
+               {
+                  "type":"UNFORMATTED",
+                  "value":"30024"
+               }
+            ],
+            "province":[
+               {
+                  "type":"ABBREVIATION",
+                  "value":"GA"
+               },
+               {
+                  "type":"COUNTRY_STANDARD",
+                  "value":"GA"
+               },
+               {
+                  "type":"EXTENDED",
+                  "value":"GEORGIA"
+               }
+            ],
+            "street":[
+               {
+                  "type":"COMPLETE",
+                  "value":"RIVERHAVEN DR"
+               },
+               {
+                  "type":"POST_DESCRIPTOR",
+                  "value":"DR"
+               }
+            ],
+            "number":[
+               {
+                  "type":"NUMBER",
+                  "value":"801-899"
+               },
+               {
+                  "type":"COMPLETE",
+                  "value":"801-899"
+               }
+            ],
+            "building":[
+
+            ],
+            "subBuilding":[
+
+            ],
+            "deliveryService":[
+
+            ],
+            "organization":[
+
+            ],
+            "contact":[
+
+            ],
+            "residue":[
+
+            ],
+            "recipientLines":[
+
+            ],
+            "deliveryAddressLine":[
+               "801-899 RIVERHAVEN DR"
+            ],
+            "countrySpecificLocalityLine":[
+               "SUWANEE GA 30024"
+            ],
+            "formattedAddressLine":[
+               "801-899 RIVERHAVEN DR",
+               "SUWANEE GA 30024"
+            ],
+            "completeAddress":"801-899 RIVERHAVEN DR\r\nSUWANEE GA 30024"
+         },
+         {
+            "elementInputStatus":"60000060000000000060",
+            "elementResultStatus":"F08088E08000000000E0",
+            "elementRelevance":"00000000000000000000",
+            "mailabilityScore":"1",
+            "resultPercentage":"65.09",
+            "cassStatus":"ECA0",
+            "serpStatus":"ESE0",
+            "snaStatus":"ESN0",
+            "supplementaryGBStatus":"EGB0",
+            "supplementaryUSStatus":"EUS1",
+            "key":[
+
+            ],
+            "country":[
+               {
+                  "type":"ISO2",
+                  "value":"US"
+               },
+               {
+                  "type":"ISO3",
+                  "value":"USA"
+               },
+               {
+                  "type":"ISO_NUMBER",
+                  "value":"840"
+               },
+               {
+                  "type":"NAME_CN",
+                  "value":"美国"
+               },
+               {
+                  "type":"NAME_DA",
+                  "value":"AMERIKAS FORENEDE STATER"
+               },
+               {
+                  "type":"NAME_DE",
+                  "value":"VEREINIGTE STAATEN VON AMERIKA"
+               },
+               {
+                  "type":"NAME_EN",
+                  "value":"UNITED STATES"
+               },
+               {
+                  "type":"NAME_ES",
+                  "value":"ESTADOS UNIDOS (LOS)"
+               },
+               {
+                  "type":"NAME_FI",
+                  "value":"YHDYSVALLAT"
+               },
+               {
+                  "type":"NAME_FR",
+                  "value":"ÉTATS-UNIS"
+               },
+               {
+                  "type":"NAME_GR",
+                  "value":"ΗΠΑ"
+               },
+               {
+                  "type":"NAME_HU",
+                  "value":"EGYESÜLT ÁLLAMOK"
+               },
+               {
+                  "type":"NAME_IT",
+                  "value":"STATI UNITI D'AMERICA"
+               },
+               {
+                  "type":"NAME_JP",
+                  "value":"アメリカ合衆国"
+               },
+               {
+                  "type":"NAME_KR",
+                  "value":"미국"
+               },
+               {
+                  "type":"NAME_NL",
+                  "value":"VERENIGDE STATEN VAN AMERICA (VS)"
+               },
+               {
+                  "type":"NAME_PL",
+                  "value":"STANY ZJEDNOCZONE AMERYKI"
+               },
+               {
+                  "type":"NAME_PT",
+                  "value":"ESTADOS UNIDOS DA AMÉRICA (EUA)"
+               },
+               {
+                  "type":"NAME_RU",
+                  "value":"США"
+               },
+               {
+                  "type":"NAME_SA",
+                  "value":"الولايات المتحدة"
+               },
+               {
+                  "type":"NAME_SE",
+                  "value":"USA"
+               }
+            ],
+            "locality":[
+               {
+                  "type":"COMPLETE",
+                  "value":"SUWANEE"
+               },
+               {
+                  "type":"NAME",
+                  "value":"SUWANEE"
+               }
+            ],
+            "postalCode":[
+               {
+                  "type":"BASE",
+                  "value":"30024"
+               },
+               {
+                  "type":"FORMATTED",
+                  "value":"30024"
+               },
+               {
+                  "type":"UNFORMATTED",
+                  "value":"30024"
+               }
+            ],
+            "province":[
+               {
+                  "type":"ABBREVIATION",
+                  "value":"GA"
+               },
+               {
+                  "type":"COUNTRY_STANDARD",
+                  "value":"GA"
+               },
+               {
+                  "type":"EXTENDED",
+                  "value":"GEORGIA"
+               }
+            ],
+            "street":[
+               {
+                  "type":"COMPLETE",
+                  "value":"RIVERHAVEN DR"
+               },
+               {
+                  "type":"POST_DESCRIPTOR",
+                  "value":"DR"
+               }
+            ],
+            "number":[
+               {
+                  "type":"NUMBER",
+                  "value":"900-998"
+               },
+               {
+                  "type":"COMPLETE",
+                  "value":"900-998"
+               }
+            ],
+            "building":[
+
+            ],
+            "subBuilding":[
+
+            ],
+            "deliveryService":[
+
+            ],
+            "organization":[
+
+            ],
+            "contact":[
+
+            ],
+            "residue":[
+
+            ],
+            "recipientLines":[
+
+            ],
+            "deliveryAddressLine":[
+               "900-998 RIVERHAVEN DR"
+            ],
+            "countrySpecificLocalityLine":[
+               "SUWANEE GA 30024"
+            ],
+            "formattedAddressLine":[
+               "900-998 RIVERHAVEN DR",
+               "SUWANEE GA 30024"
+            ],
+            "completeAddress":"900-998 RIVERHAVEN DR\r\nSUWANEE GA 30024"
+         },
+         {
+            "elementInputStatus":"60000060000000000060",
+            "elementResultStatus":"F08088E08000000000E0",
+            "elementRelevance":"00000000000000000000",
+            "mailabilityScore":"1",
+            "resultPercentage":"65.09",
+            "cassStatus":"ECA0",
+            "serpStatus":"ESE0",
+            "snaStatus":"ESN0",
+            "supplementaryGBStatus":"EGB0",
+            "supplementaryUSStatus":"EUS1",
+            "key":[
+
+            ],
+            "country":[
+               {
+                  "type":"ISO2",
+                  "value":"US"
+               },
+               {
+                  "type":"ISO3",
+                  "value":"USA"
+               },
+               {
+                  "type":"ISO_NUMBER",
+                  "value":"840"
+               },
+               {
+                  "type":"NAME_CN",
+                  "value":"美国"
+               },
+               {
+                  "type":"NAME_DA",
+                  "value":"AMERIKAS FORENEDE STATER"
+               },
+               {
+                  "type":"NAME_DE",
+                  "value":"VEREINIGTE STAATEN VON AMERIKA"
+               },
+               {
+                  "type":"NAME_EN",
+                  "value":"UNITED STATES"
+               },
+               {
+                  "type":"NAME_ES",
+                  "value":"ESTADOS UNIDOS (LOS)"
+               },
+               {
+                  "type":"NAME_FI",
+                  "value":"YHDYSVALLAT"
+               },
+               {
+                  "type":"NAME_FR",
+                  "value":"ÉTATS-UNIS"
+               },
+               {
+                  "type":"NAME_GR",
+                  "value":"ΗΠΑ"
+               },
+               {
+                  "type":"NAME_HU",
+                  "value":"EGYESÜLT ÁLLAMOK"
+               },
+               {
+                  "type":"NAME_IT",
+                  "value":"STATI UNITI D'AMERICA"
+               },
+               {
+                  "type":"NAME_JP",
+                  "value":"アメリカ合衆国"
+               },
+               {
+                  "type":"NAME_KR",
+                  "value":"미국"
+               },
+               {
+                  "type":"NAME_NL",
+                  "value":"VERENIGDE STATEN VAN AMERICA (VS)"
+               },
+               {
+                  "type":"NAME_PL",
+                  "value":"STANY ZJEDNOCZONE AMERYKI"
+               },
+               {
+                  "type":"NAME_PT",
+                  "value":"ESTADOS UNIDOS DA AMÉRICA (EUA)"
+               },
+               {
+                  "type":"NAME_RU",
+                  "value":"США"
+               },
+               {
+                  "type":"NAME_SA",
+                  "value":"الولايات المتحدة"
+               },
+               {
+                  "type":"NAME_SE",
+                  "value":"USA"
+               }
+            ],
+            "locality":[
+               {
+                  "type":"COMPLETE",
+                  "value":"SUWANEE"
+               },
+               {
+                  "type":"NAME",
+                  "value":"SUWANEE"
+               }
+            ],
+            "postalCode":[
+               {
+                  "type":"BASE",
+                  "value":"30024"
+               },
+               {
+                  "type":"FORMATTED",
+                  "value":"30024"
+               },
+               {
+                  "type":"UNFORMATTED",
+                  "value":"30024"
+               }
+            ],
+            "province":[
+               {
+                  "type":"ABBREVIATION",
+                  "value":"GA"
+               },
+               {
+                  "type":"COUNTRY_STANDARD",
+                  "value":"GA"
+               },
+               {
+                  "type":"EXTENDED",
+                  "value":"GEORGIA"
+               }
+            ],
+            "street":[
+               {
+                  "type":"COMPLETE",
+                  "value":"RIVERHAVEN DR"
+               },
+               {
+                  "type":"POST_DESCRIPTOR",
+                  "value":"DR"
+               }
+            ],
+            "number":[
+               {
+                  "type":"NUMBER",
+                  "value":"901-999"
+               },
+               {
+                  "type":"COMPLETE",
+                  "value":"901-999"
+               }
+            ],
+            "building":[
+
+            ],
+            "subBuilding":[
+
+            ],
+            "deliveryService":[
+
+            ],
+            "organization":[
+
+            ],
+            "contact":[
+
+            ],
+            "residue":[
+
+            ],
+            "recipientLines":[
+
+            ],
+            "deliveryAddressLine":[
+               "901-999 RIVERHAVEN DR"
+            ],
+            "countrySpecificLocalityLine":[
+               "SUWANEE GA 30024"
+            ],
+            "formattedAddressLine":[
+               "901-999 RIVERHAVEN DR",
+               "SUWANEE GA 30024"
+            ],
+            "completeAddress":"901-999 RIVERHAVEN DR\r\nSUWANEE GA 30024"
+         },
+         {
+            "elementInputStatus":"60000060000000000060",
+            "elementResultStatus":"F08088E08000000000E0",
+            "elementRelevance":"00000000000000000000",
+            "mailabilityScore":"1",
+            "resultPercentage":"65.09",
+            "cassStatus":"ECA0",
+            "serpStatus":"ESE0",
+            "snaStatus":"ESN0",
+            "supplementaryGBStatus":"EGB0",
+            "supplementaryUSStatus":"EUS1",
+            "key":[
+
+            ],
+            "country":[
+               {
+                  "type":"ISO2",
+                  "value":"US"
+               },
+               {
+                  "type":"ISO3",
+                  "value":"USA"
+               },
+               {
+                  "type":"ISO_NUMBER",
+                  "value":"840"
+               },
+               {
+                  "type":"NAME_CN",
+                  "value":"美国"
+               },
+               {
+                  "type":"NAME_DA",
+                  "value":"AMERIKAS FORENEDE STATER"
+               },
+               {
+                  "type":"NAME_DE",
+                  "value":"VEREINIGTE STAATEN VON AMERIKA"
+               },
+               {
+                  "type":"NAME_EN",
+                  "value":"UNITED STATES"
+               },
+               {
+                  "type":"NAME_ES",
+                  "value":"ESTADOS UNIDOS (LOS)"
+               },
+               {
+                  "type":"NAME_FI",
+                  "value":"YHDYSVALLAT"
+               },
+               {
+                  "type":"NAME_FR",
+                  "value":"ÉTATS-UNIS"
+               },
+               {
+                  "type":"NAME_GR",
+                  "value":"ΗΠΑ"
+               },
+               {
+                  "type":"NAME_HU",
+                  "value":"EGYESÜLT ÁLLAMOK"
+               },
+               {
+                  "type":"NAME_IT",
+                  "value":"STATI UNITI D'AMERICA"
+               },
+               {
+                  "type":"NAME_JP",
+                  "value":"アメリカ合衆国"
+               },
+               {
+                  "type":"NAME_KR",
+                  "value":"미국"
+               },
+               {
+                  "type":"NAME_NL",
+                  "value":"VERENIGDE STATEN VAN AMERICA (VS)"
+               },
+               {
+                  "type":"NAME_PL",
+                  "value":"STANY ZJEDNOCZONE AMERYKI"
+               },
+               {
+                  "type":"NAME_PT",
+                  "value":"ESTADOS UNIDOS DA AMÉRICA (EUA)"
+               },
+               {
+                  "type":"NAME_RU",
+                  "value":"США"
+               },
+               {
+                  "type":"NAME_SA",
+                  "value":"الولايات المتحدة"
+               },
+               {
+                  "type":"NAME_SE",
+                  "value":"USA"
+               }
+            ],
+            "locality":[
+               {
+                  "type":"COMPLETE",
+                  "value":"SUWANEE"
+               },
+               {
+                  "type":"NAME",
+                  "value":"SUWANEE"
+               }
+            ],
+            "postalCode":[
+               {
+                  "type":"BASE",
+                  "value":"30024"
+               },
+               {
+                  "type":"FORMATTED",
+                  "value":"30024"
+               },
+               {
+                  "type":"UNFORMATTED",
+                  "value":"30024"
+               }
+            ],
+            "province":[
+               {
+                  "type":"ABBREVIATION",
+                  "value":"GA"
+               },
+               {
+                  "type":"COUNTRY_STANDARD",
+                  "value":"GA"
+               },
+               {
+                  "type":"EXTENDED",
+                  "value":"GEORGIA"
+               }
+            ],
+            "street":[
+               {
+                  "type":"COMPLETE",
+                  "value":"RIVERHAVEN DR"
+               },
+               {
+                  "type":"POST_DESCRIPTOR",
+                  "value":"DR"
+               }
+            ],
+            "number":[
+               {
+                  "type":"NUMBER",
+                  "value":"1000-1098"
+               },
+               {
+                  "type":"COMPLETE",
+                  "value":"1000-1098"
+               }
+            ],
+            "building":[
+
+            ],
+            "subBuilding":[
+
+            ],
+            "deliveryService":[
+
+            ],
+            "organization":[
+
+            ],
+            "contact":[
+
+            ],
+            "residue":[
+
+            ],
+            "recipientLines":[
+
+            ],
+            "deliveryAddressLine":[
+               "1000-1098 RIVERHAVEN DR"
+            ],
+            "countrySpecificLocalityLine":[
+               "SUWANEE GA 30024"
+            ],
+            "formattedAddressLine":[
+               "1000-1098 RIVERHAVEN DR",
+               "SUWANEE GA 30024"
+            ],
+            "completeAddress":"1000-1098 RIVERHAVEN DR\r\nSUWANEE GA 30024"
+         },
+         {
+            "elementInputStatus":"60000060000000000060",
+            "elementResultStatus":"F08088E08000000000E0",
+            "elementRelevance":"00000000000000000000",
+            "mailabilityScore":"1",
+            "resultPercentage":"65.09",
+            "cassStatus":"ECA0",
+            "serpStatus":"ESE0",
+            "snaStatus":"ESN0",
+            "supplementaryGBStatus":"EGB0",
+            "supplementaryUSStatus":"EUS1",
+            "key":[
+
+            ],
+            "country":[
+               {
+                  "type":"ISO2",
+                  "value":"US"
+               },
+               {
+                  "type":"ISO3",
+                  "value":"USA"
+               },
+               {
+                  "type":"ISO_NUMBER",
+                  "value":"840"
+               },
+               {
+                  "type":"NAME_CN",
+                  "value":"美国"
+               },
+               {
+                  "type":"NAME_DA",
+                  "value":"AMERIKAS FORENEDE STATER"
+               },
+               {
+                  "type":"NAME_DE",
+                  "value":"VEREINIGTE STAATEN VON AMERIKA"
+               },
+               {
+                  "type":"NAME_EN",
+                  "value":"UNITED STATES"
+               },
+               {
+                  "type":"NAME_ES",
+                  "value":"ESTADOS UNIDOS (LOS)"
+               },
+               {
+                  "type":"NAME_FI",
+                  "value":"YHDYSVALLAT"
+               },
+               {
+                  "type":"NAME_FR",
+                  "value":"ÉTATS-UNIS"
+               },
+               {
+                  "type":"NAME_GR",
+                  "value":"ΗΠΑ"
+               },
+               {
+                  "type":"NAME_HU",
+                  "value":"EGYESÜLT ÁLLAMOK"
+               },
+               {
+                  "type":"NAME_IT",
+                  "value":"STATI UNITI D'AMERICA"
+               },
+               {
+                  "type":"NAME_JP",
+                  "value":"アメリカ合衆国"
+               },
+               {
+                  "type":"NAME_KR",
+                  "value":"미국"
+               },
+               {
+                  "type":"NAME_NL",
+                  "value":"VERENIGDE STATEN VAN AMERICA (VS)"
+               },
+               {
+                  "type":"NAME_PL",
+                  "value":"STANY ZJEDNOCZONE AMERYKI"
+               },
+               {
+                  "type":"NAME_PT",
+                  "value":"ESTADOS UNIDOS DA AMÉRICA (EUA)"
+               },
+               {
+                  "type":"NAME_RU",
+                  "value":"США"
+               },
+               {
+                  "type":"NAME_SA",
+                  "value":"الولايات المتحدة"
+               },
+               {
+                  "type":"NAME_SE",
+                  "value":"USA"
+               }
+            ],
+            "locality":[
+               {
+                  "type":"COMPLETE",
+                  "value":"SUWANEE"
+               },
+               {
+                  "type":"NAME",
+                  "value":"SUWANEE"
+               }
+            ],
+            "postalCode":[
+               {
+                  "type":"BASE",
+                  "value":"30024"
+               },
+               {
+                  "type":"FORMATTED",
+                  "value":"30024"
+               },
+               {
+                  "type":"UNFORMATTED",
+                  "value":"30024"
+               }
+            ],
+            "province":[
+               {
+                  "type":"ABBREVIATION",
+                  "value":"GA"
+               },
+               {
+                  "type":"COUNTRY_STANDARD",
+                  "value":"GA"
+               },
+               {
+                  "type":"EXTENDED",
+                  "value":"GEORGIA"
+               }
+            ],
+            "street":[
+               {
+                  "type":"COMPLETE",
+                  "value":"RIVERHAVEN DR"
+               },
+               {
+                  "type":"POST_DESCRIPTOR",
+                  "value":"DR"
+               }
+            ],
+            "number":[
+               {
+                  "type":"NUMBER",
+                  "value":"1001-1099"
+               },
+               {
+                  "type":"COMPLETE",
+                  "value":"1001-1099"
+               }
+            ],
+            "building":[
+
+            ],
+            "subBuilding":[
+
+            ],
+            "deliveryService":[
+
+            ],
+            "organization":[
+
+            ],
+            "contact":[
+
+            ],
+            "residue":[
+
+            ],
+            "recipientLines":[
+
+            ],
+            "deliveryAddressLine":[
+               "1001-1099 RIVERHAVEN DR"
+            ],
+            "countrySpecificLocalityLine":[
+               "SUWANEE GA 30024"
+            ],
+            "formattedAddressLine":[
+               "1001-1099 RIVERHAVEN DR",
+               "SUWANEE GA 30024"
+            ],
+            "completeAddress":"1001-1099 RIVERHAVEN DR\r\nSUWANEE GA 30024"
+         }
+      ]
+   }
+}
+					</code>
+				</pre>
+			</figure>
+			<br>
+			<br>
+			<table>
+				<caption>"content" Entity</caption>
+				<thead>
+					<tr>
+						<th>Name</th>
+						<th>Example</th>
+						<th>Description</th>
+					</tr>
+				</thead>
+				<tbody>
+					<tr>
+						<td>result</td>
+						<td><pre>
+								<code class="prettyprint">
+"result":{
+         "countryCode":"USA",
+         "modeUsed":"INTERACTIVE",
+         "preferredLanguage":"DATABASE",
+         "preferredScript":"DATABASE",
+         "processStatus":"I3"
+}
+</code>
+							</pre></td>
+						<td>This element holds overall status information about the
+							result.</td>
+					</tr>
+					<tr>
+						<td>resultData</td>
+						<td>See Sample above (too large to duplicate) </pre></td>
+						<td>Each result has status and address information. The
+							maximum number of results returned can be 20.</td>
+					</tr>
+				</tbody>
+			</table>
+			<br>
+			<br>
+			<table>
+				<caption>"result" Entity</caption>
+				<thead>
+					<tr>
+						<th>Name</th>
+						<th>Example</th>
+						<th>Description</th>
+					</tr>
+				</thead>
+				<tbody>
+					<tr>
+						<td>countryCode</td>
+						<td>"USA"</td>
+						<td>ISO3 country code.</td>
+					</tr>
+					<tr>
+						<td>modeUsed</td>
+						<td>"BATCH"</td>
+						<td>The mode that the address engine used when processing the
+							query. Possible values: BATCH, INTERACTIVE, FASTCOMPLETION,
+							CERTIFIED, PARSE, COUNTRYRECOGNITION. For addressSuggestions, this
+							should always say "INTERACTIVE".</td>
+					</tr>
+					<tr>
+						<td>preferredLanguage</td>
+						<td>"DATABASE"</td>
+						<td>The “preferredLanguage” attribute is used to specify in
+							which language the output should be returned. The default setting
+							for “preferredLanguage” is “DATABASE”. The alphabet in which the
+							data is returned differs from country to country (see Address
+							Doctor reference guide section 5.12.1), but for most countries
+							the output will be Latin, regardless of the selected preferred
+							language. The possible values are DATABASE, ENGLISH,
+							ALTERNATIVE_1, ALTERNATIVE_2, and ALTERNATIVE_3 (The
+							ALTERNATIVE_1/2/3 attributes are reserved for later use, e.g. for
+							multi-language countries like Canada, Belgium or Switzerland. If
+							no alternative is provided as part of the postal reference data,
+							his setting will revert to the default “DATABASE”).</td>
+					</tr>
+					<tr>
+						<td>preferredScript</td>
+						<td>"DATABASE"</td>
+						<td>The “preferredScript” attribute is used to specify in
+							which alphabet the output is returned. The default setting for
+							the “preferredScript” attribute is “DATABASE”. The alphabet in
+							which the data is returned differs from country to country. For
+							most countries the output will be Latin I regardless of the
+							selected preferred language. Please see Address Doctor
+							documentation (section 5.12.1). Possible values of this field
+							are: "DATABASE", "POSTAL_ADMIN_PREF", "POSTAL_ADMIN_ALT",
+							"ASCII_SIMPLIFIED", "ASCII_EXTENDED", "LATIN", "LATIN_ALT". In
+							this release, this attribute will always be "DATABASE".</td>
+					</tr>
+					<tr>
+						<td>processStatus</td>
+						<td>"V4"</td>
+						<td>The processStatus values describe the result output
+							quality call to AddressDoctor in an overview fashion (for more
+							detailed information on results consult the “elementResultStatus”
+							as well. See Address doctor documentation for a complete
+							explanation of the various status codes. Possible values are:
+							"V4", "V3", "V2", "V1", "C4", "C3", "C2", "C1", "I4", "I3", "I2",
+							"I1", "N1", "N2", "N3", "N4", "N5", "Q3", "Q2", "Q1", "Q0", "S4",
+							"S3", "S2", "S1", "RA", "R9", "R8", "R7", "R6", "R5", "R4", "R3"
+							"R2", "R1", "R0". Please note that when using the
+							validatedAddress resource it is strictly recommended to only
+							accept records with Vx or Cx status for automated data updates.
+							Ix records need to be reviewed manually before using these
+							results for any data update whatsoever. For a complete
+							interpretation of these values, please see the address doctor
+							documentation.</td>
+					</tr>
+				</tbody>
+			</table>
+			<br>
+			<br>
+			<table>
+				<caption>Individual anonymous "resultData" Entities</caption>
+				<thead>
+					<tr>
+						<th>Name</th>
+						<th>Comment</th>
+						<th>Example</th>
+						<th>Description</th>
+					</tr>
+				</thead>
+				<tbody>
+					<tr>
+						<td>elementInputStatus</td>
+						<td>"00600060600000000060"</td>
+						<td>Provides per element information on the matching of input
+							elements to reference data. Please see Address Doctor
+							documentation for how to interpret this value.</td>
+					</tr>
+					<tr>
+						<td>elementResultStatus</td>
+						<td>"88F088E0F000000000E0"</td>
+						<td>Categorizes the result of each standardized attribute in
+							more detail. Please see Address Doctor documentation for how to
+							interpret this value.</td>
+					</tr>
+					<tr>
+						<td>elementRelevance</td>
+						<td>"11101010100000000010"</td>
+						<td>In addition to the element status values described
+							previously, information is available on which of the address
+							elements of the address processed are actually relevant from the
+							local postal operator’s point of view. The possible values for
+							each address element are “1” for relevant and “0” otherwise. For
+							any given address, all address elements with a value of “1” must
+							be present for an output address to be deemed valid by the local
+							postal authority. “elementRelevance” may well vary from address
+							to address for countries with different address types, e.g. rural
+							vs. metropolitan addressing. Furthermore, address elements that
+							have actually been validated against reference data (i.e. with
+							elementResultStatus 7 and higher) may override the default
+							elementRelevance value defined for that address element. Please
+							note that “elementRelevance” is really only meaningful for a
+							“ProcessStatus” value of Cx or Vx). Please see Address Doctor
+							documentation for how to interpret this value further.</td>
+					</tr>
+					<tr>
+						<td>mailabilityScore</td>
+						<td>"5"</td>
+						<td>AddressDoctor provides an estimate of how likely
+							successful delivery of mail to a corrected address might be, this
+							should be especially useful in determining whether addresses with
+							an Ix process status value should be bothered with for mailing.
+							Possible values are:
+							<dl>
+								<dt>5</dt>
+								<dd>completely confident</dd>
+								<dt>4</dt>
+								<dd>almost certain</dd>
+								<dt>3</dt>
+								<dd>should be fine</dd>
+								<dt>2</dt>
+								<dd>fair chance</dd>
+								<dt>1</dt>
+								<dd>risky</dd>
+								<dt>0</dt>
+								<dd>futile</dd>
+							</dl>
+						</td>
+					</tr>
+					<tr>
+						<td>resultPercentage</td>
+						<td>"82.09"</td>
+						<td>The “ResultPercentage” value gives an indication how
+							similar a result is to the parsed input, values close to 100%
+							imply high similarity. They are mainly provided to allow for
+							filtering out too extensive corrections in records with Cx BATCH
+							“ProcessStatus” value in master data management environments with
+							very stringent data quality requirements. Also,
+							“ResultPercentage” may be used to determine which
+							addressSuggestions results show the least deviation from input.
+							AddressDoctor discourages using “ResultPercentage” values for any
+							other use case scenarios than the two described above.</td>
+					</tr>
+					<tr>
+						<td>cassStatus</td>
+						<td>"ECA0"</td>
+						<td>AddressDoctor 5 provides the output required by the USPS
+							CASS Standard. These values will only be provided when talking to
+							the "certifiedAddress" resource. Possible values are:
+							<dl>
+								<dt>ECA0</dt>
+								<dd>CASS output not available (for this address)</dd>
+								<dt>ECA1</dt>
+								<dd>CASS attributes only partially provided (some databases
+									are missing)</dd>
+								<dt>ECA2..4</dt>
+								<dd>Reserved for future use</dd>
+								<dt>ECA5</dt>
+								<dd>CASS attributes provided</dd>
+							</dl>
+						</td>
+					</tr>
+					<tr>
+						<td>serpStatus</td>
+						<td>"ESE0"</td>
+						<td>Status value associated with the SERP (Canadian)
+							certification. Possible values are:
+							<dl>
+								<dt>ESE0</dt>
+								<dd>SERP output not available (for this address)</dd>
+								<dt>ESE1</dt>
+								<dd>SERP attributes provided</dd>
+							</dl>
+					</tr>
+					<tr>
+						<td>snaStatus</td>
+						<td>"ESN0"</td>
+						<td>AddressDoctor 5 provides the output required by the La
+							Poste SNA Standard. Possible values are:
+							<dl>
+								<dt>ESN0</dt>
+								<dd>SNA output not available (for this address)</dd>
+								<dt>ESN1</dt>
+								<dd>SNA attributes provided</dd>
+							</dl>
+						</td>
+					</tr>
+					<tr>
+						<td>supplementaryGBStatus</td>
+						<td>"EGB0"</td>
+						<td>For selected countries, AddressDoctor 5 provides
+							additional enrichment output required by the local markets, see
+							address doctor documentation for details on the actual output
+							available. Possible values are:
+							<dl>
+								<dt>EGB0</dt>
+								<dd>GB country specific output not available (for this
+									address)</dd>
+								<dt>EGB1</dt>
+								<dd>GB country specific attributes provided (not
+									necessarily all attributes are populated)</dd>
+							</dl>
+						</td>
+					</tr>
+					<tr>
+						<td>supplementaryUSStatus</td>
+						<td>"EUS1"</td>
+						<td>For selected countries, AddressDoctor 5 provides
+							additional enrichment output required by the local markets, see
+							address doctor documentation for details on the actual output
+							available. Possible values are:
+							<dl>
+								<dt>EUS0</dt>
+								<dd>US country specific output not available (for this
+									address)</dd>
+								<dt>EUS1</dt>
+								<dd>US country specific attributes provided (not
+									necessarily all attributes are populated)</dd>
+							</dl>
+						</td>
+					</tr>
+					<tr>
+						<td>key</td>
+						<td><pre>
+						<code class="prettyprint">
+key: [
+	{
+		type: "RECORD_ID",
+		value: "12345"
+	}
+]		
+</code>
+							</pre></td>
+						<td>List of reflected values from the input request. Often
+							used to tie back to some transactional system. Maximum of 3 could
+							be returned.</td>
+					</tr>
+					<tr>
+						<td>country</td>
+						<td><pre>
+						<code class="prettyprint">
+"country":[
+   {
+      "type":"ISO2",
+      "value":"US"
+   },
+   {
+      "type":"ISO3",
+      "value":"USA"
+   },
+   {
+      "type":"ISO_NUMBER",
+      "value":"840"
+   },
+   {
+      "type":"NAME_CN",
+      "value":"美国"
+   },
+   {
+      "type":"NAME_DA",
+      "value":"AMERIKAS FORENEDE STATER"
+   },
+   {
+      "type":"NAME_DE",
+      "value":"VEREINIGTE STAATEN VON AMERIKA"
+   },
+   {
+      "type":"NAME_EN",
+      "value":"UNITED STATES"
+   },
+   {
+      "type":"NAME_ES",
+      "value":"ESTADOS UNIDOS (LOS)"
+   },
+   {
+      "type":"NAME_FI",
+      "value":"YHDYSVALLAT"
+   },
+   {
+      "type":"NAME_FR",
+      "value":"ÉTATS-UNIS"
+   },
+   {
+      "type":"NAME_GR",
+      "value":"ΗΠΑ"
+   },
+   {
+      "type":"NAME_HU",
+      "value":"EGYESÜLT ÁLLAMOK"
+   },
+   {
+      "type":"NAME_IT",
+      "value":"STATI UNITI D'AMERICA"
+   },
+   {
+      "type":"NAME_JP",
+      "value":"アメリカ合衆国"
+   },
+   {
+      "type":"NAME_KR",
+      "value":"미국"
+   },
+   {
+      "type":"NAME_NL",
+      "value":"VERENIGDE STATEN VAN AMERICA (VS)"
+   },
+   {
+      "type":"NAME_PL",
+      "value":"STANY ZJEDNOCZONE AMERYKI"
+   },
+   {
+      "type":"NAME_PT",
+      "value":"ESTADOS UNIDOS DA AMÉRICA (EUA)"
+   },
+   {
+      "type":"NAME_RU",
+      "value":"США"
+   },
+   {
+      "type":"NAME_SA",
+      "value":"الولايات المتحدة"
+   },
+   {
+      "type":"NAME_SE",
+      "value":"USA"
+   }
+]						
+</code>
+							</pre></td>
+						<td>List of country representations. See the sample above for
+							the list of possible values.</td>
+					</tr>
+					<tr>
+						<td>locality</td>
+						<td><pre>
+						<code class="prettyprint">
+locality: [
+	{
+	type: "COMPLETE"
+	value: "SUWANEE"
+	},
+	{
+	type: "NAME"
+	value: "SUWANEE"
+	}
+]						
+</code>
+							</pre></td>
+						<td>City address elements. The locality (city) type
+							information may be returned:
+							<ul>
+								<li>COMPLETE</li>
+								<li>NAME</li>
+								<li>SORTING_CODE</li>
+								<li>ADD_INFO</li>
+							</ul> ADD_INFO may contain parts of the input that could not be
+							matched against reference data during validation. Where
+							sub-element separation was not successful, COMPLETE output will
+							be identical to NAME.
+						</td>
+					</tr>
+					<tr>
+						<td>postalCode</td>
+						<td><pre>
+						<code class="prettyprint">
+postalCode: [
+	{
+		"type": "ADD_ON",
+		"value": "4240"
+	},
+	{
+		"type": "BASE",
+		"value": "30024"
+	},
+	{
+		"type": "FORMATTED",
+		"value": "30024-4240"
+	},
+	{
+		"type": "UNFORMATTED",
+		"value": "300244240"
+	}
+]
+						</code>
+							</pre></td>
+						<td>The country postal code address elements. Possible
+							address element types are:
+							<ul>
+								<li>FORMATTED</li>
+								<li>UNFORMATTED</li>
+								<li>BASE</li>
+								<li>ADD_ON</li>
+							</ul> PostalCode FORMATTED contains the regionally accepted postal
+							code, while UNFORMATTED provides a more compact form. PostalCode
+							FORMATTED, UNFORMATTED and BASE may well be identical for most
+							countries, apart from special formats like ZIP+4 in the USA,
+							where the ZIP would be in BASE and the +4 in ADD_ON.
+						</td>
+					</tr>
+					<tr>
+						<td>province</td>
+						<td><pre>
+						<code class="prettyprint">
+province: [
+	{
+		"type": "ABBREVIATION",
+		"value": "GA"
+	},
+	{
+		"type": "COUNTRY_STANDARD",
+		"value": "GA"
+	},
+	{
+		"type": "EXTENDED",
+		"value": "GEORGIA"
+	}
+]
+						</code>
+							</pre></td>
+						<td>The country subdivision address elements. Possible
+							address element types are:
+							<ul>
+								<li>COUNTRY_STANDARD</li>
+								<li>ABBREVIATION</li>
+								<li>EXTENDED</li>
+							</ul> COUNTRY_STANDARD contains the regionally accepted province name,
+							while ABBREVIATION may provide a more concise form (where
+							available). EXTENDED may provide an alternative name, where
+							available as part of the reference data
+						</td>
+					</tr>
+					<tr>
+						<td>street</td>
+						<td><pre>
+						<code class="prettyprint">
+street: [
+	{
+		"type": "COMPLETE",
+		"value": "RIVERHAVEN DR"
+	},
+	{
+		"type": "COMPLETE_WITH_NUMBER",
+		"value": "745 RIVERHAVEN DR"
+	},
+	{
+		"type": "POST_DESCRIPTOR",
+		"value": "DR"
+	}
+]
+						</code>
+							</pre></td>
+						<td>The country street address elements. Possible address
+							element types are:
+
+							<ul>
+								<li>COMPLETE</li>
+								<li>COMPLETE_WITH_NUMBER</li>
+								<li>NAME</li>
+								<li>PRE_DESCRIPTOR</li>
+								<li>POST_DESCRIPTOR</li>
+								<li>PRE_DIRECTIONAL</li>
+								<li>POST_DIRECTIONAL</li>
+								<li>ADD_INFO</li>
+							</ul> PRE_DESCRIPTOR and POST_DESCRIPTOR are leading or trailing
+							street type descriptors, like e.g. Way or Avenue. PRE_DIRECTIONAL
+							and POST_DIRECTIONAL are leading or trailing street directional
+							descriptors, like e.g. North or South. Street ADD_INFO may
+							contain parts of the street input that could not be matched
+							against reference data during validation. Where Street
+							sub-element separation was not successful, COMPLETE output will
+							be identical to NAME.
+						</td>
+					</tr>
+					<tr>
+						<td>number</td>
+						<td><pre>
+						<code class="prettyprint">
+number: [
+	{
+		type: "NUMBER",
+		value: "745"
+	},
+	{
+		type: "COMPLETE",
+		value: "745"
+	}
+]
+						</code>
+							</pre></td>
+						<td>Gets the country street number address elements. Possible
+							address element types are:
+							<ul>
+								<li>COMPLETE</li>
+								<li>SINGLE</li>
+								<li>DESCRIPTOR</li>
+								<li>ADD_INFO</li>
+							</ul> ADD_INFO may contain parts of the number input that could not be
+							matched against reference data during validation. Where
+							sub-element separation was not successful, COMPLETE output will
+							be identical to SINGLE.
+						</td>
+					</tr>
+					<tr>
+						<td>building</td>
+						<td><pre>
+						<code class="prettyprint">
+building: [ ]
+						</code>
+							</pre></td>
+						<td>The building address elements. Possible address element
+							types are:
+							<ul>
+								<li>COMPLETE</li>
+								<li>COMPLETE_WITH_SUBBUILDING</li>
+								<li>NAME</li>
+								<li>NUMBER</li>
+								<li>DESCRIPTOR</li>
+							</ul> Building DESCRIPTOR is the building type descriptor, like e.g.
+							Tower. Where Building sub-element separation was not successful,
+							COMPLETE output will be identical to NAME.
+						</td>
+					</tr>
+					<tr>
+						<td>subBuilding</td>
+						<td><pre>
+						<code class="prettyprint">
+subBuilding: [ ]
+						</code>
+							</pre></td>
+						<td>The subbuilding address elements. Possible address
+							element types are:
+							<ul>
+								<li>COMPLETE</li>
+								<li>NAME</li>
+								<li>NUMBER</li>
+								<li>DESCRIPTOR</li>
+							</ul> SubBuilding DESCRIPTOR is the building type descriptor, like
+							e.g. Tower. Where SubBuilding sub-element separation was not
+							successful, COMPLETE output will be identical to NAME.
+						</td>
+					</tr>
+					<tr>
+						<td>deliveryService</td>
+						<td><pre>
+						<code class="prettyprint">
+deliveryService: [ ]
+						</code>
+							</pre></td>
+						<td>Gets the delivery service address elements. Possible
+							address element types are:
+							<ul>
+								<li>COMPLETE</li>
+								<li>DESCRIPTOR</li>
+								<li>NUMBER</li>
+								<li>ADD_INFO</li>
+							</ul> DeliveryService ADD_INFO may contain parts of the delivery
+							service input that could not be matched against reference data
+							during validation. Where DeliveryService sub-element separation
+							was not Successful, COMPLETE output will be identical to
+							DESCRIPTOR.
+						</td>
+					</tr>
+					<tr>
+						<td>organization</td>
+						<td><pre>
+						<code class="prettyprint">
+organization: [ ]
+						</code>
+							</pre></td>
+						<td>The organization address elements. Possible address
+							element types are:
+							<ul>
+								<li>ORGANIZATION_COMPLETE</li>
+								<li>ORGANIZATION_NAME</li>
+								<li>ORGANIZATION_DESCRIPTOR</li>
+								<li>ORGANIZATION_UNIT</li>
+							</ul> Where Organization sub-element separation was not successful,
+							ORGANIZATION_COMPLETE output will be identical to
+							ORGANIZATION_NAME
+						</td>
+					</tr>
+					<tr>
+						<td>contact</td>
+						<td><pre>
+						<code class="prettyprint">
+contact: [ ]		
+						</code>
+							</pre></td>
+						<td>The person address elements. Possible address element
+							types are:
+							<ul>
+								<li>COMPLETE</li>
+								<li>GIVEN_NAME</li>
+								<li>FUNCTION_NAME</li>
+								<li>GENDER</li>
+								<li>FAMILY_NAME</li>
+								<li>MIDDLE_NAME</li>
+								<li>NAME</li>
+								<li>SALUTATION</li>
+								<li>NAME_SUFFIX</li>
+							</ul> Where Contact sub-element separation was not successful,
+							COMPLETE output will be identical to NAME.
+						</td>
+					</tr>
+					<tr>
+						<td>residue</td>
+						<td><pre>
+						<code class="prettyprint">
+residue: [ ]						
+						</code>
+							</pre></td>
+						<td>The residue address elements. Possible address element
+							types are:
+							<ul>
+								<li>NECESSARY</li>
+								<li>SUPERFLUOUS</li>
+								<li>UNRECOGNIZED</li>
+							</ul> Residue may contain unrecognized parts of the input that could
+							not be matched against reference data during validation. Where
+							possible, a characterization in necessary or superfluous is
+							attempted.
+						</td>
+					</tr>
+					<tr>
+						<td>recipientLines</td>
+						<td><pre>
+						<code class="prettyprint">
+recipientLines: [ ]
+						</code>
+							</pre></td>
+						<td>Recipient lines.</td>
+					</tr>
+					<tr>
+						<td>deliveryAddressLine</td>
+						<td><pre>
+						<code class="prettyprint">
+deliveryAddressLine: [
+	"745 RIVERHAVEN DR"
+]
+						</code>
+							</pre></td>
+						<td>Delivery address lines.</td>
+					</tr>
+					<tr>
+						<td>countrySpecificLocalityLine</td>
+						<td><pre>
+						<code class="prettyprint">
+countrySpecificLocalityLine: [
+	"SUWANEE GA 30024-4240"
+]					
+						</code>
+							</pre></td>
+						<td>Country specific locality lines.</td>
+					</tr>
+					<tr>
+						<td>formattedAddressLine</td>
+						<td><pre>
+						<code class="prettyprint">
+formattedAddressLine: [
+	"745 RIVERHAVEN DR"
+	"SUWANEE GA 30024-4240"
+]						
+						</code>
+							</pre></td>
+						<td>Formatted address lines.</td>
+					</tr>
+					<tr>
+						<td>completeAddress</td>
+						<td><pre>
+						<code class="prettyprint">
+completeAddress: "745 RIVERHAVEN DR
+SUWANEE GA 30024-4240"			
+						</code>
+							</pre></td>
+						<td>Complete address.</td>
+					</tr>
+				</tbody>
+			</table>
+		</section>
+</body>
+</html>

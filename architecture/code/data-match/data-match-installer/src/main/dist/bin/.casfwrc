@@ -1,0 +1,17 @@
+# CASFW_HOME is expected to be set before including this file
+
+if [ -r ${HOME}/.casfwrc ]; then
+    source ${HOME}/.casfwrc
+fi
+
+casfw_java_home="$(ls -d ${CASFW_HOME}/software/oracle-java-1.6.* 2>/dev/null | tail -n1)"
+export JAVA_HOME="$(cd ${casfw_java_home} && pwd)"
+
+if [ -z "${data_match_web_version}" ]; then
+    data_match_web_home="$(ls -d ${CASFW_HOME}/software/data-match-web-* 2>/dev/null | tail -n1)"
+    data_match_web_version="$(basename ${data_match_web_home} | sed 's/data-match-web-//')"
+fi
+
+
+CASFW_DYNAMIC_CONFIG_TOKENS="-Ddata_match_web_version=${data_match_web_version}"
+

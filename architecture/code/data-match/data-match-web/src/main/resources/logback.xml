@@ -1,0 +1,27 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<configuration debug="true">
+	<!-- Levels (case-insensitive) ALL OFF ERROR (highest value) WARN INFO DEBUG 
+		TRACE (lowest value) -->
+	<contextName>data-match-web</contextName>
+	<jmxConfigurator />
+	<statusListener class="ch.qos.logback.core.status.OnConsoleStatusListener" />  
+
+	<appender name="console" class="ch.qos.logback.core.ConsoleAppender">
+		<filter class="ch.qos.logback.classic.filter.ThresholdFilter">
+			<level>all</level>
+		</filter>
+
+		<layout class="ch.qos.logback.classic.PatternLayout">
+			<Pattern>%date [%thread] [%mdc] %level %logger.%method:%line %message%n</Pattern>
+		</layout>
+	</appender>
+
+	<logger name="com.hp.it.cas.match.address" level="DEBUG" />
+	<logger name="com.hp.it.cas.match.address.engine.legacy.LegacyAddressDoctorAddressAnalyzerRequestLogger" level="DEBUG" />
+	<logger name="com.hp.it.cas.match.address.engine.AddressFinderRequestLogger" level="DEBUG" />
+
+	<root level="DEBUG">
+		<appender-ref ref="console" />
+	</root>
+
+</configuration>

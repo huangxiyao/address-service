@@ -1,0 +1,37 @@
+<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/maven-v4_0_0.xsd">
+	<modelVersion>4.0.0</modelVersion>
+	<parent>
+		<artifactId>data-match</artifactId>
+		<groupId>com.hp.it.120482</groupId>
+		<version>2011.10-SNAPSHOT</version>
+	</parent>
+
+	<groupId>com.hp.it.120482</groupId>
+	<artifactId>proxy-bundle-installer</artifactId>
+
+	<packaging>cdi</packaging>
+	<name>MDCP Proxy Bundle</name>
+	<description>All configuration and scripts for the MDCP proxy servers.</description>
+
+	<properties>
+		<project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
+		<scmRevision>UNDEFINED</scmRevision>
+	</properties>
+
+	<build>
+		<plugins>
+			<plugin>
+				<groupId>com.hp.it.118361</groupId>
+				<artifactId>install-assembler-maven-plugin</artifactId>
+				<version>${casVersion}</version>
+				<extensions>true</extensions>
+				<configuration>
+					<installDirectoryName>${project.artifactId}-${project.version}</installDirectoryName>
+					<scmRevision>${scmRevision}</scmRevision>
+				</configuration>
+			</plugin>
+		</plugins>
+	</build>
+
+</project>

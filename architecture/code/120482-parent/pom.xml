@@ -1,0 +1,346 @@
+<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
+                             
+    <modelVersion>4.0.0</modelVersion>
+
+    <groupId>com.hp.it.120482</groupId>
+    <artifactId>120482-parent</artifactId>
+    <version>2011.10-SNAPSHOT</version>
+    <packaging>pom</packaging>
+    
+    <name>MDCP top-level POM</name>
+    <description>Top level POM for all software in EPR 120482 (MDCP)</description>
+    
+    <organization>
+        <name>DMITS: Common Architecture and Services (CAS)</name>
+        <url>http://hpedia.hp.com/index.php/CAS</url>
+    </organization>
+
+    <scm>
+        <connection>scm:svn:http://code1.corp.hp.com/svn/120482/source/trunk/120482-parent</connection>
+        <developerConnection>scm:svn:https://code1.corp.hp.com/svn/120482/source/trunk/120482-parent</developerConnection>
+        <url>http://code1.corp.hp.com/svn/120482/source/trunk/120482-parent</url>
+    </scm>
+
+    <ciManagement>
+        <system>Hudson</system>
+        <url>${continuousIntegrationUrl}</url>
+    </ciManagement>
+
+    <distributionManagement>
+        <snapshotRepository>
+            <id>snapshots</id>
+            <name>Internal Snapshots</name>
+            <url>${distributeSnapshotUrl}</url>
+        </snapshotRepository>
+
+        <repository>
+            <id>releases</id>
+            <name>Internal Releases</name>
+            <url>${distributeReleaseUrl}</url>
+        </repository>
+    </distributionManagement>
+
+    <repositories>
+        <repository>
+            <id>central</id>
+            <name>Public</name>
+            <url>http://repo1.corp.hp.com/nexus/content/groups/public</url>
+            <layout>default</layout>
+            
+            <releases>
+                <enabled>true</enabled>
+                <updatePolicy>never</updatePolicy>
+                <checksumPolicy>warn</checksumPolicy>
+            </releases>
+
+            <snapshots>
+                <enabled>true</enabled>
+                <updatePolicy>interval:15</updatePolicy>
+                <checksumPolicy>fail</checksumPolicy>
+            </snapshots>
+        </repository>
+    </repositories>
+
+    <pluginRepositories>
+        <pluginRepository>
+            <id>central</id>
+            <name>Public</name>
+            <url>http://repo1.corp.hp.com/nexus/content/groups/public</url>
+            <layout>default</layout>
+
+            <releases>
+                <enabled>true</enabled>
+                <updatePolicy>never</updatePolicy>
+                <checksumPolicy>warn</checksumPolicy>
+            </releases>
+            
+            <snapshots>
+                <enabled>true</enabled>
+                <updatePolicy>interval:15</updatePolicy>
+                <checksumPolicy>fail</checksumPolicy>
+            </snapshots>
+        </pluginRepository>
+    </pluginRepositories>
+
+    <properties>
+        <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
+
+        <mdcp.sourceReadUrl>scm:svn:http://code1.corp.hp.com/svn/120482/source</mdcp.sourceReadUrl>
+        <mdcp.sourceWriteUrl>scm:svn:https://code1.corp.hp.com/svn/120482/source</mdcp.sourceWriteUrl>
+        <mdcp.sourceViewUrl>http://code1.corp.hp.com/svn/120482/source</mdcp.sourceViewUrl>
+        
+        <distributeSnapshotUrl>http://repo1.corp.hp.com/nexus/content/repositories/snapshots</distributeSnapshotUrl>
+        <distributeReleaseUrl>http://repo1.corp.hp.com/nexus/content/repositories/releases</distributeReleaseUrl>
+        
+        <siteUrl>dav:http://repo1.corp.hp.com/site</siteUrl>
+        <continuousIntegrationUrl>http://build1.corp.hp.com/hudson</continuousIntegrationUrl>
+        <!-- <sonar.host.url>http://g4t0173g.houston.hp.com/sonar</sonar.host.url> -->
+
+        <slf4jVersion>1.6.1</slf4jVersion>
+        <logbackVersion>0.9.28</logbackVersion>
+        <casVersion>2011.10-SNAPSHOT</casVersion>
+    </properties>
+
+    <dependencyManagement>
+        <dependencies>
+
+            <dependency>
+                <groupId>com.hp.it.118361</groupId>
+                <artifactId>foundation</artifactId>
+                <version>${casVersion}</version>
+            </dependency>
+
+	        <dependency>
+	            <groupId>javax.ws.rs</groupId>
+	            <artifactId>jsr311-api</artifactId> <!-- JAX-RS, ReST -->
+	            <version>1.1.1</version>
+	        </dependency>
+
+            <dependency>
+                <groupId>org.slf4j</groupId>
+                <artifactId>slf4j-api</artifactId>
+                <version>${slf4jVersion}</version>
+            </dependency>
+
+            <dependency>
+                <groupId>ch.qos.logback</groupId>
+                <artifactId>logback-core</artifactId>
+                <version>${logbackVersion}</version>
+                <scope>test</scope>
+            </dependency>
+
+            <dependency>
+                <groupId>ch.qos.logback</groupId>
+                <artifactId>logback-classic</artifactId>
+                <version>${logbackVersion}</version>
+                <scope>test</scope>
+            </dependency>
+
+            <dependency>
+                <groupId>javax.servlet</groupId>
+                <artifactId>servlet-api</artifactId>
+                <version>2.5</version>
+                <scope>provided</scope>
+            </dependency>
+
+            <dependency>
+                <groupId>net.jcip</groupId>
+                <artifactId>jcip-annotations</artifactId>
+                <version>1.0</version>
+                <optional>true</optional>
+            </dependency>
+
+            <dependency>
+                <groupId>javax.validation</groupId>
+                <artifactId>validation-api</artifactId>
+                <version>1.0.0.GA</version>
+            </dependency>
+            
+            <dependency>
+                <groupId>org.hibernate</groupId>
+                <artifactId>hibernate-validator</artifactId>
+                <version>4.2.0.Final</version>
+            </dependency>        
+            <dependency>
+                <!-- Required for Java 5, remove for Java 6, for hibernate-validator -->
+                <groupId>javax.xml.bind</groupId>
+                <artifactId>jaxb-api</artifactId>
+                <version>2.2</version>
+            </dependency>
+            <dependency>
+                <!-- Required for Java 5, remove for Java 6, for hibernate-validator -->
+                <groupId>com.sun.xml.bind</groupId>
+                <artifactId>jaxb-impl</artifactId>
+                <version>2.1.12</version>
+            </dependency>
+   
+            <dependency>
+                <groupId>com.sun.jersey</groupId>
+                <artifactId>jersey-core</artifactId>
+                <version>1.4</version>
+                <scope>compile</scope>
+                <optional>true</optional>
+            </dependency>
+
+            <dependency>
+                <groupId>junit</groupId>
+                <artifactId>junit</artifactId>
+                <version>4.8.2</version>
+                <scope>test</scope>
+            </dependency>
+        </dependencies>
+
+    </dependencyManagement>
+
+    <dependencies>
+        <dependency>
+            <groupId>org.slf4j</groupId>
+            <artifactId>slf4j-api</artifactId>
+        </dependency>
+    </dependencies>
+
+    <build>
+        <pluginManagement>
+            <plugins>
+                <plugin>
+                    <groupId>com.hp.it.118361</groupId>
+                    <artifactId>data-code-generator-maven-plugin</artifactId>
+                    <version>${casVersion}</version>
+                    <executions>
+                        <execution>
+                            <phase>generate-sources</phase>
+                            <goals>
+                                <goal>generate</goal>
+                            </goals>
+                        </execution>
+                    </executions>
+                </plugin>
+                
+                <plugin>
+                    <groupId>org.apache.maven.plugins</groupId>
+                    <artifactId>maven-compiler-plugin</artifactId>
+                    <inherited>true</inherited>
+                    <configuration>
+                        <source>1.6</source>
+                        <target>1.6</target>
+                    </configuration>
+                </plugin>
+
+                <plugin>
+                    <groupId>org.apache.maven.plugins</groupId>
+                    <artifactId>maven-resources-plugin</artifactId>
+                    <inherited>true</inherited>
+                    <configuration>
+                        <encoding>UTF-8</encoding>
+                    </configuration>
+                </plugin>
+
+                <plugin>
+                    <!-- group and version defined in reporting section -->
+                    <artifactId>maven-javadoc-plugin</artifactId>
+                    <inherited>true</inherited>
+                    <executions>
+                        <execution>
+                            <id>attach-javadoc</id>
+                            <phase>package</phase>
+                            <goals>
+                                <goal>jar</goal>
+                            </goals>
+                        </execution>
+                    </executions>
+                </plugin>
+
+                <plugin>
+                    <groupId>org.apache.maven.plugins</groupId>
+                    <artifactId>maven-source-plugin</artifactId>
+                    <inherited>true</inherited>
+                    <executions>
+                        <execution>
+                            <id>attach-source</id>
+                            <phase>package</phase>
+                            <goals>
+                                <goal>jar</goal>
+                            </goals>
+                        </execution>
+                    </executions>
+                </plugin>
+
+                <!-- plugin>
+                    <groupId>org.apache.maven.plugins</groupId>
+                    <artifactId>maven-site-plugin</artifactId>
+                    <version>3.0-beta-3</version>
+                </plugin -->
+            </plugins>
+        </pluginManagement>
+    </build>
+    
+    <!--
+        <configuration> stanzas in <build> don't affect <reporting>, but
+        <configuration> stanzas in <reporting> do affect <build>. ∴ add
+        <configuration> to <reporting>.
+    -->
+
+    <reporting>
+        <plugins>
+            <plugin>
+                <groupId>org.apache.maven.plugins</groupId>
+                <artifactId>maven-javadoc-plugin</artifactId>
+                <version>2.4</version>
+                <configuration>
+                    <encoding>UTF-8</encoding>
+                    <docfilessubdirs>true</docfilessubdirs>                    
+                    <detectLinks />
+                </configuration>
+<!--
+                <reportSets>
+                    <reportSet>
+                        <configuration>
+                            <doclet>com.lunatech.doclets.jax.jaxrs.JAXRSDoclet</doclet>
+                            <docletArtifacts>
+                                <docletArtifact>
+                                    <groupId>com.lunatech.jax-doclets</groupId>
+                                    <artifactId>doclets</artifactId>
+                                    <version>0.8.1</version>
+                                </docletArtifact>
+                            </docletArtifacts>
+                            <destDir>jaxrsdocs</destDir>
+                        </configuration>
+                        <reports>
+                            <report>javadoc</report>
+                        </reports>
+                    </reportSet>
+                </reportSets>
+-->
+            </plugin>
+
+            <!--  Generate Sonar report link in site reports -->
+<!--
+            <plugin>
+                <groupId>org.codehaus.sonar-plugins</groupId>
+                <artifactId>maven-report</artifactId>
+            </plugin>
+-->
+<!--
+
+            <plugin>
+                <groupId>org.apache.maven.plugins</groupId>
+                <artifactId>maven-changes-plugin</artifactId>
+                <reportSets>
+                    <reportSet>
+                        <reports>
+                            <report>changes-report</report>
+                        </reports>
+                    </reportSet>
+                </reportSets>
+            </plugin>
+-->
+<!--
+            <plugin>
+                <groupId>org.apache.maven.plugins</groupId>
+                <artifactId>maven-project-info-reports-plugin</artifactId>
+                <version>2.3.1</version>
+           </plugin>
+-->
+        </plugins>
+    </reporting>
+</project>

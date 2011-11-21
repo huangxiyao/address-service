@@ -19,7 +19,7 @@ import javax.xml.ws.ResponseWrapper;
  * Generated source version: 2.2
  * @see com.hp.it.cas.match.address.legacy.LegacyAddressDoctorAddressAnalyzer
  *  
- * @deprecated As of release 2011.10, replaced by Rest service}
+ * @deprecated As of release 2011.10, replaced by Rest service
  */
 @WebService(targetNamespace = "http://localhost/",  serviceName="CASServiceSoapImplService", portName="CASServiceSoapImplPort", name="CASServiceSoap")
 @SOAPBinding(style=Style.DOCUMENT, use=Use.LITERAL, parameterStyle=ParameterStyle.WRAPPED)

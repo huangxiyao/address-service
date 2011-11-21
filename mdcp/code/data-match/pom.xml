@@ -3,7 +3,7 @@
 	<modelVersion>4.0.0</modelVersion>
 
 	<parent>
-		<artifactId>120482-parent</artifactId>
+		<artifactId>mdcp-parent</artifactId>
 		<groupId>com.hp.it.120482</groupId>
 		<version>2011.10-SNAPSHOT</version>
 	</parent>

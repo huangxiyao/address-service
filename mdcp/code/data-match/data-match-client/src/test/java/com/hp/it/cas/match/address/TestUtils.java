@@ -6,8 +6,11 @@ import java.util.Set;
 import javax.validation.ConstraintViolation;
 import javax.validation.metadata.ConstraintDescriptor;
 
+import org.junit.Ignore;
+
 import junit.framework.Assert;
 
+@Ignore
 public class TestUtils {
 	
 	public static void assertIncludes(Set<ConstraintViolation<AddressQuery>> violations, String messageTemplate ){

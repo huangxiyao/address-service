@@ -17,9 +17,9 @@
 	</organization>
 
 	<scm>
-		<connection>${mdcp.codeReadUrl}/120482-parent</connection>
-		<developerConnection>${mdcp.codeWriteUrl}/120482-parent</developerConnection>
-		<url>${mdcp.codeViewUrl}/120482-parent</url>
+		<connection>${mdcp.codeReadUrl}/mdcp-parent</connection>
+		<developerConnection>${mdcp.codeWriteUrl}/mdcp-parent</developerConnection>
+		<url>${mdcp.codeViewUrl}/mdcp-parent</url>
 	</scm>
 
 	<ciManagement>
@@ -102,8 +102,7 @@
 		<distributeReleaseUrl>http://repo1.corp.hp.com/nexus/content/repositories/releases</distributeReleaseUrl>
 
 		<siteUrl>dav:http://repo1.corp.hp.com/site</siteUrl>
-		<continuousIntegrationUrl>http://build1.corp.hp.com/hudson</continuousIntegrationUrl>
-		<!-- <sonar.host.url>http://g4t0173g.houston.hp.com/sonar</sonar.host.url> -->
+		<continuousIntegrationUrl>http://g2t0592g.austin.hp.com:8780/hudson/</continuousIntegrationUrl>
 
 		<slf4jVersion>1.6.1</slf4jVersion>
 		<logbackVersion>0.9.28</logbackVersion>

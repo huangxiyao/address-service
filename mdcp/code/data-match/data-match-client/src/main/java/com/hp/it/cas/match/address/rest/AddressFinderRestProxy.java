@@ -43,6 +43,7 @@ import com.hp.it.cas.match.address.IAddressFinder;
  * This class acts as a proxy to the backend address standardization interface. It directly mirrors the interface provided on the server side. This should make the network in
  * between transparent to the user of the client.
  * 
+ * @see {@link http://hpedia.hp.com/wiki/MDCP_Security} for detailed instructions on how to configure security prior to using this proxy
  * 
  * @author paul.truax@hp.com
  * 
@@ -61,9 +62,9 @@ public class AddressFinderRestProxy extends StandardResponseJsonReader<AddressQu
 	 * 
 	 * @param urlPrefix
 	 *            URL of the end point service
-	 * @throws MalformedURLException 
+	 * @throws MalformedURLException
 	 */
-	public AddressFinderRestProxy(String urlPrefix)  {
+	public AddressFinderRestProxy(String urlPrefix) {
 		try {
 			VALIDATED_ADDRESS_SERVICE_URL = new URL(String.format("%s/%s", urlPrefix, "validatedAddress"));
 			CERTIFIED_ADDRESS_SERVICE_URL = new URL(String.format("%s/%s", urlPrefix, "certifiedAddress"));
@@ -71,7 +72,7 @@ public class AddressFinderRestProxy extends StandardResponseJsonReader<AddressQu
 			ADDRESS_SUGGESTIONS_SERVICE_URL = new URL(String.format("%s/%s", urlPrefix, "addressSuggestions"));
 		} catch (MalformedURLException e) {
 			throw new IllegalArgumentException(e);
-		}	
+		}
 		this.messageInterpolator = createMessageInterpolator();
 		LocalizationContextHolder.setContext(new LocalizationContext(Locale.ENGLISH, messageInterpolator));
 	}
@@ -82,6 +83,7 @@ public class AddressFinderRestProxy extends StandardResponseJsonReader<AddressQu
 	public AddressQueryResult findValidatedAddress(@NotNull AddressQuery query) {
 		return processRequest(query, VALIDATED_ADDRESS_SERVICE_URL);
 	}
+
 	/**
 	 * @see com.hp.it.cas.match.address.IAddressFinder#findCertifiedAddress(AddressQuery)
 	 */
@@ -248,8 +250,8 @@ public class AddressFinderRestProxy extends StandardResponseJsonReader<AddressQu
 		result.setPreferredLanguage((String) jsonObject.get("preferredLanguage"));
 		result.setPreferredScript((String) jsonObject.get("preferredScript"));
 		result.setIso3((String) jsonObject.get("countryCode"));
-		String overFlowCount = (String)jsonObject.get("countOverflow");
-		if(!isNullOrEmpty(overFlowCount)){
+		String overFlowCount = (String) jsonObject.get("countOverflow");
+		if (!isNullOrEmpty(overFlowCount)) {
 			result.setCountOverFlow(Boolean.valueOf(overFlowCount));
 		}
 	}
@@ -327,13 +329,13 @@ public class AddressFinderRestProxy extends StandardResponseJsonReader<AddressQu
 			throw new ConstraintViolationException(new LinkedHashSet<ConstraintViolation<?>>(violations));
 		}
 	}
-	
+
 	private MessageInterpolator createMessageInterpolator() {
 		MessageSource messageSource = new ResourceBundleMessageSource(MESSAGES);
 		return new MessageSourceMessageInterpolator(messageSource);
 	}
-	
-	private AddressQueryResult processRequest(AddressQuery query, URL endpoint){
+
+	private AddressQueryResult processRequest(AddressQuery query, URL endpoint) {
 		new Verifier().isNotNull(query, "Input must not be null").throwIfError();
 		JsonParser parser;
 		AddressQueryResult content = null;

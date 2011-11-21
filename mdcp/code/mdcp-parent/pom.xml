@@ -101,7 +101,7 @@
 		<distributeSnapshotUrl>http://repo1.corp.hp.com/nexus/content/repositories/snapshots</distributeSnapshotUrl>
 		<distributeReleaseUrl>http://repo1.corp.hp.com/nexus/content/repositories/releases</distributeReleaseUrl>
 
-		<siteUrl>dav:http://repo1.corp.hp.com/site/mdcp/${project.version}</siteUrl>
+		<siteUrl>dav:http://repo1.corp.hp.com/site/mdcp/${project.version}/${project.name}</siteUrl>
 		<continuousIntegrationUrl>http://g2t0592g.austin.hp.com:8780/hudson/</continuousIntegrationUrl>
 
 		<slf4jVersion>1.6.1</slf4jVersion>

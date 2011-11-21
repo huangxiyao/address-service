@@ -44,7 +44,7 @@
 		<site>
 			<id>site</id>
 			<name>MDCP Customer Site</name>
-			<url>${siteUrl}/customer</url>
+			<url>${siteUrl}/mdcp</url>
 		</site>
 
 	</distributionManagement>

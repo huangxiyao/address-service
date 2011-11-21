@@ -1,2 +1,4 @@
-@javax.xml.bind.annotation.XmlSchema(namespace = "http://localhost/", elementFormDefault = javax.xml.bind.annotation.XmlNsForm.QUALIFIED)
+/**
+ * Items used across the SOAP web adaptation of the address standardization interfaces.
+ */
 package com.hp.it.cas.match.address.web.soap;

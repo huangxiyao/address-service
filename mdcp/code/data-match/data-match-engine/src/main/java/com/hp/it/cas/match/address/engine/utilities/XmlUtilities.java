@@ -12,8 +12,22 @@ import javax.xml.transform.stream.StreamResult;
 
 import org.w3c.dom.Document;
 
+/**
+ * XML Utilities used in the data match engine.
+ * 
+ * @author paul.truax@hp.com
+ * 
+ */
 public class XmlUtilities {
-	public static String getXmlText(Document document){
+
+	/**
+	 * Takes a document and returns the XML as a string.
+	 * 
+	 * @param document
+	 *            the document
+	 * @return string representation of the document
+	 */
+	public static String getXmlText(Document document) {
 		Transformer transformer;
 		String theXmlText = "";
 		try {
@@ -30,7 +44,7 @@ public class XmlUtilities {
 		} catch (TransformerException e) {
 			throw new RuntimeException(e);
 		}
-		return theXmlText;	
+		return theXmlText;
 	}
 
 }

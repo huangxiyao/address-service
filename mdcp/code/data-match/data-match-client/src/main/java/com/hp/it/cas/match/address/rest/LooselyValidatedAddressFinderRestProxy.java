@@ -13,7 +13,7 @@ import com.hp.it.cas.match.address.LooselyValidatedAddressFinder;
  * between transparent to the user of the client.
  * 
  * @see {@link com.hp.it.cas.match.address.LooselyValidatedAddressFinder}
- * @see {@link http://hpedia.hp.com/wiki/MDCP_Security} for detailed instructions on how to configure security prior to using this proxy
+ * @see {@link http://hpedia.hp.com/wiki/MDCP_Security}
  * 
  * @author paul.truax@hp.com
  * 

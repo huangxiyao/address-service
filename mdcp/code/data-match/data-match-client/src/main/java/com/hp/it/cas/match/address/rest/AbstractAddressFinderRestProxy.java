@@ -1,7 +1,5 @@
 package com.hp.it.cas.match.address.rest;
 
-import static com.hp.it.cas.match.address.utilities.StringUtils.isNullOrEmpty;
-
 import java.io.IOException;
 import java.net.MalformedURLException;
 import java.net.URL;
@@ -15,7 +13,6 @@ import java.util.Set;
 
 import javax.validation.ConstraintViolation;
 import javax.validation.ConstraintViolationException;
-import javax.validation.constraints.NotNull;
 
 import com.hp.it.cas.foundation.json.JsonParser;
 import com.hp.it.cas.foundation.json.JsonReader;
@@ -37,7 +34,6 @@ import com.hp.it.cas.match.address.AddressQuery;
 import com.hp.it.cas.match.address.AddressQueryResult;
 import com.hp.it.cas.match.address.AddressQueryResult.AddressData;
 import com.hp.it.cas.match.address.AddressQueryValidator;
-import com.hp.it.cas.match.address.IAddressFinder;
 
 /**
  * This class acts as a proxy to the backend address standardization interface. It directly mirrors the interface provided on the server side. This should make the network in
@@ -48,28 +44,22 @@ import com.hp.it.cas.match.address.IAddressFinder;
  * @author paul.truax@hp.com
  * 
  */
-public class AddressFinderRestProxy extends StandardResponseJsonReader<AddressQueryResult> implements IAddressFinder {
+public abstract class AbstractAddressFinderRestProxy extends StandardResponseJsonReader<AddressQueryResult> {
 	private final MessageInterpolator messageInterpolator;
 	private final String[] MESSAGES = { "com.hp.it.cas.match.address.messages" };
 	private final AddressQueryValidator validator = new AddressQueryValidator();
-	private final URL VALIDATED_ADDRESS_SERVICE_URL;
-	private final URL CERTIFIED_ADDRESS_SERVICE_URL;
-	private final URL WIDE_OPTIMIZATION_SERVICE_URL;
-	private final URL ADDRESS_SUGGESTIONS_SERVICE_URL;
+	protected final URL SERVICE_URL;
 
 	/**
 	 * Construct an address finder rest proxy with a URL.
 	 * 
-	 * @param urlPrefix
+	 * @param url
 	 *            URL of the end point service
 	 * @throws MalformedURLException
 	 */
-	public AddressFinderRestProxy(String urlPrefix) {
+	public AbstractAddressFinderRestProxy(String url) {
 		try {
-			VALIDATED_ADDRESS_SERVICE_URL = new URL(String.format("%s/%s", urlPrefix, "validatedAddress"));
-			CERTIFIED_ADDRESS_SERVICE_URL = new URL(String.format("%s/%s", urlPrefix, "certifiedAddress"));
-			WIDE_OPTIMIZATION_SERVICE_URL = new URL(String.format("%s/%s", urlPrefix, "looselyValidatedAddress"));
-			ADDRESS_SUGGESTIONS_SERVICE_URL = new URL(String.format("%s/%s", urlPrefix, "addressSuggestions"));
+			SERVICE_URL = new URL(url);
 		} catch (MalformedURLException e) {
 			throw new IllegalArgumentException(e);
 		}
@@ -77,33 +67,6 @@ public class AddressFinderRestProxy extends StandardResponseJsonReader<AddressQu
 		LocalizationContextHolder.setContext(new LocalizationContext(Locale.ENGLISH, messageInterpolator));
 	}
 
-	/**
-	 * @see com.hp.it.cas.match.address.IAddressFinder#findValidatedAddress(AddressQuery)
-	 */
-	public AddressQueryResult findValidatedAddress(@NotNull AddressQuery query) {
-		return processRequest(query, VALIDATED_ADDRESS_SERVICE_URL);
-	}
-
-	/**
-	 * @see com.hp.it.cas.match.address.IAddressFinder#findCertifiedAddress(AddressQuery)
-	 */
-	public AddressQueryResult findCertifiedAddress(@NotNull AddressQuery query) {
-		return processRequest(query, CERTIFIED_ADDRESS_SERVICE_URL);
-	}
-
-	/**
-	 * @see com.hp.it.cas.match.address.IAddressFinder#findValidatedAddressWithWideOptimization(AddressQuery)
-	 */
-	public AddressQueryResult findValidatedAddressWithWideOptimization(@NotNull AddressQuery query) {
-		return processRequest(query, WIDE_OPTIMIZATION_SERVICE_URL);
-	}
-
-	/**
-	 * @see com.hp.it.cas.match.address.IAddressFinder#findAddressSuggestions(AddressQuery)
-	 */
-	public AddressQueryResult findAddressSuggestions(@NotNull AddressQuery query) {
-		return processRequest(query, ADDRESS_SUGGESTIONS_SERVICE_URL);
-	}
 
 	private Map<String, List<String>> parameterize(AddressQuery query) {
 		Map<String, List<String>> parameters = new HashMap<String, List<String>>();
@@ -250,10 +213,8 @@ public class AddressFinderRestProxy extends StandardResponseJsonReader<AddressQu
 		result.setPreferredLanguage((String) jsonObject.get("preferredLanguage"));
 		result.setPreferredScript((String) jsonObject.get("preferredScript"));
 		result.setIso3((String) jsonObject.get("countryCode"));
-		String overFlowCount = (String) jsonObject.get("countOverflow");
-		if (!isNullOrEmpty(overFlowCount)) {
-			result.setCountOverFlow(Boolean.valueOf(overFlowCount));
-		}
+		Boolean overFlowCount = (Boolean) jsonObject.get("countOverflow");
+		result.setCountOverFlow(overFlowCount);
 	}
 
 	@SuppressWarnings("unchecked")
@@ -335,7 +296,7 @@ public class AddressFinderRestProxy extends StandardResponseJsonReader<AddressQu
 		return new MessageSourceMessageInterpolator(messageSource);
 	}
 
-	private AddressQueryResult processRequest(AddressQuery query, URL endpoint) {
+	protected AddressQueryResult processRequest(AddressQuery query, URL endpoint) {
 		new Verifier().isNotNull(query, "Input must not be null").throwIfError();
 		JsonParser parser;
 		AddressQueryResult content = null;

@@ -26,7 +26,6 @@ import com.hp.it.cas.match.address.AddressQuery;
 import com.hp.it.cas.match.address.AddressQueryResult;
 import com.hp.it.cas.match.address.AddressQueryResult.AddressData;
 import com.hp.it.cas.match.address.AddressQueryValidator;
-import com.hp.it.cas.match.address.IAddressFinder;
 import com.hp.it.cas.match.address.engine.utilities.XmlUtilities;
 
 /**
@@ -35,24 +34,24 @@ import com.hp.it.cas.match.address.engine.utilities.XmlUtilities;
  * @author paul.truax@hp.com
  * 
  */
-public class AddressFinder implements IAddressFinder {
-	private AddressDoctorEngine addressDoctorEngine;
-	private DocumentBuilderFactory documentBuilderFactory = DocumentBuilderFactory.newInstance();
-	private final Logger logger = LoggerFactory.getLogger(AddressFinder.class);
-	private final Logger requestLogger = LoggerFactory.getLogger(AddressFinder.class.getName() + "RequestLogger");
-	private final AddressQueryValidator validator = new AddressQueryValidator();
+public abstract class AbstractAddressFinder {
+	protected AddressDoctorEngine addressDoctorEngine;
+	protected DocumentBuilderFactory documentBuilderFactory = DocumentBuilderFactory.newInstance();
+	protected final Logger logger = LoggerFactory.getLogger(AbstractAddressFinder.class);
+	protected final Logger requestLogger = LoggerFactory.getLogger(AbstractAddressFinder.class.getName() + "RequestLogger");
+	protected final AddressQueryValidator validator = new AddressQueryValidator();
 
-	private String defaultParametersXmlString;
-	private String certifiedModeParametersXmlString;
-	private String wideOptimizationModeParametersXmlString;
-	private String interactiveModeParametersXmlString;
+	protected String defaultParametersXmlString;
+	protected String certifiedModeParametersXmlString;
+	protected String wideOptimizationModeParametersXmlString;
+	protected String interactiveModeParametersXmlString;
 
-	private final boolean doValidation;
+	protected final boolean doValidation;
 
 	/**
 	 * Construct an address finder.
 	 */
-	public AddressFinder(boolean doValidation) {
+	public AbstractAddressFinder(boolean doValidation) {
 		this.doValidation = doValidation;
 		addressDoctorEngine = AddressDoctorEngine.INSTANCE;
 		URL defaultParametersUrl;
@@ -83,75 +82,8 @@ public class AddressFinder implements IAddressFinder {
 		}
 	}
 
-	/**
-	 * @see com.hp.it.cas.match.address.IAddressFinder#findValidatedAddress(AddressQuery)
-	 */
-	public AddressQueryResult findValidatedAddress(AddressQuery query) {
-		Stopwatch sw = Stopwatch.start();
-		logger.debug("ENTRY");
-		requestLogger.debug("Address Query: {}", query);
 
-		if (doValidation) {
-			validate(query, new ConstraintViolationContext<AddressQuery>(query));
-		}
-
-		AddressQueryResult result = process(query, defaultParametersXmlString);
-		logger.debug("RETURN: {}", sw.toString());
-		return result;
-	}
-
-	/**
-	 * @see com.hp.it.cas.match.address.IAddressFinder#findCertifiedAddress(AddressQuery)
-	 */
-	public AddressQueryResult findCertifiedAddress(AddressQuery query) {
-		Stopwatch sw = Stopwatch.start();
-		logger.debug("ENTRY");
-		requestLogger.debug("Address Query: {}", query);
-
-		if (doValidation) {
-			validate(query, new ConstraintViolationContext<AddressQuery>(query));
-		}
-
-		AddressQueryResult result = process(query, certifiedModeParametersXmlString);
-		logger.debug("RETURN: {}", sw.toString());
-		return result;
-	}
-
-	/**
-	 * @see com.hp.it.cas.match.address.IAddressFinder#findValidatedAddressWithWideOptimization(AddressQuery)
-	 */
-	public AddressQueryResult findValidatedAddressWithWideOptimization(AddressQuery query) {
-		Stopwatch sw = Stopwatch.start();
-		logger.debug("ENTRY");
-		requestLogger.debug("Address Query: {}", query);
-
-		if (doValidation) {
-			validate(query, new ConstraintViolationContext<AddressQuery>(query));
-		}
-
-		AddressQueryResult result = process(query, wideOptimizationModeParametersXmlString);
-		logger.debug("RETURN: {}", sw.toString());
-		return result;
-	}
-
-	/**
-	 * @see com.hp.it.cas.match.address.IAddressFinder#findAddressSuggestions(AddressQuery)
-	 */
-	public AddressQueryResult findAddressSuggestions(AddressQuery query) {
-		Stopwatch sw = Stopwatch.start();
-		logger.debug("ENTRY");
-		requestLogger.debug("Address Query: {}", query);
-
-		if (doValidation) {
-			validate(query, new ConstraintViolationContext<AddressQuery>(query));
-		}
-
-		AddressQueryResult result = process(query, interactiveModeParametersXmlString);
-		logger.debug("RETURN: {}", sw.toString());
-		return result;
-	}
-
-	private AddressQueryResult process(AddressQuery query, String parmsXml) {
+	protected AddressQueryResult process(AddressQuery query, String parmsXml) {
 		Stopwatch sw = Stopwatch.start();
 		logger.debug("ENTRY");
 		new Verifier().isNotNull(query, "AddressQuery must not be null.").throwIfError();
@@ -534,7 +466,7 @@ public class AddressFinder implements IAddressFinder {
 		}
 	}
 
-	private void validate(AddressQuery query, ConstraintViolationContext<AddressQuery> errors) {
+	protected void validate(AddressQuery query, ConstraintViolationContext<AddressQuery> errors) {
 		Set<ConstraintViolation<AddressQuery>> violations = validator.validate(query);
 		violations.addAll(errors.getConstraintViolations());
 		if (!violations.isEmpty()) {

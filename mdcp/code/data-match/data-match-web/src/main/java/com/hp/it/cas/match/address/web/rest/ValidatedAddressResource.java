@@ -27,13 +27,14 @@ import com.hp.it.cas.foundation.util.Stopwatch;
 import com.hp.it.cas.foundation.validation.ConstraintViolationContext;
 import com.hp.it.cas.match.address.AddressQuery;
 import com.hp.it.cas.match.address.AddressQueryResult;
-import com.hp.it.cas.match.address.IAddressFinder;
+import com.hp.it.cas.match.address.ValidatedAddressFinder;
 
 @Path("validatedAddress")
 public class ValidatedAddressResource extends AbstractAddressResource {
 	private final Logger logger = LoggerFactory.getLogger(ValidatedAddressResource.class);
+	private final ValidatedAddressFinder finder;
 
-	public ValidatedAddressResource(IAddressFinder finder, MessageInterpolator messageInterpolator, Locale[] locales){
+	public ValidatedAddressResource(ValidatedAddressFinder finder, MessageInterpolator messageInterpolator, Locale[] locales){
 		this.finder = finder;
 		this.messageInterpolator = messageInterpolator;
 		this.variants = Variant.languages(locales).add().build();
@@ -52,7 +53,7 @@ public class ValidatedAddressResource extends AbstractAddressResource {
 		Response response = null;
 		try {
 			bind(query, uriInfo.getQueryParameters(), errors);
-			result = finder.findValidatedAddress(query);
+			result = finder.find(query);
 			response = Response.ok().header(HttpHeaders.CONTENT_TYPE, MediaType.APPLICATION_JSON + ";charset=utf-8").entity(new AddressQueryResultJsonRepresentation(result, messageContext)).build();
 		} catch (ConstraintViolationException e) {
 			response = handle(e, messageContext);

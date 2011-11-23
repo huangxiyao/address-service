@@ -2,7 +2,6 @@ package com.hp.it.cas.match.address.web.rest;
 
 import java.net.MalformedURLException;
 import java.net.URISyntaxException;
-import java.util.List;
 import java.util.Locale;
 
 import javax.servlet.ServletContext;
@@ -28,16 +27,14 @@ import com.hp.it.cas.foundation.util.Stopwatch;
 import com.hp.it.cas.foundation.validation.ConstraintViolationContext;
 import com.hp.it.cas.match.address.AddressQuery;
 import com.hp.it.cas.match.address.AddressQueryResult;
-import com.hp.it.cas.match.address.IAddressFinder;
+import com.hp.it.cas.match.address.LooselyValidatedAddressFinder;
 
 @Path("looselyValidatedAddress")
 public class LooselyValidatedAddressResource extends AbstractAddressResource {
 	private final Logger logger = LoggerFactory.getLogger(LooselyValidatedAddressResource.class);
-	private final IAddressFinder finder;
-	private MessageInterpolator messageInterpolator;
-	private List<Variant> variants;
+	private final LooselyValidatedAddressFinder finder;
 	
-	public LooselyValidatedAddressResource(IAddressFinder finder, MessageInterpolator messageInterpolator, Locale[] locales){
+	public LooselyValidatedAddressResource(LooselyValidatedAddressFinder finder, MessageInterpolator messageInterpolator, Locale[] locales){
 		this.finder = finder;
 		this.messageInterpolator = messageInterpolator;
 		this.variants = Variant.languages(locales).add().build();
@@ -56,7 +53,7 @@ public class LooselyValidatedAddressResource extends AbstractAddressResource {
 		Response response = null;
 		try {
 			bind(query, uriInfo.getQueryParameters(), errors);
-			result = finder.findValidatedAddressWithWideOptimization(query);
+			result = finder.find(query);
 			response = Response.ok().header(HttpHeaders.CONTENT_TYPE, MediaType.APPLICATION_JSON + ";charset=utf-8").entity(new AddressQueryResultJsonRepresentation(result, messageContext)).build();
 		} catch (ConstraintViolationException e) {
 			response = handle(e, messageContext);

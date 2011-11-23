@@ -9,9 +9,15 @@ import javax.ws.rs.core.Application;
 import com.hp.it.cas.foundation.message.MessageSource;
 import com.hp.it.cas.foundation.message.MessageSourceMessageInterpolator;
 import com.hp.it.cas.foundation.message.ResourceBundleMessageSource;
-import com.hp.it.cas.match.address.IAddressFinder;
+import com.hp.it.cas.match.address.AddressSuggestionsFinder;
+import com.hp.it.cas.match.address.CertifiedAddressFinder;
+import com.hp.it.cas.match.address.LooselyValidatedAddressFinder;
+import com.hp.it.cas.match.address.ValidatedAddressFinder;
 import com.hp.it.cas.match.address.engine.AddressDoctorEngine;
-import com.hp.it.cas.match.address.engine.AddressFinder;
+import com.hp.it.cas.match.address.engine.AddressSuggestionsAddressFinderImpl;
+import com.hp.it.cas.match.address.engine.CertifiedAddressFinderImpl;
+import com.hp.it.cas.match.address.engine.LooselyValidatedAddressFinderImpl;
+import com.hp.it.cas.match.address.engine.ValidatedAddressFinderImpl;
 import com.hp.it.cas.match.address.web.rest.AddressFinderConfigurationResource;
 import com.hp.it.cas.match.address.web.rest.AddressSuggestionsResource;
 import com.hp.it.cas.match.address.web.rest.CertifiedValidatedAddressResource;
@@ -29,7 +35,10 @@ public class MatchingApplication extends Application {
 	private final Locale[] LOCALIZATIONS = { Locale.ENGLISH };
 	private final Set<Object> resources;
 	MessageSourceMessageInterpolator messageInterpolator;
-	private IAddressFinder finder = new AddressFinder(true);
+	private ValidatedAddressFinder validatedFinder = new ValidatedAddressFinderImpl(true);
+	private CertifiedAddressFinder certifiedFinder = new CertifiedAddressFinderImpl(true);
+	private LooselyValidatedAddressFinder looselyValidatedFinder = new LooselyValidatedAddressFinderImpl(true);
+	private AddressSuggestionsFinder addressSuggestions = new AddressSuggestionsAddressFinderImpl(true);
 
 	/**
 	 * Instantiate a matching application
@@ -44,10 +53,10 @@ public class MatchingApplication extends Application {
 
 	private Set<Object> createResources() {
 		Set<Object> resources = new HashSet<Object>();
-		resources.add(new ValidatedAddressResource(finder, messageInterpolator, LOCALIZATIONS));
-		resources.add(new CertifiedValidatedAddressResource(finder, messageInterpolator, LOCALIZATIONS));
-		resources.add(new LooselyValidatedAddressResource(finder, messageInterpolator, LOCALIZATIONS));
-		resources.add(new AddressSuggestionsResource(finder, messageInterpolator, LOCALIZATIONS));
+		resources.add(new ValidatedAddressResource(validatedFinder, messageInterpolator, LOCALIZATIONS));
+		resources.add(new CertifiedValidatedAddressResource(certifiedFinder, messageInterpolator, LOCALIZATIONS));
+		resources.add(new LooselyValidatedAddressResource(looselyValidatedFinder, messageInterpolator, LOCALIZATIONS));
+		resources.add(new AddressSuggestionsResource(addressSuggestions, messageInterpolator, LOCALIZATIONS));
 		resources.add(new AddressFinderConfigurationResource(AddressDoctorEngine.INSTANCE.getConfiguration(), messageInterpolator, LOCALIZATIONS));
 		return resources;
 	}

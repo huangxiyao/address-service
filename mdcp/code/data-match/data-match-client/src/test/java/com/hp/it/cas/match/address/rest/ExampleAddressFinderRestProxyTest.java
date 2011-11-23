@@ -3,7 +3,6 @@ package com.hp.it.cas.match.address.rest;
 import junit.framework.Assert;
 
 import org.junit.Before;
-import org.junit.Ignore;
 import org.junit.Test;
 
 import com.hp.it.cas.foundation.security.SecurityContextHolder;
@@ -12,7 +11,7 @@ import com.hp.it.cas.match.address.AddressQueryResult;
 import com.hp.it.cas.match.address.ClientTestEnvironment;
 import com.hp.it.cas.match.address.SecurityContextTestController;
 
-@Ignore
+//@Ignore
 public class ExampleAddressFinderRestProxyTest {
 
 	@Before
@@ -26,8 +25,8 @@ public class ExampleAddressFinderRestProxyTest {
 		SecurityContextTestController securityController = new SecurityContextTestController();
 		securityController.collectAndSetupSecurityContext(testEnvironment());
 		Assert.assertTrue(SecurityContextHolder.isSecurityContextSet());
-		AddressFinderRestProxy proxy = new AddressFinderRestProxy("http://it-services-itg-g2.austin.hp.com/match");
-		AddressQueryResult result = proxy.findValidatedAddress(addressQuery());
+		ValidatedAddressFinderRestProxy proxy = new ValidatedAddressFinderRestProxy("http://it-services-itg-g2.austin.hp.com/match/validatedAddress");
+		AddressQueryResult result = proxy.find(addressQuery());
 		System.out.println(result);
 	}
 	
@@ -43,7 +42,7 @@ public class ExampleAddressFinderRestProxyTest {
 	}
 	
 	private ClientTestEnvironment testEnvironment(){
-		return new ClientTestEnvironment("callingAppUid", null, null);
+		return new ClientTestEnvironment("w-mdcp:prd-http", null, null);
 	}
 
 }

@@ -16,31 +16,31 @@ public class AddressFinderRestProxyTest {
 
 	@Test(expected=IllegalArgumentException.class)
 	public void null_input_to_find_validated_address_throws_illegal_argument_exception() {
-		AddressFinderRestProxy proxy = new AddressFinderRestProxy("http://irrelevant.url.com");
-		proxy.findValidatedAddress(null);
+		ValidatedAddressFinderRestProxy proxy = new ValidatedAddressFinderRestProxy("http://irrelevant.url.com");
+		proxy.find(null);
 	}
 	
 	@Test(expected=IllegalArgumentException.class)
 	public void null_input_to_find_certified_address_throws_illegal_argument_exception() {
-		AddressFinderRestProxy proxy = new AddressFinderRestProxy("http://irrelevant.url.com");
-		proxy.findCertifiedAddress(null);
+		ValidatedAddressFinderRestProxy proxy = new ValidatedAddressFinderRestProxy("http://irrelevant.url.com");
+		proxy.find(null);
 	}
 	
 	@Test(expected=IllegalArgumentException.class)
 	public void null_input_to_find_address_suggestions_throws_illegal_argument_exception() {
-		AddressFinderRestProxy proxy = new AddressFinderRestProxy("http://irrelevant.url.com");
-		proxy.findAddressSuggestions(null);
+		ValidatedAddressFinderRestProxy proxy = new ValidatedAddressFinderRestProxy("http://irrelevant.url.com");
+		proxy.find(null);
 	}
 	
 	@Test(expected=IllegalArgumentException.class)
 	public void null_input_to_find_validated_address_with_wide_optimizations_throws_illegal_argument_exception() {
-		AddressFinderRestProxy proxy = new AddressFinderRestProxy("http://irrelevant.url.com");
-		proxy.findValidatedAddressWithWideOptimization(null);
+		ValidatedAddressFinderRestProxy proxy = new ValidatedAddressFinderRestProxy("http://irrelevant.url.com");
+		proxy.find(null);
 	}
 	
 	@Test(expected=IllegalArgumentException.class)
 	public void bad_url_throws_illegal_argument_exception() {
-		new AddressFinderRestProxy("bad url");
+		new ValidatedAddressFinderRestProxy("bad url");
 	}
 	
 

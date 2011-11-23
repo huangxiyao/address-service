@@ -21,11 +21,9 @@ import com.hp.it.cas.foundation.validation.ConstraintViolationMessage;
 import com.hp.it.cas.foundation.web.MessageContextJsonRepresentation;
 import com.hp.it.cas.match.address.AddressQuery;
 import com.hp.it.cas.match.address.AddressQueryValidator;
-import com.hp.it.cas.match.address.IAddressFinder;
 
 public abstract class AbstractAddressResource {
 	protected final AddressQueryValidator validator = new AddressQueryValidator();
-	protected IAddressFinder finder;
 	protected MessageInterpolator messageInterpolator;
 	protected List<Variant> variants;
 	

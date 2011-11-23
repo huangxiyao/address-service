@@ -6,19 +6,19 @@ import javax.validation.constraints.NotNull;
 
 import com.hp.it.cas.match.address.AddressQuery;
 import com.hp.it.cas.match.address.AddressQueryResult;
-import com.hp.it.cas.match.address.CertifiedAddressFinder;
+import com.hp.it.cas.match.address.ValidatedAddressFinder;
 
 /**
  * This class acts as a proxy to the backend address standardization interface. It directly mirrors the interface provided on the server side. This should make the network in
  * between transparent to the user of the client.
  * 
- * @see {@link com.hp.it.cas.match.address.CertifiedAddressFinder}
+ * @see {@link com.hp.it.cas.match.address.ValidatedAddressFinder}
  * @see {@link http://hpedia.hp.com/wiki/MDCP_Security}
  * 
  * @author paul.truax@hp.com
  * 
  */
-public class ValidatedAddressFinderRestProxy extends AbstractAddressFinderRestProxy implements CertifiedAddressFinder {
+public class ValidatedAddressFinderRestProxy extends AbstractAddressFinderRestProxy implements ValidatedAddressFinder {
 
 	/**
 	 * Construct an address finder rest proxy with a URL.
@@ -32,7 +32,7 @@ public class ValidatedAddressFinderRestProxy extends AbstractAddressFinderRestPr
 	}
 
 	/**
-	 * @see {@link com.hp.it.cas.match.address.CertifiedAddressFinder#find(AddressQuery)}
+	 * @see {@link com.hp.it.cas.match.address.ValidatedAddressFinder#find(AddressQuery)}
 	 */
 	public AddressQueryResult find(@NotNull AddressQuery query) {
 		return processRequest(query, SERVICE_URL);

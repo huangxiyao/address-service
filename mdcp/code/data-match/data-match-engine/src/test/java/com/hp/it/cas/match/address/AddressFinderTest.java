@@ -7,14 +7,13 @@ import org.junit.BeforeClass;
 import org.junit.Ignore;
 import org.junit.Test;
 
-import com.hp.it.cas.foundation.message.MessageContext;
 import com.hp.it.cas.match.address.engine.AddressDoctorEngine;
-import com.hp.it.cas.match.address.engine.AddressFinder;
+import com.hp.it.cas.match.address.engine.ValidatedAddressFinderImpl;
 
 @Ignore
 public class AddressFinderTest {
 	private static AddressDoctorEngine engine;
-	private IAddressFinder finder;
+	private ValidatedAddressFinder finder;
 
 	@BeforeClass
 	public static void setUpBeforeClass() throws Exception {
@@ -28,7 +27,7 @@ public class AddressFinderTest {
 
 	@Before
 	public void setUp() throws Exception {
-		finder = new AddressFinder(true);
+		finder = new ValidatedAddressFinderImpl(true);
 
 	}
 
@@ -44,6 +43,6 @@ public class AddressFinderTest {
 		query.setProvince1("GA");
 		query.setPostalCode1("30024");
 		query.setCountry1("US");
-		System.out.println(finder.findAddressSuggestions(query));
+		System.out.println(finder.find(query));
 	}
 }

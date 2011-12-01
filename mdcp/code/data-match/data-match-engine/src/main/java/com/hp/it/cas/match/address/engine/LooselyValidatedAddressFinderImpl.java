@@ -1,5 +1,8 @@
 package com.hp.it.cas.match.address.engine;
 
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+
 import com.hp.it.cas.foundation.util.Stopwatch;
 import com.hp.it.cas.foundation.validation.ConstraintViolationContext;
 import com.hp.it.cas.match.address.AddressQuery;
@@ -13,6 +16,8 @@ import com.hp.it.cas.match.address.LooselyValidatedAddressFinder;
  * 
  */
 public class LooselyValidatedAddressFinderImpl extends AbstractAddressFinder implements LooselyValidatedAddressFinder  {
+	protected final Logger logger = LoggerFactory.getLogger(LooselyValidatedAddressFinderImpl.class);
+	protected final Logger requestLogger = LoggerFactory.getLogger(LooselyValidatedAddressFinderImpl.class.getName() + "RequestLogger");
 
 	/**
 	 * Construct an address finder.

@@ -67,7 +67,7 @@
 				<configuration>
 					<source>1.6</source>
 					<target>1.6</target>
-					<maxmem>512m</maxmem>
+					<maxmem>1536m</maxmem>
 				</configuration>
 			</plugin>
 		</plugins>

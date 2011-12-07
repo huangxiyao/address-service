@@ -1,0 +1,17 @@
+tomcat_ad_server_port=8305
+tomcat_ad_connector_http_port=8380
+tomcat_ad_connector_https_port=8343
+tomcat_ad_connector_ajp_port=8309
+ad_max_memory_usage_mb=10240
+ad_db_path=/opt/casfw/address-doctor/databases/all
+ad_cache_size=LARGE
+ad_unlock_code=S9KD17567K0FSMKA0KLZ3XSPFWNLJWQ65ZTC
+ad_max_address_object_count=8
+ad_max_thread_count=8
+ad_preloading_type=FULL
+jmx_port=1099
+jmx_user=casfw
+jmx_password=casmanage
+application_db_url=jdbc:oracle:thin:@(DESCRIPTION=(SDU=32768)(enable=broken)(LOAD_BALANCE=yes)(ADDRESS=(PROTOCOL=TCP)(HOST=gcu90385.houston.hp.com)(PORT=1526))(ADDRESS=(PROTOCOL=TCP)(HOST=gcu21258.austin.hp.com)(PORT=1526))(ADDRESS=(PROTOCOL=TCP)(HOST=gcu50996.atlanta.hp.com)(PORT=1526))(CONNECT_DATA=(SERVICE_NAME=MDCP9PC)))
+application_db_user=mdcp_cas_service
+application_db_pwd=mdcp_cas_service

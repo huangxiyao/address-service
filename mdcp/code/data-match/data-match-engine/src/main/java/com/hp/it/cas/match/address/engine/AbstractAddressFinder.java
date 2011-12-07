@@ -14,10 +14,13 @@ import javax.xml.parsers.ParserConfigurationException;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+import org.slf4j.MDC;
 import org.xml.sax.SAXException;
 
 import com.addressdoctor.AddressDoctorException;
 import com.addressdoctor.AddressObject;
+import com.hp.it.cas.foundation.security.SecurityContext;
+import com.hp.it.cas.foundation.security.SecurityContextHolder;
 import com.hp.it.cas.foundation.util.Stopwatch;
 import com.hp.it.cas.foundation.validation.ConstraintViolationContext;
 import com.hp.it.cas.foundation.validation.Verifier;
@@ -27,6 +30,8 @@ import com.hp.it.cas.match.address.AddressQueryResult;
 import com.hp.it.cas.match.address.AddressQueryResult.AddressData;
 import com.hp.it.cas.match.address.AddressQueryValidator;
 import com.hp.it.cas.match.address.engine.utilities.XmlUtilities;
+import com.hp.it.cas.security.ApplicationProcessAccess;
+import com.hp.it.cas.security.RichSecurityContext;
 
 /**
  * Address finder.
@@ -38,6 +43,8 @@ public abstract class AbstractAddressFinder {
 	protected AddressDoctorEngine addressDoctorEngine;
 	protected DocumentBuilderFactory documentBuilderFactory = DocumentBuilderFactory.newInstance();
 	protected final Logger logger = LoggerFactory.getLogger(AbstractAddressFinder.class);
+	protected final Logger requestLogger = LoggerFactory.getLogger(AbstractAddressFinder.class.getName() + "RequestLogger");
+
 	protected final AddressQueryValidator validator = new AddressQueryValidator();
 
 	protected String defaultParametersXmlString;
@@ -82,9 +89,9 @@ public abstract class AbstractAddressFinder {
 	}
 
 
-	protected AddressQueryResult process(AddressQuery query, String parmsXml) {
-		Stopwatch sw = Stopwatch.start();
-		logger.debug("ENTRY");
+	protected AddressQueryResult process(AddressQuery query, String parmsXml, InvokedMethod method) {
+		logger.debug("{} ENTRY", method);
+		requestLogger.debug("{} {}", method, query);
 		new Verifier().isNotNull(query, "AddressQuery must not be null.").throwIfError();
 		AddressObject addressObject = addressDoctorEngine.borrowObject();
 		AddressQueryResult result = null;
@@ -98,7 +105,6 @@ public abstract class AbstractAddressFinder {
 		} finally {
 			addressDoctorEngine.returnObject(addressObject);
 		}
-		logger.debug("RETURN: {}", sw.toString());
 		return result;
 	}
 
@@ -471,6 +477,34 @@ public abstract class AbstractAddressFinder {
 		if (!violations.isEmpty()) {
 			throw new ConstraintViolationException(new LinkedHashSet<ConstraintViolation<?>>(violations));
 		}
+	}
+	
+	protected AddressQueryResult withLogging(AddressQuery query, String xmlConfiguration, InvokedMethod method){
+		AddressQueryResult result = null;
+		try{
+			if(SecurityContextHolder.isSecurityContextSet()){
+				@SuppressWarnings("rawtypes")
+				SecurityContext context = SecurityContextHolder.get();
+				if(context instanceof RichSecurityContext){
+					RichSecurityContext richSecurityContext = (RichSecurityContext)context;
+					ApplicationProcessAccess applicationProcessAccess = richSecurityContext.getCallerApplicationProcess();
+					applicationProcessAccess.getApplicationProcessUid();
+					MDC.put("ap-uid", applicationProcessAccess.getApplicationProcessUid());
+					result = withTiming(query, xmlConfiguration, method);
+				}
+			}
+		}finally{
+			MDC.remove("ap-uid");
+		}
+		
+		return result;
+	}
+	
+	protected AddressQueryResult withTiming(AddressQuery query, String xmlConfiguration, InvokedMethod method){
+		Stopwatch sw = Stopwatch.start();
+		AddressQueryResult result = process(query,  xmlConfiguration, method);
+		logger.debug("{} Time: {}", method, sw);
+		return result;
 	}
 
 }

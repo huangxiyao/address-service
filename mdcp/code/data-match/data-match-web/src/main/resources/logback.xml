@@ -18,7 +18,7 @@
 
 	<logger name="com.hp.it.cas.match.address" level="DEBUG" />
 	<logger name="com.hp.it.cas.match.address.engine.legacy.LegacyAddressDoctorAddressAnalyzerRequestLogger" level="DEBUG" />
-	<logger name="com.hp.it.cas.match.address.engine.AddressFinderRequestLogger" level="DEBUG" />
+	<logger name="com.hp.it.cas.match.address.engine.AbstractAddressFinderRequestLogger" level="DEBUG" />
 
 	<root level="DEBUG">
 		<appender-ref ref="console" />

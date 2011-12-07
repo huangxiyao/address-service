@@ -106,7 +106,7 @@
 
 		<slf4jVersion>1.6.1</slf4jVersion>
 		<logbackVersion>0.9.28</logbackVersion>
-		<casVersion>2011.10-SNAPSHOT</casVersion>
+		<casVersion>2011.10-M1</casVersion>
 	</properties>
 
 	<dependencyManagement>
@@ -293,21 +293,8 @@
 					<docfilessubdirs>true</docfilessubdirs>
 					<detectLinks />
 				</configuration>
-				<!-- <reportSets> <reportSet> <configuration> <doclet>com.lunatech.doclets.jax.jaxrs.JAXRSDoclet</doclet> 
-					<docletArtifacts> <docletArtifact> <groupId>com.lunatech.jax-doclets</groupId> 
-					<artifactId>doclets</artifactId> <version>0.8.1</version> </docletArtifact> 
-					</docletArtifacts> <destDir>jaxrsdocs</destDir> </configuration> <reports> 
-					<report>javadoc</report> </reports> </reportSet> </reportSets> -->
-			</plugin>
 
-			<!-- Generate Sonar report link in site reports -->
-			<!-- <plugin> <groupId>org.codehaus.sonar-plugins</groupId> <artifactId>maven-report</artifactId> 
-				</plugin> -->
-			<!-- <plugin> <groupId>org.apache.maven.plugins</groupId> <artifactId>maven-changes-plugin</artifactId> 
-				<reportSets> <reportSet> <reports> <report>changes-report</report> </reports> 
-				</reportSet> </reportSets> </plugin> -->
-			<!-- <plugin> <groupId>org.apache.maven.plugins</groupId> <artifactId>maven-project-info-reports-plugin</artifactId> 
-				<version>2.3.1</version> </plugin> -->
+			</plugin>
 		</plugins>
 	</reporting>
 </project>

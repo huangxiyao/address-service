@@ -13,15 +13,17 @@ DEV-DIET configuration.
 Based on the environment configuration, the installer will symbolically link the correct
 directory.
 
-In the file below, the SWH team places an httpd.conf file.
+The following Apache configuration files must be updated in order for this bundle
+configuration to be taken into account:
 
-/opt/webhost/local/WHA-General-Inst/apache/conf
+1) /opt/webhost/local/WHA-General-Inst/apache/conf/httpd.conf
 
-In order to have these apache configuration files participate in the SWH configuration, 
-this file should include all the files in the following location:
+If not present yet append the following line to the file above:
 
-/opt/casfw/mdcp-proxy-bundle/conf.d/*.conf
+Include /opt/casfw/proxy-bundle/etc/conf.d/httpd-*.conf
 
-This is done using the "Include" directive:
+2) /opt/webhost/local/WHA-General-Inst/apache/conf/ssl.conf
 
-Include /opt/casfw/mdcp-proxy-bundle/conf.d/*.conf
+If not present yet append the following line to the file above:
+
+Include /opt/casfw/proxy-bundle/etc/conf.d/ssl-*.conf

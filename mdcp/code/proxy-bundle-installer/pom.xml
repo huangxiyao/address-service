@@ -7,7 +7,7 @@
 	</parent>
 
 	<artifactId>proxy-bundle-installer</artifactId>
-	<version>2012.02-SNAPSHOT</version>
+	<version>2012.02-M2</version>
 
 	<packaging>cdi</packaging>
 	<name>MDCP Proxy Bundle</name>
@@ -32,4 +32,10 @@
 			</plugin>
 		</plugins>
 	</build>
+
+  <scm>
+    <connection>scm:svn:http://code1.corp.hp.com/svn/120482/tags/proxy-bundle-installer-2012.02-M2</connection>
+    <developerConnection>scm:svn:https://code1.corp.hp.com/svn/120482/tags/proxy-bundle-installer-2012.02-M2</developerConnection>
+    <url>http://code1.corp.hp.com/svn/120482/tags/proxy-bundle-installer-2012.02-M2</url>
+  </scm>
 </project>

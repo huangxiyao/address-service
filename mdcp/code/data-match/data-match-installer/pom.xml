@@ -54,8 +54,7 @@
 						<artifact>
 							<groupId>com.addressdoctor</groupId>
 							<artifactId>address-engine</artifactId>
-							<!-- <version>${addressDoctorVersion}</version> -->
-							<version>5.2.7.785</version>
+							<version>${addressDoctorVersion}</version>
 							<classifier>linux-x64</classifier>
 							<type>tar.gz</type>
 						</artifact>

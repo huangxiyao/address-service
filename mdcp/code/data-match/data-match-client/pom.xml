@@ -8,7 +8,6 @@
 	</parent>
 
 	<artifactId>data-match-client</artifactId>
-  <version>2011.10-M1</version>
 
 	<name>Data match client code</name>
 	<description>Client code for the data match project is found here</description>

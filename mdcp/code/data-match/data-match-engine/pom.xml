@@ -8,7 +8,6 @@
 	</parent>
 
 	<artifactId>data-match-engine</artifactId>
-  <version>2011.10-M1</version>
 
 	<name>Data matching engine for address and other business data objects</name>
 	<description>Data matching engine for address and other business data objects</description>

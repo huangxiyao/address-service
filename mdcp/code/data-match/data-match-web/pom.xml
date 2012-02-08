@@ -9,7 +9,6 @@
 	</parent>
 
 	<artifactId>data-match-web</artifactId>
-  <version>2011.10-M1</version>
 
 	<packaging>war</packaging>
 

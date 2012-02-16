@@ -108,6 +108,9 @@ public class AddressQuery {
 	private String formattedAddressLine18;
 	private String formattedAddressLine19;
 	private String addressComplete;
+	// Santhosh TODO
+	private String preferredScript;
+	private String preferredLanguage;
 
 	/**
 	 * The complete address as one string, lines are separated by delimiters
@@ -2057,6 +2060,37 @@ public class AddressQuery {
 		return firstInvocation ? "" : ", ";
 	}
 
+	/**
+	 * TODO
+	 * 
+	 * TODO 
+	 * 
+	 * @return preferred script
+	 */
+	public String getPreferredScript() {
+		return preferredScript;
+	}
+
+	/**
+	 * TODO
+	 * 
+	 * TODO 
+	 * 
+	 * @return 
+	 */
+	public void setPreferredScript(String preferredScript) {
+		this.preferredScript = preferredScript;
+	}
+	
+	
+	public String getPreferredLanguage() {
+		return preferredLanguage;
+	}
+
+	public void setPreferredLanguage(String preferredLanguage) {
+		this.preferredLanguage = preferredLanguage;
+	}
+
 	@Override
 	public String toString() {
 		boolean firstInvocation = true;
@@ -2748,6 +2782,20 @@ public class AddressQuery {
 			builder.append("addressComplete=");
 			builder.append(addressComplete);
 		}
+		
+		if (!isNullOrEmpty(preferredScript)) {
+			builder.append(separator(firstInvocation));
+			firstInvocation = false;
+			builder.append("preferredScript=");
+			builder.append(preferredScript);
+		}		
+		
+		if (!isNullOrEmpty(preferredLanguage)) {
+			builder.append(separator(firstInvocation));
+			firstInvocation = false;
+			builder.append("preferredLanguage=");
+			builder.append(preferredLanguage);
+		}		
 
 		builder.append("]");
 		return builder.toString();

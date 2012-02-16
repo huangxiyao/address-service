@@ -1,5 +1,7 @@
 package com.hp.it.cas.match.address.engine;
 
+import static com.hp.it.cas.match.address.utilities.StringUtils.isNullOrEmpty;
+
 import java.io.IOException;
 import java.net.URL;
 import java.util.LinkedHashSet;
@@ -51,6 +53,10 @@ public abstract class AbstractAddressFinder {
 	protected String certifiedModeParametersXmlString;
 	protected String wideOptimizationModeParametersXmlString;
 	protected String interactiveModeParametersXmlString;
+	
+	private static final String DEFAULT_PREFERRED_TOKEN = "DATABASE";
+	private static final String PREFERRED_SCRIPT_TOKEN = "PreferredScript";
+	private static final String PREFERRED_LANGUAGE_TOKEN = "PreferredLanguage";
 
 	protected final boolean doValidation;
 
@@ -96,7 +102,7 @@ public abstract class AbstractAddressFinder {
 		AddressObject addressObject = addressDoctorEngine.borrowObject();
 		AddressQueryResult result = null;
 		try {
-			addressObject.setParametersXML(parmsXml, null);
+			addressObject.setParametersXML(queryParameterOverride(query, parmsXml), null);
 			mapAddressQueryToAddressObject(query, addressObject);
 			addressDoctorEngine.process(addressObject);
 			result = from(addressObject);
@@ -106,6 +112,34 @@ public abstract class AbstractAddressFinder {
 			addressDoctorEngine.returnObject(addressObject);
 		}
 		return result;
+	}
+	
+	// Requirement from CMU team post 2012.04 release.
+	// AddressDoctor ReST service should be able to accept PreferredScript and PreferredLanguage parameters.
+	// The default for PreferredScript and PreferredLanguage is "DATABASE".
+	// CMU team will do the character script determination and will pass the required values for PreferredScript and PreferredLanguage.
+	// To keep the AddressService (ReST) based as generic as possible, we will just accept and output the PreferredScript and PreferredLanguage parameters.
+	// This capability is done only to the ReST interface, SOAP is being deprecated and no changes can be done on SOAP interface as this will
+	// affect a whole lot of SAP and downstream systems.
+	// If invalid PreferredScript and PreferredLanguage parameters are passed, Address DOctor engine will default to DATABASE.
+	
+	private String queryParameterOverride(AddressQuery query, String parmsXml)
+	{
+		String preferredScript = query.getPreferredScript();
+		String preferredLanguage = query.getPreferredLanguage();
+		
+		if (!isNullOrEmpty(preferredScript) && (preferredScript != DEFAULT_PREFERRED_TOKEN)) {
+			String configured = String.format("%s=\"%s\"",PREFERRED_SCRIPT_TOKEN, DEFAULT_PREFERRED_TOKEN);
+			String override = String.format("%s=\"%s\"",PREFERRED_SCRIPT_TOKEN, preferredScript);
+			parmsXml = parmsXml.replaceAll(configured, override);
+		} 
+		
+		if (!isNullOrEmpty(preferredLanguage) && (preferredLanguage != DEFAULT_PREFERRED_TOKEN)) {
+			String configured = String.format("%s=\"%s\"",PREFERRED_LANGUAGE_TOKEN, DEFAULT_PREFERRED_TOKEN);
+			String override = String.format("%s=\"%s\"",PREFERRED_LANGUAGE_TOKEN, preferredLanguage);
+			parmsXml = parmsXml.replaceAll(configured, override);
+		} 
+		return parmsXml;
 	}
 
 	private void mapAddressQueryToAddressObject(AddressQuery query, AddressObject addressObject) throws AddressDoctorException {

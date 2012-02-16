@@ -2,8 +2,8 @@
 <Context>
     <Resource name="jdbc/SecurityDatasource"
               type="javax.sql.DataSource"
-              username="mdcp_cassec"
-              password="mdcp_cassec"
+              username="dev_mdcp_customer_service"
+              password="dev_mdcp_customer_svc_0911"
               driverClassName="oracle.jdbc.OracleDriver"
-              url="jdbc:oracle:thin:@localhost:1521:XE"/>
+              url="jdbc:oracle:thin:@(DESCRIPTION=(SDU=32768)(enable=broken)(LOAD_BALANCE=yes)(ADDRESS=(PROTOCOL=TCP)(HOST=g9u0470.houston.hp.com)(PORT=1525))(CONNECT_DATA=(SERVICE_NAME=MDCD)))"/>
 </Context>

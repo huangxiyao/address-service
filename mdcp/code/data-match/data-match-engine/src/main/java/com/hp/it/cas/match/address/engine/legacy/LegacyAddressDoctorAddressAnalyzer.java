@@ -87,7 +87,7 @@ public class LegacyAddressDoctorAddressAnalyzer {
 	 *            <li>Delivery Address Line 1</li>
 	 *            <li>Delivery Address Line 2</li>
 	 *            <li>Delivery Address Line 3</li>
-	 *            <li>Complete Locality 1: Primary place name. Typically a “province is subdivided into localities. Some
+	 *            <li>Complete Locality 1: Primary place name. Typically a "province is subdivided into localities. Some
 	 *            countries may contain yet another hierarchy level for subdividing provinces. Examples are counties in
 	 *            the US and Kreise in Germany. City is also stored here often.</li>
 	 *            <li>Complete Locality 2: Dependent place name that further subdivies a Locality. Examples are colonias
@@ -112,7 +112,7 @@ public class LegacyAddressDoctorAddressAnalyzer {
 	 *         Mahalle in Turkey.</li>
 	 *         <li>Complete Locality 2: Dependent place name that further subdivies a Locality. Examples are colonias in
 	 *         Mexico, Urbanisaciones in Spain.</li>
-	 *         <li>Complete Locality 1: Primary place name. Typically a “province is subdivided into localities. Some
+	 *         <li>Complete Locality 1: Primary place name. Typically a ï¿½province is subdivided into localities. Some
 	 *         countries may contain yet another hierarchy level for subdividing provinces. Examples are counties in the
 	 *         US and Kreise in Germany. City is also stored here often.</li>
 	 *         <li>Country Standard Province 2: Dependent province information that further subdivides a province. An
@@ -130,7 +130,7 @@ public class LegacyAddressDoctorAddressAnalyzer {
 	 *         Mahalle in Turkey.</li>
 	 *         <li>Complete Locality 2: Dependent place name that further subdivies a Locality. Examples are colonias in
 	 *         Mexico, Urbanisaciones in Spain.</li></li>
-	 *         <li>Complete Locality 1: Primary place name. Typically a “province is subdivided into localities. Some
+	 *         <li>Complete Locality 1: Primary place name. Typically a ï¿½province is subdivided into localities. Some
 	 *         countries may contain yet another hierarchy level for subdividing provinces. Examples are counties in the
 	 *         US and Kreise in Germany. City is also stored here often.</li>
 	 *         <li>Country Standard Province 1: State, province, canton, prefecture or other sub-division of a country.</li>
@@ -245,7 +245,7 @@ public class LegacyAddressDoctorAddressAnalyzer {
 	 *            Mahalle in Turkey.</li>
 	 *            <li>Complete Locality 2: Dependent place name that further subdivies a Locality. Examples are colonias
 	 *            in Mexico, Urbanisaciones in Spain.</li>
-	 *            <li>Complete Locality 1: Primary place name. Typically a “province is subdivided into localities. Some
+	 *            <li>Complete Locality 1: Primary place name. Typically a ï¿½province is subdivided into localities. Some
 	 *            countries may contain yet another hierarchy level for subdividing provinces. Examples are counties in
 	 *            the US and Kreise in Germany. City is also stored here often.</li>
 	 *            <li>Country Standard Province 2: Dependent province information that further subdivides a province. An
@@ -270,7 +270,7 @@ public class LegacyAddressDoctorAddressAnalyzer {
 	 *         Mahalle in Turkey.</li>
 	 *         <li>Complete Locality 2: Dependent place name that further subdivies a Locality. Examples are colonias in
 	 *         Mexico, Urbanisaciones in Spain.</li>
-	 *         <li>Complete Locality 1: Primary place name. Typically a “province is subdivided into localities. Some
+	 *         <li>Complete Locality 1: Primary place name. Typically a ï¿½province is subdivided into localities. Some
 	 *         countries may contain yet another hierarchy level for subdividing provinces. Examples are counties in the
 	 *         US and Kreise in Germany. City is also stored here often.</li>
 	 *         <li>Country Standard Province 2: Dependent province information that further subdivides a province. An
@@ -288,7 +288,7 @@ public class LegacyAddressDoctorAddressAnalyzer {
 	 *         Mahalle in Turkey.</li>
 	 *         <li>Complete Locality 2: Dependent place name that further subdivies a Locality. Examples are colonias in
 	 *         Mexico, Urbanisaciones in Spain.</li></li>
-	 *         <li>Complete Locality 1: Primary place name. Typically a “province is subdivided into localities. Some
+	 *         <li>Complete Locality 1: Primary place name. Typically a ï¿½province is subdivided into localities. Some
 	 *         countries may contain yet another hierarchy level for subdividing provinces. Examples are counties in the
 	 *         US and Kreise in Germany. City is also stored here often.</li>
 	 *         <li>Country Standard Province 1: State, province, canton, prefecture or other sub-division of a country.</li>

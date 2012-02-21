@@ -15,7 +15,7 @@ class ElementResultStatus {
         put("0", "empty");
         put("1", "not validated and not changed. Original is copied");
         put("2", "not validated but standardized");
-        put("3", "validated but not changed due to invalid input, database suggests that number is out of valid ranges. Input is copied, not corrected – this status value is only set in batch mode");
+        put("3", "validated but not changed due to invalid input, database suggests that number is out of valid ranges. Input is copied, not corrected - this status value is only set in batch mode");
         put("4", "validated but not changed due to lack of reference data");
         put("5", "validated but not changed due to multiple matches. Only set in batch mode, otherwise multiple suggestions that replace the input are marked as corrected (status value 7)");
         put("6", "validated and changed by eliminating the input value");

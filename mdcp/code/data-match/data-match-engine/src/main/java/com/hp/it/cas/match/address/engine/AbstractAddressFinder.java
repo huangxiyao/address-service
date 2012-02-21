@@ -35,6 +35,9 @@ import com.hp.it.cas.match.address.engine.utilities.XmlUtilities;
 import com.hp.it.cas.security.ApplicationProcessAccess;
 import com.hp.it.cas.security.RichSecurityContext;
 
+import com.hp.it.cas.match.address.engine.CharacterScript.Analysis;
+import com.hp.it.cas.match.address.engine.CharacterScript;
+
 /**
  * Address finder.
  * 
@@ -128,18 +131,28 @@ public abstract class AbstractAddressFinder {
 		String preferredScript = query.getPreferredScript();
 		String preferredLanguage = query.getPreferredLanguage();
 		
-		if (!isNullOrEmpty(preferredScript) && (preferredScript != DEFAULT_PREFERRED_TOKEN)) {
+		if (query.getCharacterScriptDetectionIndicator()){
+			preferredScript = addressDataCharacterScriptDetector(query.getAddressValues());
+		}
+		
+		if (!(isNullOrEmpty(preferredScript) || preferredScript == DEFAULT_PREFERRED_TOKEN)){
 			String configured = String.format("%s=\"%s\"",PREFERRED_SCRIPT_TOKEN, DEFAULT_PREFERRED_TOKEN);
 			String override = String.format("%s=\"%s\"",PREFERRED_SCRIPT_TOKEN, preferredScript);
 			parmsXml = parmsXml.replaceAll(configured, override);
-		} 
+		}
 		
-		if (!isNullOrEmpty(preferredLanguage) && (preferredLanguage != DEFAULT_PREFERRED_TOKEN)) {
+		if (!(isNullOrEmpty(preferredLanguage) || preferredLanguage == DEFAULT_PREFERRED_TOKEN)){
 			String configured = String.format("%s=\"%s\"",PREFERRED_LANGUAGE_TOKEN, DEFAULT_PREFERRED_TOKEN);
 			String override = String.format("%s=\"%s\"",PREFERRED_LANGUAGE_TOKEN, preferredLanguage);
 			parmsXml = parmsXml.replaceAll(configured, override);
-		} 
+		}
+
 		return parmsXml;
+	}
+	
+	private String addressDataCharacterScriptDetector(String addressInputData)
+	{
+		return addressInputData;
 	}
 
 	private void mapAddressQueryToAddressObject(AddressQuery query, AddressObject addressObject) throws AddressDoctorException {

@@ -108,9 +108,14 @@ public class AddressQuery {
 	private String formattedAddressLine18;
 	private String formattedAddressLine19;
 	private String addressComplete;
-	// Santhosh TODO
+	
+	// Santhosh preferredScript and preferredLanguage Requirement 2012.04
+	
 	private String preferredScript;
 	private String preferredLanguage;
+	private boolean characterScriptDetectionIndicator; //true or false
+	
+	// Script Determination
 
 	/**
 	 * The complete address as one string, lines are separated by delimiters
@@ -2061,9 +2066,9 @@ public class AddressQuery {
 	}
 
 	/**
-	 * TODO
+	 * Get preferredScript
 	 * 
-	 * TODO 
+	 * preferredScript 
 	 * 
 	 * @return preferred script
 	 */
@@ -2072,23 +2077,63 @@ public class AddressQuery {
 	}
 
 	/**
-	 * TODO
+	 * Set preferredScript
 	 * 
-	 * TODO 
+	 * preferred script  
 	 * 
 	 * @return 
 	 */
+	
 	public void setPreferredScript(String preferredScript) {
 		this.preferredScript = preferredScript;
 	}
 	
+	/**
+	 * Get preferredLanguage
+	 * 
+	 * preferredLanguage 
+	 * 
+	 * @return preferred language
+	 */
 	
 	public String getPreferredLanguage() {
 		return preferredLanguage;
 	}
-
+	/**
+	 * Set preferredLanguage
+	 * 
+	 * preferredLanguage
+	 * 
+	 * @return preferred language
+	 */	
+	
 	public void setPreferredLanguage(String preferredLanguage) {
 		this.preferredLanguage = preferredLanguage;
+	}
+	
+	/**
+	 * Get CharacterScriptDetectionIndicator
+	 * 
+	 * CharacterScriptDetectionIndicator
+	 * 
+	 * @return CharacterScriptDetectionIndicator
+	 */	
+
+	public boolean getCharacterScriptDetectionIndicator() {
+		return characterScriptDetectionIndicator;
+	}
+
+	/**
+	 * Set CharacterScriptDetectionIndicator
+	 * 
+	 * CharacterScriptDetectionIndicator
+	 * 
+	 * @return CharacterScriptDetectionIndicator
+	 */	
+	
+	public void setCharacterScriptDetectionIndicator(
+			boolean characterScriptDetectionIndicator) {
+		this.characterScriptDetectionIndicator = characterScriptDetectionIndicator;
 	}
 
 	@Override
@@ -2796,9 +2841,123 @@ public class AddressQuery {
 			builder.append("preferredLanguage=");
 			builder.append(preferredLanguage);
 		}		
+		
+		builder.append(separator(firstInvocation));
+		firstInvocation = false;
+		builder.append("characterScriptDetectionIndicator=");
+		builder.append(characterScriptDetectionIndicator);
+		
 
 		builder.append("]");
 		return builder.toString();
+	}
+	
+	public String getAddressValues() {
+		StringBuilder sb = new StringBuilder();
+		appendIfNotEmpty(sb, key1);
+		appendIfNotEmpty(sb, key2);
+		appendIfNotEmpty(sb, key3);
+		appendIfNotEmpty(sb, country1);
+		appendIfNotEmpty(sb, country2);
+		appendIfNotEmpty(sb, country3);
+		appendIfNotEmpty(sb, locality1);
+		appendIfNotEmpty(sb, locality2);
+		appendIfNotEmpty(sb, locality3);
+		appendIfNotEmpty(sb, locality4);
+		appendIfNotEmpty(sb, locality5);
+		appendIfNotEmpty(sb, locality6);
+		appendIfNotEmpty(sb, province1);
+		appendIfNotEmpty(sb, province2);
+		appendIfNotEmpty(sb, province3);
+		appendIfNotEmpty(sb, province4);
+		appendIfNotEmpty(sb, province5);
+		appendIfNotEmpty(sb, province6);
+		appendIfNotEmpty(sb, postalCode1);
+		appendIfNotEmpty(sb, postalCode2);
+		appendIfNotEmpty(sb, postalCode3);
+		appendIfNotEmpty(sb, street1);
+		appendIfNotEmpty(sb, street2);
+		appendIfNotEmpty(sb, street3);
+		appendIfNotEmpty(sb, street4);
+		appendIfNotEmpty(sb, street5);
+		appendIfNotEmpty(sb, street6);
+		appendIfNotEmpty(sb, number1);
+		appendIfNotEmpty(sb, number2);
+		appendIfNotEmpty(sb, number3);
+		appendIfNotEmpty(sb, number4);
+		appendIfNotEmpty(sb, number5);
+		appendIfNotEmpty(sb, number6);
+		appendIfNotEmpty(sb, building1);
+		appendIfNotEmpty(sb, building2);
+		appendIfNotEmpty(sb, building3);
+		appendIfNotEmpty(sb, building4);
+		appendIfNotEmpty(sb, building5);
+		appendIfNotEmpty(sb, building6);
+		appendIfNotEmpty(sb, subBuilding1);
+		appendIfNotEmpty(sb, subBuilding2);
+		appendIfNotEmpty(sb, subBuilding3);
+		appendIfNotEmpty(sb, subBuilding4);
+		appendIfNotEmpty(sb, subBuilding5);
+		appendIfNotEmpty(sb, subBuilding6);
+		appendIfNotEmpty(sb, deliveryService1);
+		appendIfNotEmpty(sb, deliveryService2);
+		appendIfNotEmpty(sb, deliveryService3);
+		appendIfNotEmpty(sb, deliveryService4);
+		appendIfNotEmpty(sb, deliveryService5);
+		appendIfNotEmpty(sb, deliveryService6);
+		appendIfNotEmpty(sb, organization1);
+		appendIfNotEmpty(sb, organization2);
+		appendIfNotEmpty(sb, organization3);
+		appendIfNotEmpty(sb, contact1);
+		appendIfNotEmpty(sb, contact2);
+		appendIfNotEmpty(sb, contact3);
+		appendIfNotEmpty(sb, residue1);
+		appendIfNotEmpty(sb, residue2);
+		appendIfNotEmpty(sb, residue3);
+		appendIfNotEmpty(sb, residue4);
+		appendIfNotEmpty(sb, residue5);
+		appendIfNotEmpty(sb, residue6);
+		appendIfNotEmpty(sb, recipientLine1);
+		appendIfNotEmpty(sb, recipientLine2);
+		appendIfNotEmpty(sb, recipientLine3);
+		appendIfNotEmpty(sb, deliveryAddressLine1);
+		appendIfNotEmpty(sb, deliveryAddressLine2);
+		appendIfNotEmpty(sb, deliveryAddressLine3);
+		appendIfNotEmpty(sb, deliveryAddressLine4);
+		appendIfNotEmpty(sb, deliveryAddressLine5);
+		appendIfNotEmpty(sb, deliveryAddressLine6);
+		appendIfNotEmpty(sb, countrySpecificLocalityLine1);
+		appendIfNotEmpty(sb, countrySpecificLocalityLine2);
+		appendIfNotEmpty(sb, countrySpecificLocalityLine3);
+		appendIfNotEmpty(sb, countrySpecificLocalityLine4);
+		appendIfNotEmpty(sb, countrySpecificLocalityLine5);
+		appendIfNotEmpty(sb, countrySpecificLocalityLine6);
+		appendIfNotEmpty(sb, formattedAddressLine1);
+		appendIfNotEmpty(sb, formattedAddressLine2);
+		appendIfNotEmpty(sb, formattedAddressLine3);
+		appendIfNotEmpty(sb, formattedAddressLine4);
+		appendIfNotEmpty(sb, formattedAddressLine5);
+		appendIfNotEmpty(sb, formattedAddressLine6);
+		appendIfNotEmpty(sb, formattedAddressLine7);
+		appendIfNotEmpty(sb, formattedAddressLine8);
+		appendIfNotEmpty(sb, formattedAddressLine9);
+		appendIfNotEmpty(sb, formattedAddressLine10);
+		appendIfNotEmpty(sb, formattedAddressLine11);
+		appendIfNotEmpty(sb, formattedAddressLine12);
+		appendIfNotEmpty(sb, formattedAddressLine13);
+		appendIfNotEmpty(sb, formattedAddressLine14);
+		appendIfNotEmpty(sb, formattedAddressLine15);
+		appendIfNotEmpty(sb, formattedAddressLine16);
+		appendIfNotEmpty(sb, formattedAddressLine17);
+		appendIfNotEmpty(sb, formattedAddressLine18);
+		appendIfNotEmpty(sb, formattedAddressLine19);
+		return sb.toString();
+	}
+
+	private void appendIfNotEmpty(StringBuilder sb, String value) {
+		if (value != null) {
+			sb.append(value);
+		}
 	}
 
 }

@@ -30,7 +30,7 @@ class PreferredScript {
         // TODO more mappings
     }
 
-    static String preferredScript(AddressQuery query) {
+    static String resolve(AddressQuery query) {
         AddressDoctorScript addressDoctorScript = null;
         if (query.getCharacterScriptDetectionIndicator()) {
             Map<CharacterScript, AddressDoctorScript> scriptMapping = countryScripts.get(query.getCountry1());

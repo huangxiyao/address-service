@@ -30,6 +30,8 @@ class PreferredScript {
         // TODO more mappings
     }
 
+    private PreferredScript() {}
+    
     static String resolve(AddressQuery query) {
         AddressDoctorScript addressDoctorScript = null;
         if (query.getCharacterScriptDetectionIndicator()) {

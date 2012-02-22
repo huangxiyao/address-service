@@ -22,10 +22,10 @@ class PreferredScript {
     }
     
     static {
-        map("CN", HAN, POSTAL_ADMIN_PREF);
-        map("CN", LATIN, ASCII_EXTENDED);
-        map("GR", GREEK, POSTAL_ADMIN_PREF);
-        map("GR", LATIN, ASCII_EXTENDED);
+        map("CN", HAN,      POSTAL_ADMIN_PREF);
+        map("CN", LATIN,    ASCII_EXTENDED);
+        map("GR", GREEK,    POSTAL_ADMIN_PREF);
+        map("GR", LATIN,    ASCII_EXTENDED);
         
         // TODO more mappings
     }
@@ -34,13 +34,18 @@ class PreferredScript {
     
     static String resolve(AddressQuery query) {
         AddressDoctorScript addressDoctorScript = null;
+        
         if (query.getCharacterScriptDetectionIndicator()) {
             Map<CharacterScript, AddressDoctorScript> scriptMapping = countryScripts.get(query.getCountry1());
             if (scriptMapping != null) {
                 CharacterScript detectedScript = CharacterScript.detect(query.getAddressValues());
                 addressDoctorScript = scriptMapping.get(detectedScript);
             }
+        } else if (query.getPreferredScript() != null) {
+            // throws exception if query.preferredScript is not an AddressDoctorScript
+            addressDoctorScript = AddressDoctorScript.valueOf(query.getPreferredScript());
         }
+
         return (addressDoctorScript == null ? POSTAL_ADMIN_PREF : addressDoctorScript).name();
     }
     

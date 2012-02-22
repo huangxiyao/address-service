@@ -1,10 +1,7 @@
 package com.hp.it.cas.match.address.engine;
 
-import static com.hp.it.cas.match.address.engine.CharacterScript.GREEK;
-import static com.hp.it.cas.match.address.engine.CharacterScript.HAN;
-import static com.hp.it.cas.match.address.engine.CharacterScript.LATIN;
-import static com.hp.it.cas.match.address.engine.PreferredScript.AddressDoctorScript.ASCII_EXTENDED;
-import static com.hp.it.cas.match.address.engine.PreferredScript.AddressDoctorScript.POSTAL_ADMIN_PREF;
+import static com.hp.it.cas.match.address.engine.CharacterScript.*;
+import static com.hp.it.cas.match.address.engine.PreferredScript.AddressDoctorScript.*;
 
 import java.util.HashMap;
 import java.util.Map;

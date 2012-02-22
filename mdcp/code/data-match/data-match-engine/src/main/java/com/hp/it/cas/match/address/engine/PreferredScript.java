@@ -22,16 +22,22 @@ class PreferredScript {
     }
     
     static {
-        map("CN", HAN,      POSTAL_ADMIN_PREF);
-        map("CN", LATIN,    ASCII_EXTENDED);
-        map("GR", GREEK,    POSTAL_ADMIN_PREF);
-        map("GR", LATIN,    ASCII_EXTENDED);
+        addMapping("CN", HAN,      POSTAL_ADMIN_PREF);
+        addMapping("CN", LATIN,    ASCII_EXTENDED);
+        addMapping("GR", GREEK,    POSTAL_ADMIN_PREF);
+        addMapping("GR", LATIN,    ASCII_EXTENDED);
         
         // TODO more mappings
     }
 
     private PreferredScript() {}
     
+    /**
+     * Determine the Address Doctor preferred script.
+     * @param query the query for which the preferred script is determined.
+     * @return the preferred script.
+     * @throws IllegalArgumentException if the query specifies an invalid Preferred Script.
+     */
     static String resolve(AddressQuery query) {
         AddressDoctorScript addressDoctorScript = null;
         
@@ -49,7 +55,7 @@ class PreferredScript {
         return (addressDoctorScript == null ? POSTAL_ADMIN_PREF : addressDoctorScript).name();
     }
     
-    private static void map(String countryCode, CharacterScript characterScript, AddressDoctorScript addressDoctorScript) {
+    private static void addMapping(String countryCode, CharacterScript characterScript, AddressDoctorScript addressDoctorScript) {
         Map<CharacterScript, AddressDoctorScript> scriptMapping = countryScripts.get(countryCode);
         if (scriptMapping == null) {
             scriptMapping = new HashMap<CharacterScript, AddressDoctorScript>();

@@ -128,14 +128,11 @@ public abstract class AbstractAddressFinder {
 	
 	private String queryParameterOverride(AddressQuery query, String parmsXml)
 	{
-		String preferredScript = query.getPreferredScript();
 		String preferredLanguage = query.getPreferredLanguage();
 		
-		if (query.getCharacterScriptDetectionIndicator()){
-			preferredScript = addressDataCharacterScriptDetector(query.getAddressValues());
-		}
+		String preferredScript = PreferredScript.resolve(query);
 		
-		if (!(isNullOrEmpty(preferredScript) || preferredScript == DEFAULT_PREFERRED_TOKEN)){
+		if (preferredScript != DEFAULT_PREFERRED_TOKEN){
 			String configured = String.format("%s=\"%s\"",PREFERRED_SCRIPT_TOKEN, DEFAULT_PREFERRED_TOKEN);
 			String override = String.format("%s=\"%s\"",PREFERRED_SCRIPT_TOKEN, preferredScript);
 			parmsXml = parmsXml.replaceAll(configured, override);
@@ -150,11 +147,6 @@ public abstract class AbstractAddressFinder {
 		return parmsXml;
 	}
 	
-	private String addressDataCharacterScriptDetector(String addressInputData)
-	{
-		return addressInputData;
-	}
-
 	private void mapAddressQueryToAddressObject(AddressQuery query, AddressObject addressObject) throws AddressDoctorException {
 		populateInputAddressElement(query.getBuilding1(), addressObject, "Building", "COMPLETE", 1);
 		populateInputAddressElement(query.getBuilding2(), addressObject, "Building", "COMPLETE", 2);

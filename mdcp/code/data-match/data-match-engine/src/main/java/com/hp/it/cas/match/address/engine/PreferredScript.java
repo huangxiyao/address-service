@@ -15,7 +15,8 @@ class PreferredScript {
     enum AddressDoctorScript {
         POSTAL_ADMIN_PREF,
         ASCII_EXTENDED,
-        POSTAL_ADMIN_ALT
+        POSTAL_ADMIN_ALT,
+        DATABASE
     }
     
     static {
@@ -45,8 +46,11 @@ class PreferredScript {
                 addressDoctorScript = scriptMapping.get(detectedScript);
             }
         } else if (query.getPreferredScript() != null) {
-            // throws exception if query.preferredScript is not an AddressDoctorScript
-            addressDoctorScript = AddressDoctorScript.valueOf(query.getPreferredScript());
+            try {
+				addressDoctorScript = AddressDoctorScript.valueOf(query.getPreferredScript());
+			} catch (IllegalArgumentException e) {
+				addressDoctorScript = DATABASE;
+			}
         }
 
         return (addressDoctorScript == null ? POSTAL_ADMIN_PREF : addressDoctorScript).name();

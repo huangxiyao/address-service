@@ -137,12 +137,13 @@ public abstract class AbstractAddressFinder {
 			String override = String.format("%s=\"%s\"",PREFERRED_SCRIPT_TOKEN, preferredScript);
 			parmsXml = parmsXml.replaceAll(configured, override);
 		}
-		
+		/*
 		if (!(isNullOrEmpty(preferredLanguage) || preferredLanguage == DEFAULT_PREFERRED_TOKEN)){
 			String configured = String.format("%s=\"%s\"",PREFERRED_LANGUAGE_TOKEN, DEFAULT_PREFERRED_TOKEN);
 			String override = String.format("%s=\"%s\"",PREFERRED_LANGUAGE_TOKEN, preferredLanguage);
 			parmsXml = parmsXml.replaceAll(configured, override);
 		}
+		*/
 
 		return parmsXml;
 	}

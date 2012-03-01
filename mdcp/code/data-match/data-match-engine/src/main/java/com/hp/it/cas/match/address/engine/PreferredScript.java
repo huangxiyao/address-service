@@ -16,17 +16,36 @@ class PreferredScript {
         POSTAL_ADMIN_PREF,
         ASCII_EXTENDED,
         POSTAL_ADMIN_ALT,
-        DATABASE
+        DATABASE,
+        LATIN
     }
     
     static {
         addMapping("CN", HAN,      POSTAL_ADMIN_PREF);
-        addMapping("CN", LATIN,    ASCII_EXTENDED);
-        addMapping("GR", GREEK,    POSTAL_ADMIN_PREF);
-        addMapping("GR", LATIN,    ASCII_EXTENDED);
+        addMapping("CN", CharacterScript.LATIN,    ASCII_EXTENDED);
         
-        // TODO more mappings
-    }
+        addMapping("GR", GREEK,    POSTAL_ADMIN_PREF);
+        addMapping("GR", CharacterScript.LATIN,    ASCII_EXTENDED);
+        
+        addMapping("HK", HAN,    POSTAL_ADMIN_PREF);
+        addMapping("HK", CharacterScript.LATIN,    ASCII_EXTENDED);
+        
+        addMapping("IL", HEBREW,    POSTAL_ADMIN_PREF);
+        addMapping("IL", CharacterScript.LATIN,    ASCII_EXTENDED);
+        
+        addMapping("JP", CharacterScript.JAPAN,    POSTAL_ADMIN_PREF);
+        addMapping("JP", CharacterScript.KATAKANA,    POSTAL_ADMIN_ALT);
+        addMapping("JP", CharacterScript.LATIN,    ASCII_EXTENDED);
+        
+        // addMapping("KO", ,    POSTAL_ADMIN_PREF);
+        addMapping("KO", CharacterScript.LATIN,    ASCII_EXTENDED);
+
+        addMapping("RU", CharacterScript.CYRILLIC,    POSTAL_ADMIN_PREF);
+        addMapping("RU", CharacterScript.LATIN,    ASCII_EXTENDED);
+        
+        addMapping("TW", HAN,    POSTAL_ADMIN_PREF);
+        addMapping("TW", CharacterScript.LATIN,    ASCII_EXTENDED);
+     }
 
     private PreferredScript() {}
     

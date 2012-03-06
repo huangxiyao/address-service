@@ -42,7 +42,7 @@ class PreferredScript {
         addMapping("JP", CharacterScript.LATIN,    ASCII_EXTENDED);
         addMapping("JP", null,    ASCII_EXTENDED);
         
-        // addMapping("KO", ,    POSTAL_ADMIN_PREF);
+        addMapping("KO", CharacterScript.HANGUL,    POSTAL_ADMIN_PREF);
         addMapping("KO", CharacterScript.LATIN,    ASCII_EXTENDED);
         addMapping("KO", null,    ASCII_EXTENDED);
 

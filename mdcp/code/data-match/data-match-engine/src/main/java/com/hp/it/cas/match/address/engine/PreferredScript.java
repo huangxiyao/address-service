@@ -42,9 +42,9 @@ class PreferredScript {
         addMapping("JP", CharacterScript.LATIN,    ASCII_EXTENDED);
         addMapping("JP", null,    ASCII_EXTENDED);
         
-        addMapping("KO", CharacterScript.HANGUL,    POSTAL_ADMIN_PREF);
-        addMapping("KO", CharacterScript.LATIN,    ASCII_EXTENDED);
-        addMapping("KO", null,    ASCII_EXTENDED);
+        addMapping("KR", CharacterScript.HANGUL,    POSTAL_ADMIN_PREF);
+        addMapping("KR", CharacterScript.LATIN,    ASCII_EXTENDED);
+        addMapping("KR", null,    ASCII_EXTENDED);
 
         addMapping("RU", CharacterScript.CYRILLIC,    POSTAL_ADMIN_PREF);
         addMapping("RU", CharacterScript.LATIN,    ASCII_EXTENDED);

@@ -29,6 +29,7 @@ class PreferredScript {
         addMapping("GR", CharacterScript.LATIN,    ASCII_EXTENDED);
         addMapping("GR", null,    ASCII_EXTENDED);
         
+        /*
         addMapping("HK", HAN,    POSTAL_ADMIN_PREF);
         addMapping("HK", CharacterScript.LATIN,    ASCII_EXTENDED);
         addMapping("HK", null,    ASCII_EXTENDED);
@@ -42,17 +43,17 @@ class PreferredScript {
         addMapping("JP", CharacterScript.LATIN,    ASCII_EXTENDED);
         addMapping("JP", null,    ASCII_EXTENDED);
         
+        addMapping("TW", HAN,    POSTAL_ADMIN_PREF);
+        addMapping("TW", CharacterScript.LATIN,    ASCII_EXTENDED);
+        addMapping("TW", null,    ASCII_EXTENDED);
+        
         addMapping("KR", CharacterScript.HANGUL,    POSTAL_ADMIN_PREF);
         addMapping("KR", CharacterScript.LATIN,    ASCII_EXTENDED);
-        addMapping("KR", null,    ASCII_EXTENDED);
+        addMapping("KR", null,    ASCII_EXTENDED);*/
 
         addMapping("RU", CharacterScript.CYRILLIC,    POSTAL_ADMIN_PREF);
         addMapping("RU", CharacterScript.LATIN,    ASCII_EXTENDED);
         addMapping("RU", null,    ASCII_EXTENDED);
-        
-        addMapping("TW", HAN,    POSTAL_ADMIN_PREF);
-        addMapping("TW", CharacterScript.LATIN,    ASCII_EXTENDED);
-        addMapping("TW", null,    ASCII_EXTENDED);
      }
 
     private PreferredScript() {}

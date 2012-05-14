@@ -33,6 +33,7 @@ class PreferredScript {
         addMapping("JP", CharacterScript.KATAKANA,    POSTAL_ADMIN_ALT);
         addMapping("JP", CharacterScript.LATIN,    ASCII_EXTENDED);
         addMapping("JP", null,    ASCII_EXTENDED);
+        addMapping("JP", CharacterScript.HAN,      POSTAL_ADMIN_PREF);
         
         /*
         addMapping("HK", HAN,    POSTAL_ADMIN_PREF);

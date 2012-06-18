@@ -7,7 +7,7 @@
 	</parent>
 
 	<artifactId>data-match-installer</artifactId>
-	<version>2012.07-SNAPSHOT</version>
+	<version>2012.07-M2</version>
 
 	<packaging>cdi</packaging>
 
@@ -65,8 +65,8 @@
 	</build>
 
   <scm>
-    <connection>scm:svn:https://code1.corp.hp.com/svn/120482/trunk/mdcp/code/data-match/data-match-installer</connection>
-    <developerConnection>scm:svn:https://code1.corp.hp.com/svn/120482/trunk/mdcp/code/data-match/data-match-installer</developerConnection>
-    <url>https://code1.corp.hp.com/svn/120482/trunk/mdcp/code/data-match/data-match-installer</url>
+    <connection>scm:svn:https://code1.corp.hp.com/svn/120482/tags/data-match-installer-2012.07-M2</connection>
+    <developerConnection>scm:svn:https://code1.corp.hp.com/svn/120482/tags/data-match-installer-2012.07-M2</developerConnection>
+    <url>https://code1.corp.hp.com/svn/120482/tags/data-match-installer-2012.07-M2</url>
   </scm>
 </project>

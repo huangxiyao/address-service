@@ -10,7 +10,6 @@ import org.junit.Test;
 import com.hp.it.cas.match.address.engine.AddressDoctorEngine;
 import com.hp.it.cas.match.address.engine.ValidatedAddressFinderImpl;
 
-@Ignore
 public class AddressFinderTest {
 	private static AddressDoctorEngine engine;
 	private ValidatedAddressFinder finder;
@@ -38,10 +37,10 @@ public class AddressFinderTest {
 	@Test
 	public void testFindAddressUsingQuery() {
 		AddressQuery query = new AddressQuery();
-		query.setDeliveryAddressLine1("Riverhaven Drive");
-		query.setLocality1("Suwanee");
-		query.setProvince1("GA");
-		query.setPostalCode1("30024");
+		query.setDeliveryAddressLine1("12410 TAYLORWOOD LN");
+		query.setLocality1("Houston");
+		query.setProvince1("TX");
+		query.setPostalCode1("77070");
 		query.setCountry1("US");
 		System.out.println(finder.find(query));
 	}

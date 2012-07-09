@@ -158,9 +158,16 @@
 					</tr>
 					<tr>
 						<td>countrySpecificLocalityLine1/2/3/4/5/6</td>
-						<td>745 Riverhaven Drive</td>
-						<td>TODO Don't have a very good definition of address lines.
-							Maximum 6 values.</td>
+						<td>SUWANEE GA 30024-4240</td>
+						<td>Country Specific Locality Line may contain:<br/> 
+This line will vary depending on the country and it typically the last line on a printed mailing label
+<ul>
+	<li>Province</li>
+	<li>Locality</li>
+	<li>Postal Code.</li></ul>
+	Maximum 6 values.
+
+</td>
 					</tr>
 					<tr>
 						<td>street1/2/3/4/5/6</td>
@@ -181,9 +188,16 @@
 					</tr>
 					<tr>
 						<td>deliveryAddressLine1/2/3/4/5/6</td>
-						<td>745 Riverhaven Drive</td>
-						<td>TODO Don't have a very good definition of address lines.
-							Maximum 6 values.</td>
+						<td>745 RIVERHAVEN DR</td>
+						<td>The delivery address.
+						Delivery Address Lines may contain: <br/> 
+    Typically the lines above the Country Specific Locality Line on a printed mailing label
+    <ul>
+    <li>SubBuilding / Building</li>
+    <li>Delivery Service / PO Box </li>
+    <li>Street Name and House Number. </li>	</ul> 
+	Maximum 6 values.
+						</td>
 					</tr>
 					<tr>
 						<td>deliveryService1/2/3/4/5/6</td>
@@ -193,8 +207,9 @@
 					</tr>
 					<tr>
 						<td>formattedAddressLine1/2/3/4/5/6/7/8/9/10/11/12/13/14/15/16/17/18/19</td>
-						<td>745 Riverhaven Drive</td>
-						<td>TODO Don't have a very good definition of address lines.
+						<td>745 RIVERHAVEN DR<br/> SUWANEE GA 30024-4240</td>
+						<td> Returns the processed data according to the country specific formatting rules.It may contain any relevant address information, as it were to be printed on a mailing label.
+						May only be combined with the Country field, using any other fields may cause undesired results.
 							Maximum 19 values.</td>
 					</tr>
 					<tr>
@@ -210,8 +225,8 @@
 					</tr>
 					<tr>
 						<td>recipientLine1/2/3</td>
-						<td>745 Riverhaven Drive</td>
-						<td>TODO Don't have a very good definition of address lines.
+						<td></td>
+						<td>Someone who receives the mail.
 							Maximum 3 values.</td>
 					</tr>
 					<tr>

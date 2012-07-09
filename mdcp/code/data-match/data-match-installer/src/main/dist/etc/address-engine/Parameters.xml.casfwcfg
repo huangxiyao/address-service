@@ -8,7 +8,7 @@
     <DeliveryAddressLine MaxItemCount="3"/>
     <Locality MaxItemCount="3"/>
     <PostalCode MaxItemCount="1"/>
-    <Province MaxItemCount="1"/>
+    <Province MaxItemCount="2"/>
     <Street MaxItemCount="1"/>
     <Number MaxItemCount="1"/>
     <Building MaxItemCount="1"/>

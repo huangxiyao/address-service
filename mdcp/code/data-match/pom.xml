@@ -4,7 +4,7 @@
 	<parent>
 		<artifactId>mdcp-parent</artifactId>
 		<groupId>com.hp.it.120482</groupId>
-		<version>2012.08-SNAPSHOT</version>
+		<version>2012.07</version>
 	</parent>
 
 	<artifactId>data-match</artifactId>
@@ -23,7 +23,7 @@
 	<properties>
 		<junitVersion>4.5</junitVersion>
 		<springVersion>2.5.6</springVersion>
-		<addressDoctorVersion>5.2.9.19237</addressDoctorVersion>
+		<addressDoctorVersion>5.2.7.791</addressDoctorVersion>
 		<javaVersion>1.6</javaVersion>
 		<hamcrestVersion>1.1</hamcrestVersion>
 		<jmockVersion>2.5.1</jmockVersion>

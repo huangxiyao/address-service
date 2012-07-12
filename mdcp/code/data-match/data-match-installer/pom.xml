@@ -14,7 +14,7 @@
 	<properties>
 		<project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
 		<apacheTomcatVersion>6.0.32</apacheTomcatVersion>
-		<oracleJavaVersion>1.6.0_24</oracleJavaVersion>
+		<oracleJavaVersion>1.6.0_33</oracleJavaVersion>
 		<scmRevision>UNDEFINED</scmRevision>
 	</properties>
 

@@ -53,7 +53,7 @@
 			</dependency>
 
 			<dependency>
-				<groupId>addressdoctor</groupId>
+				<groupId>com.addressdoctor</groupId>
 				<artifactId>addressdoctor</artifactId>
 				<version>${addressDoctorVersion}</version>
 			</dependency>

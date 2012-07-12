@@ -56,6 +56,7 @@
 				<groupId>com.addressdoctor</groupId>
 				<artifactId>addressdoctor</artifactId>
 				<version>${addressDoctorVersion}</version>
+				<type>tar.gz</type>
 			</dependency>
 
 			<dependency>

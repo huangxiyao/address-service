@@ -16,9 +16,7 @@
 
 		<dependency>
 			<groupId>com.addressdoctor</groupId>
-			<artifactId>address-engine</artifactId>
-			<type>tar.gz</type>
-			<classifier>linux-x64</classifier>
+			<artifactId>addressdoctor</artifactId>
 		</dependency>
 
 		<dependency>

@@ -17,7 +17,6 @@
 		<dependency>
 			<groupId>com.addressdoctor</groupId>
 			<artifactId>addressdoctor</artifactId>
-			<type>tar.gz</type>
 		</dependency>
 
 		<dependency>

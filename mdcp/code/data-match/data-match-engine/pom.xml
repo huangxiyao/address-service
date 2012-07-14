@@ -17,6 +17,8 @@
 		<dependency>
 			<groupId>com.addressdoctor</groupId>
 			<artifactId>addressdoctor</artifactId>
+			<type>tar.gz</type>
+			<classifier>linux-x64</classifier>
 		</dependency>
 
 		<dependency>

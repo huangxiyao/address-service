@@ -57,7 +57,7 @@
 				<artifactId>address-engine</artifactId>
 				<version>${addressDoctorVersion}</version>
 				<type>tar.gz</type>
-				<classifier>linux-z64</classifier>
+				<classifier>linux-x64</classifier>
 			</dependency>
 
 			<dependency>

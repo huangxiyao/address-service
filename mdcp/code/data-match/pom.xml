@@ -54,8 +54,10 @@
 
 			<dependency>
 				<groupId>com.addressdoctor</groupId>
-				<artifactId>addressdoctor</artifactId>
+				<artifactId>address-engine</artifactId>
 				<version>${addressDoctorVersion}</version>
+				<type>tar.gz</type>
+				<classifier>linux-z64</classifier>
 			</dependency>
 
 			<dependency>

@@ -9,7 +9,7 @@ if [[ ! -d ${CASFW_HOME_CURRENT} ]]; then
 fi
 # Create the symbol link pointing to the current installer
 ln -sf ${CASFW_HOME} ${CASFW_HOME_CURRENT}/data-match
-# Create init.d folder under ${CASFW_HOME}/etc
+# Create init.d folder under ${CASFW_HOME}
 mkdir -p ${CASFW_HOME}/init.d
 # Create the symbol link pointing to the actual shell script
 ln -sf ${CASFW_HOME}/bin/tomcat-ad.sh ${CASFW_HOME}/init.d/tomcat-ad.sh

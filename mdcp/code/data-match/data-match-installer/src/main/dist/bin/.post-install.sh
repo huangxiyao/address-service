@@ -1,6 +1,19 @@
 #!/bin/sh
 CASFW_HOME="$(cd "$(dirname "$0")/.." && pwd)"
 
+#hai-bo.nie@hp.com
+# Create /opt/casfw/current folder if it doesn't exist
+CASFW_HOME_CURRENT="/opt/casfw/current"
+if [[ ! -d ${CASFW_HOME_CURRENT} ]]; then
+	mkdir -p ${CASFW_HOME_CURRENT}
+fi
+# Create the symbol link pointing to the current installer
+ln -sf ${CASFW_HOME} ${CASFW_HOME_CURRENT}/data-match
+# Create init.d folder under ${CASFW_HOME}/etc
+mkdir -p ${CASFW_HOME}/init.d
+# Create the symbol link pointing to the actual shell script
+ln -sf ${CASFW_HOME}/bin/tomcat-ad.sh ${CASFW_HOME}/init.d/tomcat-ad.sh
+
 #Must limit jxmremote.* files to read only for the casfw user
 chmod 600 ${CASFW_HOME}/etc/tomcat-ad/conf/jmxremote.password
 chmod 600 ${CASFW_HOME}/etc/tomcat-ad/conf/jmxremote.access

@@ -170,7 +170,7 @@ public abstract class AbstractAddressFinderRestProxy extends StandardResponseJso
 		add(parameters, "subBuilding6", query.getSubBuilding6());
 		add(parameters, "preferredScript",query.getPreferredScript());
 		add(parameters, "preferredLanguage",query.getPreferredLanguage());
-		add(parameters, "characterScriptDetectionIndicator", query.getCharacterScriptDetectionIndicator());
+		add(parameters, "characterScriptDetectionIndicator", query.getCharacterScriptDetectionIndicator() ? "true" : "false");
 		return parameters;
 	}
 

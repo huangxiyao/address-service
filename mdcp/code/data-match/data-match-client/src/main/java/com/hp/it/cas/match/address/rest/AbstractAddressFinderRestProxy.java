@@ -242,6 +242,7 @@ public abstract class AbstractAddressFinderRestProxy extends StandardResponseJso
 				populateAddressElement((List<Object>) jsonResultMap.get("locality"), addressData.getLocalities());
 				populateAddressElement((List<Object>) jsonResultMap.get("postalCode"), addressData.getPostalCodes());
 				populateAddressElement((List<Object>) jsonResultMap.get("province"), addressData.getProvinces());
+				populateAddressElement((List<Object>) jsonResultMap.get("subProvince"), addressData.getSubProvinces());
 				populateAddressElement((List<Object>) jsonResultMap.get("street"), addressData.getStreets());
 				populateAddressElement((List<Object>) jsonResultMap.get("number"), addressData.getNumbers());
 				populateAddressElement((List<Object>) jsonResultMap.get("building"), addressData.getBuildings());

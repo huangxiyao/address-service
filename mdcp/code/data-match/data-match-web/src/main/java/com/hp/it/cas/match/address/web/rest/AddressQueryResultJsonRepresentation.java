@@ -80,6 +80,12 @@ class AddressQueryResultJsonRepresentation extends StandardResponseJsonRepresent
 		}
 		arrayWriter.endArray();
 		
+		arrayWriter = objectWriter.name("subProvince").array();
+		for(AddressElement element: result.getSubProvinces()){
+			writeAddressElement(arrayWriter, element);
+		}
+		arrayWriter.endArray();
+		
 		arrayWriter = objectWriter.name("street").array();
 		for(AddressElement element: result.getStreets()){
 			writeAddressElement(arrayWriter, element);

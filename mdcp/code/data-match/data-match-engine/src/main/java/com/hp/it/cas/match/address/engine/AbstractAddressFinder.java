@@ -435,9 +435,15 @@ public abstract class AbstractAddressFinder {
 			token = "Province";
 			int numProvinces = addressObject.getResultAddressElementItemCount(resultIndex + 1, token);
 			for (int index = 0; index < numProvinces; index++) {
-				addAddressElement(addressObject.getResultAddressElement(resultIndex + 1, token, index + 1, "ABBREVIATION"), "ABBREVIATION", addressData.getProvinces());
-				addAddressElement(addressObject.getResultAddressElement(resultIndex + 1, token, index + 1, "COUNTRY_STANDARD"), "COUNTRY_STANDARD", addressData.getProvinces());
-				addAddressElement(addressObject.getResultAddressElement(resultIndex + 1, token, index + 1, "EXTENDED"), "EXTENDED", addressData.getProvinces());
+				if (index == 0) {
+					addAddressElement(addressObject.getResultAddressElement(resultIndex + 1, token, index + 1, "ABBREVIATION"), "ABBREVIATION", addressData.getProvinces());
+					addAddressElement(addressObject.getResultAddressElement(resultIndex + 1, token, index + 1, "COUNTRY_STANDARD"), "COUNTRY_STANDARD", addressData.getProvinces());
+					addAddressElement(addressObject.getResultAddressElement(resultIndex + 1, token, index + 1, "EXTENDED"), "EXTENDED", addressData.getProvinces());
+				} else {
+					addAddressElement(addressObject.getResultAddressElement(resultIndex + 1, token, index + 1, "ABBREVIATION"), "ABBREVIATION", addressData.getSubProvinces());
+					addAddressElement(addressObject.getResultAddressElement(resultIndex + 1, token, index + 1, "COUNTRY_STANDARD"), "COUNTRY_STANDARD", addressData.getSubProvinces());
+					addAddressElement(addressObject.getResultAddressElement(resultIndex + 1, token, index + 1, "EXTENDED"), "EXTENDED", addressData.getSubProvinces());
+				}
 			}
 
 			token = "Key";

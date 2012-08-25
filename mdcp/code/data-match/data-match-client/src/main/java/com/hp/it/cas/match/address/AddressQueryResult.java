@@ -173,6 +173,7 @@ public class AddressQueryResult {
 		private List<AddressElement> localities = new ArrayList<AddressElement>(); // locality
 		private List<AddressElement> postalCodes = new ArrayList<AddressElement>(); // postalCode
 		private List<AddressElement> provinces = new ArrayList<AddressElement>(); // province
+		private List<AddressElement> subProvinces = new ArrayList<AddressElement>(); // sub province
 		private List<AddressElement> streets = new ArrayList<AddressElement>(); // street
 		private List<AddressElement> numbers = new ArrayList<AddressElement>(); // number
 		private List<AddressElement> buildings = new ArrayList<AddressElement>();
@@ -916,6 +917,14 @@ public class AddressQueryResult {
 		 */
 		public void setProvinces(List<AddressElement> provinces) {
 			this.provinces = provinces;
+		}
+		
+		public List<AddressElement> getSubProvinces() {
+			return subProvinces;
+		}
+		
+		public void setSubProvinces(List<AddressElement> subProvinces) {
+			this.subProvinces = subProvinces;
 		}
 
 		/**

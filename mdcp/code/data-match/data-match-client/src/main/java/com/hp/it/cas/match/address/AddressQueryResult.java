@@ -915,14 +915,38 @@ public class AddressQueryResult {
 		 * @param provinces
 		 *            the country subdivision address elements
 		 */
+		
 		public void setProvinces(List<AddressElement> provinces) {
 			this.provinces = provinces;
 		}
+		
+		/**
+		 * Gets the county subProvince address elements. Possible address element types are:
+		 * 
+		 * <ul>
+		 * <li>COUNTRY_STANDARD</li>
+		 * <li>ABBREVIATION</li>
+		 * <li>EXTENDED</li>
+		 * </ul>
+		 * 
+		 * COUNTRY_STANDARD contains the regionally accepted province name, while
+		 * ABBREVIATION may provide a more concise form (where available).
+		 * EXTENDED may provide an alternative name, where available as part of the reference data
+		 * 
+		 * @return the country subdivision address elements
+		 */
 		
 		public List<AddressElement> getSubProvinces() {
 			return subProvinces;
 		}
 		
+		/**
+		 * Sets the county sunProvince address elements
+		 * 
+		 * @param subProvinces
+		 *            the county subdivision address elements
+		 */
+				
 		public void setSubProvinces(List<AddressElement> subProvinces) {
 			this.subProvinces = subProvinces;
 		}

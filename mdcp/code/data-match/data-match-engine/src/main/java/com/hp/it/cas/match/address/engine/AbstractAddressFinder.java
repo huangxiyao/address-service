@@ -101,9 +101,8 @@ public abstract class AbstractAddressFinder {
 
 	protected AddressQueryResult process(AddressQuery query, String parmsXml, InvokedMethod method) {
 		Stopwatch sw = Stopwatch.start();
-		requestLogger.debug("ENTRY");
-		requestLogger.debug("METHOD '{}'", method);
-		requestLogger.debug("QUERY '{}'", query);
+		requestLogger.trace("ENTRY");
+		requestLogger.trace("METHOD '{}'", method);
 		new Verifier().isNotNull(query, "AddressQuery must not be null.").throwIfError();
 		AddressObject addressObject = addressDoctorEngine.borrowObject();
 		try {
@@ -115,7 +114,7 @@ public abstract class AbstractAddressFinder {
 			throw new RuntimeException(e);
 		} finally {
 			addressDoctorEngine.returnObject(addressObject);
-			requestLogger.debug("RETURN {}", sw);
+			requestLogger.debug("RETURN {}, '{}'", sw, query);
 		}
 	}
 	

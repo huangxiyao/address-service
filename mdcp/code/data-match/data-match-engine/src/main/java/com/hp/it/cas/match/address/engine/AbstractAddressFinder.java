@@ -14,6 +14,7 @@ import javax.xml.parsers.DocumentBuilder;
 import javax.xml.parsers.DocumentBuilderFactory;
 import javax.xml.parsers.ParserConfigurationException;
 
+import org.apache.commons.lang3.time.StopWatch;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.slf4j.MDC;
@@ -99,22 +100,22 @@ public abstract class AbstractAddressFinder {
 
 
 	protected AddressQueryResult process(AddressQuery query, String parmsXml, InvokedMethod method) {
-		logger.debug("{} ENTRY", method);
+		Stopwatch sw = Stopwatch.start();
+		logger.debug("ENTRY {}", method);
 		requestLogger.debug("{} {}", method, query);
 		new Verifier().isNotNull(query, "AddressQuery must not be null.").throwIfError();
 		AddressObject addressObject = addressDoctorEngine.borrowObject();
-		AddressQueryResult result = null;
 		try {
 			addressObject.setParametersXML(queryParameterOverride(query, parmsXml), null);
 			mapAddressQueryToAddressObject(query, addressObject);
 			addressDoctorEngine.process(addressObject);
-			result = from(addressObject);
+			return from(addressObject);
 		} catch (AddressDoctorException e) {
 			throw new RuntimeException(e);
 		} finally {
 			addressDoctorEngine.returnObject(addressObject);
+			logger.debug("RETURN {}, {}",sw,method);
 		}
-		return result;
 	}
 	
 	// Requirement from CMU team post 2012.04 release.

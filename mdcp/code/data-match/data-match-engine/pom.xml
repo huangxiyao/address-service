@@ -97,6 +97,10 @@
 			<scope>compile</scope>
 		</dependency>
 		
+		<dependency>
+			<groupId>com.hp.it.118361</groupId>
+			<artifactId>foundation</artifactId>
+		</dependency>
 	</dependencies>
 	
 	<build>

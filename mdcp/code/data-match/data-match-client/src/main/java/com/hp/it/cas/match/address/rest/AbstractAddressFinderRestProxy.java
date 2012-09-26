@@ -14,6 +14,9 @@ import java.util.Set;
 import javax.validation.ConstraintViolation;
 import javax.validation.ConstraintViolationException;
 
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+
 import com.hp.it.cas.foundation.json.JsonParser;
 import com.hp.it.cas.foundation.json.JsonReader;
 import com.hp.it.cas.foundation.message.LocalizationContext;
@@ -26,6 +29,7 @@ import com.hp.it.cas.foundation.message.MessageSourceMessageInterpolator;
 import com.hp.it.cas.foundation.message.ResourceBundleMessageSource;
 import com.hp.it.cas.foundation.serial.StandardResponse;
 import com.hp.it.cas.foundation.serial.StandardResponseJsonReader;
+import com.hp.it.cas.foundation.util.Stopwatch;
 import com.hp.it.cas.foundation.validation.ConstraintViolationContext;
 import com.hp.it.cas.foundation.validation.Verifier;
 import com.hp.it.cas.foundation.web.JsonHttpClient;
@@ -33,6 +37,7 @@ import com.hp.it.cas.match.address.AddressElement;
 import com.hp.it.cas.match.address.AddressQuery;
 import com.hp.it.cas.match.address.AddressQueryResult;
 import com.hp.it.cas.match.address.AddressQueryResult.AddressData;
+import com.hp.it.cas.match.address.engine.AbstractAddressFinder;
 import com.hp.it.cas.match.address.AddressQueryValidator;
 
 /**
@@ -49,6 +54,7 @@ public abstract class AbstractAddressFinderRestProxy extends StandardResponseJso
 	private final String[] MESSAGES = { "com.hp.it.cas.match.address.messages" };
 	private final AddressQueryValidator validator = new AddressQueryValidator();
 	protected final URL SERVICE_URL;
+	protected final Logger logger = LoggerFactory.getLogger(AbstractAddressFinderRestProxy.class);
 
 	/**
 	 * Construct an address finder rest proxy with a URL.
@@ -301,6 +307,8 @@ public abstract class AbstractAddressFinderRestProxy extends StandardResponseJso
 	}
 
 	protected AddressQueryResult processRequest(AddressQuery query, URL endpoint) {
+		Stopwatch sw = Stopwatch.start();
+		logger.debug("ENTRY {}", "processRequest");
 		new Verifier().isNotNull(query, "Input must not be null").throwIfError();
 		JsonParser parser;
 		AddressQueryResult content = null;
@@ -313,6 +321,7 @@ public abstract class AbstractAddressFinderRestProxy extends StandardResponseJso
 				content = response.getContent();
 			} finally {
 				parser.close();
+				logger.debug("RETURN {}, {}",sw,"processRequest");
 			}
 		} catch (IOException ioException) {
 			throw new IllegalStateException("Error with backend service.", ioException);

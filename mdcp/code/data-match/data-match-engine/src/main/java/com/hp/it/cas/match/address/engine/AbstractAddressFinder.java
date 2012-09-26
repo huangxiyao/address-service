@@ -48,6 +48,7 @@ import com.hp.it.cas.match.address.engine.CharacterScript;
 public abstract class AbstractAddressFinder {
 	protected AddressDoctorEngine addressDoctorEngine;
 	protected DocumentBuilderFactory documentBuilderFactory = DocumentBuilderFactory.newInstance();
+	protected final Logger logger = LoggerFactory.getLogger(AbstractAddressFinder.class);
 	protected final Logger requestLogger = LoggerFactory.getLogger(AbstractAddressFinder.class.getName() + "RequestLogger");
 
 	protected final AddressQueryValidator validator = new AddressQueryValidator();

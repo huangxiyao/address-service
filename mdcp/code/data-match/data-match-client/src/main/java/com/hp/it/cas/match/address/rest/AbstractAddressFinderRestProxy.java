@@ -37,7 +37,7 @@ import com.hp.it.cas.match.address.AddressElement;
 import com.hp.it.cas.match.address.AddressQuery;
 import com.hp.it.cas.match.address.AddressQueryResult;
 import com.hp.it.cas.match.address.AddressQueryResult.AddressData;
-import com.hp.it.cas.match.address.engine.AbstractAddressFinder;
+//import com.hp.it.cas.match.address.engine.AbstractAddressFinder;
 import com.hp.it.cas.match.address.AddressQueryValidator;
 
 /**

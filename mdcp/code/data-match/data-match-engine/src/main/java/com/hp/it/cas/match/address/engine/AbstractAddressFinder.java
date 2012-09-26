@@ -48,7 +48,6 @@ import com.hp.it.cas.match.address.engine.CharacterScript;
 public abstract class AbstractAddressFinder {
 	protected AddressDoctorEngine addressDoctorEngine;
 	protected DocumentBuilderFactory documentBuilderFactory = DocumentBuilderFactory.newInstance();
-	protected final Logger logger = LoggerFactory.getLogger(AbstractAddressFinder.class);
 	protected final Logger requestLogger = LoggerFactory.getLogger(AbstractAddressFinder.class.getName() + "RequestLogger");
 
 	protected final AddressQueryValidator validator = new AddressQueryValidator();
@@ -101,8 +100,9 @@ public abstract class AbstractAddressFinder {
 
 	protected AddressQueryResult process(AddressQuery query, String parmsXml, InvokedMethod method) {
 		Stopwatch sw = Stopwatch.start();
-		logger.debug("ENTRY {}", method);
-		requestLogger.debug("{} {}", method, query);
+		requestLogger.debug("ENTRY");
+		requestLogger.debug("METHOD '{}'", method);
+		requestLogger.debug("QUERY '{}'", query);
 		new Verifier().isNotNull(query, "AddressQuery must not be null.").throwIfError();
 		AddressObject addressObject = addressDoctorEngine.borrowObject();
 		try {
@@ -114,7 +114,7 @@ public abstract class AbstractAddressFinder {
 			throw new RuntimeException(e);
 		} finally {
 			addressDoctorEngine.returnObject(addressObject);
-			logger.debug("RETURN {}, {}",sw,method);
+			requestLogger.debug("RETURN {}", sw);
 		}
 	}
 	

@@ -37,12 +37,18 @@ public abstract class AbstractAddressResource {
 	}
 	
 	Response handle(Exception exception, MessageContext messageContext){
-		messageContext.buildMessageWithTemplate(exception.getMessage()).addError();
+		messageContext.buildMessageWithTemplate(exceptionMessage(exception)).addError();
 		return Response.status(Response.Status.INTERNAL_SERVER_ERROR)
 			.entity(new MessageContextJsonRepresentation(messageContext))
 			.build();
 	}
 	
+    private String exceptionMessage(Throwable throwable) {
+        String message = null;
+        for (Throwable t = throwable; t != null && message == null; message = t.getMessage(), t = t.getCause());
+        return message == null ? throwable.getClass().getSimpleName() : message;
+    }
+    
 	void configureLocalization(Request request, List<Variant> variants, MessageInterpolator messageInterpolator){
 		Variant variant = request.selectVariant(variants);
 		Locale locale = variant == null ? null : variant.getLanguage();

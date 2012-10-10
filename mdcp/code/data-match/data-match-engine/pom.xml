@@ -4,7 +4,7 @@
 	<parent>
 		<artifactId>data-match</artifactId>
 		<groupId>com.hp.it.120482</groupId>
-		<version>2012.10-SNAPSHOT</version>
+		<version>2012.10-M2</version>
 	</parent>
 
 	<artifactId>data-match-engine</artifactId>

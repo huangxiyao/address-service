@@ -4,7 +4,7 @@
 	<parent>
 		<artifactId>mdcp-parent</artifactId>
 		<groupId>com.hp.it.120482</groupId>
-		<version>2012.10-M3</version>
+		<version>2012.10-SNAPSHOT</version>
 	</parent>
 
 	<artifactId>data-match</artifactId>

@@ -4,7 +4,7 @@
 
 	<groupId>com.hp.it.120482</groupId>
 	<artifactId>mdcp-parent</artifactId>
-	<version>2012.11-SNAPSHOT</version>
+	<version>2013.11-SNAPSHOT</version>
 	<packaging>pom</packaging>
 
 	<name>MDCP top-level POM</name>
@@ -105,7 +105,7 @@
 
 		<slf4jVersion>1.6.1</slf4jVersion>
 		<logbackVersion>0.9.28</logbackVersion>
-		<casVersion>2012.10</casVersion>
+		<casVersion>2012.10.1</casVersion>
 	</properties>
 
 	<dependencyManagement>

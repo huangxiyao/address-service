@@ -101,7 +101,7 @@ public abstract class AbstractAddressFinder {
 
 	protected AddressQueryResult process(AddressQuery query, String parmsXml, InvokedMethod method) {
 		Stopwatch sw = Stopwatch.start();
-		requestLogger.trace("ENTRY");
+		requestLogger.debug("ENTRY {}", query);
 		requestLogger.trace("METHOD '{}'", method);
 		new Verifier().isNotNull(query, "AddressQuery must not be null.").throwIfError();
 		AddressObject addressObject = addressDoctorEngine.borrowObject();

@@ -23,7 +23,7 @@
 	<properties>
 		<junitVersion>4.5</junitVersion>
 		<springVersion>2.5.6</springVersion>
-		<addressDoctorVersion>5.2.9.192</addressDoctorVersion>
+		<addressDoctorVersion>5.3.0</addressDoctorVersion>
 		<javaVersion>1.6</javaVersion>
 		<hamcrestVersion>1.1</hamcrestVersion>
 		<jmockVersion>2.5.1</jmockVersion>

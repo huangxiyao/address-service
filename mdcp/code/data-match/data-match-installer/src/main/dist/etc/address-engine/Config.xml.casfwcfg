@@ -6,4 +6,6 @@
   <UnlockCode>@@ad_unlock_code_future@@</UnlockCode>
   <DataBase CountryISO3="ALL" Path="@@ad_db_path@@" PreloadingType="@@ad_preloading_type@@" Type="CERTIFIED"/>
   <DataBase CountryISO3="ALL" Path="@@ad_db_path@@" PreloadingType="@@ad_preloading_type@@" Type="BATCH_INTERACTIVE"/>
+  <DataBase CountryISO3="ALL" Path="@@ad_db_path@@" PreloadingType="@@ad_preloading_type@@" Type="FASTCOMPLETION"/>
 </SetConfig>
+

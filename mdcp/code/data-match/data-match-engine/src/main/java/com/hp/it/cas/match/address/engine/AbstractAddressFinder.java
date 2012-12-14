@@ -57,6 +57,7 @@ public abstract class AbstractAddressFinder {
 	protected String certifiedModeParametersXmlString;
 	protected String wideOptimizationModeParametersXmlString;
 	protected String interactiveModeParametersXmlString;
+	protected String fastCompletionModeParametersXmlString;
 	
 	private static final String DEFAULT_PREFERRED_TOKEN = "DATABASE";
 	private static final String PREFERRED_SCRIPT_TOKEN = "PreferredScript";
@@ -74,6 +75,7 @@ public abstract class AbstractAddressFinder {
 		URL wideOptimizationModeParametersUrl;
 		URL certifiedModeParametersUrl;
 		URL interactiveModeParametersUrl;
+		URL fastCompletionModeParametersUrl;
 
 		DocumentBuilder builder;
 		try {
@@ -83,11 +85,13 @@ public abstract class AbstractAddressFinder {
 			wideOptimizationModeParametersUrl = AddressDoctorEngine.class.getResource("/WideOptimizationParameters.xml");
 			certifiedModeParametersUrl = AddressDoctorEngine.class.getResource("/CertifiedModeParameters.xml");
 			interactiveModeParametersUrl = AddressDoctorEngine.class.getResource("/InteractiveModeParameters.xml");
+			fastCompletionModeParametersUrl = AddressDoctorEngine.class.getResource("/FastCompletionModeParameters.xml");
 
 			this.defaultParametersXmlString = XmlUtilities.getXmlText(builder.parse(defaultParametersUrl.openStream()));
 			this.wideOptimizationModeParametersXmlString = XmlUtilities.getXmlText(builder.parse(wideOptimizationModeParametersUrl.openStream()));
 			this.certifiedModeParametersXmlString = XmlUtilities.getXmlText(builder.parse(certifiedModeParametersUrl.openStream()));
 			this.interactiveModeParametersXmlString = XmlUtilities.getXmlText(builder.parse(interactiveModeParametersUrl.openStream()));
+			this.fastCompletionModeParametersXmlString = XmlUtilities.getXmlText(builder.parse(fastCompletionModeParametersUrl.openStream()));
 
 		} catch (ParserConfigurationException e) {
 			throw new RuntimeException(e);

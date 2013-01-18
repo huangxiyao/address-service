@@ -105,7 +105,7 @@
 
 		<slf4jVersion>1.6.1</slf4jVersion>
 		<logbackVersion>0.9.28</logbackVersion>
-		<casVersion>2013.02-M1</casVersion>
+		<casVersion>2013.02-M5</casVersion>
 	</properties>
 
 	<dependencyManagement>

@@ -111,8 +111,10 @@ public abstract class AbstractAddressFinder {
 		AddressObject addressObject = addressDoctorEngine.borrowObject();
 		try {
 			addressObject.setParametersXML(queryParameterOverride(query, parmsXml), null);
-			mapAddressQueryToAddressObject(query, addressObject);
+			mapAddressQueryToAddressObject(query, addressObject);			
+			requestLogger.trace("Input XML: {}", addressObject.getInputDataXML());
 			addressDoctorEngine.process(addressObject);
+			requestLogger.trace("Output XML: {}", addressObject.getResultXML());
 			return from(addressObject);
 		} catch (AddressDoctorException e) {
 			throw new RuntimeException(e);

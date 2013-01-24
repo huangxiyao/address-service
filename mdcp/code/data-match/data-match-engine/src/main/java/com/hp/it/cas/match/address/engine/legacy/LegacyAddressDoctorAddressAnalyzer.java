@@ -580,6 +580,23 @@ public class LegacyAddressDoctorAddressAnalyzer {
 			// MatchPotential
 			result.set(32, addressObject.getResultDataParameter(1, "ResultPercentage"));
 		}
+		
+		if (addressObject.getResultEnrichmentElementExists(1, "SupplementaryUS")) {
+			result.set(33, addressObject.getResultEnrichmentElement(1, "SupplementaryUS", "COUNTY_FIPS_CODE"));
+			result.set(34, addressObject.getResultEnrichmentElement(1, "SupplementaryUS", "STATE_FIPS_CODE"));
+			result.set(35, addressObject.getResultEnrichmentElement(1, "SupplementaryUS", "MSA_ID"));
+			result.set(36, addressObject.getResultEnrichmentElement(1, "SupplementaryUS", "CBSA_ID"));
+			result.set(37, addressObject.getResultEnrichmentElement(1, "SupplementaryUS", "FINANCE_NUMBER"));
+			result.set(38, addressObject.getResultEnrichmentElement(1, "SupplementaryUS", "RECORD_TYPE"));
+			result.set(39, addressObject.getResultEnrichmentElement(1, "SupplementaryUS", "CMSA_ID"));
+			result.set(40, addressObject.getResultEnrichmentElement(1, "SupplementaryUS", "CENSUS_TRACT_NO"));
+			result.set(41, addressObject.getResultEnrichmentElement(1, "SupplementaryUS", "CENSUS_BLOCK_NO"));
+			result.set(42, addressObject.getResultEnrichmentElement(1, "SupplementaryUS", "CENSUS_BLOCK_GROUP"));
+			result.set(43, addressObject.getResultEnrichmentElement(1, "SupplementaryUS", "PMSA_ID"));
+			result.set(44, addressObject.getResultEnrichmentElement(1, "SupplementaryUS", "PLACE_FIPS_CODE"));
+			result.set(45, addressObject.getResultEnrichmentElement(1, "SupplementaryUS", "TIME_ZONE_CODE"));
+			result.set(46, addressObject.getResultEnrichmentElement(1, "SupplementaryUS", "TIME_ZONE_NAME"));
+		}
 
 		// FaultCode
 		LegacyProcessStatus status = LegacyProcessStatus.valueOf(addressObject.getResultParameter("ProcessStatus"));

@@ -62,6 +62,12 @@ class AddressQueryResultJsonRepresentation extends StandardResponseJsonRepresent
 		}
 		arrayWriter.endArray();
 		
+		arrayWriter = objectWriter.name("supplementaryUS").array();
+		for(AddressElement element: result.getSupplementaryUs()){
+			writeAddressElement(arrayWriter, element);
+		}
+		arrayWriter.endArray();
+		
 		arrayWriter = objectWriter.name("locality").array();
 		for(AddressElement element: result.getLocalities()){
 			writeAddressElement(arrayWriter, element);

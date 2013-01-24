@@ -500,6 +500,24 @@ public abstract class AbstractAddressFinder {
 			for (int index = 0; index < numFormattedAddressLines; index++) {
 				addressData.getFormattedAddressLines().add(addressObject.getResultAddressLine(resultIndex + 1, token, index + 1));
 			}
+			
+			token = "SupplementaryUS";			
+			if(addressObject.getResultEnrichmentElementExists(resultIndex + 1, token)){
+				addAddressElement(addressObject.getResultEnrichmentElement(resultIndex + 1 , token, "COUNTY_FIPS_CODE"),"COUNTY_FIPS_CODE", addressData.getSupplementaryUs());
+				addAddressElement(addressObject.getResultEnrichmentElement(resultIndex + 1 , token, "STATE_FIPS_CODE"),"STATE_FIPS_CODE", addressData.getSupplementaryUs());
+				addAddressElement(addressObject.getResultEnrichmentElement(resultIndex + 1 , token, "MSA_ID"),"MSA_ID", addressData.getSupplementaryUs());
+				addAddressElement(addressObject.getResultEnrichmentElement(resultIndex + 1 , token, "CBSA_ID"),"CBSA_ID", addressData.getSupplementaryUs());
+				addAddressElement(addressObject.getResultEnrichmentElement(resultIndex + 1 , token, "FINANCE_NUMBER"),"FINANCE_NUMBER", addressData.getSupplementaryUs());
+				addAddressElement(addressObject.getResultEnrichmentElement(resultIndex + 1 , token, "RECORD_TYPE"),"RECORD_TYPE", addressData.getSupplementaryUs());
+				addAddressElement(addressObject.getResultEnrichmentElement(resultIndex + 1 , token, "CMSA_ID"),"CMSA_ID", addressData.getSupplementaryUs());
+				addAddressElement(addressObject.getResultEnrichmentElement(resultIndex + 1 , token, "CENSUS_TRACT_NO"),"CENSUS_TRACT_NO", addressData.getSupplementaryUs());
+				addAddressElement(addressObject.getResultEnrichmentElement(resultIndex + 1 , token, "CENSUS_BLOCK_NO"),"CENSUS_BLOCK_NO", addressData.getSupplementaryUs());
+				addAddressElement(addressObject.getResultEnrichmentElement(resultIndex + 1 , token, "CENSUS_BLOCK_GROUP"),"CENSUS_BLOCK_GROUP", addressData.getSupplementaryUs());
+				addAddressElement(addressObject.getResultEnrichmentElement(resultIndex + 1 , token, "PMSA_ID"),"PMSA_ID", addressData.getSupplementaryUs());
+				addAddressElement(addressObject.getResultEnrichmentElement(resultIndex + 1 , token, "PLACE_FIPS_CODE"),"PLACE_FIPS_CODE", addressData.getSupplementaryUs());
+				addAddressElement(addressObject.getResultEnrichmentElement(resultIndex + 1 , token, "TIME_ZONE_CODE"),"TIME_ZONE_CODE", addressData.getSupplementaryUs());
+				addAddressElement(addressObject.getResultEnrichmentElement(resultIndex + 1 , token, "TIME_ZONE_NAME"),"TIME_ZONE_NAME", addressData.getSupplementaryUs());
+			}
 
 			addressData.setCompleteAddress(addressObject.getResultAddressComplete(resultIndex + 1));
 

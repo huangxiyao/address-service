@@ -7,8 +7,11 @@ CASFW_HOME_CURRENT="/opt/casfw/current"
 if [[ ! -d ${CASFW_HOME_CURRENT} ]]; then
 	mkdir -p ${CASFW_HOME_CURRENT}
 fi
+
+# Get the instance name
+AD_INSTANCE_NAME=$(grep ad_instance_name ${CASFW_HOME}/etc/casfw.properties | awk -F "=" '{print $2}')
 # Create the symbol link pointing to the current installer
-ln -sf ${CASFW_HOME} ${CASFW_HOME_CURRENT}/data-match
+ln -sf ${CASFW_HOME} ${CASFW_HOME_CURRENT}/${AD_INSTANCE_NAME}
 # Create init.d folder under ${CASFW_HOME}
 mkdir -p ${CASFW_HOME}/init.d
 # Create the symbol link pointing to the actual shell script

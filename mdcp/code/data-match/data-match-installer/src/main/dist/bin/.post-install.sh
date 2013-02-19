@@ -28,7 +28,7 @@ chmod ug+x ${CASFW_HOME}/bin/*.sh
 tomcat_ad_http_port=$(grep tomcat_ad_connector_http_port ${CASFW_HOME}/etc/casfw.properties | awk -F "=" '{print $2}')
 echo
 echo "Starting Tomcat at http://$(hostname):${tomcat_ad_http_port}"
-${CASFW_HOME}/bin/tomcat-ad.sh start
+${CASFW_HOME}/bin/tomcat-ad.sh start &
 
 echo
 echo "Please check ${CASFW_HOME}/README.txt for details of the components included"

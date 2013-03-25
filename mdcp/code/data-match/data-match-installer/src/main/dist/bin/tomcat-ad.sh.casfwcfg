@@ -23,28 +23,23 @@ export DISPLAY=
 ${CATALINA_HOME}/bin/catalina.sh $*
 
 # Check tomcat server status per 1 minute and recover tomcat server automatically when crashed
-if [ $? -eq 0 ] ; then
-   if [ "$1" = "start" ] ; then
-   	while [ "1" = "1" ]
-   	do
-   	 if [ ! -z "$CATALINA_PID" ]; then
-     if [ -f "$CATALINA_PID" ]; then
-      if [ -s "$CATALINA_PID" ]; then
-        if [ -r "$CATALINA_PID" ]; then
-          PID=`cat "$CATALINA_PID"`
-          ps -p $PID >/dev/null 2>&1
-          if [ $? -ne 0 ] ; then
-            echo "$(date +"%Y-%m-%d %T") : Address-Engine $CASFW_HOME appears to be crashed. Starting Tomcat." >> ${CASFW_HOME}/var/log/tomcat-ad/ad-engine-crash.log 2>&1
-            ${CATALINA_HOME}/bin/catalina.sh $*
-           fi
-        fi
-      fi
-     else
-      echo "$(date +"%Y-%m-%d %T") : $CASFW_HOME PID file does not exist. $CASFW_HOME server has stop normally."
-      exit 0
-     fi
-     fi
-    	sleep 60
-   	done
-   fi
-fi
+    if [[ $? -eq 0 && $1 = "start" ]]; then
+         while [ "1" = "1" ]; do
+         sleep 60
+
+         if [ -r "${CATALINA_PID}" ]; then
+             PID=$(cat "${CATALINA_PID}")
+             ps -p $PID >/dev/null 2>&1
+             if [ $? -ne 0 ]; then
+                 echo "$(date +"%Y-%m-%d %T") : Address-Engine ${CASFW_HOME} appears to be crashed. Starting Tomcat." >> ${CASFW_HOME}/var/log/tomcat-ad/ad-engine-crash.log 2>&1
+                 ${CATALINA_HOME}/bin/catalina.sh $*
+             fi
+         elif [ ! -e "${CATALINA_PID}" ]; then
+             echo "$(date +"%Y-%m-%d %T") : ${CATALINA_PID} PID file does not exist. ${CASFW_HOME} server has stop normally."
+             exit 0
+         else
+             echo "$(date +"%Y-%m-%d %T") : ${CATALINA_PID} PID file exists but is not readable. Aborting."
+             exit 1
+         fi
+     done
+    fi

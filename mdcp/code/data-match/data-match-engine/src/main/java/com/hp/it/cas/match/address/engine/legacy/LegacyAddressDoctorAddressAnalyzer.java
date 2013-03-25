@@ -453,7 +453,7 @@ public class LegacyAddressDoctorAddressAnalyzer {
 
 			// StreetAddressName
 			if (addressObject.getResultAddressLineCount(1, "DeliveryAddressLine") > 0) {
-				result.set(2, addressObject.getResultAddressLine(1, "DeliveryAddressLine", 1));
+				result.set(2, addressObject.getResultAddressLine(1, "DeliveryAddressLine", 1).trim());
 			}
 
 			// PostBoxNumber
@@ -511,13 +511,13 @@ public class LegacyAddressDoctorAddressAnalyzer {
 			// StreetAddrLine1 / StreetAddrLine2 / StreetAddrLine3
 			int deliveryAddressLineCount = addressObject.getResultAddressLineCount(1, "DeliveryAddressLine");
 			if (deliveryAddressLineCount > 0) {
-				result.set(14, addressObject.getResultAddressLine(1, "DeliveryAddressLine", 1));
+				result.set(14, addressObject.getResultAddressLine(1, "DeliveryAddressLine", 1).trim());
 			}
 			if (deliveryAddressLineCount > 1) {
-				result.set(15, addressObject.getResultAddressLine(1, "DeliveryAddressLine", 2));
+				result.set(15, addressObject.getResultAddressLine(1, "DeliveryAddressLine", 2).trim());
 			}
 			if (deliveryAddressLineCount > 2) {
-				result.set(16, addressObject.getResultAddressLine(1, "DeliveryAddressLine", 3));
+				result.set(16, addressObject.getResultAddressLine(1, "DeliveryAddressLine", 3).trim());
 			}
 
 			// CitySubAreaName / CityAreaName / CityName

@@ -7,12 +7,19 @@
 # $1:PRO_LOG_FILE
 # $2:RESULT_LOG_FILE
 # $3:ITG_SERVER_NAME
-if [ $# -lt 3 ]; then
-    echo -e "\nUsage: sh $0 PRO_LOG_FILE RESULT_LOG_FILE ITG_SERVER_NAME \n";
+# $4:SERVER_PORT
+# usage
+function printUsageAndExit(){
+    echo -e "\nUsage: sh $0 PRO_LOG_FILE RESULT_LOG_FILE ITG_SERVER_NAME SERVER_PORT\n";
     exit 1;
+}
+
+# check parameters
+if [ $# -lt 3 -o $# -gt 4 ]; then
+    printUsageAndExit
 fi
 
-# check PRO LOG FILE if it exists
+# check PRO_LOG_FILE if it exists
 if [ ! -f "$1" ]; then
     echo -e "$1 does not exist \n";
     exit 1;
@@ -32,8 +39,17 @@ if [ -f "$2" ]; then
     fi
 fi
 
-url="http://"$3"/match/validatedAddress?";
-# number of successfull transactions
+# check SERVER_PORT
+if [ -z "$4" ]; then
+    # default server port 80
+    url="http://"$3":80/match/validatedAddress?";
+elif [[ "$4" =~ "^[0-9]+$" ]]; then
+    url="http://"$3":"$4"/match/validatedAddress?";
+else
+    printUsageAndExit;
+fi
+
+# number of successful transactions
 number_success=0;
 # number of transactions that crashed address doctor
 number_failure=0;
@@ -131,5 +147,5 @@ $outfile
 EOF
 
 echo -e "[INFO]$(date +"%Y-%m-%d %T") The program have already finished reading $count ENTRY lines in the file $1.\n";
-echo "number of successfull transactions is $number_success." >> $2;
+echo "number of successful transactions is $number_success." >> $2;
 echo "number of transactions that crashed address doctor is $number_failure." >> $2;

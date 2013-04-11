@@ -4,7 +4,7 @@
 	<parent>
 		<artifactId>data-match</artifactId>
 		<groupId>com.hp.it.120482</groupId>
-		<version>2013.05-SNAPSHOT</version>
+		<version>2013.05-M3</version>
 	</parent>
 
 	<artifactId>data-match-client</artifactId>

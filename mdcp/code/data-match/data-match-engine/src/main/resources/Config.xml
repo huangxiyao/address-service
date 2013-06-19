@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <!DOCTYPE SetConfig>
 <SetConfig>
-  <General CacheSize="NONE" MaxAddressObjectCount="3" MaxThreadCount="2" MaxMemoryUsageMB="1024" PreloadingMethod="MAP" WriteXMLBOM="NEVER" WriteXMLEncoding="UTF-16"></General>
+  <General MaxResultCount="50" CacheSize="NONE" MaxAddressObjectCount="3" MaxThreadCount="2" MaxMemoryUsageMB="1024" PreloadingMethod="MAP" WriteXMLBOM="NEVER" WriteXMLEncoding="UTF-16"></General>
   <UnlockCode>S9KD17567K0FSMKA0KLZ3XSPFWNLJWQ65ZTC</UnlockCode>
   <UnlockCode>0NE0X61Z784FNCZ1E3HYA2XD9TSSDR8YRWRA</UnlockCode> 
   <DataBase CountryISO3="ALL" Path="C:/Developer/AddressDoctorDB/" PreloadingType="NONE" Type="CERTIFIED"></DataBase>

@@ -3,7 +3,7 @@
 <Parameters WriteXMLBOM="NEVER" WriteXMLEncoding="UTF-16">
   <Process Mode="BATCH" EnrichmentCASS="ON" EnrichmentSERP="ON" EnrichmentSNA="ON" EnrichmentSupplementaryGB="ON" EnrichmentSupplementaryUS="ON"/>
   <Input Encoding="UTF-16" FormatDelimiter="CRLF" FormatType="ALL" FormatWithCountry="OFF" WriteXMLBOM="NEVER"/>
-  <Result AddressComplete="ON" AddressElements="STANDARD" AddressLines="ON" CountryType="NAME_EN" Encoding="UTF-16" FormatDelimiter="CRLF" FormatMaxLines="19" FormatType="ALL" FormatWithCountry="OFF" PreferredScript="DATABASE" PreferredLanguage="DATABASE" WriteXMLBOM="NEVER"/>
+  <Result MaxResultCount="50" AddressComplete="ON" AddressElements="STANDARD" AddressLines="ON" CountryType="NAME_EN" Encoding="UTF-16" FormatDelimiter="CRLF" FormatMaxLines="19" FormatType="ALL" FormatWithCountry="OFF" PreferredScript="DATABASE" PreferredLanguage="DATABASE" WriteXMLBOM="NEVER"/>
   <AddressElementStandardize>
   	<DeliveryAddressLine MaxItemCount="3"/>
     <Locality MaxItemCount="3"/>

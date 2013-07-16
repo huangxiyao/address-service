@@ -4,11 +4,11 @@
 	<parent>
 		<artifactId>mdcp-parent</artifactId>
 		<groupId>com.hp.it.120482</groupId>
-		<version>2013.06-M2</version>
+		<version>2013.08-M3</version>
 	</parent>
 
 	<artifactId>data-match</artifactId>
-	<version>2013.06-SNAPSHOT</version>
+	<version>2013.08-SNAPSHOT</version>
 	<packaging>pom</packaging>
 	<name>Data matching tools</name>
 	<description>Data matching tools</description>

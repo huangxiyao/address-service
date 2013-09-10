@@ -442,115 +442,115 @@ public class LegacyAddressDoctorAddressAnalyzer {
 		if (resultCount > 0) {
 			// Building
 			if (addressObject.getResultAddressElementItemCount(1, "Building") > 0) {
-				result.set(0, addressObject.getResultAddressElement(1, "Building", 1, "COMPLETE"));
+				result.set(0, trimCRLF(addressObject.getResultAddressElement(1, "Building", 1, "COMPLETE")));
 			}
 
 			// StreetDesignatorName
 			if (addressObject.getResultAddressElementItemCount(1, "SubBuilding") > 0) {
-				result.set(1, addressObject.getResultAddressElement(1, "SubBuilding", 1, "COMPLETE"));
+				result.set(1, trimCRLF(addressObject.getResultAddressElement(1, "SubBuilding", 1, "COMPLETE")));
 
 			}
 
 			// StreetAddressName
 			if (addressObject.getResultAddressLineCount(1, "DeliveryAddressLine") > 0) {
-				result.set(2, addressObject.getResultAddressLine(1, "DeliveryAddressLine", 1).trim());
+				result.set(2, trimCRLF(addressObject.getResultAddressLine(1, "DeliveryAddressLine", 1).trim()));
 			}
 
 			// PostBoxNumber
 			if (addressObject.getResultAddressElementItemCount(1, "DeliveryService") > 0) {
-				result.set(3, addressObject.getResultAddressElement(1, "DeliveryService", 1, "NUMBER"));
+				result.set(3, trimCRLF(addressObject.getResultAddressElement(1, "DeliveryService", 1, "NUMBER")));
 			}
 
 			// CitySubAreaName / CityAreaName / CityName
 			int localityCount = addressObject.getResultAddressElementItemCount(1, "Locality");
 			if (localityCount > 2) {
-				result.set(4, addressObject.getResultAddressElement(1, "Locality", 3, "COMPLETE"));
+				result.set(4, trimCRLF(addressObject.getResultAddressElement(1, "Locality", 3, "COMPLETE")));
 			}
 
 			if (localityCount > 1) {
-				result.set(5, addressObject.getResultAddressElement(1, "Locality", 2, "COMPLETE"));
+				result.set(5, trimCRLF(addressObject.getResultAddressElement(1, "Locality", 2, "COMPLETE")));
 			}
 
 			if (localityCount > 0) {
-				result.set(6, addressObject.getResultAddressElement(1, "Locality", 1, "COMPLETE"));
+				result.set(6, trimCRLF(addressObject.getResultAddressElement(1, "Locality", 1, "COMPLETE")));
 			}
 
 			// GeoSubAreaName / GeoAreaAbbrName / GeoAreaName
 			int provinceCount = addressObject.getResultAddressElementItemCount(1, "Province");
 			if (provinceCount > 1) {
-				result.set(7, addressObject.getResultAddressElement(1, "Province", 2, "COUNTRY_STANDARD"));
+				result.set(7, trimCRLF(addressObject.getResultAddressElement(1, "Province", 2, "COUNTRY_STANDARD")));
 			}
 
 			if (provinceCount > 0) {
-				result.set(8, addressObject.getResultAddressElement(1, "Province", 1, "ABBREVIATION"));
-				result.set(9, addressObject.getResultAddressElement(1, "Province", 1, "COUNTRY_STANDARD"));
+				result.set(8, trimCRLF(addressObject.getResultAddressElement(1, "Province", 1, "ABBREVIATION")));
+				result.set(9, trimCRLF(addressObject.getResultAddressElement(1, "Province", 1, "COUNTRY_STANDARD")));
 			}
 
 			// PostAddressName
 			if (addressObject.getResultAddressElementItemCount(1, "Street") > 1) {
-				result.set(10, addressObject.getResultAddressElement(1, "Street", 2, "COMPLETE"));
+				result.set(10, trimCRLF(addressObject.getResultAddressElement(1, "Street", 2, "COMPLETE")));
 			}
 
 			// PostCode
 			if (addressObject.getResultAddressElementItemCount(1, "PostalCode") > 0) {
-				result.set(11, addressObject.getResultAddressElement(1, "PostalCode", 1, "FORMATTED"));
+				result.set(11, trimCRLF(addressObject.getResultAddressElement(1, "PostalCode", 1, "FORMATTED")));
 			}
 
 			// PostBoxLabel
 			// TODO Fix this one
 			if (addressObject.getResultAddressElementItemCount(1, "DeliveryService") > 0) {
-				result.set(12, addressObject.getResultAddressElement(1, "DeliveryService", 1, "DESCRIPTOR"));
+				result.set(12, trimCRLF(addressObject.getResultAddressElement(1, "DeliveryService", 1, "DESCRIPTOR")));
 
 			}
 
 			// CountryCode
 			if (addressObject.getResultAddressElementItemCount(1, "Country") > 0) {
-				result.set(13, addressObject.getResultAddressElement(1, "Country", 1, "ISO2"));
+				result.set(13, trimCRLF(addressObject.getResultAddressElement(1, "Country", 1, "ISO2")));
 			}
 
 			// StreetAddrLine1 / StreetAddrLine2 / StreetAddrLine3
 			int deliveryAddressLineCount = addressObject.getResultAddressLineCount(1, "DeliveryAddressLine");
 			if (deliveryAddressLineCount > 0) {
-				result.set(14, addressObject.getResultAddressLine(1, "DeliveryAddressLine", 1).trim());
+				result.set(14, trimCRLF(addressObject.getResultAddressLine(1, "DeliveryAddressLine", 1)));
 			}
 			if (deliveryAddressLineCount > 1) {
-				result.set(15, addressObject.getResultAddressLine(1, "DeliveryAddressLine", 2).trim());
+				result.set(15, trimCRLF(addressObject.getResultAddressLine(1, "DeliveryAddressLine", 2)));
 			}
 			if (deliveryAddressLineCount > 2) {
-				result.set(16, addressObject.getResultAddressLine(1, "DeliveryAddressLine", 3).trim());
+				result.set(16, trimCRLF(addressObject.getResultAddressLine(1, "DeliveryAddressLine", 3)));
 			}
 
 			// CitySubAreaName / CityAreaName / CityName
 			if (localityCount > 2) {
-				result.set(17, addressObject.getResultAddressElement(1, "Locality", 3, "COMPLETE"));
+				result.set(17, trimCRLF(addressObject.getResultAddressElement(1, "Locality", 3, "COMPLETE")));
 			}
 
 			if (localityCount > 1) {
-				result.set(18, addressObject.getResultAddressElement(1, "Locality", 2, "COMPLETE"));
+				result.set(18, trimCRLF(addressObject.getResultAddressElement(1, "Locality", 2, "COMPLETE")));
 			}
 
 			if (localityCount > 0) {
-				result.set(19, addressObject.getResultAddressElement(1, "Locality", 1, "COMPLETE"));
+				result.set(19, trimCRLF(addressObject.getResultAddressElement(1, "Locality", 1, "COMPLETE")));
 			}
 
 			// GeoAreaName
 			if (provinceCount > 0) {
-				result.set(20, addressObject.getResultAddressElement(1, "Province", 1, "COUNTRY_STANDARD"));
+				result.set(20, trimCRLF(addressObject.getResultAddressElement(1, "Province", 1, "COUNTRY_STANDARD")));
 			}
 
 			// PostCode
 			if (addressObject.getResultAddressElementItemCount(1, "PostalCode") > 0) {
-				result.set(21, addressObject.getResultAddressElement(1, "PostalCode", 1, "FORMATTED"));
+				result.set(21, trimCRLF(addressObject.getResultAddressElement(1, "PostalCode", 1, "FORMATTED")));
 			}
 
 			// CountryCode
 			if (addressObject.getResultAddressElementItemCount(1, "Country") > 0) {
-				result.set(22, addressObject.getResultAddressElement(1, "Country", 1, "ISO2"));
+				result.set(22, trimCRLF(addressObject.getResultAddressElement(1, "Country", 1, "ISO2")));
 			}
 
 			// StatusCode
-			String inputStatus = addressObject.getResultDataParameter(1, "ElementInputStatus");
-			String resultStatus = addressObject.getResultDataParameter(1, "ElementResultStatus");
+			String inputStatus = trimCRLF(addressObject.getResultDataParameter(1, "ElementInputStatus"));
+			String resultStatus = trimCRLF(addressObject.getResultDataParameter(1, "ElementResultStatus"));
 
 			result.set(25, inputStatus + "," + resultStatus);
 
@@ -563,12 +563,12 @@ public class LegacyAddressDoctorAddressAnalyzer {
 			// Remainder1
 			int residueCount = addressObject.getResultAddressElementItemCount(1, "Residue");
 			if (residueCount > 0) {
-				result.set(28, addressObject.getResultAddressElement(1, "Residue", 1, "UNRECOGNIZED"));
+				result.set(28, trimCRLF(addressObject.getResultAddressElement(1, "Residue", 1, "UNRECOGNIZED")));
 			}
 
 			// Remainder2
 			if (residueCount > 1) {
-				result.set(29, addressObject.getResultAddressElement(1, "Residue", 2, "UNRECOGNIZED"));
+				result.set(29, trimCRLF(addressObject.getResultAddressElement(1, "Residue", 2, "UNRECOGNIZED")));
 			}
 
 			// AssignmentType
@@ -578,24 +578,24 @@ public class LegacyAddressDoctorAddressAnalyzer {
 			result.set(31, "NO Mapping");
 
 			// MatchPotential
-			result.set(32, addressObject.getResultDataParameter(1, "ResultPercentage"));
+			result.set(32, trimCRLF(addressObject.getResultDataParameter(1, "ResultPercentage")));
 		}
 		
 		if (addressObject.getResultEnrichmentElementExists(1, "SupplementaryUS")) {
-			result.set(33, addressObject.getResultEnrichmentElement(1, "SupplementaryUS", "COUNTY_FIPS_CODE"));
-			result.set(34, addressObject.getResultEnrichmentElement(1, "SupplementaryUS", "STATE_FIPS_CODE"));
-			result.set(35, addressObject.getResultEnrichmentElement(1, "SupplementaryUS", "MSA_ID"));
-			result.set(36, addressObject.getResultEnrichmentElement(1, "SupplementaryUS", "CBSA_ID"));
-			result.set(37, addressObject.getResultEnrichmentElement(1, "SupplementaryUS", "FINANCE_NUMBER"));
-			result.set(38, addressObject.getResultEnrichmentElement(1, "SupplementaryUS", "RECORD_TYPE"));
-			result.set(39, addressObject.getResultEnrichmentElement(1, "SupplementaryUS", "CMSA_ID"));
-			result.set(40, addressObject.getResultEnrichmentElement(1, "SupplementaryUS", "CENSUS_TRACT_NO"));
-			result.set(41, addressObject.getResultEnrichmentElement(1, "SupplementaryUS", "CENSUS_BLOCK_NO"));
-			result.set(42, addressObject.getResultEnrichmentElement(1, "SupplementaryUS", "CENSUS_BLOCK_GROUP"));
-			result.set(43, addressObject.getResultEnrichmentElement(1, "SupplementaryUS", "PMSA_ID"));
-			result.set(44, addressObject.getResultEnrichmentElement(1, "SupplementaryUS", "PLACE_FIPS_CODE"));
-			result.set(45, addressObject.getResultEnrichmentElement(1, "SupplementaryUS", "TIME_ZONE_CODE"));
-			result.set(46, addressObject.getResultEnrichmentElement(1, "SupplementaryUS", "TIME_ZONE_NAME"));
+			result.set(33, trimCRLF(addressObject.getResultEnrichmentElement(1, "SupplementaryUS", "COUNTY_FIPS_CODE")));
+			result.set(34, trimCRLF(addressObject.getResultEnrichmentElement(1, "SupplementaryUS", "STATE_FIPS_CODE")));
+			result.set(35, trimCRLF(addressObject.getResultEnrichmentElement(1, "SupplementaryUS", "MSA_ID")));
+			result.set(36, trimCRLF(addressObject.getResultEnrichmentElement(1, "SupplementaryUS", "CBSA_ID")));
+			result.set(37, trimCRLF(addressObject.getResultEnrichmentElement(1, "SupplementaryUS", "FINANCE_NUMBER")));
+			result.set(38, trimCRLF(addressObject.getResultEnrichmentElement(1, "SupplementaryUS", "RECORD_TYPE")));
+			result.set(39, trimCRLF(addressObject.getResultEnrichmentElement(1, "SupplementaryUS", "CMSA_ID")));
+			result.set(40, trimCRLF(addressObject.getResultEnrichmentElement(1, "SupplementaryUS", "CENSUS_TRACT_NO")));
+			result.set(41, trimCRLF(addressObject.getResultEnrichmentElement(1, "SupplementaryUS", "CENSUS_BLOCK_NO")));
+			result.set(42, trimCRLF(addressObject.getResultEnrichmentElement(1, "SupplementaryUS", "CENSUS_BLOCK_GROUP")));
+			result.set(43, trimCRLF(addressObject.getResultEnrichmentElement(1, "SupplementaryUS", "PMSA_ID")));
+			result.set(44, trimCRLF(addressObject.getResultEnrichmentElement(1, "SupplementaryUS", "PLACE_FIPS_CODE")));
+			result.set(45, trimCRLF(addressObject.getResultEnrichmentElement(1, "SupplementaryUS", "TIME_ZONE_CODE")));
+			result.set(46, trimCRLF(addressObject.getResultEnrichmentElement(1, "SupplementaryUS", "TIME_ZONE_NAME")));
 		}
 
 		// FaultCode
@@ -707,5 +707,10 @@ public class LegacyAddressDoctorAddressAnalyzer {
 		}
 		return isExcludedCountry;
 	}
+
+    // IM16873449 - Line feed issue
+    private String trimCRLF(String field){
+        return field.trim().replace("\r\n", "");
+    }
 
 }

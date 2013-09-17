@@ -4,6 +4,8 @@ import java.net.MalformedURLException;
 
 import javax.validation.constraints.NotNull;
 
+import net.jcip.annotations.Immutable;
+
 import com.hp.it.cas.match.address.AddressQuery;
 import com.hp.it.cas.match.address.AddressQueryResult;
 import com.hp.it.cas.match.address.FastCompletionAddressFinder;
@@ -18,6 +20,7 @@ import com.hp.it.cas.match.address.FastCompletionAddressFinder;
  * @author hong-bol@hp.com
  *
  */
+@Immutable
 public class FastCompletionAddressFinderRestProxy extends AbstractAddressFinderRestProxy implements FastCompletionAddressFinder{
 
 	/**

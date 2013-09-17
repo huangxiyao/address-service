@@ -4,6 +4,8 @@ import java.net.MalformedURLException;
 
 import javax.validation.constraints.NotNull;
 
+import net.jcip.annotations.Immutable;
+
 import com.hp.it.cas.match.address.AddressQuery;
 import com.hp.it.cas.match.address.AddressQueryResult;
 import com.hp.it.cas.match.address.ValidatedAddressFinder;
@@ -18,6 +20,7 @@ import com.hp.it.cas.match.address.ValidatedAddressFinder;
  * @author paul.truax@hp.com
  * 
  */
+@Immutable
 public class ValidatedAddressFinderRestProxy extends AbstractAddressFinderRestProxy implements ValidatedAddressFinder {
 
 	/**

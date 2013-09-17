@@ -14,6 +14,8 @@ import java.util.Set;
 import javax.validation.ConstraintViolation;
 import javax.validation.ConstraintViolationException;
 
+import net.jcip.annotations.Immutable;
+
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -49,6 +51,7 @@ import com.hp.it.cas.match.address.AddressQueryValidator;
  * @author paul.truax@hp.com
  * 
  */
+@Immutable
 public abstract class AbstractAddressFinderRestProxy extends StandardResponseJsonReader<AddressQueryResult> {
 	private final MessageInterpolator messageInterpolator;
 	private final String[] MESSAGES = { "com.hp.it.cas.match.address.messages" };

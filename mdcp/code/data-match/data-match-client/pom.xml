@@ -55,6 +55,12 @@
 			<groupId>com.hp.it.118361</groupId>
 			<artifactId>security-impl</artifactId>
 		</dependency>
+
+        <dependency>
+            <groupId>net.jcip</groupId>
+            <artifactId>jcip-annotations</artifactId>
+            <optional>true</optional>
+        </dependency>
 	</dependencies>
 
 	<!-- We still have java5 clients, so I'm going to compile to java 5, but 

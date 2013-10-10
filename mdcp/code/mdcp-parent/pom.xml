@@ -292,7 +292,6 @@
 					<docfilessubdirs>true</docfilessubdirs>
 					<detectLinks />
 				</configuration>
-
 			</plugin>
 		</plugins>
 	</reporting>

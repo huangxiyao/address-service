@@ -4,7 +4,7 @@
 
 	<groupId>com.hp.it.120482</groupId>
 	<artifactId>mdcp-parent</artifactId>
-	<version>2013.10-SNAPSHOT</version>
+	<version>2013.10-M1</version>
 	<packaging>pom</packaging>
 
 	<name>MDCP top-level POM</name>
@@ -16,9 +16,9 @@
 	</organization>
 
 	<scm>
-		<connection>scm:svn:http://code1.corp.hp.com/svn/120482/trunk/mdcp/code/mdcp-parent</connection>
-		<developerConnection>scm:svn:https://code1.corp.hp.com/svn/120482/trunk/mdcp/code/mdcp-parent</developerConnection>
-		<url>http://code1.corp.hp.com/svn/120482/trunk/mdcp/code/mdcp-parent</url>
+		<connection>scm:svn:http://code1.corp.hp.com/svn/120482/tags/mdcp-parent-2013.10-M1</connection>
+		<developerConnection>scm:svn:https://code1.corp.hp.com/svn/120482/tags/mdcp-parent-2013.10-M1</developerConnection>
+		<url>http://code1.corp.hp.com/svn/120482/tags/mdcp-parent-2013.10-M1</url>
 	</scm>
 
 	<ciManagement>

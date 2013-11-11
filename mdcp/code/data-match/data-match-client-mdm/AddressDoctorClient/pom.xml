@@ -16,6 +16,7 @@
 										<exclude>lib/*.*</exclude>
 										<exclude>bin/</exclude>
 										<exclude>target/</exclude>
+										<exclude>Source/Main/</exclude>
 										<exclude>.settings/</exclude>
 										
 				</excludes>

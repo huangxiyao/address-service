@@ -1,0 +1,77 @@
+<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/maven-v4_0_0.xsd">
+	<modelVersion>4.0.0</modelVersion>
+
+	<parent>
+		<artifactId>data-match</artifactId>
+		<groupId>com.hp.it.120482</groupId>
+		<version>2013.10-SNAPSHOT</version>
+	</parent>
+
+	<artifactId>data-match-client-mdm</artifactId>
+
+	<name>Data match client mdm code</name>
+	<description>Client mdm code for the data match project is found here</description>
+
+	<dependencies>
+		<dependency>
+			<groupId>com.hp.it.118361</groupId>
+			<artifactId>security-impl</artifactId>
+		</dependency>
+
+		<dependency>
+			<groupId>com.hp.it.120482</groupId>
+			<artifactId>data-match-client</artifactId>
+			<version>${project.version}</version>
+		</dependency>
+
+		<dependency>
+			<!-- Validation API Implementation -->
+			<groupId>org.hibernate</groupId>
+			<artifactId>hibernate-validator</artifactId>
+			<scope>runtime</scope>
+		</dependency>
+
+		<dependency>
+			<groupId>javax.validation</groupId>
+			<artifactId>validation-api</artifactId>
+			<version>1.0.0.GA</version>
+		</dependency>
+		
+		<dependency>
+			<groupId>log4j</groupId>
+			<artifactId>log4j</artifactId>
+			<version>1.2.17</version>
+		</dependency>
+		
+		<dependency>
+			<groupId>com.informatica.mdm</groupId>
+			<artifactId>siperian-cleanse</artifactId>
+			<version>9.0.1.0.0.0.126</version>
+		</dependency>
+		
+		<dependency>
+			<groupId>com.informatica.mdm</groupId>
+			<artifactId>siperian-common</artifactId>
+			<version>9.5.1.0.0.200.98352</version>
+		</dependency>
+		
+		<dependency>
+			<groupId>commons-pool</groupId>
+			<artifactId>commons-pool</artifactId>
+			<version>1.6</version>
+		</dependency>
+	</dependencies>
+	<build>
+		<plugins>
+			<plugin>
+				<artifactId>maven-compiler-plugin</artifactId>
+				<inherited>true</inherited>
+				<configuration>
+					<source>${javaVersion}</source>
+					<target>${javaVersion}</target>
+				</configuration>
+			</plugin>
+		</plugins>
+	</build>
+</project>

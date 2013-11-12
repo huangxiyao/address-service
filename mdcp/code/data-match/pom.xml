@@ -43,6 +43,7 @@
 		<module>data-match-web</module>
 		<module>data-match-client</module>
 		<module>data-match-access</module>
+		<module>data-match-client-mdm</module>
 	</modules>
 
 	<dependencyManagement>

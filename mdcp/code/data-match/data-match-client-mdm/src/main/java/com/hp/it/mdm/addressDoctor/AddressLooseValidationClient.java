@@ -1,5 +1,6 @@
 package com.hp.it.mdm.addressDoctor;
 
+import java.net.URL;
 import java.util.Map;
 import java.util.Properties;
 
@@ -22,8 +23,8 @@ public class AddressLooseValidationClient extends AddressDoctorClient {
 
 	protected static String fDesc = "Address Loose Validation Function";
 
-	private static String configFile = AddressLooseValidationClient.class
-			.getResource("/addressDoctor.properties").getPath();
+	private static URL configFile = AddressLooseValidationClient.class
+			.getResource("/addressDoctor.properties");
 
 	Properties cleanseProps = new Properties();
 	boolean allGood = true;

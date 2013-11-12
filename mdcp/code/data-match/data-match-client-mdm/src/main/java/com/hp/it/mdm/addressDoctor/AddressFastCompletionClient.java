@@ -1,5 +1,6 @@
 package com.hp.it.mdm.addressDoctor;
 
+import java.net.URL;
 import java.util.Map;
 import java.util.Properties;
 
@@ -21,8 +22,8 @@ public class AddressFastCompletionClient extends AddressDoctorClient {
 
     protected static String fDesc = "Address Fast Completion Function";
 
-    private static String configFile = AddressFastCompletionClient.class
-			.getResource("/addressDoctor.properties").getPath();
+    private static URL configFile = AddressFastCompletionClient.class
+			.getResource("/addressDoctor.properties");
     
     Properties cleanseProps = new Properties();
     boolean allGood = true;

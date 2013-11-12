@@ -1,5 +1,6 @@
 package com.hp.it.mdm.addressDoctor;
 
+import java.net.URL;
 import java.util.Map;
 import java.util.Properties;
 
@@ -22,8 +23,8 @@ public class AddressSuggestionClient extends AddressDoctorClient {
 
 	protected static String fDesc = "Address Suggestion Function";
 
-	private static String configFile = AddressSuggestionClient.class
-			.getResource("/addressDoctor.properties").getPath();
+	private static URL configFile = AddressSuggestionClient.class
+			.getResource("/addressDoctor.properties");
 
 	Properties cleanseProps = new Properties();
 	boolean allGood = true;

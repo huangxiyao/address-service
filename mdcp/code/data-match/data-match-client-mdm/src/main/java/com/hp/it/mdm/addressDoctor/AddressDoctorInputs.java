@@ -4,10 +4,10 @@
  */
 package com.hp.it.mdm.addressDoctor;
 
-import java.io.File;
-import java.io.FileInputStream;
 import java.io.FileNotFoundException;
 import java.io.IOException;
+import java.io.InputStream;
+import java.net.URL;
 import java.util.Properties;
 
 import org.apache.log4j.Logger;
@@ -172,12 +172,12 @@ public class AddressDoctorInputs {
         ParameterTypes.STRING, ParameterTypes.STRING, ParameterTypes.STRING, ParameterTypes.STRING,
         ParameterTypes.STRING, ParameterTypes.STRING, ParameterTypes.STRING };
     
-    public static Properties loadPropertyFile(String path) {
+    public static Properties loadPropertyFile(URL path) {
 
 		Properties props = new java.util.Properties();
-		FileInputStream fis = null;
+		InputStream fis = null;
 		try {
-			fis = new FileInputStream(new File(path));
+			fis = path.openStream();
 			props.load(fis);
 		} catch (FileNotFoundException e) {
 			logger.error(e.toString(), e);

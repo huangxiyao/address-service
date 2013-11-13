@@ -1,9 +1,9 @@
-package com.hp.it.mdm.addressDoctor.client;
+package com.hp.it.mdm.addressdoctor.client;
 
 import org.apache.log4j.Logger;
 import org.apache.log4j.PropertyConfigurator;
 
-import com.hp.it.mdm.addressDoctor.client.Worker;
+import com.hp.it.mdm.addressdoctor.client.Worker;
 
 
 public class Runit{

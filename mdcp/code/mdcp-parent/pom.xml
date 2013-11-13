@@ -4,7 +4,7 @@
 
 	<groupId>com.hp.it.120482</groupId>
 	<artifactId>mdcp-parent</artifactId>
-	<version>2013.10-SNAPSHOT</version>
+	<version>2013.12-SNAPSHOT</version>
 	<packaging>pom</packaging>
 
 	<name>MDCP top-level POM</name>

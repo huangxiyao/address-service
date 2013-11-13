@@ -92,7 +92,7 @@
 			</build>
 		</profile>
 		<profile>
-			<id>sit</id>
+			<id>itg</id>
 			<build>
 				<plugins>
 					<plugin>

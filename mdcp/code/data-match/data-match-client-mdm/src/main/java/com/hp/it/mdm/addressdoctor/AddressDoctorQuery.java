@@ -2,7 +2,7 @@
  * Copyright 2010 Hewlett-Packard. All rights reserved. <br>
  * HP Confidential. Use is subject to license terms.
  */
-package com.hp.it.mdm.addressDoctor;
+package com.hp.it.mdm.addressdoctor;
 
 import java.util.Map;
 import com.hp.it.cas.match.address.AddressQuery;

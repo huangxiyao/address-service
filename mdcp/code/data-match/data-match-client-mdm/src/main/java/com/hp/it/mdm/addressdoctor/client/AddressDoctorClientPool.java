@@ -1,4 +1,4 @@
-package com.hp.it.mdm.addressDoctor.client;
+package com.hp.it.mdm.addressdoctor.client;
 
 import org.apache.commons.pool.BasePoolableObjectFactory;
 import org.apache.commons.pool.impl.GenericObjectPool;

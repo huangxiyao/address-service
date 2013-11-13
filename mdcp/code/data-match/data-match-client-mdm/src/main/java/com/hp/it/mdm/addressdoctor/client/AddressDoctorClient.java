@@ -1,4 +1,4 @@
-package com.hp.it.mdm.addressDoctor.client;
+package com.hp.it.mdm.addressdoctor.client;
 
 import java.util.Map;
 import com.siperian.mrm.cleanse.api.CleanseFunctionDescriptor;

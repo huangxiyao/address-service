@@ -1,10 +1,12 @@
-package com.hp.it.mdm.addressDoctor;
+package com.hp.it.mdm.addressdoctor;
 
 import java.util.HashMap;
 import java.util.Properties;
+
 import org.apache.log4j.Logger;
-import com.hp.it.mdm.addressDoctor.client.AddressDoctorClient;
-import com.hp.it.mdm.addressDoctor.client.AddressDoctorFunction;
+
+import com.hp.it.mdm.addressdoctor.client.AddressDoctorClient;
+import com.hp.it.mdm.addressdoctor.client.AddressDoctorFunction;
 import com.siperian.common.util.TypedProps;
 import com.siperian.mrm.cleanse.api.CleanseException;
 import com.siperian.mrm.cleanse.api.CleanseFunction;

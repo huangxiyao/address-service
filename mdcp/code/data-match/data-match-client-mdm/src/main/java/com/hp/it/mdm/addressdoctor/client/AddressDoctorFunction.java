@@ -1,13 +1,12 @@
-package com.hp.it.mdm.addressDoctor.client;
+package com.hp.it.mdm.addressdoctor.client;
 
 import java.util.Map;
 
 import org.apache.log4j.Logger;
-import com.hp.it.mdm.addressDoctor.client.AddressDoctorClient;
-import com.hp.it.mdm.addressDoctor.client.AddressDoctorClientPool;
+
+import com.siperian.common.util.TypedProps;
 import com.siperian.mrm.cleanse.api.CleanseException;
 import com.siperian.mrm.cleanse.api.CleanseFunction;
-import com.siperian.common.util.TypedProps;
 
 public class AddressDoctorFunction implements CleanseFunction {
 	private AddressDoctorClientPool clientPool = null;

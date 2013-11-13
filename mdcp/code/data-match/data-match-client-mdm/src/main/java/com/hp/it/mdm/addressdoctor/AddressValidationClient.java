@@ -1,4 +1,4 @@
-package com.hp.it.mdm.addressDoctor;
+package com.hp.it.mdm.addressdoctor;
 
 import java.net.URL;
 import java.util.Map;
@@ -10,7 +10,7 @@ import com.hp.it.cas.match.address.AddressQueryResult;
 import com.hp.it.cas.match.address.ClientTestEnvironment;
 import com.hp.it.cas.match.address.SecurityContextTestController;
 import com.hp.it.cas.match.address.rest.ValidatedAddressFinderRestProxy;
-import com.hp.it.mdm.addressDoctor.client.AddressDoctorClient;
+import com.hp.it.mdm.addressdoctor.client.AddressDoctorClient;
 import com.siperian.common.util.TypedProps;
 
 public class AddressValidationClient extends AddressDoctorClient {

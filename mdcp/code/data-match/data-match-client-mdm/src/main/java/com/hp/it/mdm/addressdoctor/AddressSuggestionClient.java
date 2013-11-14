@@ -88,14 +88,9 @@ public class AddressSuggestionClient extends AddressDoctorClient {
 				.getProperty("AddressSuggestionsAddressFinderRestProxy_URL");
 		AddressSuggestionsAddressFinderRestProxy proxy = new AddressSuggestionsAddressFinderRestProxy(
 				server_url);
-		/* get map inputs */
-		String namein = (String) input.get(AddressDoctorInputs.NAMEIN);
 
 		AddressQueryResult result = proxy.suggest(new AddressDoctorQuery()
 				.addressQuery(input));
-
-		/* place the outputs in the output map */
-		output.put(AddressDoctorOutputs.NAMEOUT, namein);
 
 		// output.put(ADDRESSRES,
 		// AddressDoctorOutputs.populateAddressDoctorResultToString(result));

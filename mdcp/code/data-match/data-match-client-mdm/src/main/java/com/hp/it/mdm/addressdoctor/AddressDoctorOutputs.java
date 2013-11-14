@@ -48,7 +48,6 @@ public class AddressDoctorOutputs {
     public final static String countrySpecificLocalityLine = "countrySpecificLocalityLine";
     public final static String formattedAddressLine = "formattedAddressLine";
     public final static String completeAddress = "completeAddress";
-    public final static String NAMEOUT = "Name Output";
 
     public final static String[] fOutputName = {
         processStatus, modeUsed, preferredLanguage, preferredScript, Iso3, elementInputStatus, elementResultStatus,
@@ -56,7 +55,7 @@ public class AddressDoctorOutputs {
         supplementaryUSStatus, key, country, locality, postalCode, province, street, number, building, subBuilding,
         deliveryService,
         organization, contact, residue, recipientLines, deliveryAddressLine, countrySpecificLocalityLine,
- formattedAddressLine, completeAddress, NAMEOUT };
+ formattedAddressLine, completeAddress };
 
     public final static String[] fOutputType = {
 
@@ -68,7 +67,7 @@ public class AddressDoctorOutputs {
         ParameterTypes.STRING, ParameterTypes.STRING, ParameterTypes.STRING, ParameterTypes.STRING,
         ParameterTypes.STRING, ParameterTypes.STRING, ParameterTypes.STRING, ParameterTypes.STRING,
         ParameterTypes.STRING, ParameterTypes.STRING, ParameterTypes.STRING, ParameterTypes.STRING,
-        ParameterTypes.STRING, ParameterTypes.STRING };
+        ParameterTypes.STRING };
 
     public static Map populateRsltMap(AddressQueryResult result, Map output) {
         StringBuffer keyBuf = new StringBuffer("[");

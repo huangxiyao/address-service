@@ -88,14 +88,9 @@ public class AddressValidationClient extends AddressDoctorClient {
 				.getProperty("ValidatedAddressFinderRestProxy_URL");
 		ValidatedAddressFinderRestProxy proxy = new ValidatedAddressFinderRestProxy(
 				server_url);
-		/* get map inputs */
-		String namein = (String) input.get(AddressDoctorInputs.NAMEIN);
 
 		AddressQueryResult result = proxy.find(new AddressDoctorQuery()
 				.addressQuery(input));
-
-		/* place the outputs in the output map */
-		output.put(AddressDoctorOutputs.NAMEOUT, namein);
 
 		// output.put(ADDRESSRES,
 		// AddressDoctorOutputs.populateAddressDoctorResultToString(result));

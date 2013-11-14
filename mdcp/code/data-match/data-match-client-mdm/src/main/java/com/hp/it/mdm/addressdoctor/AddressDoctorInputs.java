@@ -124,7 +124,7 @@ public class AddressDoctorInputs {
     public final static String preferredScript = "preferredScript";
     public final static String preferredLanguage = "preferredLanguage";
     public final static String characterScriptDetectionIndicator = "characterScriptDetectionIndicator";
-    public final static String NAMEIN = "Name Input";
+    
 
     public final static String[] fInputName = {
         key1, key2, key3, country1, country2, country3, locality1, locality2, locality3, locality4, locality5,
@@ -142,7 +142,7 @@ public class AddressDoctorInputs {
         formattedAddressLine8, formattedAddressLine9, formattedAddressLine10, formattedAddressLine11,
         formattedAddressLine12, formattedAddressLine13, formattedAddressLine14, formattedAddressLine15,
         formattedAddressLine16, formattedAddressLine17, formattedAddressLine18, formattedAddressLine19,
-        addressComplete, preferredScript, preferredLanguage, characterScriptDetectionIndicator, NAMEIN };
+        addressComplete, preferredScript, preferredLanguage, characterScriptDetectionIndicator };
     public final static String[] fInputType = {
 
         ParameterTypes.STRING, ParameterTypes.STRING, ParameterTypes.STRING, ParameterTypes.STRING,
@@ -170,7 +170,7 @@ public class AddressDoctorInputs {
         ParameterTypes.STRING, ParameterTypes.STRING, ParameterTypes.STRING, ParameterTypes.STRING,
         ParameterTypes.STRING, ParameterTypes.STRING, ParameterTypes.STRING, ParameterTypes.STRING,
         ParameterTypes.STRING, ParameterTypes.STRING, ParameterTypes.STRING, ParameterTypes.STRING,
-        ParameterTypes.STRING, ParameterTypes.STRING, ParameterTypes.STRING };
+        ParameterTypes.STRING, ParameterTypes.STRING };
     
     public static Properties loadPropertyFile(URL path) {
 

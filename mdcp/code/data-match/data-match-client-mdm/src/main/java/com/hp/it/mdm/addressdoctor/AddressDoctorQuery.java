@@ -126,13 +126,7 @@ public class AddressDoctorQuery {
             else
                 query.setCharacterScriptDetectionIndicator(Boolean.valueOf((String) input.get(AddressDoctorInputs.characterScriptDetectionIndicator)));
         }
-
-        // query.setDeliveryAddressLine1(dlyAddLn1);
-        // query.setCountry1(ctry1);
-        // if (null != csdi && !"".equals(csdi))
-        // query.setCharacterScriptDetectionIndicator(Boolean.valueOf(csdi));
-        // query.setLocality1(lclty1);
-        // query.setPostalCode1(ptcd1);
+        
         return query;
     }
 }

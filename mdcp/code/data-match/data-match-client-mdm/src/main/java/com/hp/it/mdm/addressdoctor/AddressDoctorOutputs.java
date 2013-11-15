@@ -19,7 +19,8 @@ public class AddressDoctorOutputs {
     public final static String modeUsed = "modeUsed";
     public final static String preferredLanguage = "preferredLanguage";
     public final static String preferredScript = "preferredScript";
-    public final static String Iso3 = "Iso3";
+    public final static String countryCode = "countryCode";
+    public final static String countOverflow = "countOverflow";
     public final static String elementInputStatus = "elementInputStatus";
     public final static String elementResultStatus = "elementResultStatus";
     public final static String elementRelevance = "elementRelevance";
@@ -32,9 +33,11 @@ public class AddressDoctorOutputs {
     public final static String supplementaryUSStatus = "supplementaryUSStatus";
     public final static String key = "key";
     public final static String country = "country";
+    public final static String supplementaryUS = "supplementaryUS";
     public final static String locality = "locality";
     public final static String postalCode = "postalCode";
     public final static String province = "province";
+    public final static String subProvince = "subProvince";
     public final static String street = "street";
     public final static String number = "number";
     public final static String building = "building";
@@ -50,9 +53,9 @@ public class AddressDoctorOutputs {
     public final static String completeAddress = "completeAddress";
 
     public final static String[] fOutputName = {
-        processStatus, modeUsed, preferredLanguage, preferredScript, Iso3, elementInputStatus, elementResultStatus,
+        processStatus, modeUsed, preferredLanguage, preferredScript, countryCode, countOverflow, elementInputStatus, elementResultStatus,
         elementRelevance, mailabilityScore, resultPercentage, cassStatus, serpStatus, snaStatus, supplementaryGBStatus,
-        supplementaryUSStatus, key, country, locality, postalCode, province, street, number, building, subBuilding,
+        supplementaryUSStatus, key, country, supplementaryUS,locality, postalCode, province, subProvince, street, number, building, subBuilding,
         deliveryService,
         organization, contact, residue, recipientLines, deliveryAddressLine, countrySpecificLocalityLine,
  formattedAddressLine, completeAddress };
@@ -60,21 +63,23 @@ public class AddressDoctorOutputs {
     public final static String[] fOutputType = {
 
         ParameterTypes.STRING, ParameterTypes.STRING, ParameterTypes.STRING, ParameterTypes.STRING,
+        ParameterTypes.STRING, ParameterTypes.BOOLEAN, ParameterTypes.STRING, ParameterTypes.STRING,
         ParameterTypes.STRING, ParameterTypes.STRING, ParameterTypes.STRING, ParameterTypes.STRING,
         ParameterTypes.STRING, ParameterTypes.STRING, ParameterTypes.STRING, ParameterTypes.STRING,
         ParameterTypes.STRING, ParameterTypes.STRING, ParameterTypes.STRING, ParameterTypes.STRING,
         ParameterTypes.STRING, ParameterTypes.STRING, ParameterTypes.STRING, ParameterTypes.STRING,
         ParameterTypes.STRING, ParameterTypes.STRING, ParameterTypes.STRING, ParameterTypes.STRING,
         ParameterTypes.STRING, ParameterTypes.STRING, ParameterTypes.STRING, ParameterTypes.STRING,
-        ParameterTypes.STRING, ParameterTypes.STRING, ParameterTypes.STRING, ParameterTypes.STRING,
-        ParameterTypes.STRING };
+        ParameterTypes.STRING,ParameterTypes.STRING,ParameterTypes.STRING, ParameterTypes.STRING};
 
     public static Map populateRsltMap(AddressQueryResult result, Map output) {
         StringBuffer keyBuf = new StringBuffer("[");
         StringBuffer countryBuf = new StringBuffer("[");
+        StringBuffer supplementaryUSBuf = new StringBuffer("[");
         StringBuffer localityBuf = new StringBuffer("[");
         StringBuffer postalCodeBuf = new StringBuffer("[");
         StringBuffer provinceBuf = new StringBuffer("[");
+        StringBuffer subProvinceBuf = new StringBuffer("[");
         StringBuffer streetBuf = new StringBuffer("[");
         StringBuffer numberBuf = new StringBuffer("[");
         StringBuffer buildingBuf = new StringBuffer("[");
@@ -87,11 +92,12 @@ public class AddressDoctorOutputs {
         StringBuffer deliveryAddressLineBuf = new StringBuffer("[");
         StringBuffer countrySpecificLocalityLineBuf = new StringBuffer("[");
         StringBuffer formattedAddressLineBuf = new StringBuffer("[");
-        output.put(processStatus, result.getProcessStatus());
+        output.put(countryCode,result.getIso3());
         output.put(modeUsed,result.getModeUsed());
         output.put(preferredLanguage,result.getPreferredLanguage());
         output.put(preferredScript,result.getPreferredScript());
-        output.put(Iso3,result.getIso3());
+        output.put(processStatus, result.getProcessStatus());
+        output.put(countOverflow, result.isCountOverFlow());
         if(result.getAddressData().size() > 0){
             for(AddressData addt : result.getAddressData()){
                 
@@ -104,7 +110,8 @@ public class AddressDoctorOutputs {
                 output.put(serpStatus,addt.getSerpStatus());
                 output.put(snaStatus,addt.getSnaStatus());
                 output.put(supplementaryGBStatus,addt.getSupplementaryGBStatus());
-
+                output.put(supplementaryUSStatus,addt.getSupplementaryUSStatus());
+                
                 for (AddressElement adel : addt.getKeys()) {
                     keyBuf.append("{\r\ntype:" + adel.getType() + ",\r\n");
                     keyBuf.append("value:" + adel.getValue() + "\r\n},\r\n");
@@ -116,6 +123,12 @@ public class AddressDoctorOutputs {
                     countryBuf.append("value:" + adel.getValue() + "\r\n},\r\n");
                 }
                 output.put(country, countryBuf.append("],").toString());
+                
+                for (AddressElement adel : addt.getSupplementaryUs()) {
+                	supplementaryUSBuf.append("{\r\ntype:" + adel.getType() + ",\r\n");
+                	supplementaryUSBuf.append("value:" + adel.getValue() + "\r\n},\r\n");
+                }
+                output.put(supplementaryUS, supplementaryUSBuf.append("],").toString());
                 
                 for (AddressElement adel : addt.getLocalities()) {
                     localityBuf.append("{\r\ntype:" + adel.getType() + ",\r\n");
@@ -134,6 +147,12 @@ public class AddressDoctorOutputs {
                     provinceBuf.append("value:" + adel.getValue() + "\r\n},\r\n");
                 }
                 output.put(province, provinceBuf.append("],").toString());
+                
+                for (AddressElement adel : addt.getSubProvinces()) {
+                	subProvinceBuf.append("{\r\ntype:" + adel.getType() + ",\r\n");
+                	subProvinceBuf.append("value:" + adel.getValue() + "\r\n},\r\n");
+                }
+                output.put(subProvince, subProvinceBuf.append("],").toString());
 
                 for (AddressElement adel : addt.getStreets()) {
                     streetBuf.append("{\r\ntype:" + adel.getType() + ",\r\n");
@@ -222,7 +241,7 @@ public class AddressDoctorOutputs {
         resultBuf.append("modeUsed:" + result.getModeUsed() + ";\r\n");
         resultBuf.append("preferredLanguage:" + result.getPreferredLanguage() + ";\r\n");
         resultBuf.append("preferredScript:" + result.getPreferredScript() + ";\r\n");
-        resultBuf.append("Iso3:" + result.getIso3() + ";\r\n" + "}\r\n");
+        resultBuf.append("countryCode:" + result.getIso3() + ";\r\n" + "}\r\n");
 
         if (result.getAddressData().size() > 0) {
             for (AddressData addt : result.getAddressData()) {
@@ -248,6 +267,7 @@ public class AddressDoctorOutputs {
                     resultDataBuf.append("{\r\ntype:" + adel.getType() + ",\r\n");
                     resultDataBuf.append("value:" + adel.getValue() + "\r\n},\r\n");
                 }
+                
                 resultDataBuf.append("],\r\n");
                 resultDataBuf.append("locality:[\r\n");
                 for (AddressElement adel : addt.getLocalities()) {

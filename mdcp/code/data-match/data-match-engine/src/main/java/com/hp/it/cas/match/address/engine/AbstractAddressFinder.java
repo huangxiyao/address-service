@@ -117,7 +117,7 @@ public abstract class AbstractAddressFinder {
 			requestLogger.trace("Output XML: {}", addressObject.getResultXML());
 			return from(addressObject);
 		} catch (AddressDoctorException e) {
-			throw new RuntimeException(e);
+			throw new RuntimeException(e.toString(), e);
 		} finally {
 			addressDoctorEngine.returnObject(addressObject);
 			requestLogger.debug("RETURN {}, '{}'", sw, query);
@@ -564,7 +564,7 @@ public abstract class AbstractAddressFinder {
 					result = withTiming(query, xmlConfiguration, method);
 				}
 			}
-		}finally{
+		} finally{
 			MDC.remove("ap-uid");
 		}
 		

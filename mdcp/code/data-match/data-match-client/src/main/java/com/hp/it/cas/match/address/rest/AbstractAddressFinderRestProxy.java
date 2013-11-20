@@ -294,14 +294,14 @@ public abstract class AbstractAddressFinderRestProxy extends StandardResponseJso
 			for (Message message : messageContext.getErrors()) {
 				context.buildConstraintViolationWithTemplate(message.getTemplate()).putAttributes(message.getAttributes()).addConstraintViolationForValue("");
 			}
-			throw new ConstraintViolationException(new LinkedHashSet<ConstraintViolation<?>>(context.getConstraintViolations()));
+			throw new ConstraintViolationException(context.getConstraintViolations().iterator().next().getMessage(), new LinkedHashSet<ConstraintViolation<?>>(context.getConstraintViolations()));
 		}
 	}
 
 	private void validate(AddressQuery query) {
 		Set<ConstraintViolation<AddressQuery>> violations = validator.validate(query);
 		if (!violations.isEmpty()) {
-			throw new ConstraintViolationException(new LinkedHashSet<ConstraintViolation<?>>(violations));
+			throw new ConstraintViolationException(violations.iterator().next().getMessage(), new LinkedHashSet<ConstraintViolation<?>>(violations));
 		}
 	}
 

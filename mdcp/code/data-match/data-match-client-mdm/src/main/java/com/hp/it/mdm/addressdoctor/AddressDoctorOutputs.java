@@ -73,6 +73,16 @@ public class AddressDoctorOutputs {
         ParameterTypes.STRING,ParameterTypes.STRING,ParameterTypes.STRING, ParameterTypes.STRING};
 
     public static Map populateRsltMap(AddressQueryResult result, Map output) {
+    	StringBuffer elementInputStatusBuf = new StringBuffer();
+        StringBuffer elementResultStatusBuf = new StringBuffer();
+        StringBuffer elementRelevanceBuf = new StringBuffer();
+        StringBuffer mailabilityScoreBuf = new StringBuffer();
+        StringBuffer resultPercentageBuf = new StringBuffer();
+        StringBuffer cassStatusBuf = new StringBuffer();
+        StringBuffer serpStatusBuf = new StringBuffer();
+        StringBuffer snaStatusBuf = new StringBuffer();
+        StringBuffer supplementaryGBStatusBuf = new StringBuffer();
+        StringBuffer supplementaryUSStatusBuf = new StringBuffer();
         StringBuffer keyBuf = new StringBuffer();
         StringBuffer countryBuf = new StringBuffer();
         StringBuffer supplementaryUSBuf = new StringBuffer();
@@ -92,6 +102,7 @@ public class AddressDoctorOutputs {
         StringBuffer deliveryAddressLineBuf = new StringBuffer();
         StringBuffer countrySpecificLocalityLineBuf = new StringBuffer();
         StringBuffer formattedAddressLineBuf = new StringBuffer();
+        StringBuffer completeAddressBuf = new StringBuffer();
         output.put(countryCode,result.getIso3());
         output.put(modeUsed,result.getModeUsed());
         output.put(preferredLanguage,result.getPreferredLanguage());
@@ -100,6 +111,16 @@ public class AddressDoctorOutputs {
         output.put(countOverflow, result.isCountOverFlow());
         if(result.getAddressData().size() > 0){
             for(AddressData addt : result.getAddressData()){
+	           	 elementInputStatusBuf.append("\"");
+	             elementResultStatusBuf.append("\"");
+	             elementRelevanceBuf.append("\"");
+	             mailabilityScoreBuf.append("\"");
+	             resultPercentageBuf.append("\"");
+	             cassStatusBuf.append("\"");
+	             serpStatusBuf.append("\"");
+	             snaStatusBuf.append("\"");
+	             supplementaryGBStatusBuf.append("\"");
+	             supplementaryUSStatusBuf.append("\"");
             	 keyBuf.append("[");
             	 countryBuf.append("[");
             	 supplementaryUSBuf.append("[");
@@ -119,254 +140,304 @@ public class AddressDoctorOutputs {
             	 deliveryAddressLineBuf.append("[");
             	 countrySpecificLocalityLineBuf.append("[");
             	 formattedAddressLineBuf.append("[");
-                output.put(elementInputStatus,addt.getElementInputStatus());
-                output.put(elementResultStatus,addt.getElementResultStatus());
-                output.put(elementRelevance,addt.getElementRelevance());
-                output.put(mailabilityScore,addt.getMailabilityScore());
-                output.put(resultPercentage,addt.getResultPercentage());
-                output.put(cassStatus,addt.getCassStatus());
-                output.put(serpStatus,addt.getSerpStatus());
-                output.put(snaStatus,addt.getSnaStatus());
-                output.put(supplementaryGBStatus,addt.getSupplementaryGBStatus());
-                output.put(supplementaryUSStatus,addt.getSupplementaryUSStatus());
+            	 completeAddressBuf.append("\"");
+            	 
+                //output.put(elementInputStatus,addt.getElementInputStatus());
+                //output.put(elementResultStatus,addt.getElementResultStatus());
+                //output.put(elementRelevance,addt.getElementRelevance());
+                //output.put(mailabilityScore,addt.getMailabilityScore());
+                //output.put(resultPercentage,addt.getResultPercentage());
+                //output.put(cassStatus,addt.getCassStatus());
+                //output.put(serpStatus,addt.getSerpStatus());
+                //output.put(snaStatus,addt.getSnaStatus());
+                //output.put(supplementaryGBStatus,addt.getSupplementaryGBStatus());
+                //output.put(supplementaryUSStatus,addt.getSupplementaryUSStatus());
                 AddressElement adellst = null;
                 String ade = null;
+                
+                ade = addt.getElementInputStatus();
+                elementInputStatusBuf.append(ade);
+             
+                output.put(elementInputStatus, elementInputStatusBuf.append("\",").toString());
+                
+                ade = addt.getElementResultStatus();
+                elementResultStatusBuf.append(ade);
+             
+                output.put(elementResultStatus, elementResultStatusBuf.append("\",").toString());
+                
+                ade = addt.getElementRelevance();
+                elementRelevanceBuf.append(ade);
+             
+                output.put(elementRelevance, elementRelevanceBuf.append("\",").toString());
+                ade = addt.getMailabilityScore();
+                mailabilityScoreBuf.append(ade);
+             
+                output.put(mailabilityScore, mailabilityScoreBuf.append("\",").toString());
+                
+                ade = addt.getResultPercentage();
+                resultPercentageBuf.append(ade);
+             
+                output.put(resultPercentage, resultPercentageBuf.append("\",").toString());
+                
+                ade = addt.getCassStatus();
+                cassStatusBuf.append(ade);
+             
+                output.put(cassStatus, cassStatusBuf.append("\",").toString());
+                ade = addt.getSerpStatus();
+                serpStatusBuf.append(ade);
+             
+                output.put(serpStatus, serpStatusBuf.append("\",").toString());
+                ade = addt.getSnaStatus();
+                snaStatusBuf.append(ade);
+             
+                output.put(snaStatus, snaStatusBuf.append("\",").toString());
+                
+                ade = addt.getSupplementaryGBStatus();
+                supplementaryGBStatusBuf.append(ade);
+             
+                output.put(supplementaryGBStatus, supplementaryGBStatusBuf.append("\",").toString());
+                ade = addt.getSupplementaryUSStatus();
+                supplementaryUSStatusBuf.append(ade);
+             
+                output.put(supplementaryUSStatus, supplementaryUSStatusBuf.append("\",").toString());
+                
+                
 //                for (AddressElement adel : addt.getKeys()) {
-//                    keyBuf.append("{\r\ntype:" + adel.getType() + ",\r\n");
-//                    keyBuf.append("value:" + adel.getValue() + "\r\n},\r\n");
+//                    keyBuf.append("{\r\ntype:" + adel.getType() + "\",\r\n");
+//                    keyBuf.append("\"value\":\"" + adel.getValue() + "\"\r\n},\r\n");
 //                }
                 for (int i=0,j=addt.getKeys().size();i<j;i++){
                 	adellst = addt.getKeys().get(i);
                 	if(i<(addt.getKeys().size()-1)){
-                		keyBuf.append("{\r\ntype:" + adellst.getType() + ",\r\n");
-                		keyBuf.append("value:" + adellst.getValue() + "\r\n},\r\n");
+                		keyBuf.append("{\r\n\"type\":\"" + adellst.getType() + "\",\r\n");
+                		keyBuf.append("\"value\":\"" + adellst.getValue() + "\"\r\n},\r\n");
                 	}else{
-                		keyBuf.append("{\r\ntype:" + adellst.getType() + ",\r\n");
-                		keyBuf.append("value:" + adellst.getValue() + "\r\n}\r\n");
+                		keyBuf.append("{\r\n\"type\":\"" + adellst.getType() + "\",\r\n");
+                		keyBuf.append("\"value\":\"" + adellst.getValue() + "\"\r\n}\r\n");
                 	}
                 }
                 output.put(key, keyBuf.append("],").toString());
                 
 //                for (AddressElement adel : addt.getCountries()) {
-//                    countryBuf.append("{\r\ntype:" + adel.getType() + ",\r\n");
-//                    countryBuf.append("value:" + adel.getValue() + "\r\n},\r\n");
+//                    countryBuf.append("{\r\n\"type\":\"" + adel.getType() + "\",\r\n");
+//                    countryBuf.append("\"value\":\"" + adel.getValue() + "\"\r\n},\r\n");
 //                }
                 for (int i=0,j=addt.getCountries().size();i<j;i++){
                 	adellst = addt.getCountries().get(i);
                 	if(i<(addt.getCountries().size()-1)){
-                		countryBuf.append("{\r\ntype:" + adellst.getType() + ",\r\n");
-                		countryBuf.append("value:" + adellst.getValue() + "\r\n},\r\n");
+                		countryBuf.append("{\r\n\"type\":\"" + adellst.getType() + "\",\r\n");
+                		countryBuf.append("\"value\":\"" + adellst.getValue() + "\"\r\n},\r\n");
                 	}else{
-                		countryBuf.append("{\r\ntype:" + adellst.getType() + ",\r\n");
-                		countryBuf.append("value:" + adellst.getValue() + "\r\n}\r\n");
+                		countryBuf.append("{\r\n\"type\":\"" + adellst.getType() + "\",\r\n");
+                		countryBuf.append("\"value\":\"" + adellst.getValue() + "\"\r\n}\r\n");
                 	}
                 }
                 output.put(country, countryBuf.append("],").toString());
                 
 //                for (AddressElement adel : addt.getSupplementaryUs()) {
-//                	supplementaryUSBuf.append("{\r\ntype:" + adel.getType() + ",\r\n");
-//                	supplementaryUSBuf.append("value:" + adel.getValue() + "\r\n},\r\n");
+//                	supplementaryUSBuf.append("{\r\n\"type\":\"" + adel.getType() + "\",\r\n");
+//                	supplementaryUSBuf.append("\"value\":\"" + adel.getValue() + "\"\r\n},\r\n");
 //                }
                 for (int i=0,j=addt.getSupplementaryUs().size();i<j;i++){
                 	adellst = addt.getSupplementaryUs().get(i);
                 	if(i<(addt.getSupplementaryUs().size()-1)){
-                		supplementaryUSBuf.append("{\r\ntype:" + adellst.getType() + ",\r\n");
-                		supplementaryUSBuf.append("value:" + adellst.getValue() + "\r\n},\r\n");
+                		supplementaryUSBuf.append("{\r\n\"type\":\"" + adellst.getType() + "\",\r\n");
+                		supplementaryUSBuf.append("\"value\":\"" + adellst.getValue() + "\"\r\n},\r\n");
                 	}else{
-                		supplementaryUSBuf.append("{\r\ntype:" + adellst.getType() + ",\r\n");
-                		supplementaryUSBuf.append("value:" + adellst.getValue() + "\r\n}\r\n");
+                		supplementaryUSBuf.append("{\r\n\"type\":\"" + adellst.getType() + "\",\r\n");
+                		supplementaryUSBuf.append("\"value\":\"" + adellst.getValue() + "\"\r\n}\r\n");
                 	}
                 }
                 output.put(supplementaryUS, supplementaryUSBuf.append("],").toString());
                 
 //                for (AddressElement adel : addt.getLocalities()) {
-//                    localityBuf.append("{\r\ntype:" + adel.getType() + ",\r\n");
-//                    localityBuf.append("value:" + adel.getValue() + "\r\n},\r\n");
+//                    localityBuf.append("{\r\n\"type\":\"" + adel.getType() + "\",\r\n");
+//                    localityBuf.append("\"value\":\"" + adel.getValue() + "\"\r\n},\r\n");
 //                }
                 for (int i=0,j=addt.getLocalities().size();i<j;i++){
                 	adellst = addt.getLocalities().get(i);
                 	if(i<(addt.getLocalities().size()-1)){
-                		localityBuf.append("{\r\ntype:" + adellst.getType() + ",\r\n");
-                		localityBuf.append("value:" + adellst.getValue() + "\r\n},\r\n");
+                		localityBuf.append("{\r\n\"type\":\"" + adellst.getType() + "\",\r\n");
+                		localityBuf.append("\"value\":\"" + adellst.getValue() + "\"\r\n},\r\n");
                 	}else{
-                		localityBuf.append("{\r\ntype:" + adellst.getType() + ",\r\n");
-                		localityBuf.append("value:" + adellst.getValue() + "\r\n}\r\n");
+                		localityBuf.append("{\r\n\"type\":\"" + adellst.getType() + "\",\r\n");
+                		localityBuf.append("\"value\":\"" + adellst.getValue() + "\"\r\n}\r\n");
                 	}
                 }
                 output.put(locality, localityBuf.append("],").toString());
 
 //                for (AddressElement adel : addt.getPostalCodes()) {
-//                    postalCodeBuf.append("{\r\ntype:" + adel.getType() + ",\r\n");
-//                    postalCodeBuf.append("value:" + adel.getValue() + "\r\n},\r\n");
+//                    postalCodeBuf.append("{\r\n\"type\":\"" + adel.getType() + "\",\r\n");
+//                    postalCodeBuf.append("\"value\":\"" + adel.getValue() + "\"\r\n},\r\n");
 //                }
                 for (int i=0,j=addt.getPostalCodes().size();i<j;i++){
                 	adellst = addt.getPostalCodes().get(i);
                 	if(i<(addt.getPostalCodes().size()-1)){
-                		postalCodeBuf.append("{\r\ntype:" + adellst.getType() + ",\r\n");
-                		postalCodeBuf.append("value:" + adellst.getValue() + "\r\n},\r\n");
+                		postalCodeBuf.append("{\r\n\"type\":\"" + adellst.getType() + "\",\r\n");
+                		postalCodeBuf.append("\"value\":\"" + adellst.getValue() + "\"\r\n},\r\n");
                 	}else{
-                		postalCodeBuf.append("{\r\ntype:" + adellst.getType() + ",\r\n");
-                		postalCodeBuf.append("value:" + adellst.getValue() + "\r\n}\r\n");
+                		postalCodeBuf.append("{\r\n\"type\":\"" + adellst.getType() + "\",\r\n");
+                		postalCodeBuf.append("\"value\":\"" + adellst.getValue() + "\"\r\n}\r\n");
                 	}
                 }
                 output.put(postalCode, postalCodeBuf.append("],").toString());
 
 //                for (AddressElement adel : addt.getProvinces()) {
-//                    provinceBuf.append("{\r\ntype:" + adel.getType() + ",\r\n");
-//                    provinceBuf.append("value:" + adel.getValue() + "\r\n},\r\n");
+//                    provinceBuf.append("{\r\n\"type\":\"" + adel.getType() + "\",\r\n");
+//                    provinceBuf.append("\"value\":\"" + adel.getValue() + "\"\r\n},\r\n");
 //                }
                 for (int i=0,j=addt.getProvinces().size();i<j;i++){
                 	adellst = addt.getProvinces().get(i);
                 	if(i<(addt.getProvinces().size()-1)){
-                		provinceBuf.append("{\r\ntype:" + adellst.getType() + ",\r\n");
-                		provinceBuf.append("value:" + adellst.getValue() + "\r\n},\r\n");
+                		provinceBuf.append("{\r\n\"type\":\"" + adellst.getType() + "\",\r\n");
+                		provinceBuf.append("\"value\":\"" + adellst.getValue() + "\"\r\n},\r\n");
                 	}else{
-                		provinceBuf.append("{\r\ntype:" + adellst.getType() + ",\r\n");
-                		provinceBuf.append("value:" + adellst.getValue() + "\r\n}\r\n");
+                		provinceBuf.append("{\r\n\"type\":\"" + adellst.getType() + "\",\r\n");
+                		provinceBuf.append("\"value\":\"" + adellst.getValue() + "\"\r\n}\r\n");
                 	}
                 }
                 output.put(province, provinceBuf.append("],").toString());
                 
 //                for (AddressElement adel : addt.getSubProvinces()) {
-//                	subProvinceBuf.append("{\r\ntype:" + adel.getType() + ",\r\n");
-//                	subProvinceBuf.append("value:" + adel.getValue() + "\r\n},\r\n");
+//                	subProvinceBuf.append("{\r\n\"type\":\"" + adel.getType() + "\",\r\n");
+//                	subProvinceBuf.append("\"value\":\"" + adel.getValue() + "\"\r\n},\r\n");
 //                }
                 for (int i=0,j=addt.getSubProvinces().size();i<j;i++){
                 	adellst = addt.getSubProvinces().get(i);
                 	if(i<(addt.getSubProvinces().size()-1)){
-                		subProvinceBuf.append("{\r\ntype:" + adellst.getType() + ",\r\n");
-                		subProvinceBuf.append("value:" + adellst.getValue() + "\r\n},\r\n");
+                		subProvinceBuf.append("{\r\n\"type\":\"" + adellst.getType() + "\",\r\n");
+                		subProvinceBuf.append("\"value\":\"" + adellst.getValue() + "\"\r\n},\r\n");
                 	}else{
-                		subProvinceBuf.append("{\r\ntype:" + adellst.getType() + ",\r\n");
-                		subProvinceBuf.append("value:" + adellst.getValue() + "\r\n}\r\n");
+                		subProvinceBuf.append("{\r\n\"type\":\"" + adellst.getType() + "\",\r\n");
+                		subProvinceBuf.append("\"value\":\"" + adellst.getValue() + "\"\r\n}\r\n");
                 	}
                 }
                 output.put(subProvince, subProvinceBuf.append("],").toString());
 
 //                for (AddressElement adel : addt.getStreets()) {
-//                    streetBuf.append("{\r\ntype:" + adel.getType() + ",\r\n");
-//                    streetBuf.append("value:" + adel.getValue() + "\r\n},\r\n");
+//                    streetBuf.append("{\r\n\"type\":\"" + adel.getType() + "\",\r\n");
+//                    streetBuf.append("\"value\":\"" + adel.getValue() + "\"\r\n},\r\n");
 //                }
                 for (int i=0,j=addt.getStreets().size();i<j;i++){
                 	adellst = addt.getStreets().get(i);
                 	if(i<(addt.getStreets().size()-1)){
-                		streetBuf.append("{\r\ntype:" + adellst.getType() + ",\r\n");
-                		streetBuf.append("value:" + adellst.getValue() + "\r\n},\r\n");
+                		streetBuf.append("{\r\n\"type\":\"" + adellst.getType() + "\",\r\n");
+                		streetBuf.append("\"value\":\"" + adellst.getValue() + "\"\r\n},\r\n");
                 	}else{
-                		streetBuf.append("{\r\ntype:" + adellst.getType() + ",\r\n");
-                		streetBuf.append("value:" + adellst.getValue() + "\r\n}\r\n");
+                		streetBuf.append("{\r\n\"type\":\"" + adellst.getType() + "\",\r\n");
+                		streetBuf.append("\"value\":\"" + adellst.getValue() + "\"\r\n}\r\n");
                 	}
                 }
                 output.put(street, streetBuf.append("],").toString());
 
 //                for (AddressElement adel : addt.getNumbers()) {
-//                    numberBuf.append("{\r\ntype:" + adel.getType() + ",\r\n");
-//                    numberBuf.append("value:" + adel.getValue() + "\r\n},\r\n");
+//                    numberBuf.append("{\r\n\"type\":\"" + adel.getType() + "\",\r\n");
+//                    numberBuf.append("\"value\":\"" + adel.getValue() + "\"\r\n},\r\n");
 //                }
                 for (int i=0,j=addt.getNumbers().size();i<j;i++){
                 	adellst = addt.getNumbers().get(i);
                 	if(i<(addt.getNumbers().size()-1)){
-                		numberBuf.append("{\r\ntype:" + adellst.getType() + ",\r\n");
-                		numberBuf.append("value:" + adellst.getValue() + "\r\n},\r\n");
+                		numberBuf.append("{\r\n\"type\":\"" + adellst.getType() + "\",\r\n");
+                		numberBuf.append("\"value\":\"" + adellst.getValue() + "\"\r\n},\r\n");
                 	}else{
-                		numberBuf.append("{\r\ntype:" + adellst.getType() + ",\r\n");
-                		numberBuf.append("value:" + adellst.getValue() + "\r\n}\r\n");
+                		numberBuf.append("{\r\n\"type\":\"" + adellst.getType() + "\",\r\n");
+                		numberBuf.append("\"value\":\"" + adellst.getValue() + "\"\r\n}\r\n");
                 	}
                 }
                 output.put(number, numberBuf.append("],").toString());
 
 //                for (AddressElement adel : addt.getBuildings()) {
-//                    buildingBuf.append("{\r\ntype:" + adel.getType() + ",\r\n");
-//                    buildingBuf.append("value:" + adel.getValue() + "\r\n},\r\n");
+//                    buildingBuf.append("{\r\n\"type\":\"" + adel.getType() + "\",\r\n");
+//                    buildingBuf.append("\"value\":\"" + adel.getValue() + "\"\r\n},\r\n");
 //                }
                 for (int i=0,j=addt.getBuildings().size();i<j;i++){
                 	adellst = addt.getBuildings().get(i);
                 	if(i<(addt.getBuildings().size()-1)){
-                		buildingBuf.append("{\r\ntype:" + adellst.getType() + ",\r\n");
-                		buildingBuf.append("value:" + adellst.getValue() + "\r\n},\r\n");
+                		buildingBuf.append("{\r\n\"type\":\"" + adellst.getType() + "\",\r\n");
+                		buildingBuf.append("\"value\":\"" + adellst.getValue() + "\"\r\n},\r\n");
                 	}else{
-                		buildingBuf.append("{\r\ntype:" + adellst.getType() + ",\r\n");
-                		buildingBuf.append("value:" + adellst.getValue() + "\r\n}\r\n");
+                		buildingBuf.append("{\r\n\"type\":\"" + adellst.getType() + "\",\r\n");
+                		buildingBuf.append("\"value\":\"" + adellst.getValue() + "\"\r\n}\r\n");
                 	}
                 }
                 output.put(building, buildingBuf.append("],").toString());
 
 //                for (AddressElement adel : addt.getSubBuildings()) {
-//                    subBuildingBuf.append("{\r\ntype:" + adel.getType() + ",\r\n");
-//                    subBuildingBuf.append("value:" + adel.getValue() + "\r\n},\r\n");
+//                    subBuildingBuf.append("{\r\n\"type\":\"" + adel.getType() + "\",\r\n");
+//                    subBuildingBuf.append("\"value\":\"" + adel.getValue() + "\"\r\n},\r\n");
 //                }
                 for (int i=0,j=addt.getSubBuildings().size();i<j;i++){
                 	adellst = addt.getSubBuildings().get(i);
                 	if(i<(addt.getSubBuildings().size()-1)){
-                		subBuildingBuf.append("{\r\ntype:" + adellst.getType() + ",\r\n");
-                		subBuildingBuf.append("value:" + adellst.getValue() + "\r\n},\r\n");
+                		subBuildingBuf.append("{\r\n\"type\":\"" + adellst.getType() + "\",\r\n");
+                		subBuildingBuf.append("\"value\":\"" + adellst.getValue() + "\"\r\n},\r\n");
                 	}else{
-                		subBuildingBuf.append("{\r\ntype:" + adellst.getType() + ",\r\n");
-                		subBuildingBuf.append("value:" + adellst.getValue() + "\r\n}\r\n");
+                		subBuildingBuf.append("{\r\n\"type\":\"" + adellst.getType() + "\",\r\n");
+                		subBuildingBuf.append("\"value\":\"" + adellst.getValue() + "\"\r\n}\r\n");
                 	}
                 }
                 output.put(subBuilding, subBuildingBuf.append("],").toString());
 
 //                for (AddressElement adel : addt.getDeliveryServices()) {
-//                    deliveryServiceBuf.append("{\r\ntype:" + adel.getType() + ",\r\n");
-//                    deliveryServiceBuf.append("value:" + adel.getValue() + "\r\n},\r\n");
+//                    deliveryServiceBuf.append("{\r\n\"type\":\"" + adel.getType() + "\",\r\n");
+//                    deliveryServiceBuf.append("\"value\":\"" + adel.getValue() + "\"\r\n},\r\n");
 //                }
                 for (int i=0,j=addt.getDeliveryServices().size();i<j;i++){
                 	adellst = addt.getDeliveryServices().get(i);
                 	if(i<(addt.getDeliveryServices().size()-1)){
-                		deliveryServiceBuf.append("{\r\ntype:" + adellst.getType() + ",\r\n");
-                		deliveryServiceBuf.append("value:" + adellst.getValue() + "\r\n},\r\n");
+                		deliveryServiceBuf.append("{\r\n\"type\":\"" + adellst.getType() + "\",\r\n");
+                		deliveryServiceBuf.append("\"value\":\"" + adellst.getValue() + "\"\r\n},\r\n");
                 	}else{
-                		deliveryServiceBuf.append("{\r\ntype:" + adellst.getType() + ",\r\n");
-                		deliveryServiceBuf.append("value:" + adellst.getValue() + "\r\n}\r\n");
+                		deliveryServiceBuf.append("{\r\n\"type\":\"" + adellst.getType() + "\",\r\n");
+                		deliveryServiceBuf.append("\"value\":\"" + adellst.getValue() + "\"\r\n}\r\n");
                 	}
                 }
                 output.put(deliveryService, deliveryServiceBuf.append("],").toString());
 
 //                for (AddressElement adel : addt.getOrganizations()) {
-//                    organizationBuf.append("{\r\ntype:" + adel.getType() + ",\r\n");
-//                    organizationBuf.append("value:" + adel.getValue() + "\r\n},\r\n");
+//                    organizationBuf.append("{\r\n\"type\":\"" + adel.getType() + "\",\r\n");
+//                    organizationBuf.append("\"value\":\"" + adel.getValue() + "\"\r\n},\r\n");
 //                }
                 for (int i=0,j=addt.getOrganizations().size();i<j;i++){
                 	adellst = addt.getOrganizations().get(i);
                 	if(i<(addt.getOrganizations().size()-1)){
-                		organizationBuf.append("{\r\ntype:" + adellst.getType() + ",\r\n");
-                		organizationBuf.append("value:" + adellst.getValue() + "\r\n},\r\n");
+                		organizationBuf.append("{\r\n\"type\":\"" + adellst.getType() + "\",\r\n");
+                		organizationBuf.append("\"value\":\"" + adellst.getValue() + "\"\r\n},\r\n");
                 	}else{
-                		organizationBuf.append("{\r\ntype:" + adellst.getType() + ",\r\n");
-                		organizationBuf.append("value:" + adellst.getValue() + "\r\n}\r\n");
+                		organizationBuf.append("{\r\n\"type\":\"" + adellst.getType() + "\",\r\n");
+                		organizationBuf.append("\"value\":\"" + adellst.getValue() + "\"\"\r\n}\r\n");
                 	}
                 }
                 output.put(organization, organizationBuf.append("],").toString());
 
 //                for (AddressElement adel : addt.getContacts()) {
-//                    contactBuf.append("{\r\ntype:" + adel.getType() + ",\r\n");
-//                    contactBuf.append("value:" + adel.getValue() + "\r\n},\r\n");
+//                    contactBuf.append("{\r\n\"type\":\"" + adel.getType() + "\",\r\n");
+//                    contactBuf.append("\"value\":\"" + adel.getValue() + "\"\r\n},\r\n");
 //                }
                 for (int i=0,j=addt.getContacts().size();i<j;i++){
                 	adellst = addt.getContacts().get(i);
                 	if(i<(addt.getContacts().size()-1)){
-                		contactBuf.append("{\r\ntype:" + adellst.getType() + ",\r\n");
-                		contactBuf.append("value:" + adellst.getValue() + "\r\n},\r\n");
+                		contactBuf.append("{\r\n\"type\":\"" + adellst.getType() + "\",\r\n");
+                		contactBuf.append("\"value\":\"" + adellst.getValue() + "\"\r\n},\r\n");
                 	}else{
-                		contactBuf.append("{\r\ntype:" + adellst.getType() + ",\r\n");
-                		contactBuf.append("value:" + adellst.getValue() + "\r\n}\r\n");
+                		contactBuf.append("{\r\n\"type\":\"" + adellst.getType() + "\",\r\n");
+                		contactBuf.append("\"value\":\"" + adellst.getValue() + "\"\"\r\n}\r\n");
                 	}
                 }
                 output.put(contact, contactBuf.append("],").toString());
 
 //                for (AddressElement adel : addt.getResidues()) {
-//                    residueBuf.append("{\r\ntype:" + adel.getType() + ",\r\n");
+//                    residueBuf.append("{\r\n\"type\":\"" + adel.getType() + ",\r\n");
 //                    residueBuf.append("value:" + adel.getValue() + "\r\n},\r\n");
 //                }
                 for (int i=0,j=addt.getResidues().size();i<j;i++){
                 	adellst = addt.getResidues().get(i);
                 	if(i<(addt.getResidues().size()-1)){
-                		residueBuf.append("{\r\ntype:" + adellst.getType() + ",\r\n");
-                		residueBuf.append("value:" + adellst.getValue() + "\r\n},\r\n");
+                		residueBuf.append("{\r\n\"type\":\"" + adellst.getType() + "\",\r\n");
+                		residueBuf.append("\"value\":\"" + adellst.getValue() + "\"\r\n},\r\n");
                 	}else{
-                		residueBuf.append("{\r\ntype:" + adellst.getType() + ",\r\n");
-                		residueBuf.append("value:" + adellst.getValue() + "\r\n}\r\n");
+                		residueBuf.append("{\r\n\"type\":\"" + adellst.getType() + "\",\r\n");
+                		residueBuf.append("\"value\":\"" + adellst.getValue() + "\"\r\n}\r\n");
                 	}
                 }
                 output.put(residue, residueBuf.append("],").toString());
@@ -375,11 +446,12 @@ public class AddressDoctorOutputs {
 //                    recipientLinesBuf.append(recipientline + ",\r\n");
 //                }
                 for (int i=0,j=addt.getRecipientLines().size();i<j;i++){
+                	recipientLinesBuf.append("\"");
                 	ade = addt.getRecipientLines().get(i);
                 	if(i<(addt.getRecipientLines().size()-1)){
-                		recipientLinesBuf.append(ade + ",\r\n");
+                		recipientLinesBuf.append(ade + "\",\r\n");
                 	}else{
-                		recipientLinesBuf.append(ade + "\r\n");
+                		recipientLinesBuf.append(ade + "\"\r\n");
                 	}
                 }
                 output.put(recipientLines, recipientLinesBuf.append("],").toString());
@@ -388,11 +460,12 @@ public class AddressDoctorOutputs {
 //                    deliveryAddressLineBuf.append(deliveryAddLine + ",\r\n");
 //                }
                 for (int i=0,j=addt.getDeliveryAddressLines().size();i<j;i++){
+                	deliveryAddressLineBuf.append("\"");
                 	ade = addt.getDeliveryAddressLines().get(i);
                 	if(i<(addt.getDeliveryAddressLines().size()-1)){
-                		deliveryAddressLineBuf.append(ade + ",\r\n");
+                		deliveryAddressLineBuf.append(ade + "\",\r\n");
                 	}else{
-                		deliveryAddressLineBuf.append(ade + "\r\n");
+                		deliveryAddressLineBuf.append(ade + "\"\r\n");
                 	}
                 }
                 output.put(deliveryAddressLine, deliveryAddressLineBuf.append("],").toString());
@@ -401,11 +474,12 @@ public class AddressDoctorOutputs {
 //                    countrySpecificLocalityLineBuf.append(ctrySpeLocLine + ",\r\n");
 //                }
                 for (int i=0,j=addt.getCountrySpecificLocalityLines().size();i<j;i++){
+                	countrySpecificLocalityLineBuf.append("\"");
                 	ade = addt.getCountrySpecificLocalityLines().get(i);
                 	if(i<(addt.getCountrySpecificLocalityLines().size()-1)){
-                		countrySpecificLocalityLineBuf.append(ade + ",\r\n");
+                		countrySpecificLocalityLineBuf.append(ade + "\",\r\n");
                 	}else{
-                		countrySpecificLocalityLineBuf.append(ade + "\r\n");
+                		countrySpecificLocalityLineBuf.append(ade + "\"\r\n");
                 	}
                 }
                 output.put(countrySpecificLocalityLine, countrySpecificLocalityLineBuf.append("],").toString());
@@ -414,16 +488,21 @@ public class AddressDoctorOutputs {
 //                    formattedAddressLineBuf.append(formatAddLine + ",\r\n");
 //                }
                 for (int i=0,j=addt.getFormattedAddressLines().size();i<j;i++){
+                	formattedAddressLineBuf.append("\"");
                 	ade = addt.getFormattedAddressLines().get(i);
                 	if(i<(addt.getFormattedAddressLines().size()-1)){
-                		formattedAddressLineBuf.append(ade + ",\r\n");
+                		formattedAddressLineBuf.append(ade + "\",\r\n");
                 	}else{
-                		formattedAddressLineBuf.append(ade + "\r\n");
+                		formattedAddressLineBuf.append(ade + "\"\r\n");
                 	}
                 }
                 output.put(formattedAddressLine, formattedAddressLineBuf.append("],").toString());
 
-                output.put(completeAddress, addt.getCompleteAddress());
+                ade = addt.getCompleteAddress();
+                completeAddressBuf.append(ade);
+             
+                output.put(completeAddress, completeAddressBuf.append("\",").toString());
+                //output.put(completeAddress, addt.getCompleteAddress());
 
             }
         }

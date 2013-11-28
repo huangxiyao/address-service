@@ -8,7 +8,7 @@
 	</parent>
 
 	<artifactId>data-match-client-mdm</artifactId>
-    <version>2013.12-SNAPSHOT</version>
+    <version>2013.12-M4</version>
 
 	<name>Data match client mdm code</name>
 	<description>Client mdm code for the data match project is found here</description>
@@ -123,4 +123,10 @@
 			</activation>
 		</profile>
 	</profiles>
+
+  <scm>
+    <connection>scm:svn:http://code1.corp.hp.com/svn/120482/tags/data-match-client-mdm-2013.12-M4</connection>
+    <developerConnection>scm:svn:https://code1.corp.hp.com/svn/120482/tags/data-match-client-mdm-2013.12-M4</developerConnection>
+    <url>http://code1.corp.hp.com/svn/120482/tags/data-match-client-mdm-2013.12-M4</url>
+  </scm>
 </project>

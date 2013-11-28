@@ -8,7 +8,7 @@
 	</parent>
 
 	<artifactId>data-match-client-mdm</artifactId>
-    <version>2013.12-M4</version>
+    <version>2013.12-SNAPSHOT</version>
 
 	<name>Data match client mdm code</name>
 	<description>Client mdm code for the data match project is found here</description>

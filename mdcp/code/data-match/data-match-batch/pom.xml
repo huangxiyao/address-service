@@ -1,0 +1,66 @@
+<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/maven-v4_0_0.xsd">
+	<modelVersion>4.0.0</modelVersion>
+
+	<parent>
+		<artifactId>data-match</artifactId>
+		<groupId>com.hp.it.120482</groupId>
+		<version>2014.01-SNAPSHOT</version>
+	</parent>
+
+	<artifactId>data-match-batch</artifactId>
+	<name>Data match batch code</name>
+	<packaging>bar</packaging>
+	<description>batch job code for the data match project is found here</description>
+
+	<dependencies>
+		<dependency>
+			<groupId>com.hp.it.120482</groupId>
+			<artifactId>data-match-client</artifactId>
+			<version>${project.version}</version>
+		</dependency>
+
+		<dependency>
+			<groupId>com.hp.it.118361</groupId>
+			<artifactId>batch-driver</artifactId>
+			<version>${casVersion}</version>
+		</dependency>
+
+		<dependency>
+			<groupId>com.hp.it.118361</groupId>
+			<artifactId>batch-bar-runner</artifactId>
+			<version>${casVersion}</version>
+			<scope>test</scope>
+		</dependency>
+
+		<dependency>
+			<groupId>org.jmock</groupId>
+			<artifactId>jmock-junit4</artifactId>
+		</dependency>
+
+	</dependencies>
+
+	<build>
+		<testResources>
+			<testResource>
+				<directory>src/test/resources</directory>
+				<filtering>true</filtering>
+			</testResource>
+			<testResource>
+				<directory>src/test/data</directory>
+				<filtering>false</filtering>
+			</testResource>
+		</testResources>
+
+		<plugins>
+			<plugin>
+				<groupId>com.hp.it.118361</groupId>
+				<artifactId>tool-maven-archive-plugin</artifactId>
+				<version>${casVersion}</version>
+				<extensions>true</extensions>
+			</plugin>
+		</plugins>
+	</build>
+
+
+</project>

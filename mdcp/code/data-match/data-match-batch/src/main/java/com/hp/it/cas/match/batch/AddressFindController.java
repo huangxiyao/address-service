@@ -27,6 +27,7 @@ import com.hp.it.cas.match.address.rest.AddressSuggestionsAddressFinderRestProxy
 import com.hp.it.cas.match.address.rest.CertifiedAddressFinderRestProxy;
 import com.hp.it.cas.match.address.rest.FastCompletionAddressFinderRestProxy;
 import com.hp.it.cas.match.address.rest.ValidatedAddressFinderRestProxy;
+import com.hp.it.cas.match.batch.utilities.MailHelper;
 import com.hp.it.cas.xa.security.SecurityContextHolder;
 
 /**
@@ -36,7 +37,6 @@ public class AddressFindController implements TransactionController<AddressFind,
 	
 	private static final String ADDRESSDOCTOR_FEZOUTPUTPATH = "addressDoctorFEZOutputPath" ;
 	private static final String ADDRESSDOCTOR_ENV = "addressDoctorEnv";
-	private final Configuration configuration;
 	private final String addressDoctorEnv;
 	private final String addressDoctorFEZOutputPath;
 	
@@ -55,6 +55,7 @@ public class AddressFindController implements TransactionController<AddressFind,
 	// validatedAddress
 	
 	// TODO 
+	// 6 MODEUSED, but 5 functions.
 	// verify the relationship between MODE and Function
 	private enum Function {
 		looselyValidatedAddress, addressSuggestions, fastCompletionAddress, certifiedAddress, validatedAddress, 
@@ -70,7 +71,6 @@ public class AddressFindController implements TransactionController<AddressFind,
 	private String outputFileName;
 
 	public AddressFindController(Configuration configuration) {
-		this.configuration = configuration;
 		this.addressDoctorEnv  = configuration.getJobParameters().get(ADDRESSDOCTOR_ENV);
 		this.addressDoctorFEZOutputPath = configuration.getJobParameters().get(ADDRESSDOCTOR_FEZOUTPUTPATH);
 	}
@@ -80,14 +80,19 @@ public class AddressFindController implements TransactionController<AddressFind,
 		
 		// TODO 
 		// need review
-		// outputfilename + email -->send 
+		
 		if (outputFileName == null && addressFind.getOutputFileName() != null){
 			outputFileName = addressFind.getOutputFileName();
 			return null;
 		}
 		
+		// outputfilename + email --> send email
 		if ( outputFileName != null && addressFind.getEmailList() != null){
-			sendEmail(emailList, saveOutput(outputList));
+			emailList = addressFind.getEmailList();
+			saveOutput();
+			sendEmail();
+			
+			// clear temporary var
 			outputList.clear();
 			emailList = null;
 			outputFileName = null;
@@ -95,7 +100,6 @@ public class AddressFindController implements TransactionController<AddressFind,
 		} 
 		
 		if (addressFind.getEmailList() == null){
-			
 			// call AD Service
 			AddressQueryResult result = callADServices(addressFind);
 
@@ -109,14 +113,14 @@ public class AddressFindController implements TransactionController<AddressFind,
 	
 	// Call AD Service
 	public AddressQueryResult callADServices(AddressFind addressFind){
-		System.out.println("call AD service....");
-		
+
 		Principal principal = SecurityContextHolder.getInstance().getAuditPrincipal(); 
 
 		SecurityContextTestController securityController = new SecurityContextTestController();
 		securityController.collectAndSetupSecurityContext(new ClientTestEnvironment("w-mdcp:prd-http", null, null));
-		
 		AddressQueryResult result = findAddress(addressFind);
+		
+		// when run the job got NullPointerException of pricipal
 		
 		SecurityContextHolder.getInstance().addContext(principal);
 
@@ -174,11 +178,11 @@ public class AddressFindController implements TransactionController<AddressFind,
 
 	// TODO
 	// save the INPUT and Result in Output.csv and upload the OUTPUT file
-	public IoPath saveOutput(HashMap<AddressFind, AddressQueryResult> outputList) throws IOException, URISyntaxException{
+	// public IoPath saveOutput(HashMap<AddressFind, AddressQueryResult> outputList) throws IOException, URISyntaxException{
+	public void saveOutput() throws IOException, URISyntaxException{
 		File file = new File("src/test/resources/AddressDoctorBatchServicesOutputTemplate.csv");
 		BufferedReader reader = IoFiles.newBufferedReader(IoPaths.get(file.toURI()), Charset.forName("UTF-8"));
 		
-		// File Path
 		// OUTPUT file name
 		IoPath path = IoPaths.get(new URI(addressDoctorFEZOutputPath + outputFileName));
 		
@@ -202,22 +206,48 @@ public class AddressFindController implements TransactionController<AddressFind,
         	String output =outputRecord(addressFind, result);
         	System.out.println(output);
         	writer.write(output);
-        	// writer.write("test,,mytest");
         	writer.write("\r\n");
         }
         writer.close();
-    	System.out.println(path);
-		return path;
+    	System.out.println(path.toUri());
 	}
 	
-	// TODO
 	// send email to Customer
-	public void sendEmail(ArrayList<String> emailList, IoPath path){
-		System.out.println("send email");
+	public void sendEmail(){
 		
+		String emailTo = "";
+		for (int i = 0; i < emailList.size(); i++) {
+			emailTo = emailTo + emailList.get(i);
+			if (i < emailList.size()-1 ){
+				emailTo = emailTo + ",";
+			}
+		}
+		
+		String inputFileName = outputFileName.substring(0, outputFileName.indexOf("_OUTPUT")) + ".csv";
+		String outputFileUrl = addressDoctorFEZOutputPath + outputFileName;
+		
+		String emailSubject = "[Address Doctor Batch Services] Notification of completion - " + inputFileName;
+		String emailText = "Hello, \n Please find at " + outputFileUrl + " the results of the processing of the file " + inputFileName + " you have submitted to Address Doctor Batch Services. \n Thanks. \n Best regards. \n";
+		
+		Map<String,String> data = new HashMap<String, String>();
+		data.put("EMAIL_TO", emailTo);
+		data.put("EMAIL_SUBJECT", emailSubject);
+		data.put("EMAIL_TEXT", emailText);
+		boolean result = false;
+		try {
+			result = MailHelper.sendEmail(data);
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
+		
+		if (result) {
+			System.out.print("success");
+		} else {
+			System.out.print("failed");
+		}
 	}
 	
-	// 
+	// join input data and result data into OUTPUT file
 	public String outputRecord(AddressFind addressFind, AddressQueryResult result){
 		StringBuffer strBuf = new StringBuffer();
 		

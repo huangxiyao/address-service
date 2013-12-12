@@ -118,16 +118,19 @@ public class AddressFindMapper implements FieldSetMapper<AddressFind>{
 	public AddressFind map(FieldSet fieldSet) throws ConstraintViolationException {
 		AddressFind addressFind = new AddressFind();
 		
-		System.out.println("FieldSet:" + fieldSet.toString());
 		int size = fieldSet.size();
 		System.out.println("size:" + size);
-		
+
+		// save outputFileName
+		// TODO 
+		if (BatchUtils.checkCSVFileName(fieldSet.getString(0))){
+			addressFind.setOutputFileName(fieldSet.getString(0).substring(fieldSet.getString(0).indexOf(":") + 1, fieldSet.getString(0).length()));
+			return addressFind;
+		}
 		
 		// TODO
-		// first row email address
-		// flag
-		
-		
+		// last row email address
+		// flag send
 		if (BatchUtils.checkEmail(fieldSet.getString(0))){
 			ArrayList<String> emailList = new ArrayList<String>();
 			for (int i=0; i < size; i++) {
@@ -136,8 +139,9 @@ public class AddressFindMapper implements FieldSetMapper<AddressFind>{
 			addressFind.setEmailList(emailList);
 			return addressFind;
 		}
+		
 				
-		addressFind.setFunction(BatchUtils.trimString( MODEUSED < size ? fieldSet.getString(MODEUSED) : "BATCH"));
+		addressFind.setModeUsed(BatchUtils.trimString( MODEUSED < size ? fieldSet.getString(MODEUSED) : "BATCH"));
 		
 		AddressQuery query = new AddressQuery();
 		

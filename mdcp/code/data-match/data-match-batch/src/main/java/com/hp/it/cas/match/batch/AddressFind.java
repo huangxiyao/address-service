@@ -6,7 +6,8 @@ import com.hp.it.cas.match.address.AddressQuery;
 
 public class AddressFind {
 	private ArrayList<String> emailList;
-	private String function;
+	private String outputFileName;
+	private String modeUsed;
 	private AddressQuery query;
 
 	public ArrayList<String> getEmailList() {
@@ -16,13 +17,21 @@ public class AddressFind {
 	public void setEmailList(ArrayList<String> emailList) {
 		this.emailList = emailList;
 	}
-
-	public String getFunction() {
-		return function;
+	
+	public String getOutputFileName() {
+		return outputFileName;
 	}
 
-	public void setFunction(String function) {
-		this.function = function;
+	public void setOutputFileName(String outputFileName) {
+		this.outputFileName = outputFileName;
+	}
+
+	public String getModeUsed() {
+		return modeUsed;
+	}
+
+	public void setModeUsed(String modeUsed) {
+		this.modeUsed = modeUsed;
 	}
 
 	public AddressQuery getQuery() {

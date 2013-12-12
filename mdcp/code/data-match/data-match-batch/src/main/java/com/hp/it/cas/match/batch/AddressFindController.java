@@ -7,6 +7,7 @@ import java.io.IOException;
 import java.net.URI;
 import java.net.URISyntaxException;
 import java.nio.charset.Charset;
+import java.security.Principal;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Iterator;
@@ -21,7 +22,12 @@ import com.hp.it.cas.io.adapter.IoPath;
 import com.hp.it.cas.io.adapter.IoPaths;
 import com.hp.it.cas.match.address.AddressQueryResult;
 import com.hp.it.cas.match.address.ClientTestEnvironment;
+import com.hp.it.cas.match.address.SecurityContextTestController;
+import com.hp.it.cas.match.address.rest.AddressSuggestionsAddressFinderRestProxy;
+import com.hp.it.cas.match.address.rest.CertifiedAddressFinderRestProxy;
+import com.hp.it.cas.match.address.rest.FastCompletionAddressFinderRestProxy;
 import com.hp.it.cas.match.address.rest.ValidatedAddressFinderRestProxy;
+import com.hp.it.cas.xa.security.SecurityContextHolder;
 
 /**
  * 
@@ -104,61 +110,70 @@ public class AddressFindController implements TransactionController<AddressFind,
 	// Call AD Service
 	public AddressQueryResult callADServices(AddressFind addressFind){
 		System.out.println("call AD service....");
-//		com.hp.it.cas.match.address.SecurityContextTestController securityController = new com.hp.it.cas.match.address.SecurityContextTestController();
-//		securityController.collectAndSetupSecurityContext(new ClientTestEnvironment("w-mdcp:prd-http", null, null));
-
 		
-		AddressQueryResult result = null;
-//		String endpoint = "";
-//		String function = addressFind.getFunction();
+		Principal principal = SecurityContextHolder.getInstance().getAuditPrincipal(); 
+
+		SecurityContextTestController securityController = new SecurityContextTestController();
+		securityController.collectAndSetupSecurityContext(new ClientTestEnvironment("w-mdcp:prd-http", null, null));
 		
-//		if (ModeUse.BATCH.name().equals(function)) {
-//			endpoint = addressDoctorEnv + Function.looselyValidatedAddress.name();
-//			LooselyValidatedAddressFinderRestProxy proxy = new LooselyValidatedAddressFinderRestProxy(endpoint);
-
-//			endpoint = addressDoctorEnv + Function.validatedAddress.name();
-//			ValidatedAddressFinderRestProxy proxy = new ValidatedAddressFinderRestProxy(endpoint);
-//			result = proxy.find(addressFind.getQuery());
-//		}
-//
-//		if (ModeUse.INTERACTIVE.name().equals(function)) {
-//			endpoint = addressDoctorEnv + Function.addressSuggestions.name();
-//			AddressSuggestionsAddressFinderRestProxy proxy = new AddressSuggestionsAddressFinderRestProxy(endpoint);
-//			result = proxy.suggest(addressFind.getQuery());
-//		}
-//
-//		if (ModeUse.FASTCOMPLETION.name().equals(function)) {
-//			endpoint = addressDoctorEnv + Function.fastCompletionAddress.name();
-//			FastCompletionAddressFinderRestProxy proxy = new FastCompletionAddressFinderRestProxy(endpoint);
-//			result = proxy.find(addressFind.getQuery());
-//		}
-//
-//		if (ModeUse.CERTIFIED.name().equals(function)) {
-//			endpoint = addressDoctorEnv + Function.certifiedAddress.name();
-//			CertifiedAddressFinderRestProxy proxy = new CertifiedAddressFinderRestProxy(endpoint);
-//			result = proxy.find(addressFind.getQuery());
-//		}
-//
-//		if (ModeUse.PARSE.name().equals(function)) {
-//			endpoint = addressDoctorEnv + Function.validatedAddress.name();
-//			ValidatedAddressFinderRestProxy proxy = new ValidatedAddressFinderRestProxy(endpoint);
-//			result = proxy.find(addressFind.getQuery());
-//		}
-//
-//		if (ModeUse.COUNTRYRECOGNITION.name().equals(function)) {
-//			endpoint = addressDoctorEnv + Function.validatedAddress.name();
-//			ValidatedAddressFinderRestProxy proxy = new ValidatedAddressFinderRestProxy(endpoint);
-//			result = proxy.find(addressFind.getQuery());
-//		}
-
-//		securityController.clearSecurityContext();
+		AddressQueryResult result = findAddress(addressFind);
+		
+		SecurityContextHolder.getInstance().addContext(principal);
 
 		return result;
 		
 	}
 	
+	private AddressQueryResult findAddress(AddressFind addressFind) {
+		AddressQueryResult result = null;
+		
+		String endpoint = "";
+		String function = addressFind.getModeUsed();
+	
+		if (ModeUse.BATCH.name().equals(function)) {
+//			endpoint = addressDoctorEnv + Function.looselyValidatedAddress.name();
+//			LooselyValidatedAddressFinderRestProxy proxy = new LooselyValidatedAddressFinderRestProxy(endpoint);
+
+			endpoint = addressDoctorEnv + Function.validatedAddress.name();
+			ValidatedAddressFinderRestProxy proxy = new ValidatedAddressFinderRestProxy(endpoint);
+			result = proxy.find(addressFind.getQuery());
+		}
+
+		if (ModeUse.INTERACTIVE.name().equals(function)) {
+			endpoint = addressDoctorEnv + Function.addressSuggestions.name();
+			AddressSuggestionsAddressFinderRestProxy proxy = new AddressSuggestionsAddressFinderRestProxy(endpoint);
+			result = proxy.suggest(addressFind.getQuery());
+		}
+
+		if (ModeUse.FASTCOMPLETION.name().equals(function)) {
+			endpoint = addressDoctorEnv + Function.fastCompletionAddress.name();
+			FastCompletionAddressFinderRestProxy proxy = new FastCompletionAddressFinderRestProxy(endpoint);
+			result = proxy.find(addressFind.getQuery());
+		}
+
+		if (ModeUse.CERTIFIED.name().equals(function)) {
+			endpoint = addressDoctorEnv + Function.certifiedAddress.name();
+			CertifiedAddressFinderRestProxy proxy = new CertifiedAddressFinderRestProxy(endpoint);
+			result = proxy.find(addressFind.getQuery());
+		}
+
+		if (ModeUse.PARSE.name().equals(function)) {
+			endpoint = addressDoctorEnv + Function.validatedAddress.name();
+			ValidatedAddressFinderRestProxy proxy = new ValidatedAddressFinderRestProxy(endpoint);
+			result = proxy.find(addressFind.getQuery());
+		}
+
+		if (ModeUse.COUNTRYRECOGNITION.name().equals(function)) {
+			endpoint = addressDoctorEnv + Function.validatedAddress.name();
+			ValidatedAddressFinderRestProxy proxy = new ValidatedAddressFinderRestProxy(endpoint);
+			result = proxy.find(addressFind.getQuery());
+		}
+		
+		return result;
+	}
+
 	// TODO
-	// save the INPUT and Result in Output.csv and upload the OUTPUT 
+	// save the INPUT and Result in Output.csv and upload the OUTPUT file
 	public IoPath saveOutput(HashMap<AddressFind, AddressQueryResult> outputList) throws IOException, URISyntaxException{
 		File file = new File("src/test/resources/AddressDoctorBatchServicesOutputTemplate.csv");
 		BufferedReader reader = IoFiles.newBufferedReader(IoPaths.get(file.toURI()), Charset.forName("UTF-8"));
@@ -312,9 +327,40 @@ public class AddressFindController implements TransactionController<AddressFind,
 		strBuf.append((addressFind.getQuery().getSubBuilding5()	!= null ?	addressFind.getQuery().getSubBuilding5()	: "" )  + ",");
 		strBuf.append((addressFind.getQuery().getSubBuilding6()	!= null ?	addressFind.getQuery().getSubBuilding6()	: "" )  + ",");
 		
-		// TODO
-		// Result DATA
+		// OUTPUT 
+//		strBuf.append(",");
 		
+		// TODO
+		// 7 rows
+		
+
+//		if (result != null){
+//			// RESULT
+//			strBuf.append(result.getIso3() + "," );
+//			strBuf.append(result.getModeUsed() + ",");
+//			strBuf.append(result.getPreferredLanguage() + ",");
+//			strBuf.append(result.getPreferredScript() + ",");
+//			strBuf.append(result.getProcessStatus() + ",");
+//			strBuf.append(result.isCountOverFlow() + ",");
+//			
+//			// RESULT DATA
+//			AddressData addressData = result.getAddressData().get(0);
+//			strBuf.append(addressData.getElementInputStatus() + ",");
+//			strBuf.append(addressData.getElementResultStatus() + ",");
+//			strBuf.append(addressData.getElementRelevance() + ",");
+//			strBuf.append(addressData.getMailabilityScore() + ",");
+//			strBuf.append(addressData.getResultPercentage() + ",");
+//			strBuf.append(addressData.getCassStatus() + ",");
+//			strBuf.append(addressData.getSerpStatus() + ",");
+//			strBuf.append(addressData.getSnaStatus() + ",");
+//			strBuf.append(addressData.getSupplementaryGBStatus() + ",");
+//			strBuf.append(addressData.getSupplementaryUSStatus() + ",");
+//			
+//			// ADDRESS ELEMENTS-DEFAULT TYPES
+//			
+//			//addressData.getSupplementaryUs()
+//			
+//		}
 
 		return strBuf.toString();
 	}

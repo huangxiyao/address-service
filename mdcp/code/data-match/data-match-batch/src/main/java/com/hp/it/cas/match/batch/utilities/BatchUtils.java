@@ -4,12 +4,22 @@ import java.util.regex.Pattern;
 
 public class BatchUtils {
 	public static String trimString(String input) {
-//		if (input != null) {
-//			return input.trim();
-//		} else {
-//			return input;
-//		}
-		return input != null? input.trim() : input;
+		if (input != null) {
+			input = input.trim();
+			if (input.startsWith("\"") && input.endsWith("\"") ) {
+				input = input.substring(1,input.length()-1);
+			}
+			return input;
+		} else {
+			return input;
+		}
+		
+		//return input != null? input.trim() : input;
+	}
+	
+	// escape "\r\n" in the output field 
+	public static String trimCRLF(String output){
+		return output.trim().replace("\r\n", "");
 	}
 	
 	
@@ -22,4 +32,5 @@ public class BatchUtils {
 		//return (Pattern.compile("outputFileName*.csv").matcher(input).matches());
 		return input.contains("outputFileName");
 	}
+	
 }

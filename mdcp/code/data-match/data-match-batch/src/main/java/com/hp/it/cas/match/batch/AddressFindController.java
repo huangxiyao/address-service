@@ -180,7 +180,7 @@ public class AddressFindController implements TransactionController<AddressFind,
 	// save the INPUT and Result in Output.csv and upload the OUTPUT file
 	// public IoPath saveOutput(HashMap<AddressFind, AddressQueryResult> outputList) throws IOException, URISyntaxException{
 	public void saveOutput() throws IOException, URISyntaxException{
-		File file = new File("src/test/resources/AddressDoctorBatchServicesOutputTemplate.csv");
+		File file = new File(getClass().getClassLoader().getResource("AddressDoctorBatchServicesOutputTemplate.csv").toURI());
 		BufferedReader reader = IoFiles.newBufferedReader(IoPaths.get(file.toURI()), Charset.forName("UTF-8"));
 		
 		// OUTPUT file name

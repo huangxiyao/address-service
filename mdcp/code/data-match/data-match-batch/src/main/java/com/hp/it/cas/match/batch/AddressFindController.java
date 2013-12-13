@@ -181,8 +181,8 @@ public class AddressFindController implements TransactionController<AddressFind,
 	// public IoPath saveOutput(HashMap<AddressFind, AddressQueryResult> outputList) throws IOException, URISyntaxException{
 	public void saveOutput() throws IOException, URISyntaxException{
 		
-		URI templateURI = ClassLoader.getSystemResource("AddressDoctorBatchServicesOutputTemplate.csv").toURI();
-		BufferedReader reader = IoFiles.newBufferedReader(IoPaths.get(templateURI), Charset.forName("UTF-8"));
+//		URI templateURI = ClassLoader.getSystemResource("AddressDoctorBatchServicesOutputTemplate.csv").toURI();
+//		BufferedReader reader = IoFiles.newBufferedReader(IoPaths.get(templateURI), Charset.forName("UTF-8"));
 		
 		// OUTPUT file name
 		IoPath path = IoPaths.get(new URI(addressDoctorFEZOutputPath + outputFileName));
@@ -193,10 +193,10 @@ public class AddressFindController implements TransactionController<AddressFind,
         
         path = IoFiles.createFile(path);
         BufferedWriter writer = IoFiles.newBufferedWriter(path, Charset.forName("UTF-8"));
-        writer.write(reader.readLine());
-        writer.write("\r\n");
-        writer.write(reader.readLine());
-        writer.write("\r\n");
+//        writer.write(reader.readLine());
+//        writer.write("\r\n");
+//        writer.write(reader.readLine());
+//        writer.write("\r\n");
         
         // add INPUT and Result in the OUTPUT csv file
         Iterator iter = outputList.entrySet().iterator();

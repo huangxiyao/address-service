@@ -193,10 +193,10 @@ public class AddressFindController implements TransactionController<AddressFind,
         
         path = IoFiles.createFile(path);
         BufferedWriter writer = IoFiles.newBufferedWriter(path, Charset.forName("UTF-8"));
-//        writer.write(reader.readLine());
-//        writer.write("\r\n");
-//        writer.write(reader.readLine());
-//        writer.write("\r\n");
+        writer.write(OutputTemplate.OUTPUT_TEMPLATE_LINE_1);
+        writer.write("\r\n");
+        writer.write(OutputTemplate.OUTPUT_TEMPLATE_LINE_2);
+        writer.write("\r\n");
         
         // add INPUT and Result in the OUTPUT csv file
         Iterator iter = outputList.entrySet().iterator();

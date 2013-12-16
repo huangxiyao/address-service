@@ -13,6 +13,15 @@ import com.hp.it.cas.batch.driver.pipe.PatternLineMapper;
 import com.hp.it.cas.batch.driver.pipe.TransactionController;
 import com.hp.it.cas.batch.driver.pipe.TransactionFileDriver;
 
+/**
+ * 1. Move the input file from INPUT to WIP
+ * 2. Each line in the input file call AD service and got the result
+ * 3. Save the query and the result in the FEZ output file
+ * 4. Send notification email to specified customer of each InputFile
+ * 
+ * @author yu-juan.zhang@hp.com
+ *
+ */
 public class AddressFindDriver extends TransactionFileDriver<AddressFind, Void> {
 	
 	private final Configuration configuration;
@@ -32,9 +41,6 @@ public class AddressFindDriver extends TransactionFileDriver<AddressFind, Void> 
 		return new FileDispositionMove(configuration);
 	}
 
-	/**
-	 * 
-	 */
 	@Override
 	protected int getFileHeaderLineCount() {
 		return 1;

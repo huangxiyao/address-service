@@ -6,11 +6,10 @@ import java.net.URI;
 import java.net.URISyntaxException;
 import java.nio.charset.Charset;
 import java.security.Principal;
-import java.util.ArrayList;
 import java.util.HashMap;
-import java.util.Iterator;
 import java.util.List;
 import java.util.Map;
+import java.util.Set;
 
 import com.hp.it.cas.batch.driver.pipe.Configuration;
 import com.hp.it.cas.batch.driver.pipe.TransactionController;
@@ -33,7 +32,12 @@ import com.hp.it.cas.match.batch.utilities.MailHelper;
 import com.hp.it.cas.xa.security.SecurityContextHolder;
 
 /**
+ * 1. Each line in the input file call AD service and got the result
+ * 2. Save the query and the result in the FEZ output file
+ * 3. Send notification email to specified customer of each InputFile
  * 
+ * @author yu-juan.zhang@hp.com
+ *
  */
 public class AddressFindController implements TransactionController<AddressFind, Void>{
 	
@@ -46,30 +50,16 @@ public class AddressFindController implements TransactionController<AddressFind,
 		BATCH, INTERACTIVE, FASTCOMPLETION, CERTIFIED, PARSE, COUNTRYRECOGNITION
 	};
 	
-	//  Correction Only (BATCH) looselyValidatedAddress
-	//  Suggestions (INTERACTIVE) addressSuggestions
-	//  Fast Completion (FASTCOMPLETION) fastCompletionAddress
-	//  Certified (CERTIFIED) certifiedAddress
-
-	// PARSE
-	// COUNTRYRECOGNITION
-
-	// validatedAddress
-	
 	// TODO 
 	// 6 MODEUSED, but 5 functions.
 	// verify the relationship between MODE and Function
 	private enum Function {
-		looselyValidatedAddress, addressSuggestions, fastCompletionAddress, certifiedAddress, validatedAddress, 
+		looselyValidatedAddress, addressSuggestions, fastCompletionAddress, certifiedAddress, validatedAddress
 	};
 	
-	
-	// temporary save the INPUT and Result for each Input file
-	private HashMap<AddressFind, AddressQueryResult> outputList = new HashMap<AddressFind, AddressQueryResult>();
-	
-
-	// temporary save email
-	private ArrayList<String> emailList = null;
+	/* temporary variable to save the INPUT and Result for each Input file, email and outputFileName */
+	private Map<AddressFind, AddressQueryResult> outputMap = new HashMap<AddressFind, AddressQueryResult>();
+	private List<String> emailList = null;
 	private String outputFileName;
 
 	public AddressFindController(Configuration configuration) {
@@ -79,94 +69,103 @@ public class AddressFindController implements TransactionController<AddressFind,
 
 	@Override
 	public Void process(AddressFind addressFind, MessageContext messageContext, LockContext lockContext) throws Exception {
-		
-		// TODO 
-		// logic need review
-		if (outputFileName == null && addressFind.getOutputFileName() != null){
+		/* temporary save outputFileName */
+		if (outputFileName == null && addressFind.getOutputFileName() != null) {
 			outputFileName = addressFind.getOutputFileName();
 			return null;
 		}
-		
-		// outputfilename + email --> send email
-		if ( outputFileName != null && addressFind.getEmailList() != null){
+
+		/* outputFileName + email --> send email */
+		if (outputFileName != null && addressFind.getEmailList() != null) {
 			emailList = addressFind.getEmailList();
 			saveOutput();
 			sendEmail();
-			
-			// clear temporary var
-			outputList.clear();
+
+			/* clear temporary variable */
+			outputMap.clear();
 			emailList = null;
 			outputFileName = null;
 			return null;
-		} 
-		
-		if (addressFind.getEmailList() == null){
-			// call AD Service
-			AddressQueryResult result = callADServices(addressFind);
+		}
 
-			// temporary save Input and Result
-			outputList.put(addressFind, result);
-		} 
+		if (addressFind.getEmailList() == null && addressFind.getEmailList() == null) {
+			/* call AD Service */
+			AddressQueryResult result = callADService(addressFind);
+			/* temporary save Input and Result */
+			outputMap.put(addressFind, result);
+		}
 		return null;
 	}
 	
-	// Call AD Service
-	public AddressQueryResult callADServices(AddressFind addressFind){
-
+	/**
+	 * Call AD service.
+	 * 
+	 * @param addressFind
+	 * 		AddressFind
+	 * @return result
+	 * 		AddressQueryResult
+	 */
+	private AddressQueryResult callADService(AddressFind addressFind){
 		Principal principal = SecurityContextHolder.getInstance().getAuditPrincipal(); 
 
 		SecurityContextTestController securityController = new SecurityContextTestController();
 		securityController.collectAndSetupSecurityContext(new ClientTestEnvironment("w-mdcp:prd-http", null, null));
 		AddressQueryResult result = findAddress(addressFind);
 		
-		// when run the job got NullPointerException of principal
+		/* when run the job got NullPointerException of principal */
 		SecurityContextHolder.getInstance().addContext(principal);
-
 		return result;
-		
 	}
 	
+	/**
+	 * Each address query call AD service with its specified function.
+	 *  
+	 * @param addressFind
+	 * 		AddressFind
+	 * @return
+	 * 		AddressQueryResult
+	 */
 	private AddressQueryResult findAddress(AddressFind addressFind) {
 		AddressQueryResult result = null;
 		
-		String endpoint = "";
+		String endpoint = addressDoctorEnv;
 		String function = addressFind.getModeUsed();
 	
+		// TODO
 		if (ModeUse.BATCH.name().equals(function)) {
-//			endpoint = addressDoctorEnv + Function.looselyValidatedAddress.name();
-//			LooselyValidatedAddressFinderRestProxy proxy = new LooselyValidatedAddressFinderRestProxy(endpoint);
-
-			endpoint = addressDoctorEnv + Function.validatedAddress.name();
+			endpoint += Function.validatedAddress.name();
 			ValidatedAddressFinderRestProxy proxy = new ValidatedAddressFinderRestProxy(endpoint);
 			result = proxy.find(addressFind.getQuery());
 		}
 
 		if (ModeUse.INTERACTIVE.name().equals(function)) {
-			endpoint = addressDoctorEnv + Function.addressSuggestions.name();
+			endpoint += Function.addressSuggestions.name();
 			AddressSuggestionsAddressFinderRestProxy proxy = new AddressSuggestionsAddressFinderRestProxy(endpoint);
 			result = proxy.suggest(addressFind.getQuery());
 		}
 
 		if (ModeUse.FASTCOMPLETION.name().equals(function)) {
-			endpoint = addressDoctorEnv + Function.fastCompletionAddress.name();
+			endpoint += Function.fastCompletionAddress.name();
 			FastCompletionAddressFinderRestProxy proxy = new FastCompletionAddressFinderRestProxy(endpoint);
 			result = proxy.find(addressFind.getQuery());
 		}
 
 		if (ModeUse.CERTIFIED.name().equals(function)) {
-			endpoint = addressDoctorEnv + Function.certifiedAddress.name();
+			endpoint += Function.certifiedAddress.name();
 			CertifiedAddressFinderRestProxy proxy = new CertifiedAddressFinderRestProxy(endpoint);
 			result = proxy.find(addressFind.getQuery());
 		}
 
+		// TODO
 		if (ModeUse.PARSE.name().equals(function)) {
-			endpoint = addressDoctorEnv + Function.validatedAddress.name();
+			endpoint += Function.validatedAddress.name();
 			ValidatedAddressFinderRestProxy proxy = new ValidatedAddressFinderRestProxy(endpoint);
 			result = proxy.find(addressFind.getQuery());
 		}
 
+		// TODO
 		if (ModeUse.COUNTRYRECOGNITION.name().equals(function)) {
-			endpoint = addressDoctorEnv + Function.validatedAddress.name();
+			endpoint += Function.validatedAddress.name();
 			ValidatedAddressFinderRestProxy proxy = new ValidatedAddressFinderRestProxy(endpoint);
 			result = proxy.find(addressFind.getQuery());
 		}
@@ -174,47 +173,59 @@ public class AddressFindController implements TransactionController<AddressFind,
 		return result;
 	}
 
-	// Save the INPUT and Result in Output.csv and upload the OUTPUT file
-	// public IoPath saveOutput(HashMap<AddressFind, AddressQueryResult> outputList) throws IOException, URISyntaxException{
-	public void saveOutput() throws IOException, URISyntaxException{
-		
-		// OUTPUT file name
-		IoPath path = IoPaths.get(new URI(addressDoctorFEZOutputPath + outputFileName));
-		
-        if (IoFiles.exists(path)) {
-            IoFiles.delete(path);
-        }
-        
-        path = IoFiles.createFile(path);
-        BufferedWriter writer = IoFiles.newBufferedWriter(path, Charset.forName("UTF-8"));
-        writer.write(OutputTemplate.OUTPUT_TEMPLATE_LINE_1);
-        writer.write("\r\n");
-        writer.write(OutputTemplate.OUTPUT_TEMPLATE_LINE_2);
-        writer.write("\r\n");
-        
-        // add INPUT and Result in the OUTPUT csv file
-        Iterator iter = outputList.entrySet().iterator();
-        while (iter.hasNext()){
-        	Map.Entry entry = (Map.Entry) iter.next(); 
-        	AddressFind addressFind = (AddressFind)entry.getKey();
-        	AddressQueryResult result = (AddressQueryResult)entry.getValue();
-        	String output =outputRecord(addressFind, result);
-        	System.out.println(output);
-        	writer.write(output);
-        	writer.write("\r\n");
-        }
-        writer.close();
-    	System.out.println(path.toUri());
+	/**
+	 * Save the INPUT and Result in InputFileName_Output.csv and upload the OUTPUT file
+	 */
+	private void saveOutput() {
+		BufferedWriter writer = null;
+		try {
+			IoPath path = IoPaths.get(new URI(addressDoctorFEZOutputPath + outputFileName));
+			if (IoFiles.exists(path)) {
+				IoFiles.delete(path);
+			}
+			path = IoFiles.createFile(path);
+			writer = IoFiles.newBufferedWriter(path, Charset.forName("UTF-8"));
+			writer.write(BatchUtils.OUTPUT_TEMPLATE_LINE_1);
+			writer.write("\r\n");
+			writer.write(BatchUtils.OUTPUT_TEMPLATE_LINE_2);
+			writer.write("\r\n");
+
+			/* add INPUT and Result in the InputFileName_OUTPUT.csv file */
+			Set<AddressFind> keySet = outputMap.keySet();
+			for(AddressFind addressFind : keySet){
+				AddressQueryResult result = outputMap.get(addressFind);
+				writer.write(outputRecord(addressFind, result));
+				writer.write("\r\n");
+			}
+		} catch (URISyntaxException uriException) {
+			String message = String.format("Could not create URI for input URL '%s'.", addressDoctorFEZOutputPath + outputFileName);
+			throw new RuntimeException(message, uriException);
+		} catch (IOException ioException) {
+			String message = String.format("Error occured when writing the output file '%s'.", addressDoctorFEZOutputPath + outputFileName);
+			throw new RuntimeException(message, ioException);
+		} finally {
+			try {
+				if (writer != null) {
+					writer.close();
+				}
+			} catch (IOException ioException) {
+				String message = String.format("Unable to close the writer.");
+				throw new RuntimeException(message, ioException);
+			}
+		}
 	}
 	
-	// send email to Customer
+	/**
+	 * send email to Customer
+	 */
 	public void sendEmail(){
 		
-		String emailTo = "";
+		StringBuffer emailTo = new StringBuffer("");
 		for (int i = 0; i < emailList.size(); i++) {
-			emailTo = emailTo + emailList.get(i);
-			if (i < emailList.size()-1 ){
-				emailTo = emailTo + ",";
+			if(i == 0){
+				emailTo.append(emailList.get(i));
+			} else {
+				emailTo.append("," + emailList.get(i));
 			}
 		}
 		
@@ -241,233 +252,237 @@ public class AddressFindController implements TransactionController<AddressFind,
 		bufText.append("</html>");
 
 		Map<String,String> data = new HashMap<String, String>();
-		data.put("EMAIL_TO", emailTo);
+		data.put("EMAIL_TO", emailTo.toString());
 		data.put("EMAIL_SUBJECT", emailSubject);
 		data.put("EMAIL_TEXT", bufText.toString());
-		boolean result = false;
+		
 		try {
-			result = MailHelper.sendEmail(data);
+			MailHelper.sendEmail(data);
 		} catch (Exception e) {
-			e.printStackTrace();
+			String message = String.format("Error occured when sending mail.");
+			throw new RuntimeException(message, e);
 		}
 		
-		if (result) {
-			System.out.print("success");
-		} else {
-			System.out.print("failed");
-		}
 	}
 	
-	// join input data and result data into OUTPUT file
+	/**
+	 * save input data and result data into OUTPUT file
+	 * 
+	 * @param addressFind
+	 * 		AddressFind
+	 * @param result
+	 * 		AddressQueryResult
+	 * @return String
+	 * 		split each field with COMMA in the string
+	 */
 	public String outputRecord(AddressFind addressFind, AddressQueryResult result){
 		StringBuffer strBuf = new StringBuffer();
 		
 		// INPUT DATA
-		strBuf.append((addressFind.getQuery().getKey1() != null ? addressFind.getQuery().getKey1() : "" )).append(",");
-		strBuf.append((addressFind.getQuery().getKey2() != null ? addressFind.getQuery().getKey2() : "" )).append(",");
-		strBuf.append((addressFind.getQuery().getKey3() != null ? addressFind.getQuery().getKey3() : "" )).append(",");
-		strBuf.append((addressFind.getModeUsed() != null ?	addressFind.getModeUsed() : "" )).append(",");
-		strBuf.append((addressFind.getQuery().getPreferredLanguage() != null ? addressFind.getQuery().getPreferredLanguage() : "" )).append(",");
-		strBuf.append((addressFind.getQuery().getPreferredScript() != null ? addressFind.getQuery().getPreferredScript() : "" )).append(",");
+		strBuf.append(BatchUtils.trimOutputField(addressFind.getQuery().getKey1()));
+		strBuf.append(BatchUtils.trimOutputField(addressFind.getQuery().getKey2()));
+		strBuf.append(BatchUtils.trimOutputField(addressFind.getQuery().getKey3()));
+		strBuf.append(BatchUtils.trimOutputField(addressFind.getModeUsed()));
+		strBuf.append(BatchUtils.trimOutputField(addressFind.getQuery().getPreferredLanguage()));
+		strBuf.append(BatchUtils.trimOutputField(addressFind.getQuery().getPreferredScript()));
 		
-		strBuf.append((addressFind.getQuery().getCharacterScriptDetectionIndicator() ?	"TRUE"	: "FAULSE") + ",");
+		strBuf.append(addressFind.getQuery().getCharacterScriptDetectionIndicator() ?	"TRUE"	: "FAULSE").append(",");;
 		
-		strBuf.append((addressFind.getQuery().getCountry1() != null ? addressFind.getQuery().getCountry1() : "" )).append(",");
-		strBuf.append((addressFind.getQuery().getCountry2() != null ? addressFind.getQuery().getCountry2() : "" )).append(",");
-		strBuf.append((addressFind.getQuery().getCountry3() != null ? addressFind.getQuery().getCountry3() : "" )).append(",");
-		strBuf.append((addressFind.getQuery().getAddressComplete() != null ? addressFind.getQuery().getAddressComplete() : "" )).append(",");
-		strBuf.append((addressFind.getQuery().getBuilding1() != null ? addressFind.getQuery().getBuilding1() : "" )).append(",");
-		strBuf.append((addressFind.getQuery().getBuilding2() != null ? addressFind.getQuery().getBuilding2() : "" )).append(",");
-		strBuf.append((addressFind.getQuery().getBuilding3() != null ? addressFind.getQuery().getBuilding3() : "" )).append(",");
-		strBuf.append((addressFind.getQuery().getBuilding4() != null ? addressFind.getQuery().getBuilding4() : "" )).append(",");
-		strBuf.append((addressFind.getQuery().getBuilding5() != null ? addressFind.getQuery().getBuilding5() : "" )).append(",");
-		strBuf.append((addressFind.getQuery().getBuilding6() != null ? addressFind.getQuery().getBuilding6() : "" )).append(",");
-		strBuf.append((addressFind.getQuery().getLocality1() != null ? addressFind.getQuery().getLocality1() : "" )).append(",");
-		strBuf.append((addressFind.getQuery().getLocality2() != null ? addressFind.getQuery().getLocality2() : "" )).append(",");
-		strBuf.append((addressFind.getQuery().getLocality3() != null ? addressFind.getQuery().getLocality3() : "" )).append(",");
-		strBuf.append((addressFind.getQuery().getLocality4() != null ? addressFind.getQuery().getLocality4() : "" )).append(",");
-		strBuf.append((addressFind.getQuery().getLocality5() != null ? addressFind.getQuery().getLocality5() : "" )).append(",");
-		strBuf.append((addressFind.getQuery().getLocality6() != null ? addressFind.getQuery().getLocality6() : "" )).append(",");
-		strBuf.append((addressFind.getQuery().getPostalCode1() != null ? addressFind.getQuery().getPostalCode1() : "" )).append(",");
-		strBuf.append((addressFind.getQuery().getPostalCode2() != null ? addressFind.getQuery().getPostalCode2() : "" )).append(",");
-		strBuf.append((addressFind.getQuery().getPostalCode3() != null ? addressFind.getQuery().getPostalCode3() : "" )).append(",");
-		strBuf.append((addressFind.getQuery().getCountrySpecificLocalityLine1() != null ? addressFind.getQuery().getCountrySpecificLocalityLine1() : "" )).append(",");
-		strBuf.append((addressFind.getQuery().getCountrySpecificLocalityLine2() != null ? addressFind.getQuery().getCountrySpecificLocalityLine2() : "" )).append(",");
-		strBuf.append((addressFind.getQuery().getCountrySpecificLocalityLine3() != null ? addressFind.getQuery().getCountrySpecificLocalityLine3() : "" )).append(",");
-		strBuf.append((addressFind.getQuery().getCountrySpecificLocalityLine4() != null ? addressFind.getQuery().getCountrySpecificLocalityLine4() : "" )).append(",");
-		strBuf.append((addressFind.getQuery().getCountrySpecificLocalityLine5() != null ? addressFind.getQuery().getCountrySpecificLocalityLine5() : "" )).append(",");
-		strBuf.append((addressFind.getQuery().getCountrySpecificLocalityLine6() != null ? addressFind.getQuery().getCountrySpecificLocalityLine6() : "" )).append(",");
-		strBuf.append((addressFind.getQuery().getStreet1() != null ? addressFind.getQuery().getStreet1() : "" )).append(",");
-		strBuf.append((addressFind.getQuery().getStreet2() != null ? addressFind.getQuery().getStreet2() : "" )).append(",");
-		strBuf.append((addressFind.getQuery().getStreet3() != null ? addressFind.getQuery().getStreet3() : "" )).append(",");
-		strBuf.append((addressFind.getQuery().getStreet4() != null ? addressFind.getQuery().getStreet4() : "" )).append(",");
-		strBuf.append((addressFind.getQuery().getStreet5() != null ? addressFind.getQuery().getStreet5() : "" )).append(",");
-		strBuf.append((addressFind.getQuery().getStreet6() != null ? addressFind.getQuery().getStreet6() : "" )).append(",");
-		strBuf.append((addressFind.getQuery().getNumber1() != null ? addressFind.getQuery().getNumber1() : "" )).append(",");
-		strBuf.append((addressFind.getQuery().getNumber2() != null ? addressFind.getQuery().getNumber2() : "" )).append(",");
-		strBuf.append((addressFind.getQuery().getNumber3() != null ? addressFind.getQuery().getNumber3() : "" )).append(",");
-		strBuf.append((addressFind.getQuery().getNumber4() != null ? addressFind.getQuery().getNumber4() : "" )).append(",");
-		strBuf.append((addressFind.getQuery().getNumber5() != null ? addressFind.getQuery().getNumber5() : "" )).append(",");
-		strBuf.append((addressFind.getQuery().getNumber6() != null ? addressFind.getQuery().getNumber6() : "" )).append(",");
-		strBuf.append((addressFind.getQuery().getProvince1() != null ? addressFind.getQuery().getProvince1() : "" )).append(",");
-		strBuf.append((addressFind.getQuery().getProvince2() != null ? addressFind.getQuery().getProvince2() : "" )).append(",");
-		strBuf.append((addressFind.getQuery().getProvince3() != null ? addressFind.getQuery().getProvince3() : "" )).append(",");
-		strBuf.append((addressFind.getQuery().getProvince4() != null ? addressFind.getQuery().getProvince4() : "" )).append(",");
-		strBuf.append((addressFind.getQuery().getProvince5() != null ? addressFind.getQuery().getProvince5() : "" )).append(",");
-		strBuf.append((addressFind.getQuery().getProvince6() != null ? addressFind.getQuery().getProvince6() : "" )).append(",");
-		strBuf.append((addressFind.getQuery().getDeliveryAddressLine1() != null ? addressFind.getQuery().getDeliveryAddressLine1() : "" )).append(",");
-		strBuf.append((addressFind.getQuery().getDeliveryAddressLine2() != null ? addressFind.getQuery().getDeliveryAddressLine2() : "" )).append(",");
-		strBuf.append((addressFind.getQuery().getDeliveryAddressLine3() != null ? addressFind.getQuery().getDeliveryAddressLine3() : "" )).append(",");
-		strBuf.append((addressFind.getQuery().getDeliveryAddressLine4() != null ? addressFind.getQuery().getDeliveryAddressLine4() : "" )).append(",");
-		strBuf.append((addressFind.getQuery().getDeliveryAddressLine5() != null ? addressFind.getQuery().getDeliveryAddressLine5() : "" )).append(",");
-		strBuf.append((addressFind.getQuery().getDeliveryAddressLine6() != null ? addressFind.getQuery().getDeliveryAddressLine6() : "" )).append(",");
-		strBuf.append((addressFind.getQuery().getDeliveryService1() != null ? addressFind.getQuery().getDeliveryService1() : "" )).append(",");
-		strBuf.append((addressFind.getQuery().getDeliveryService2() != null ? addressFind.getQuery().getDeliveryService2() : "" )).append(",");
-		strBuf.append((addressFind.getQuery().getDeliveryService3() != null ? addressFind.getQuery().getDeliveryService3() : "" )).append(",");
-		strBuf.append((addressFind.getQuery().getDeliveryService4() != null ? addressFind.getQuery().getDeliveryService4() : "" )).append(",");
-		strBuf.append((addressFind.getQuery().getDeliveryService5() != null ? addressFind.getQuery().getDeliveryService5() : "" )).append(",");
-		strBuf.append((addressFind.getQuery().getDeliveryService6() != null ? addressFind.getQuery().getDeliveryService6() : "" )).append(",");
-		strBuf.append((addressFind.getQuery().getFormattedAddressLine1() != null ? addressFind.getQuery().getFormattedAddressLine1() : "" )).append(",");
-		strBuf.append((addressFind.getQuery().getFormattedAddressLine2() != null ? addressFind.getQuery().getFormattedAddressLine2() : "" )).append(",");
-		strBuf.append((addressFind.getQuery().getFormattedAddressLine3() != null ? addressFind.getQuery().getFormattedAddressLine3() : "" )).append(",");
-		strBuf.append((addressFind.getQuery().getFormattedAddressLine4() != null ? addressFind.getQuery().getFormattedAddressLine4() : "" )).append(",");
-		strBuf.append((addressFind.getQuery().getFormattedAddressLine5() != null ? addressFind.getQuery().getFormattedAddressLine5() : "" )).append(",");
-		strBuf.append((addressFind.getQuery().getFormattedAddressLine6() != null ? addressFind.getQuery().getFormattedAddressLine6() : "" )).append(",");
-		strBuf.append((addressFind.getQuery().getFormattedAddressLine7() != null ? addressFind.getQuery().getFormattedAddressLine7() : "" )).append(",");
-		strBuf.append((addressFind.getQuery().getFormattedAddressLine8() != null ? addressFind.getQuery().getFormattedAddressLine8() : "" )).append(",");
-		strBuf.append((addressFind.getQuery().getFormattedAddressLine9() != null ? addressFind.getQuery().getFormattedAddressLine9() : "" )).append(",");
-		strBuf.append((addressFind.getQuery().getFormattedAddressLine10() != null ? addressFind.getQuery().getFormattedAddressLine10() : "" )).append(",");
-		strBuf.append((addressFind.getQuery().getFormattedAddressLine11() != null ? addressFind.getQuery().getFormattedAddressLine11() : "" )).append(",");
-		strBuf.append((addressFind.getQuery().getFormattedAddressLine12() != null ? addressFind.getQuery().getFormattedAddressLine12() : "" )).append(",");
-		strBuf.append((addressFind.getQuery().getFormattedAddressLine13() != null ? addressFind.getQuery().getFormattedAddressLine13() : "" )).append(",");
-		strBuf.append((addressFind.getQuery().getFormattedAddressLine14() != null ? addressFind.getQuery().getFormattedAddressLine14() : "" )).append(",");
-		strBuf.append((addressFind.getQuery().getFormattedAddressLine15() != null ? addressFind.getQuery().getFormattedAddressLine15() : "" )).append(",");
-		strBuf.append((addressFind.getQuery().getFormattedAddressLine16() != null ? addressFind.getQuery().getFormattedAddressLine16() : "" )).append(",");
-		strBuf.append((addressFind.getQuery().getFormattedAddressLine17() != null ? addressFind.getQuery().getFormattedAddressLine17() : "" )).append(",");
-		strBuf.append((addressFind.getQuery().getFormattedAddressLine18() != null ? addressFind.getQuery().getFormattedAddressLine18() : "" )).append(",");
-		strBuf.append((addressFind.getQuery().getFormattedAddressLine19() != null ? addressFind.getQuery().getFormattedAddressLine19() : "" )).append(",");
-		strBuf.append((addressFind.getQuery().getOrganization1() != null ? addressFind.getQuery().getOrganization1() : "" )).append(",");
-		strBuf.append((addressFind.getQuery().getOrganization2() != null ? addressFind.getQuery().getOrganization2() : "" )).append(",");
-		strBuf.append((addressFind.getQuery().getOrganization3() != null ? addressFind.getQuery().getOrganization3() : "" )).append(",");
-		strBuf.append((addressFind.getQuery().getContact1() != null ? addressFind.getQuery().getContact1() : "" )).append(",");
-		strBuf.append((addressFind.getQuery().getContact2() != null ? addressFind.getQuery().getContact2() : "" )).append(",");
-		strBuf.append((addressFind.getQuery().getContact3() != null ? addressFind.getQuery().getContact3() : "" )).append(",");
-		strBuf.append((addressFind.getQuery().getRecipientLine1() != null ? addressFind.getQuery().getRecipientLine1() : "" )).append(",");
-		strBuf.append((addressFind.getQuery().getRecipientLine2() != null ? addressFind.getQuery().getRecipientLine2() : "" )).append(",");
-		strBuf.append((addressFind.getQuery().getRecipientLine3() != null ? addressFind.getQuery().getRecipientLine3() : "" )).append(",");
-		strBuf.append((addressFind.getQuery().getResidue1() != null ? addressFind.getQuery().getResidue1() : "" )).append(",");
-		strBuf.append((addressFind.getQuery().getResidue2() != null ? addressFind.getQuery().getResidue2() : "" )).append(",");
-		strBuf.append((addressFind.getQuery().getResidue3() != null ? addressFind.getQuery().getResidue3() : "" )).append(",");
-		strBuf.append((addressFind.getQuery().getResidue4() != null ? addressFind.getQuery().getResidue4() : "" )).append(",");
-		strBuf.append((addressFind.getQuery().getResidue5() != null ? addressFind.getQuery().getResidue5() : "" )).append(",");
-		strBuf.append((addressFind.getQuery().getResidue6() != null ? addressFind.getQuery().getResidue6() : "" )).append(",");
-		strBuf.append((addressFind.getQuery().getSubBuilding1() != null ? addressFind.getQuery().getSubBuilding1() : "" )).append(",");
-		strBuf.append((addressFind.getQuery().getSubBuilding2() != null ? addressFind.getQuery().getSubBuilding2() : "" )).append(",");
-		strBuf.append((addressFind.getQuery().getSubBuilding3() != null ? addressFind.getQuery().getSubBuilding3() : "" )).append(",");
-		strBuf.append((addressFind.getQuery().getSubBuilding4() != null ? addressFind.getQuery().getSubBuilding4() : "" )).append(",");
-		strBuf.append((addressFind.getQuery().getSubBuilding5() != null ? addressFind.getQuery().getSubBuilding5() : "" )).append(",");
-		strBuf.append((addressFind.getQuery().getSubBuilding6() != null ? addressFind.getQuery().getSubBuilding6() : "" )).append(",");
+		strBuf.append(BatchUtils.trimOutputField(addressFind.getQuery().getCountry1()));
+		strBuf.append(BatchUtils.trimOutputField(addressFind.getQuery().getCountry2()));
+		strBuf.append(BatchUtils.trimOutputField(addressFind.getQuery().getCountry3()));
+		strBuf.append(BatchUtils.trimOutputField(addressFind.getQuery().getAddressComplete()));
+		strBuf.append(BatchUtils.trimOutputField(addressFind.getQuery().getBuilding1()));
+		strBuf.append(BatchUtils.trimOutputField(addressFind.getQuery().getBuilding2()));
+		strBuf.append(BatchUtils.trimOutputField(addressFind.getQuery().getBuilding3()));
+		strBuf.append(BatchUtils.trimOutputField(addressFind.getQuery().getBuilding4()));
+		strBuf.append(BatchUtils.trimOutputField(addressFind.getQuery().getBuilding5()));
+		strBuf.append(BatchUtils.trimOutputField(addressFind.getQuery().getBuilding6()));
+		strBuf.append(BatchUtils.trimOutputField(addressFind.getQuery().getLocality1()));
+		strBuf.append(BatchUtils.trimOutputField(addressFind.getQuery().getLocality2()));
+		strBuf.append(BatchUtils.trimOutputField(addressFind.getQuery().getLocality3()));
+		strBuf.append(BatchUtils.trimOutputField(addressFind.getQuery().getLocality4()));
+		strBuf.append(BatchUtils.trimOutputField(addressFind.getQuery().getLocality5()));
+		strBuf.append(BatchUtils.trimOutputField(addressFind.getQuery().getLocality6()));
+		strBuf.append(BatchUtils.trimOutputField(addressFind.getQuery().getPostalCode1()));
+		strBuf.append(BatchUtils.trimOutputField(addressFind.getQuery().getPostalCode2()));
+		strBuf.append(BatchUtils.trimOutputField(addressFind.getQuery().getPostalCode3()));
+		strBuf.append(BatchUtils.trimOutputField(addressFind.getQuery().getCountrySpecificLocalityLine1()));
+		strBuf.append(BatchUtils.trimOutputField(addressFind.getQuery().getCountrySpecificLocalityLine2()));
+		strBuf.append(BatchUtils.trimOutputField(addressFind.getQuery().getCountrySpecificLocalityLine3()));
+		strBuf.append(BatchUtils.trimOutputField(addressFind.getQuery().getCountrySpecificLocalityLine4()));
+		strBuf.append(BatchUtils.trimOutputField(addressFind.getQuery().getCountrySpecificLocalityLine5()));
+		strBuf.append(BatchUtils.trimOutputField(addressFind.getQuery().getCountrySpecificLocalityLine6()));
+		strBuf.append(BatchUtils.trimOutputField(addressFind.getQuery().getStreet1()));
+		strBuf.append(BatchUtils.trimOutputField(addressFind.getQuery().getStreet2()));
+		strBuf.append(BatchUtils.trimOutputField(addressFind.getQuery().getStreet3()));
+		strBuf.append(BatchUtils.trimOutputField(addressFind.getQuery().getStreet4()));
+		strBuf.append(BatchUtils.trimOutputField(addressFind.getQuery().getStreet5()));
+		strBuf.append(BatchUtils.trimOutputField(addressFind.getQuery().getStreet6()));
+		strBuf.append(BatchUtils.trimOutputField(addressFind.getQuery().getNumber1()));
+		strBuf.append(BatchUtils.trimOutputField(addressFind.getQuery().getNumber2()));
+		strBuf.append(BatchUtils.trimOutputField(addressFind.getQuery().getNumber3()));
+		strBuf.append(BatchUtils.trimOutputField(addressFind.getQuery().getNumber4()));
+		strBuf.append(BatchUtils.trimOutputField(addressFind.getQuery().getNumber5()));
+		strBuf.append(BatchUtils.trimOutputField(addressFind.getQuery().getNumber6()));
+		strBuf.append(BatchUtils.trimOutputField(addressFind.getQuery().getProvince1()));
+		strBuf.append(BatchUtils.trimOutputField(addressFind.getQuery().getProvince2()));
+		strBuf.append(BatchUtils.trimOutputField(addressFind.getQuery().getProvince3()));
+		strBuf.append(BatchUtils.trimOutputField(addressFind.getQuery().getProvince4()));
+		strBuf.append(BatchUtils.trimOutputField(addressFind.getQuery().getProvince5()));
+		strBuf.append(BatchUtils.trimOutputField(addressFind.getQuery().getProvince6()));
+		strBuf.append(BatchUtils.trimOutputField(addressFind.getQuery().getDeliveryAddressLine1()));
+		strBuf.append(BatchUtils.trimOutputField(addressFind.getQuery().getDeliveryAddressLine2()));
+		strBuf.append(BatchUtils.trimOutputField(addressFind.getQuery().getDeliveryAddressLine3()));
+		strBuf.append(BatchUtils.trimOutputField(addressFind.getQuery().getDeliveryAddressLine4()));
+		strBuf.append(BatchUtils.trimOutputField(addressFind.getQuery().getDeliveryAddressLine5()));
+		strBuf.append(BatchUtils.trimOutputField(addressFind.getQuery().getDeliveryAddressLine6()));
+		strBuf.append(BatchUtils.trimOutputField(addressFind.getQuery().getDeliveryService1()));
+		strBuf.append(BatchUtils.trimOutputField(addressFind.getQuery().getDeliveryService2()));
+		strBuf.append(BatchUtils.trimOutputField(addressFind.getQuery().getDeliveryService3()));
+		strBuf.append(BatchUtils.trimOutputField(addressFind.getQuery().getDeliveryService4()));
+		strBuf.append(BatchUtils.trimOutputField(addressFind.getQuery().getDeliveryService5()));
+		strBuf.append((addressFind.getQuery().getDeliveryService6()));
+		strBuf.append(BatchUtils.trimOutputField(addressFind.getQuery().getFormattedAddressLine1()));
+		strBuf.append(BatchUtils.trimOutputField(addressFind.getQuery().getFormattedAddressLine2()));
+		strBuf.append(BatchUtils.trimOutputField(addressFind.getQuery().getFormattedAddressLine3()));
+		strBuf.append(BatchUtils.trimOutputField(addressFind.getQuery().getFormattedAddressLine4()));
+		strBuf.append(BatchUtils.trimOutputField(addressFind.getQuery().getFormattedAddressLine5()));
+		strBuf.append(BatchUtils.trimOutputField(addressFind.getQuery().getFormattedAddressLine6()));
+		strBuf.append(BatchUtils.trimOutputField(addressFind.getQuery().getFormattedAddressLine7()));
+		strBuf.append(BatchUtils.trimOutputField(addressFind.getQuery().getFormattedAddressLine8()));
+		strBuf.append(BatchUtils.trimOutputField(addressFind.getQuery().getFormattedAddressLine9()));
+		strBuf.append(BatchUtils.trimOutputField(addressFind.getQuery().getFormattedAddressLine10()));
+		strBuf.append(BatchUtils.trimOutputField(addressFind.getQuery().getFormattedAddressLine11()));
+		strBuf.append(BatchUtils.trimOutputField(addressFind.getQuery().getFormattedAddressLine12()));
+		strBuf.append(BatchUtils.trimOutputField(addressFind.getQuery().getFormattedAddressLine13()));
+		strBuf.append(BatchUtils.trimOutputField(addressFind.getQuery().getFormattedAddressLine14()));
+		strBuf.append(BatchUtils.trimOutputField(addressFind.getQuery().getFormattedAddressLine15()));
+		strBuf.append(BatchUtils.trimOutputField(addressFind.getQuery().getFormattedAddressLine16()));
+		strBuf.append(BatchUtils.trimOutputField(addressFind.getQuery().getFormattedAddressLine17()));
+		strBuf.append(BatchUtils.trimOutputField(addressFind.getQuery().getFormattedAddressLine18()));
+		strBuf.append(BatchUtils.trimOutputField(addressFind.getQuery().getFormattedAddressLine19()));
+		strBuf.append(BatchUtils.trimOutputField(addressFind.getQuery().getOrganization1()));
+		strBuf.append(BatchUtils.trimOutputField(addressFind.getQuery().getOrganization2()));
+		strBuf.append(BatchUtils.trimOutputField(addressFind.getQuery().getOrganization3()));
+		strBuf.append(BatchUtils.trimOutputField(addressFind.getQuery().getContact1()));
+		strBuf.append(BatchUtils.trimOutputField(addressFind.getQuery().getContact2()));
+		strBuf.append(BatchUtils.trimOutputField(addressFind.getQuery().getContact3()));
+		strBuf.append(BatchUtils.trimOutputField(addressFind.getQuery().getRecipientLine1()));
+		strBuf.append(BatchUtils.trimOutputField(addressFind.getQuery().getRecipientLine2()));
+		strBuf.append(BatchUtils.trimOutputField(addressFind.getQuery().getRecipientLine3()));
+		strBuf.append(BatchUtils.trimOutputField(addressFind.getQuery().getResidue1()));
+		strBuf.append(BatchUtils.trimOutputField(addressFind.getQuery().getResidue2()));
+		strBuf.append(BatchUtils.trimOutputField(addressFind.getQuery().getResidue3()));
+		strBuf.append(BatchUtils.trimOutputField(addressFind.getQuery().getResidue4()));
+		strBuf.append(BatchUtils.trimOutputField(addressFind.getQuery().getResidue5()));
+		strBuf.append(BatchUtils.trimOutputField(addressFind.getQuery().getResidue6()));
+		strBuf.append(BatchUtils.trimOutputField(addressFind.getQuery().getSubBuilding1()));
+		strBuf.append(BatchUtils.trimOutputField(addressFind.getQuery().getSubBuilding2()));
+		strBuf.append(BatchUtils.trimOutputField(addressFind.getQuery().getSubBuilding3()));
+		strBuf.append(BatchUtils.trimOutputField(addressFind.getQuery().getSubBuilding4()));
+		strBuf.append(BatchUtils.trimOutputField(addressFind.getQuery().getSubBuilding5()));
+		strBuf.append(BatchUtils.trimOutputField(addressFind.getQuery().getSubBuilding6()));
 		
 		// OUTPUT 
 		strBuf.append(",");
 		
 		// TODO
-		// key1-RECORD_ID	
-		// key2-RECORD_ID	key3-RECORD_ID
-		// key1-TRANSACTION_KEY	key2-TRANSACTION_KEY	
-		// key3-TRANSACTION_KEY	ResultNumber
+		// key1-RECORD_ID key2-RECORD_ID	key3-RECORD_ID
+		// key1-TRANSACTION_KEY	key2-TRANSACTION_KEY key3-TRANSACTION_KEY	
+		// ResultNumber
 		for (int i = 0; i < 7 ; i ++  ) {
 			strBuf.append(",");
 		}
 
 		if (result != null){
 			// RESULT
-			strBuf.append(result.getIso3() + "," );
-			strBuf.append(result.getModeUsed() + ",");
-			strBuf.append(result.getPreferredLanguage() + ",");
-			strBuf.append(result.getPreferredScript() + ",");
-			strBuf.append(result.getProcessStatus() + ",");
-			strBuf.append(result.isCountOverFlow() + ",");
+			strBuf.append(result.getIso3()).append(",");
+			strBuf.append(result.getModeUsed()).append(",");
+			strBuf.append(result.getPreferredLanguage()).append(",");
+			strBuf.append(result.getPreferredScript()).append(",");
+			strBuf.append(result.getProcessStatus()).append(",");
+			strBuf.append(result.isCountOverFlow()).append(",");
 			
 			// RESULT DATA
 			// each result of an address query, there will be one AddressData item returned
 			AddressData addressData = result.getAddressData().get(0);
-			strBuf.append(addressData.getElementInputStatus() + ",");
-			strBuf.append(addressData.getElementResultStatus() + ",");
-			strBuf.append(addressData.getElementRelevance() + ",");
-			strBuf.append(addressData.getMailabilityScore() + ",");
-			strBuf.append(addressData.getResultPercentage() + ",");
-			strBuf.append(addressData.getCassStatus() + ",");
-			strBuf.append(addressData.getSerpStatus() + ",");
-			strBuf.append(addressData.getSnaStatus() + ",");
-			strBuf.append(addressData.getSupplementaryGBStatus() + ",");
-			strBuf.append(addressData.getSupplementaryUSStatus() + ",");
+			strBuf.append(addressData.getElementInputStatus()).append(",");
+			strBuf.append(addressData.getElementResultStatus()).append(",");
+			strBuf.append(addressData.getElementRelevance()).append(",");
+			strBuf.append(addressData.getMailabilityScore()).append(",");
+			strBuf.append(addressData.getResultPercentage()).append(",");
+			strBuf.append(addressData.getCassStatus()).append(",");
+			strBuf.append(addressData.getSerpStatus()).append(",");
+			strBuf.append(addressData.getSnaStatus()).append(",");
+			strBuf.append(addressData.getSupplementaryGBStatus()).append(",");
+			strBuf.append(addressData.getSupplementaryUSStatus()).append(",");
 			
 			// ADDRESS ELEMENTS-DEFAULT TYPES
 			// country1-NAME_EN	
 			// TODO
-			strBuf.append(joinAddressData3("NAME_EN", addressData.getCountries()));
+			strBuf.append(retrieveAddresssDataWithSamePrefix("NAME_EN", addressData.getCountries()));
 			
 			// locality1-COMPLETE	locality2-COMPLETE	locality3-COMPLETE	locality4-COMPLETE	locality5-COMPLETE	locality6-COMPLETE	
-			strBuf.append(joinAddressData1("COMPLETE", 6 , addressData.getLocalities()));
+			strBuf.append(retrieveAddresssDataWithSameSuffix("COMPLETE", 6 , addressData.getLocalities()));
 			
 			// postalCode1-FORMATTED	postalCode2-FORMATTED	postalCode3-FORMATTED
-			strBuf.append(joinAddressData1("FORMATTED", 3 , addressData.getPostalCodes()));
+			strBuf.append(retrieveAddresssDataWithSameSuffix("FORMATTED", 3 , addressData.getPostalCodes()));
 			
 			// province1-COUNTRY_STANDARD	province2-COUNTRY_STANDARD	province3-COUNTRY_STANDARD	province4-COUNTRY_STANDARD	province5-COUNTRY_STANDARD	province6-COUNTRY_STANDARD		
-			strBuf.append(joinAddressData1("COUNTRY_STANDARD", 6 , addressData.getProvinces()));
+			strBuf.append(retrieveAddresssDataWithSameSuffix("COUNTRY_STANDARD", 6 , addressData.getProvinces()));
 			// street1-COMPLETE	street2-COMPLETE	street3-COMPLETE	street4-COMPLETE	street5-COMPLETE	street6-COMPLETE	
-			strBuf.append(joinAddressData1("COMPLETE", 6 , addressData.getStreets()));
+			strBuf.append(retrieveAddresssDataWithSameSuffix("COMPLETE", 6 , addressData.getStreets()));
 			// number1-COMPLETE	number2-COMPLETE	number3-COMPLETE	number4-COMPLETE	number5-COMPLETE	number6-COMPLETE
-			strBuf.append(joinAddressData1("COMPLETE", 6 , addressData.getNumbers()));
+			strBuf.append(retrieveAddresssDataWithSameSuffix("COMPLETE", 6 , addressData.getNumbers()));
 			// building1-COMPLETE	building2-COMPLETE	building3-COMPLETE	building4-COMPLETE	building5-COMPLETE	building6-COMPLETE
-			strBuf.append(joinAddressData1("COMPLETE", 6 , addressData.getBuildings()));
+			strBuf.append(retrieveAddresssDataWithSameSuffix("COMPLETE", 6 , addressData.getBuildings()));
 			// subBuilding1-COMPLETE	subBuilding2-COMPLETE	subBuilding3-COMPLETE	subBuilding4-COMPLETE	subBuilding5-COMPLETE	subBuilding6-COMPLETE	
-			strBuf.append(joinAddressData1("COMPLETE", 6 , addressData.getSubBuildings()));
+			strBuf.append(retrieveAddresssDataWithSameSuffix("COMPLETE", 6 , addressData.getSubBuildings()));
 			// deliverService1-COMPLETE	deliverService2-COMPLETE	deliverService3-COMPLETE	deliverService4-COMPLETE	deliverService5-COMPLETE	deliverService6-COMPLETE	
-			strBuf.append(joinAddressData1("COMPLETE", 6 , addressData.getDeliveryServices()));
+			strBuf.append(retrieveAddresssDataWithSameSuffix("COMPLETE", 6 , addressData.getDeliveryServices()));
 			// organization1-COMPLETE	organization2-COMPLETE	organization3-COMPLETE	
-			strBuf.append(joinAddressData1("COMPLETE", 3 , addressData.getOrganizations()));
+			strBuf.append(retrieveAddresssDataWithSameSuffix("COMPLETE", 3 , addressData.getOrganizations()));
 			// contact1-COMPLETE	contact2-COMPLETE	contact3-COMPLETE
-			strBuf.append(joinAddressData1("COMPLETE", 3 , addressData.getContacts()));
+			strBuf.append(retrieveAddresssDataWithSameSuffix("COMPLETE", 3 , addressData.getContacts()));
 			// residue1-UNRECOGNIZED	residue2-UNRECOGNIZED	residue3-UNRECOGNIZED	residue4-UNRECOGNIZED	residue5-UNRECOGNIZED	residue6-UNRECOGNIZED	
-			strBuf.append(joinAddressData1("UNRECOGNIZED", 6 , addressData.getResidues()));
+			strBuf.append(retrieveAddresssDataWithSameSuffix("UNRECOGNIZED", 6 , addressData.getResidues()));
 			
 			// recipientLine1	recipientLine2	recipientLine3	
-			strBuf.append(joinAddressData2(3, addressData.getRecipientLines()));
+			strBuf.append(retrieveAddresssDataWithDiffLine(3, addressData.getRecipientLines()));
 			// deliveryAddressLine1	deliveryAddressLine2	deliveryAddressLine3	deliveryAddressLine4	deliveryAddressLine5	deliveryAddressLine6	
-			strBuf.append(joinAddressData2(6, addressData.getDeliveryAddressLines()));
+			strBuf.append(retrieveAddresssDataWithDiffLine(6, addressData.getDeliveryAddressLines()));
 			// countrySpecificLocalityLine1	countrySpecificLocalityLine2	countrySpecificLocalityLine3	countrySpecificLocalityLine4	countrySpecificLocalityLine5	countrySpecificLocalityLine6	
-			strBuf.append(joinAddressData2(6, addressData.getCountrySpecificLocalityLines()));
+			strBuf.append(retrieveAddresssDataWithDiffLine(6, addressData.getCountrySpecificLocalityLines()));
 			// FormattedAddressLine1	FormattedAddressLine2	FormattedAddressLine3	FormattedAddressLine4	FormattedAddressLine5	FormattedAddressLine6	FormattedAddressLine7	FormattedAddressLine8	FormattedAddressLine9	FormattedAddressLine10	FormattedAddressLine11	FormattedAddressLine12	FormattedAddressLine13	FormattedAddressLine14	FormattedAddressLine15	FormattedAddressLine16	FormattedAddressLine17	FormattedAddressLine18	FormattedAddressLine19	
-			strBuf.append(joinAddressData2(19, addressData.getFormattedAddressLines()));
+			strBuf.append(retrieveAddresssDataWithDiffLine(19, addressData.getFormattedAddressLines()));
 			
 			// addressComplete
-			// escape "\r\n"
-			strBuf.append(BatchUtils.trimCRLF(addressData.getCompleteAddress())).append(",");
+			// escape \r\n in the field
+			strBuf.append(BatchUtils.trimOutputField(addressData.getCompleteAddress())).append(",");
 			
 			// country1-ABBREVIATION	country1-ISO2	country1-ISO3	country1- ISO_NUMBER	country1-NAME_CN	country1-NAME_DA	country1-NAME_DE	country1-NAME_ES	country1-NAME_FI	country1-NAME_FR	country1-NAME_GR	country1-NAME_HU	country1-NAME_IT	country1-NAME_JP	country1-NAME_KR	country1-NAME_NL	country1-NAME_PL	country1-NAME_PT	country1-NAME_RU	country1-NAME_SA	country1-NAME_SE	
-			strBuf.append(joinAddressData3("ABBREVIATION", addressData.getCountries()));
-			strBuf.append(joinAddressData3("ISO2", addressData.getCountries()));
-			strBuf.append(joinAddressData3("ISO3", addressData.getCountries()));
-			strBuf.append(joinAddressData3("ISO_NUMBER", addressData.getCountries()));
-			strBuf.append(joinAddressData3("NAME_CN", addressData.getCountries()));
-			strBuf.append(joinAddressData3("NAME_DA", addressData.getCountries()));
-			strBuf.append(joinAddressData3("NAME_DE", addressData.getCountries()));
-			strBuf.append(joinAddressData3("NAME_ES", addressData.getCountries()));
-			strBuf.append(joinAddressData3("NAME_FI", addressData.getCountries()));
-			strBuf.append(joinAddressData3("NAME_FR", addressData.getCountries()));
-			strBuf.append(joinAddressData3("NAME_GR", addressData.getCountries()));
-			strBuf.append(joinAddressData3("NAME_HU", addressData.getCountries()));
-			strBuf.append(joinAddressData3("NAME_IT", addressData.getCountries()));
-			strBuf.append(joinAddressData3("NAME_JP", addressData.getCountries()));
-			strBuf.append(joinAddressData3("NAME_KR", addressData.getCountries()));
-			strBuf.append(joinAddressData3("NAME_NL", addressData.getCountries()));
-			strBuf.append(joinAddressData3("NAME_PL", addressData.getCountries()));
-			strBuf.append(joinAddressData3("NAME_PT", addressData.getCountries()));
-			strBuf.append(joinAddressData3("NAME_RU", addressData.getCountries()));
-			strBuf.append(joinAddressData3("NAME_SA", addressData.getCountries()));
-			strBuf.append(joinAddressData3("NAME_SE", addressData.getCountries()));
+			strBuf.append(retrieveAddresssDataWithSamePrefix("ABBREVIATION", addressData.getCountries()));
+			strBuf.append(retrieveAddresssDataWithSamePrefix("ISO2", addressData.getCountries()));
+			strBuf.append(retrieveAddresssDataWithSamePrefix("ISO3", addressData.getCountries()));
+			strBuf.append(retrieveAddresssDataWithSamePrefix("ISO_NUMBER", addressData.getCountries()));
+			strBuf.append(retrieveAddresssDataWithSamePrefix("NAME_CN", addressData.getCountries()));
+			strBuf.append(retrieveAddresssDataWithSamePrefix("NAME_DA", addressData.getCountries()));
+			strBuf.append(retrieveAddresssDataWithSamePrefix("NAME_DE", addressData.getCountries()));
+			strBuf.append(retrieveAddresssDataWithSamePrefix("NAME_ES", addressData.getCountries()));
+			strBuf.append(retrieveAddresssDataWithSamePrefix("NAME_FI", addressData.getCountries()));
+			strBuf.append(retrieveAddresssDataWithSamePrefix("NAME_FR", addressData.getCountries()));
+			strBuf.append(retrieveAddresssDataWithSamePrefix("NAME_GR", addressData.getCountries()));
+			strBuf.append(retrieveAddresssDataWithSamePrefix("NAME_HU", addressData.getCountries()));
+			strBuf.append(retrieveAddresssDataWithSamePrefix("NAME_IT", addressData.getCountries()));
+			strBuf.append(retrieveAddresssDataWithSamePrefix("NAME_JP", addressData.getCountries()));
+			strBuf.append(retrieveAddresssDataWithSamePrefix("NAME_KR", addressData.getCountries()));
+			strBuf.append(retrieveAddresssDataWithSamePrefix("NAME_NL", addressData.getCountries()));
+			strBuf.append(retrieveAddresssDataWithSamePrefix("NAME_PL", addressData.getCountries()));
+			strBuf.append(retrieveAddresssDataWithSamePrefix("NAME_PT", addressData.getCountries()));
+			strBuf.append(retrieveAddresssDataWithSamePrefix("NAME_RU", addressData.getCountries()));
+			strBuf.append(retrieveAddresssDataWithSamePrefix("NAME_SA", addressData.getCountries()));
+			strBuf.append(retrieveAddresssDataWithSamePrefix("NAME_SE", addressData.getCountries()));
 			
 			// TODO
 			// not sure
@@ -478,10 +493,10 @@ public class AddressFindController implements TransactionController<AddressFind,
 			}
 			
 			// locality1-NAME	locality1-PREFERRED_NAME	locality1-SORTING_CODE	locality1-ADD_INFO	
-			strBuf.append(joinAddressData3("NAME", addressData.getLocalities()));
-			strBuf.append(joinAddressData3("PREFERRED_NAME", addressData.getLocalities()));
-			strBuf.append(joinAddressData3("SORTING_CODE", addressData.getLocalities()));
-			strBuf.append(joinAddressData3("ADD_INFO", addressData.getLocalities()));
+			strBuf.append(retrieveAddresssDataWithSamePrefix("NAME", addressData.getLocalities()));
+			strBuf.append(retrieveAddresssDataWithSamePrefix("PREFERRED_NAME", addressData.getLocalities()));
+			strBuf.append(retrieveAddresssDataWithSamePrefix("SORTING_CODE", addressData.getLocalities()));
+			strBuf.append(retrieveAddresssDataWithSamePrefix("ADD_INFO", addressData.getLocalities()));
 			
 			// TODO
 			// not sure
@@ -495,9 +510,9 @@ public class AddressFindController implements TransactionController<AddressFind,
 			}
 			
 			// postalCode1-UNFORMATTED	postalCode1-BASE	postalCode1-ADD_ON
-			strBuf.append(joinAddressData3("UNFORMATTED", addressData.getPostalCodes()));
-			strBuf.append(joinAddressData3("BASE", addressData.getPostalCodes()));
-			strBuf.append(joinAddressData3("ADD_ON", addressData.getPostalCodes()));
+			strBuf.append(retrieveAddresssDataWithSamePrefix("UNFORMATTED", addressData.getPostalCodes()));
+			strBuf.append(retrieveAddresssDataWithSamePrefix("BASE", addressData.getPostalCodes()));
+			strBuf.append(retrieveAddresssDataWithSamePrefix("ADD_ON", addressData.getPostalCodes()));
 			
 			// TODO
 			// not sure
@@ -508,9 +523,9 @@ public class AddressFindController implements TransactionController<AddressFind,
 			}
 			
 			// province1-ABBREVIATION	province1-EXTENDED	province1-ISO	
-			strBuf.append(joinAddressData3("ABBREVIATION", addressData.getProvinces()));
-			strBuf.append(joinAddressData3("EXTENDED", addressData.getProvinces()));
-			strBuf.append(joinAddressData3("ISO", addressData.getProvinces()));
+			strBuf.append(retrieveAddresssDataWithSamePrefix("ABBREVIATION", addressData.getProvinces()));
+			strBuf.append(retrieveAddresssDataWithSamePrefix("EXTENDED", addressData.getProvinces()));
+			strBuf.append(retrieveAddresssDataWithSamePrefix("ISO", addressData.getProvinces()));
 			
 			// TODO
 			// province2-ABBREVIATION	province2-EXTENDED	province2-ISO	
@@ -523,13 +538,13 @@ public class AddressFindController implements TransactionController<AddressFind,
 			}
 			
 			// street1-COMPLETE_WITH_NUMBER	street1-NAME	street1-PRE_DESCRIPTOR	street1-POST_DESCRIPTOR	street1-PRE_DIRECTIONAL	street1-POST_DIRECTIONAL	street1-ADD_INFO	
-			strBuf.append(joinAddressData3("COMPLETE_WITH_NUMBER", addressData.getStreets()));
-			strBuf.append(joinAddressData3("NAME", addressData.getStreets()));
-			strBuf.append(joinAddressData3("PRE_DESCRIPTOR", addressData.getStreets()));
-			strBuf.append(joinAddressData3("POST_DESCRIPTOR", addressData.getStreets()));
-			strBuf.append(joinAddressData3("PRE_DIRECTIONAL", addressData.getStreets()));
-			strBuf.append(joinAddressData3("POST_DIRECTIONAL", addressData.getStreets()));
-			strBuf.append(joinAddressData3("ADD_INFO", addressData.getStreets()));
+			strBuf.append(retrieveAddresssDataWithSamePrefix("COMPLETE_WITH_NUMBER", addressData.getStreets()));
+			strBuf.append(retrieveAddresssDataWithSamePrefix("NAME", addressData.getStreets()));
+			strBuf.append(retrieveAddresssDataWithSamePrefix("PRE_DESCRIPTOR", addressData.getStreets()));
+			strBuf.append(retrieveAddresssDataWithSamePrefix("POST_DESCRIPTOR", addressData.getStreets()));
+			strBuf.append(retrieveAddresssDataWithSamePrefix("PRE_DIRECTIONAL", addressData.getStreets()));
+			strBuf.append(retrieveAddresssDataWithSamePrefix("POST_DIRECTIONAL", addressData.getStreets()));
+			strBuf.append(retrieveAddresssDataWithSamePrefix("ADD_INFO", addressData.getStreets()));
 			
 			// TODO
 			// street2-COMPLETE_WITH_NUMBER	street2-NAME	street2-PRE_DESCRIPTOR	street2-POST_DESCRIPTOR	street2-PRE_DIRECTIONAL	street2-POST_DIRECTIONAL	street2-ADD_INFO	
@@ -542,9 +557,9 @@ public class AddressFindController implements TransactionController<AddressFind,
 			}
 			
 			// number1-NUMBER	number1-DESCRIPTOR	number1-ADD_INFO
-			strBuf.append(joinAddressData3("NUMBER", addressData.getNumbers()));
-			strBuf.append(joinAddressData3("DESCRIPTOR", addressData.getNumbers()));
-			strBuf.append(joinAddressData3("ADD_INFO", addressData.getNumbers()));
+			strBuf.append(retrieveAddresssDataWithSamePrefix("NUMBER", addressData.getNumbers()));
+			strBuf.append(retrieveAddresssDataWithSamePrefix("DESCRIPTOR", addressData.getNumbers()));
+			strBuf.append(retrieveAddresssDataWithSamePrefix("ADD_INFO", addressData.getNumbers()));
 			
 			// TODO
 			// number2-NUMBER	number2-DESCRIPTOR	number2-ADD_INFO	
@@ -557,10 +572,10 @@ public class AddressFindController implements TransactionController<AddressFind,
 			}
 			
 			// building1-COMPLETE_WITH_SUBBUILDING	building1-NAME	building1-NUMBER 	building1-DESCRIPTOR	
-			strBuf.append(joinAddressData3("COMPLETE_WITH_SUBBUILDING", addressData.getBuildings()));
-			strBuf.append(joinAddressData3("NAME", addressData.getBuildings()));
-			strBuf.append(joinAddressData3("NUMBER", addressData.getBuildings()));
-			strBuf.append(joinAddressData3("DESCRIPTOR", addressData.getBuildings()));
+			strBuf.append(retrieveAddresssDataWithSamePrefix("COMPLETE_WITH_SUBBUILDING", addressData.getBuildings()));
+			strBuf.append(retrieveAddresssDataWithSamePrefix("NAME", addressData.getBuildings()));
+			strBuf.append(retrieveAddresssDataWithSamePrefix("NUMBER", addressData.getBuildings()));
+			strBuf.append(retrieveAddresssDataWithSamePrefix("DESCRIPTOR", addressData.getBuildings()));
 			
 			// TODO
 			// building2-COMPLETE_WITH_SUBBUILDING	building2-NAME	building2-NUMBER 	building2-DESCRIPTOR	
@@ -574,9 +589,9 @@ public class AddressFindController implements TransactionController<AddressFind,
 			
 			
 			// subBuilding1-NAME	subBuilding1-NUMBER 	subBuilding1-DESCRIPTOR
-			strBuf.append(joinAddressData3("NAME", addressData.getSubBuildings()));
-			strBuf.append(joinAddressData3("NUMBER", addressData.getSubBuildings()));
-			strBuf.append(joinAddressData3("DESCRIPTOR", addressData.getSubBuildings()));
+			strBuf.append(retrieveAddresssDataWithSamePrefix("NAME", addressData.getSubBuildings()));
+			strBuf.append(retrieveAddresssDataWithSamePrefix("NUMBER", addressData.getSubBuildings()));
+			strBuf.append(retrieveAddresssDataWithSamePrefix("DESCRIPTOR", addressData.getSubBuildings()));
 			
 			// TODO
 			// subBuilding2-NAME	subBuilding2-NUMBER 	subBuilding2-DESCRIPTOR	
@@ -589,9 +604,9 @@ public class AddressFindController implements TransactionController<AddressFind,
 			}			
 			
 			// deliveryService1-DESCRIPTOR	deliveryService1-NUMBER	deliveryService1-ADD_INFO
-			strBuf.append(joinAddressData3("DESCRIPTOR", addressData.getDeliveryServices()));
-			strBuf.append(joinAddressData3("NUMBER", addressData.getDeliveryServices()));
-			strBuf.append(joinAddressData3("ADD_INFO", addressData.getDeliveryServices()));
+			strBuf.append(retrieveAddresssDataWithSamePrefix("DESCRIPTOR", addressData.getDeliveryServices()));
+			strBuf.append(retrieveAddresssDataWithSamePrefix("NUMBER", addressData.getDeliveryServices()));
+			strBuf.append(retrieveAddresssDataWithSamePrefix("ADD_INFO", addressData.getDeliveryServices()));
 			
 			// TODO
 			// deliveryService2-DESCRIPTOR	deliveryService2-NUMBER	deliveryService2-ADD_INFO	
@@ -601,9 +616,9 @@ public class AddressFindController implements TransactionController<AddressFind,
 			}
 			
 			// organization1-NAME	organization1-DESCRIPTOR	organization1-DEPARTMENT
-			strBuf.append(joinAddressData3("NAME", addressData.getOrganizations()));
-			strBuf.append(joinAddressData3("DESCRIPTOR", addressData.getOrganizations()));
-			strBuf.append(joinAddressData3("DEPARTMENT", addressData.getOrganizations()));
+			strBuf.append(retrieveAddresssDataWithSamePrefix("NAME", addressData.getOrganizations()));
+			strBuf.append(retrieveAddresssDataWithSamePrefix("DESCRIPTOR", addressData.getOrganizations()));
+			strBuf.append(retrieveAddresssDataWithSamePrefix("DEPARTMENT", addressData.getOrganizations()));
 			
 			//TODO
 			// organization2-NAME	organization2-DESCRIPTOR	organization2-DEPARTMENT	
@@ -613,14 +628,14 @@ public class AddressFindController implements TransactionController<AddressFind,
 			}
 			
 			// contact1-FIRST_NAME	contact1-MIDDLE_NAME	contact1-LAST_NAME	contact1-NAME	contact1-TITLE	contact1-FUNCTION	contact1-SALUTATION	contact1-GENDER	
-			strBuf.append(joinAddressData3("FIRST_NAME", addressData.getContacts()));
-			strBuf.append(joinAddressData3("MIDDLE_NAME", addressData.getContacts()));
-			strBuf.append(joinAddressData3("LAST_NAME", addressData.getContacts()));
-			strBuf.append(joinAddressData3("NAME", addressData.getContacts()));
-			strBuf.append(joinAddressData3("TITLE", addressData.getContacts()));
-			strBuf.append(joinAddressData3("FUNCTION", addressData.getContacts()));
-			strBuf.append(joinAddressData3("SALUTATION", addressData.getContacts()));
-			strBuf.append(joinAddressData3("GENDER", addressData.getContacts()));
+			strBuf.append(retrieveAddresssDataWithSamePrefix("FIRST_NAME", addressData.getContacts()));
+			strBuf.append(retrieveAddresssDataWithSamePrefix("MIDDLE_NAME", addressData.getContacts()));
+			strBuf.append(retrieveAddresssDataWithSamePrefix("LAST_NAME", addressData.getContacts()));
+			strBuf.append(retrieveAddresssDataWithSamePrefix("NAME", addressData.getContacts()));
+			strBuf.append(retrieveAddresssDataWithSamePrefix("TITLE", addressData.getContacts()));
+			strBuf.append(retrieveAddresssDataWithSamePrefix("FUNCTION", addressData.getContacts()));
+			strBuf.append(retrieveAddresssDataWithSamePrefix("SALUTATION", addressData.getContacts()));
+			strBuf.append(retrieveAddresssDataWithSamePrefix("GENDER", addressData.getContacts()));
 			
 			// TODO
 			// contact2-FIRST_NAME	contact2-MIDDLE_NAME	contact2-LAST_NAME	contact2-NAME	contact2-TITLE	contact2-FUNCTION	contact2-SALUTATION	contact2-GENDER	
@@ -630,8 +645,8 @@ public class AddressFindController implements TransactionController<AddressFind,
 			}
 			
 			// residue1-NECESSARY	residue1-SUPERFLUOUS
-			strBuf.append(joinAddressData3("NECESSARY", addressData.getResidues()));
-			strBuf.append(joinAddressData3("SUPERFLUOUS", addressData.getResidues()));
+			strBuf.append(retrieveAddresssDataWithSamePrefix("NECESSARY", addressData.getResidues()));
+			strBuf.append(retrieveAddresssDataWithSamePrefix("SUPERFLUOUS", addressData.getResidues()));
 			
 			// TODO
 			// residue2-NECESSARY	residue2-SUPERFLUOUS
@@ -647,40 +662,39 @@ public class AddressFindController implements TransactionController<AddressFind,
 		return strBuf.toString();
 	}
 	
-	
-	private String joinAddressData3(String type, List<AddressElement> list) {
+	private String retrieveAddresssDataWithSamePrefix(String type, List<AddressElement> list) {
 		StringBuffer buf = new StringBuffer();
 		int i = 0;
-		for (AddressElement element : list ){
-			i ++;
+		for (AddressElement element : list) {
+			i++;
 			boolean flag = false;
 			if (type.equals(element.getType())) {
 				flag = true;
 				buf.append(element.getValue()).append(",");
 			}
-			
-			if (flag) { 
+
+			if (flag) {
 				break;
-			} else if (i >= list.size()){
+			} else if (i >= list.size()) {
 				// not exist, then set null
 				buf.append(",");
 			}
 		}
-		
+
 		return buf.toString();
 	}
 
-	private String joinAddressData2(int count, List<String> list) {
+	private String retrieveAddresssDataWithDiffLine(int count, List<String> list) {
 		StringBuffer buf = new StringBuffer();
-		if (list.size() == 0){
-			for (int i =0 ; i < count; i++){
+		if (list.size() == 0) {
+			for (int i = 0; i < count; i++) {
 				buf.append(",");
 			}
-		} else if (list.size()<=count){
-			for (String element : list){
-					buf.append(element).append(",");
+		} else if (list.size() <= count) {
+			for (String element : list) {
+				buf.append(element).append(",");
 			}
-			for (int i = 0; i < count-list.size(); i++){
+			for (int i = 0; i < count - list.size(); i++) {
 				// not exist, then set null
 				buf.append(",");
 			}
@@ -688,26 +702,23 @@ public class AddressFindController implements TransactionController<AddressFind,
 		return buf.toString();
 	}
 
-	private String joinAddressData1(String type, int count, List<AddressElement> list) {
+	private String retrieveAddresssDataWithSameSuffix(String type, int count,
+			List<AddressElement> list) {
 		StringBuffer buf = new StringBuffer();
-		int num = 0 ;
+		int num = 0;
 		for (AddressElement element : list) {
-			if (type.equals(element.getType())){
-				num ++;
+			if (type.equals(element.getType())) {
+				num++;
 				buf.append(element.getValue()).append(",");
 			}
 		}
-		
+
 		if (num <= count) {
-			for (int i = 0; i < count-num; i++) {
+			for (int i = 0; i < count - num; i++) {
 				// not exist, then set null
 				buf.append(",");
 			}
 		}
 		return buf.toString();
 	}
-	
-	// TODO
-	// batch job run 24*7
-	
 }

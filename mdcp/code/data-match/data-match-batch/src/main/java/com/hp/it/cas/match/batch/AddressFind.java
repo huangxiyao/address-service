@@ -4,6 +4,12 @@ import java.util.ArrayList;
 
 import com.hp.it.cas.match.address.AddressQuery;
 
+/**
+ * an record from the input file.
+ * 
+ * @author yu-juan.zhang@hp.com
+ * 
+ */
 public class AddressFind {
 	private ArrayList<String> emailList;
 	private String outputFileName;
@@ -17,7 +23,7 @@ public class AddressFind {
 	public void setEmailList(ArrayList<String> emailList) {
 		this.emailList = emailList;
 	}
-	
+
 	public String getOutputFileName() {
 		return outputFileName;
 	}

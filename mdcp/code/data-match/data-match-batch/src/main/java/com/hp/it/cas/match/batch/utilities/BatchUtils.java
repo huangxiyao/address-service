@@ -54,7 +54,7 @@ public class BatchUtils {
 			
 			buf.append(field);
 		}
-		return buf.append(",").toString();
+		return buf.toString();
 	}
 	
 	/**

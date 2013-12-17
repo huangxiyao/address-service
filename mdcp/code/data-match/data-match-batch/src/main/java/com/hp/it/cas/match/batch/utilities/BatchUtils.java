@@ -25,6 +25,8 @@ public class BatchUtils {
 	 * 		the String without the space and double quota
 	 */
 	public static String trimInputField(String field) {
+		StringBuffer buf = new StringBuffer("");
+
 		if (field != null) {
 			field = field.trim();
 
@@ -32,8 +34,25 @@ public class BatchUtils {
 			if (field.startsWith("\"") && field.endsWith("\"") ) {
 				field = field.substring(1,field.length()-1);
 			}
+			
+			// escape double quota in the middle of the field
+			if (field.contains("\"")) {
+				StringBuffer buff = new StringBuffer("");
+				char[] charArray = field.toCharArray();
+				for (int i = 0; i < charArray.length ; i ++){
+					buff.append(charArray[i]);
+					if (charArray[i] == '\"') {
+						if ( i < charArray.length-1 && charArray[i+1] == '\"') {
+							i ++;
+						}
+					}
+				}
+				field = buff.toString();
+			}
+			
+			buf.append(field);
 		}
-		return field;
+		return buf.toString();
 	}
 	
 	/**
@@ -48,12 +67,25 @@ public class BatchUtils {
 		StringBuffer buf = new StringBuffer("");
 		if (field != null){
 			field = field.trim().replace("\r\n", "");
-			if (field.contains(",")) {
+
+			if (field.contains("\"")){
+				StringBuffer buff = new StringBuffer("");
+				char[] charArray = field.toCharArray();
+				for (int i = 0; i < charArray.length; i++) {
+					buff.append(charArray[i]);
+					if (charArray[i] == '\"') {
+						buff.append('\"');
+					}
+				}
+				
+				field = "\"" + buff.toString() + "\"";
+			} else if (field.contains(",")) {
 				field = "\"" + field + "\"";
 			}
 			
 			buf.append(field);
 		}
+		
 		return buf.toString();
 	}
 	
@@ -80,5 +112,5 @@ public class BatchUtils {
 	public static boolean checkOutputFileName(String field){
 		return field == null ? false : field.startsWith(OUTPUTFILENAME);
 	}
-		
+
 }

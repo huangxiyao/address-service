@@ -670,7 +670,7 @@ public class AddressFindController implements TransactionController<AddressFind,
 			boolean flag = false;
 			if (type.equals(element.getType())) {
 				flag = true;
-				buf.append(element.getValue()).append(",");
+				buf.append(BatchUtils.trimOutputField(element.getValue())).append(",");
 			}
 
 			if (flag) {
@@ -692,7 +692,7 @@ public class AddressFindController implements TransactionController<AddressFind,
 			}
 		} else if (list.size() <= count) {
 			for (String element : list) {
-				buf.append(element).append(",");
+				buf.append(BatchUtils.trimOutputField(element)).append(",");
 			}
 			for (int i = 0; i < count - list.size(); i++) {
 				// not exist, then set null
@@ -709,7 +709,7 @@ public class AddressFindController implements TransactionController<AddressFind,
 		for (AddressElement element : list) {
 			if (type.equals(element.getType())) {
 				num++;
-				buf.append(element.getValue()).append(",");
+				buf.append(BatchUtils.trimOutputField(element.getValue())).append(",");
 			}
 		}
 

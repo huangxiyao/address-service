@@ -7,6 +7,7 @@ import java.net.URISyntaxException;
 import java.nio.charset.Charset;
 import java.security.Principal;
 import java.util.HashMap;
+import java.util.LinkedHashMap;
 import java.util.List;
 import java.util.Map;
 import java.util.Set;
@@ -58,7 +59,7 @@ public class AddressFindController implements TransactionController<AddressFind,
 	};
 	
 	/* temporary variable to save the INPUT and Result for each Input file, email and outputFileName */
-	private Map<AddressFind, AddressQueryResult> outputMap = new HashMap<AddressFind, AddressQueryResult>();
+	private Map<AddressFind, AddressQueryResult> outputMap = new LinkedHashMap<AddressFind, AddressQueryResult>();
 	private List<String> emailList = null;
 	private String outputFileName;
 

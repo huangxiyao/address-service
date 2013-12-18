@@ -23,13 +23,13 @@
 		<dependency>
 			<groupId>com.hp.it.118361</groupId>
 			<artifactId>batch-driver</artifactId>
-			<version>2013.12-M5</version>
+			<version>${casVersion}</version>
 		</dependency>
 
 		<dependency>
 			<groupId>com.hp.it.118361</groupId>
 			<artifactId>batch-bar-runner</artifactId>
-			<version>2013.12-M5</version>
+			<version>${casVersion}</version>
 			<scope>test</scope>
 		</dependency>
 

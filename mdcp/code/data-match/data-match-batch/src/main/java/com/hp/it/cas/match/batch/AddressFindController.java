@@ -126,6 +126,7 @@ public class AddressFindController implements TransactionController<AddressFind,
 	 * @return
 	 * 		AddressQueryResult
 	 */
+	@SuppressWarnings("finally")
 	private AddressQueryResult findAddress(AddressFind addressFind) {
 		AddressQueryResult result = null;
 		
@@ -136,39 +137,75 @@ public class AddressFindController implements TransactionController<AddressFind,
 		if (ModeUse.BATCH.name().equals(function)) {
 			endpoint += Function.validatedAddress.name();
 			ValidatedAddressFinderRestProxy proxy = new ValidatedAddressFinderRestProxy(endpoint);
-			result = proxy.find(addressFind.getQuery());
+			try {
+				result = proxy.find(addressFind.getQuery());
+			} catch (Exception e){
+				throw new RuntimeException(e.getMessage(), e.getCause());			
+			} finally {
+				return result;
+			}
 		}
 
 		if (ModeUse.INTERACTIVE.name().equals(function)) {
 			endpoint += Function.addressSuggestions.name();
 			AddressSuggestionsAddressFinderRestProxy proxy = new AddressSuggestionsAddressFinderRestProxy(endpoint);
-			result = proxy.suggest(addressFind.getQuery());
+			try {
+				result = proxy.suggest(addressFind.getQuery());
+			} catch (Exception e){
+				throw new RuntimeException(e.getMessage(), e.getCause());			
+			} finally {
+				return result;
+			}
 		}
 
 		if (ModeUse.FASTCOMPLETION.name().equals(function)) {
 			endpoint += Function.fastCompletionAddress.name();
 			FastCompletionAddressFinderRestProxy proxy = new FastCompletionAddressFinderRestProxy(endpoint);
-			result = proxy.find(addressFind.getQuery());
+			try {
+				result = proxy.find(addressFind.getQuery());
+			} catch (Exception e){
+				throw new RuntimeException(e.getMessage(), e.getCause());			
+			} finally {
+				return result;
+			}
 		}
 
 		if (ModeUse.CERTIFIED.name().equals(function)) {
 			endpoint += Function.certifiedAddress.name();
 			CertifiedAddressFinderRestProxy proxy = new CertifiedAddressFinderRestProxy(endpoint);
-			result = proxy.find(addressFind.getQuery());
+			try {
+				result = proxy.find(addressFind.getQuery());
+			} catch (Exception e){
+				throw new RuntimeException(e.getMessage(), e.getCause());			
+			} finally {
+				return result;
+			}
 		}
 
 		// TODO
 		if (ModeUse.PARSE.name().equals(function)) {
 			endpoint += Function.validatedAddress.name();
 			ValidatedAddressFinderRestProxy proxy = new ValidatedAddressFinderRestProxy(endpoint);
-			result = proxy.find(addressFind.getQuery());
+			try {
+				result = proxy.find(addressFind.getQuery());
+			} catch (Exception e){
+				throw new RuntimeException(e.getMessage(), e.getCause());			
+			} finally {
+				return result;
+			}
 		}
 
 		// TODO
 		if (ModeUse.COUNTRYRECOGNITION.name().equals(function)) {
 			endpoint += Function.validatedAddress.name();
 			ValidatedAddressFinderRestProxy proxy = new ValidatedAddressFinderRestProxy(endpoint);
-			result = proxy.find(addressFind.getQuery());
+			try {
+				result = proxy.find(addressFind.getQuery());
+			} catch (Exception e){
+				throw new RuntimeException(e.getMessage(), e.getCause());			
+			} finally {
+				return result;
+			}
 		}
 		
 		return result;

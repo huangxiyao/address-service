@@ -324,7 +324,7 @@ public class AddressFindController implements TransactionController<AddressFind,
 		strBuf.append(BatchUtils.trimOutputField(addressFind.getQuery().getPreferredLanguage())).append(",");
 		strBuf.append(BatchUtils.trimOutputField(addressFind.getQuery().getPreferredScript())).append(",");
 		
-		strBuf.append(addressFind.getQuery().getCharacterScriptDetectionIndicator() ?	"TRUE"	: "FAULSE").append(",");
+		strBuf.append(addressFind.getQuery().getCharacterScriptDetectionIndicator() ?	"TRUE"	: "FALSE").append(",");
 		
 		strBuf.append(BatchUtils.trimOutputField(addressFind.getQuery().getCountry1())).append(",");
 		strBuf.append(BatchUtils.trimOutputField(addressFind.getQuery().getCountry2())).append(",");

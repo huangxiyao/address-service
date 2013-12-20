@@ -12,6 +12,9 @@ import java.util.List;
 import java.util.Map;
 import java.util.Set;
 
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+
 import com.hp.it.cas.batch.driver.pipe.Configuration;
 import com.hp.it.cas.batch.driver.pipe.TransactionController;
 import com.hp.it.cas.data.businessService.LockContext;
@@ -41,11 +44,11 @@ import com.hp.it.cas.xa.security.SecurityContextHolder;
  *
  */
 public class AddressFindController implements TransactionController<AddressFind, Void>{
-	
 	private static final String ADDRESSDOCTOR_FEZOUTPUTPATH = "addressDoctorFEZOutputPath" ;
 	private static final String ADDRESSDOCTOR_ENV = "addressDoctorEnv";
 	private final String addressDoctorEnv;
 	private final String addressDoctorFEZOutputPath;
+	private final Logger logger = LoggerFactory.getLogger(AddressFindController.class);
 	
 	private enum ModeUse {
 		BATCH, INTERACTIVE, FASTCOMPLETION, CERTIFIED, PARSE, COUNTRYRECOGNITION
@@ -70,6 +73,14 @@ public class AddressFindController implements TransactionController<AddressFind,
 
 	@Override
 	public Void process(AddressFind addressFind, MessageContext messageContext, LockContext lockContext) throws Exception {
+		
+		// TODO
+		// empty file
+		if (addressFind == null){
+			logger.error("There is an empty file, and just moved it to WIP without processing。");
+			return null;
+		}
+		
 		/* temporary save outputFileName */
 		if (outputFileName == null && addressFind.getOutputFileName() != null) {
 			outputFileName = addressFind.getOutputFileName();
@@ -89,12 +100,17 @@ public class AddressFindController implements TransactionController<AddressFind,
 			return null;
 		}
 
-		if (addressFind.getEmailList() == null && addressFind.getEmailList() == null) {
+		if (addressFind.getQuery() != null) {
 			/* call AD Service */
 			AddressQueryResult result = callADService(addressFind);
 			/* temporary save Input and Result */
 			outputMap.put(addressFind, result);
+			return null;
 		}
+
+		// TODO
+		// empty data
+		outputMap.put(addressFind, null);
 		return null;
 	}
 	
@@ -325,112 +341,119 @@ public class AddressFindController implements TransactionController<AddressFind,
 	 */
 	public String outputRecord(AddressFind addressFind, AddressQueryResult result){
 		StringBuffer strBuf = new StringBuffer();
-		
+
 		// INPUT DATA
-		strBuf.append(BatchUtils.trimOutputField(addressFind.getQuery().getKey1())).append(",");
-		strBuf.append(BatchUtils.trimOutputField(addressFind.getQuery().getKey2())).append(",");
-		strBuf.append(BatchUtils.trimOutputField(addressFind.getQuery().getKey3())).append(",");
-		strBuf.append(BatchUtils.trimOutputField(addressFind.getModeUsed())).append(",");
-		strBuf.append(BatchUtils.trimOutputField(addressFind.getQuery().getPreferredLanguage())).append(",");
-		strBuf.append(BatchUtils.trimOutputField(addressFind.getQuery().getPreferredScript())).append(",");
-		
-		strBuf.append(addressFind.getQuery().getCharacterScriptDetectionIndicator() ?	"TRUE"	: "FALSE").append(",");
-		
-		strBuf.append(BatchUtils.trimOutputField(addressFind.getQuery().getCountry1())).append(",");
-		strBuf.append(BatchUtils.trimOutputField(addressFind.getQuery().getCountry2())).append(",");
-		strBuf.append(BatchUtils.trimOutputField(addressFind.getQuery().getCountry3())).append(",");
-		strBuf.append(BatchUtils.trimOutputField(addressFind.getQuery().getAddressComplete())).append(",");
-		strBuf.append(BatchUtils.trimOutputField(addressFind.getQuery().getBuilding1())).append(",");
-		strBuf.append(BatchUtils.trimOutputField(addressFind.getQuery().getBuilding2())).append(",");
-		strBuf.append(BatchUtils.trimOutputField(addressFind.getQuery().getBuilding3())).append(",");
-		strBuf.append(BatchUtils.trimOutputField(addressFind.getQuery().getBuilding4())).append(",");
-		strBuf.append(BatchUtils.trimOutputField(addressFind.getQuery().getBuilding5())).append(",");
-		strBuf.append(BatchUtils.trimOutputField(addressFind.getQuery().getBuilding6())).append(",");
-		strBuf.append(BatchUtils.trimOutputField(addressFind.getQuery().getLocality1())).append(",");
-		strBuf.append(BatchUtils.trimOutputField(addressFind.getQuery().getLocality2())).append(",");
-		strBuf.append(BatchUtils.trimOutputField(addressFind.getQuery().getLocality3())).append(",");
-		strBuf.append(BatchUtils.trimOutputField(addressFind.getQuery().getLocality4())).append(",");
-		strBuf.append(BatchUtils.trimOutputField(addressFind.getQuery().getLocality5())).append(",");
-		strBuf.append(BatchUtils.trimOutputField(addressFind.getQuery().getLocality6())).append(",");
-		strBuf.append(BatchUtils.trimOutputField(addressFind.getQuery().getPostalCode1())).append(",");
-		strBuf.append(BatchUtils.trimOutputField(addressFind.getQuery().getPostalCode2())).append(",");
-		strBuf.append(BatchUtils.trimOutputField(addressFind.getQuery().getPostalCode3())).append(",");
-		strBuf.append(BatchUtils.trimOutputField(addressFind.getQuery().getCountrySpecificLocalityLine1())).append(",");
-		strBuf.append(BatchUtils.trimOutputField(addressFind.getQuery().getCountrySpecificLocalityLine2())).append(",");
-		strBuf.append(BatchUtils.trimOutputField(addressFind.getQuery().getCountrySpecificLocalityLine3())).append(",");
-		strBuf.append(BatchUtils.trimOutputField(addressFind.getQuery().getCountrySpecificLocalityLine4())).append(",");
-		strBuf.append(BatchUtils.trimOutputField(addressFind.getQuery().getCountrySpecificLocalityLine5())).append(",");
-		strBuf.append(BatchUtils.trimOutputField(addressFind.getQuery().getCountrySpecificLocalityLine6())).append(",");
-		strBuf.append(BatchUtils.trimOutputField(addressFind.getQuery().getStreet1())).append(",");
-		strBuf.append(BatchUtils.trimOutputField(addressFind.getQuery().getStreet2())).append(",");
-		strBuf.append(BatchUtils.trimOutputField(addressFind.getQuery().getStreet3())).append(",");
-		strBuf.append(BatchUtils.trimOutputField(addressFind.getQuery().getStreet4())).append(",");
-		strBuf.append(BatchUtils.trimOutputField(addressFind.getQuery().getStreet5())).append(",");
-		strBuf.append(BatchUtils.trimOutputField(addressFind.getQuery().getStreet6())).append(",");
-		strBuf.append(BatchUtils.trimOutputField(addressFind.getQuery().getNumber1())).append(",");
-		strBuf.append(BatchUtils.trimOutputField(addressFind.getQuery().getNumber2())).append(",");
-		strBuf.append(BatchUtils.trimOutputField(addressFind.getQuery().getNumber3())).append(",");
-		strBuf.append(BatchUtils.trimOutputField(addressFind.getQuery().getNumber4())).append(",");
-		strBuf.append(BatchUtils.trimOutputField(addressFind.getQuery().getNumber5())).append(",");
-		strBuf.append(BatchUtils.trimOutputField(addressFind.getQuery().getNumber6())).append(",");
-		strBuf.append(BatchUtils.trimOutputField(addressFind.getQuery().getProvince1())).append(",");
-		strBuf.append(BatchUtils.trimOutputField(addressFind.getQuery().getProvince2())).append(",");
-		strBuf.append(BatchUtils.trimOutputField(addressFind.getQuery().getProvince3())).append(",");
-		strBuf.append(BatchUtils.trimOutputField(addressFind.getQuery().getProvince4())).append(",");
-		strBuf.append(BatchUtils.trimOutputField(addressFind.getQuery().getProvince5())).append(",");
-		strBuf.append(BatchUtils.trimOutputField(addressFind.getQuery().getProvince6())).append(",");
-		strBuf.append(BatchUtils.trimOutputField(addressFind.getQuery().getDeliveryAddressLine1())).append(",");
-		strBuf.append(BatchUtils.trimOutputField(addressFind.getQuery().getDeliveryAddressLine2())).append(",");
-		strBuf.append(BatchUtils.trimOutputField(addressFind.getQuery().getDeliveryAddressLine3())).append(",");
-		strBuf.append(BatchUtils.trimOutputField(addressFind.getQuery().getDeliveryAddressLine4())).append(",");
-		strBuf.append(BatchUtils.trimOutputField(addressFind.getQuery().getDeliveryAddressLine5())).append(",");
-		strBuf.append(BatchUtils.trimOutputField(addressFind.getQuery().getDeliveryAddressLine6())).append(",");
-		strBuf.append(BatchUtils.trimOutputField(addressFind.getQuery().getDeliveryService1())).append(",");
-		strBuf.append(BatchUtils.trimOutputField(addressFind.getQuery().getDeliveryService2())).append(",");
-		strBuf.append(BatchUtils.trimOutputField(addressFind.getQuery().getDeliveryService3())).append(",");
-		strBuf.append(BatchUtils.trimOutputField(addressFind.getQuery().getDeliveryService4())).append(",");
-		strBuf.append(BatchUtils.trimOutputField(addressFind.getQuery().getDeliveryService5())).append(",");
-		strBuf.append(BatchUtils.trimOutputField(addressFind.getQuery().getDeliveryService6())).append(",");
-		strBuf.append(BatchUtils.trimOutputField(addressFind.getQuery().getFormattedAddressLine1())).append(",");
-		strBuf.append(BatchUtils.trimOutputField(addressFind.getQuery().getFormattedAddressLine2())).append(",");
-		strBuf.append(BatchUtils.trimOutputField(addressFind.getQuery().getFormattedAddressLine3())).append(",");
-		strBuf.append(BatchUtils.trimOutputField(addressFind.getQuery().getFormattedAddressLine4())).append(",");
-		strBuf.append(BatchUtils.trimOutputField(addressFind.getQuery().getFormattedAddressLine5())).append(",");
-		strBuf.append(BatchUtils.trimOutputField(addressFind.getQuery().getFormattedAddressLine6())).append(",");
-		strBuf.append(BatchUtils.trimOutputField(addressFind.getQuery().getFormattedAddressLine7())).append(",");
-		strBuf.append(BatchUtils.trimOutputField(addressFind.getQuery().getFormattedAddressLine8())).append(",");
-		strBuf.append(BatchUtils.trimOutputField(addressFind.getQuery().getFormattedAddressLine9())).append(",");
-		strBuf.append(BatchUtils.trimOutputField(addressFind.getQuery().getFormattedAddressLine10())).append(",");
-		strBuf.append(BatchUtils.trimOutputField(addressFind.getQuery().getFormattedAddressLine11())).append(",");
-		strBuf.append(BatchUtils.trimOutputField(addressFind.getQuery().getFormattedAddressLine12())).append(",");
-		strBuf.append(BatchUtils.trimOutputField(addressFind.getQuery().getFormattedAddressLine13())).append(",");
-		strBuf.append(BatchUtils.trimOutputField(addressFind.getQuery().getFormattedAddressLine14())).append(",");
-		strBuf.append(BatchUtils.trimOutputField(addressFind.getQuery().getFormattedAddressLine15())).append(",");
-		strBuf.append(BatchUtils.trimOutputField(addressFind.getQuery().getFormattedAddressLine16())).append(",");
-		strBuf.append(BatchUtils.trimOutputField(addressFind.getQuery().getFormattedAddressLine17())).append(",");
-		strBuf.append(BatchUtils.trimOutputField(addressFind.getQuery().getFormattedAddressLine18())).append(",");
-		strBuf.append(BatchUtils.trimOutputField(addressFind.getQuery().getFormattedAddressLine19())).append(",");
-		strBuf.append(BatchUtils.trimOutputField(addressFind.getQuery().getOrganization1())).append(",");
-		strBuf.append(BatchUtils.trimOutputField(addressFind.getQuery().getOrganization2())).append(",");
-		strBuf.append(BatchUtils.trimOutputField(addressFind.getQuery().getOrganization3())).append(",");
-		strBuf.append(BatchUtils.trimOutputField(addressFind.getQuery().getContact1())).append(",");
-		strBuf.append(BatchUtils.trimOutputField(addressFind.getQuery().getContact2())).append(",");
-		strBuf.append(BatchUtils.trimOutputField(addressFind.getQuery().getContact3())).append(",");
-		strBuf.append(BatchUtils.trimOutputField(addressFind.getQuery().getRecipientLine1())).append(",");
-		strBuf.append(BatchUtils.trimOutputField(addressFind.getQuery().getRecipientLine2())).append(",");
-		strBuf.append(BatchUtils.trimOutputField(addressFind.getQuery().getRecipientLine3())).append(",");
-		strBuf.append(BatchUtils.trimOutputField(addressFind.getQuery().getResidue1())).append(",");
-		strBuf.append(BatchUtils.trimOutputField(addressFind.getQuery().getResidue2())).append(",");
-		strBuf.append(BatchUtils.trimOutputField(addressFind.getQuery().getResidue3())).append(",");
-		strBuf.append(BatchUtils.trimOutputField(addressFind.getQuery().getResidue4())).append(",");
-		strBuf.append(BatchUtils.trimOutputField(addressFind.getQuery().getResidue5())).append(",");
-		strBuf.append(BatchUtils.trimOutputField(addressFind.getQuery().getResidue6())).append(",");
-		strBuf.append(BatchUtils.trimOutputField(addressFind.getQuery().getSubBuilding1())).append(",");
-		strBuf.append(BatchUtils.trimOutputField(addressFind.getQuery().getSubBuilding2())).append(",");
-		strBuf.append(BatchUtils.trimOutputField(addressFind.getQuery().getSubBuilding3())).append(",");
-		strBuf.append(BatchUtils.trimOutputField(addressFind.getQuery().getSubBuilding4())).append(",");
-		strBuf.append(BatchUtils.trimOutputField(addressFind.getQuery().getSubBuilding5())).append(",");
-		strBuf.append(BatchUtils.trimOutputField(addressFind.getQuery().getSubBuilding6())).append(",");
+		if (addressFind.getQuery() != null){
+			strBuf.append(BatchUtils.trimOutputField(addressFind.getQuery().getKey1())).append(",");
+			strBuf.append(BatchUtils.trimOutputField(addressFind.getQuery().getKey2())).append(",");
+			strBuf.append(BatchUtils.trimOutputField(addressFind.getQuery().getKey3())).append(",");
+			strBuf.append(BatchUtils.trimOutputField(addressFind.getModeUsed())).append(",");
+			strBuf.append(BatchUtils.trimOutputField(addressFind.getQuery().getPreferredLanguage())).append(",");
+			strBuf.append(BatchUtils.trimOutputField(addressFind.getQuery().getPreferredScript())).append(",");
+			
+			strBuf.append(addressFind.getQuery().getCharacterScriptDetectionIndicator() ?	"TRUE"	: "FALSE").append(",");
+			
+			strBuf.append(BatchUtils.trimOutputField(addressFind.getQuery().getCountry1())).append(",");
+			strBuf.append(BatchUtils.trimOutputField(addressFind.getQuery().getCountry2())).append(",");
+			strBuf.append(BatchUtils.trimOutputField(addressFind.getQuery().getCountry3())).append(",");
+			strBuf.append(BatchUtils.trimOutputField(addressFind.getQuery().getAddressComplete())).append(",");
+			strBuf.append(BatchUtils.trimOutputField(addressFind.getQuery().getBuilding1())).append(",");
+			strBuf.append(BatchUtils.trimOutputField(addressFind.getQuery().getBuilding2())).append(",");
+			strBuf.append(BatchUtils.trimOutputField(addressFind.getQuery().getBuilding3())).append(",");
+			strBuf.append(BatchUtils.trimOutputField(addressFind.getQuery().getBuilding4())).append(",");
+			strBuf.append(BatchUtils.trimOutputField(addressFind.getQuery().getBuilding5())).append(",");
+			strBuf.append(BatchUtils.trimOutputField(addressFind.getQuery().getBuilding6())).append(",");
+			strBuf.append(BatchUtils.trimOutputField(addressFind.getQuery().getLocality1())).append(",");
+			strBuf.append(BatchUtils.trimOutputField(addressFind.getQuery().getLocality2())).append(",");
+			strBuf.append(BatchUtils.trimOutputField(addressFind.getQuery().getLocality3())).append(",");
+			strBuf.append(BatchUtils.trimOutputField(addressFind.getQuery().getLocality4())).append(",");
+			strBuf.append(BatchUtils.trimOutputField(addressFind.getQuery().getLocality5())).append(",");
+			strBuf.append(BatchUtils.trimOutputField(addressFind.getQuery().getLocality6())).append(",");
+			strBuf.append(BatchUtils.trimOutputField(addressFind.getQuery().getPostalCode1())).append(",");
+			strBuf.append(BatchUtils.trimOutputField(addressFind.getQuery().getPostalCode2())).append(",");
+			strBuf.append(BatchUtils.trimOutputField(addressFind.getQuery().getPostalCode3())).append(",");
+			strBuf.append(BatchUtils.trimOutputField(addressFind.getQuery().getCountrySpecificLocalityLine1())).append(",");
+			strBuf.append(BatchUtils.trimOutputField(addressFind.getQuery().getCountrySpecificLocalityLine2())).append(",");
+			strBuf.append(BatchUtils.trimOutputField(addressFind.getQuery().getCountrySpecificLocalityLine3())).append(",");
+			strBuf.append(BatchUtils.trimOutputField(addressFind.getQuery().getCountrySpecificLocalityLine4())).append(",");
+			strBuf.append(BatchUtils.trimOutputField(addressFind.getQuery().getCountrySpecificLocalityLine5())).append(",");
+			strBuf.append(BatchUtils.trimOutputField(addressFind.getQuery().getCountrySpecificLocalityLine6())).append(",");
+			strBuf.append(BatchUtils.trimOutputField(addressFind.getQuery().getStreet1())).append(",");
+			strBuf.append(BatchUtils.trimOutputField(addressFind.getQuery().getStreet2())).append(",");
+			strBuf.append(BatchUtils.trimOutputField(addressFind.getQuery().getStreet3())).append(",");
+			strBuf.append(BatchUtils.trimOutputField(addressFind.getQuery().getStreet4())).append(",");
+			strBuf.append(BatchUtils.trimOutputField(addressFind.getQuery().getStreet5())).append(",");
+			strBuf.append(BatchUtils.trimOutputField(addressFind.getQuery().getStreet6())).append(",");
+			strBuf.append(BatchUtils.trimOutputField(addressFind.getQuery().getNumber1())).append(",");
+			strBuf.append(BatchUtils.trimOutputField(addressFind.getQuery().getNumber2())).append(",");
+			strBuf.append(BatchUtils.trimOutputField(addressFind.getQuery().getNumber3())).append(",");
+			strBuf.append(BatchUtils.trimOutputField(addressFind.getQuery().getNumber4())).append(",");
+			strBuf.append(BatchUtils.trimOutputField(addressFind.getQuery().getNumber5())).append(",");
+			strBuf.append(BatchUtils.trimOutputField(addressFind.getQuery().getNumber6())).append(",");
+			strBuf.append(BatchUtils.trimOutputField(addressFind.getQuery().getProvince1())).append(",");
+			strBuf.append(BatchUtils.trimOutputField(addressFind.getQuery().getProvince2())).append(",");
+			strBuf.append(BatchUtils.trimOutputField(addressFind.getQuery().getProvince3())).append(",");
+			strBuf.append(BatchUtils.trimOutputField(addressFind.getQuery().getProvince4())).append(",");
+			strBuf.append(BatchUtils.trimOutputField(addressFind.getQuery().getProvince5())).append(",");
+			strBuf.append(BatchUtils.trimOutputField(addressFind.getQuery().getProvince6())).append(",");
+			strBuf.append(BatchUtils.trimOutputField(addressFind.getQuery().getDeliveryAddressLine1())).append(",");
+			strBuf.append(BatchUtils.trimOutputField(addressFind.getQuery().getDeliveryAddressLine2())).append(",");
+			strBuf.append(BatchUtils.trimOutputField(addressFind.getQuery().getDeliveryAddressLine3())).append(",");
+			strBuf.append(BatchUtils.trimOutputField(addressFind.getQuery().getDeliveryAddressLine4())).append(",");
+			strBuf.append(BatchUtils.trimOutputField(addressFind.getQuery().getDeliveryAddressLine5())).append(",");
+			strBuf.append(BatchUtils.trimOutputField(addressFind.getQuery().getDeliveryAddressLine6())).append(",");
+			strBuf.append(BatchUtils.trimOutputField(addressFind.getQuery().getDeliveryService1())).append(",");
+			strBuf.append(BatchUtils.trimOutputField(addressFind.getQuery().getDeliveryService2())).append(",");
+			strBuf.append(BatchUtils.trimOutputField(addressFind.getQuery().getDeliveryService3())).append(",");
+			strBuf.append(BatchUtils.trimOutputField(addressFind.getQuery().getDeliveryService4())).append(",");
+			strBuf.append(BatchUtils.trimOutputField(addressFind.getQuery().getDeliveryService5())).append(",");
+			strBuf.append(BatchUtils.trimOutputField(addressFind.getQuery().getDeliveryService6())).append(",");
+			strBuf.append(BatchUtils.trimOutputField(addressFind.getQuery().getFormattedAddressLine1())).append(",");
+			strBuf.append(BatchUtils.trimOutputField(addressFind.getQuery().getFormattedAddressLine2())).append(",");
+			strBuf.append(BatchUtils.trimOutputField(addressFind.getQuery().getFormattedAddressLine3())).append(",");
+			strBuf.append(BatchUtils.trimOutputField(addressFind.getQuery().getFormattedAddressLine4())).append(",");
+			strBuf.append(BatchUtils.trimOutputField(addressFind.getQuery().getFormattedAddressLine5())).append(",");
+			strBuf.append(BatchUtils.trimOutputField(addressFind.getQuery().getFormattedAddressLine6())).append(",");
+			strBuf.append(BatchUtils.trimOutputField(addressFind.getQuery().getFormattedAddressLine7())).append(",");
+			strBuf.append(BatchUtils.trimOutputField(addressFind.getQuery().getFormattedAddressLine8())).append(",");
+			strBuf.append(BatchUtils.trimOutputField(addressFind.getQuery().getFormattedAddressLine9())).append(",");
+			strBuf.append(BatchUtils.trimOutputField(addressFind.getQuery().getFormattedAddressLine10())).append(",");
+			strBuf.append(BatchUtils.trimOutputField(addressFind.getQuery().getFormattedAddressLine11())).append(",");
+			strBuf.append(BatchUtils.trimOutputField(addressFind.getQuery().getFormattedAddressLine12())).append(",");
+			strBuf.append(BatchUtils.trimOutputField(addressFind.getQuery().getFormattedAddressLine13())).append(",");
+			strBuf.append(BatchUtils.trimOutputField(addressFind.getQuery().getFormattedAddressLine14())).append(",");
+			strBuf.append(BatchUtils.trimOutputField(addressFind.getQuery().getFormattedAddressLine15())).append(",");
+			strBuf.append(BatchUtils.trimOutputField(addressFind.getQuery().getFormattedAddressLine16())).append(",");
+			strBuf.append(BatchUtils.trimOutputField(addressFind.getQuery().getFormattedAddressLine17())).append(",");
+			strBuf.append(BatchUtils.trimOutputField(addressFind.getQuery().getFormattedAddressLine18())).append(",");
+			strBuf.append(BatchUtils.trimOutputField(addressFind.getQuery().getFormattedAddressLine19())).append(",");
+			strBuf.append(BatchUtils.trimOutputField(addressFind.getQuery().getOrganization1())).append(",");
+			strBuf.append(BatchUtils.trimOutputField(addressFind.getQuery().getOrganization2())).append(",");
+			strBuf.append(BatchUtils.trimOutputField(addressFind.getQuery().getOrganization3())).append(",");
+			strBuf.append(BatchUtils.trimOutputField(addressFind.getQuery().getContact1())).append(",");
+			strBuf.append(BatchUtils.trimOutputField(addressFind.getQuery().getContact2())).append(",");
+			strBuf.append(BatchUtils.trimOutputField(addressFind.getQuery().getContact3())).append(",");
+			strBuf.append(BatchUtils.trimOutputField(addressFind.getQuery().getRecipientLine1())).append(",");
+			strBuf.append(BatchUtils.trimOutputField(addressFind.getQuery().getRecipientLine2())).append(",");
+			strBuf.append(BatchUtils.trimOutputField(addressFind.getQuery().getRecipientLine3())).append(",");
+			strBuf.append(BatchUtils.trimOutputField(addressFind.getQuery().getResidue1())).append(",");
+			strBuf.append(BatchUtils.trimOutputField(addressFind.getQuery().getResidue2())).append(",");
+			strBuf.append(BatchUtils.trimOutputField(addressFind.getQuery().getResidue3())).append(",");
+			strBuf.append(BatchUtils.trimOutputField(addressFind.getQuery().getResidue4())).append(",");
+			strBuf.append(BatchUtils.trimOutputField(addressFind.getQuery().getResidue5())).append(",");
+			strBuf.append(BatchUtils.trimOutputField(addressFind.getQuery().getResidue6())).append(",");
+			strBuf.append(BatchUtils.trimOutputField(addressFind.getQuery().getSubBuilding1())).append(",");
+			strBuf.append(BatchUtils.trimOutputField(addressFind.getQuery().getSubBuilding2())).append(",");
+			strBuf.append(BatchUtils.trimOutputField(addressFind.getQuery().getSubBuilding3())).append(",");
+			strBuf.append(BatchUtils.trimOutputField(addressFind.getQuery().getSubBuilding4())).append(",");
+			strBuf.append(BatchUtils.trimOutputField(addressFind.getQuery().getSubBuilding5())).append(",");
+			strBuf.append(BatchUtils.trimOutputField(addressFind.getQuery().getSubBuilding6())).append(",");
+			
+		} else {
+			for (int i = 0; i < 102; i++ ) {
+				strBuf.append(",");
+			}
+		}
 		
 		// OUTPUT 
 		strBuf.append(BatchUtils.trimOutputField(addressFind.getErrorMessage())).append(",");

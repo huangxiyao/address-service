@@ -124,10 +124,15 @@ public class AddressFindMapper implements FieldSetMapper<AddressFind>{
 	public AddressFind map(FieldSet fieldSet) throws ConstraintViolationException {
 		AddressFind addressFind = new AddressFind();
 		
-		// TODO
-		// if the FieldSet is null
 		int size = fieldSet.size();
-
+		
+		// TODO
+		// empty data
+		if (size == 0) {
+			addressFind.setErrorMessage("This is an empty record.");
+			return addressFind;
+		}
+		
 		// save outputFileName:InputFileName_OUTPUT.csv
 		if (BatchUtils.checkOutputFileName(fieldSet.getString(0))){
 			String filename = fieldSet.getString(0);

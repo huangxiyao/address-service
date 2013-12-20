@@ -123,6 +123,9 @@ public class AddressFindMapper implements FieldSetMapper<AddressFind>{
 	@Override
 	public AddressFind map(FieldSet fieldSet) throws ConstraintViolationException {
 		AddressFind addressFind = new AddressFind();
+		
+		// TODO
+		// if the FieldSet is null
 		int size = fieldSet.size();
 
 		// save outputFileName:InputFileName_OUTPUT.csv

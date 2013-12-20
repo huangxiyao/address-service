@@ -140,7 +140,8 @@ public class AddressFindController implements TransactionController<AddressFind,
 			try {
 				result = proxy.find(addressFind.getQuery());
 			} catch (Exception e){
-				throw new RuntimeException(e.getMessage(), e.getCause());			
+				addressFind.setErrorMessage(e.getMessage());
+				// throw new RuntimeException(e.getMessage(), e.getCause());	
 			} finally {
 				return result;
 			}
@@ -152,7 +153,8 @@ public class AddressFindController implements TransactionController<AddressFind,
 			try {
 				result = proxy.suggest(addressFind.getQuery());
 			} catch (Exception e){
-				throw new RuntimeException(e.getMessage(), e.getCause());			
+				addressFind.setErrorMessage(e.getMessage());
+				// throw new RuntimeException(e.getMessage(), e.getCause());		
 			} finally {
 				return result;
 			}
@@ -164,7 +166,8 @@ public class AddressFindController implements TransactionController<AddressFind,
 			try {
 				result = proxy.find(addressFind.getQuery());
 			} catch (Exception e){
-				throw new RuntimeException(e.getMessage(), e.getCause());			
+				addressFind.setErrorMessage(e.getMessage());
+				// throw new RuntimeException(e.getMessage(), e.getCause());			
 			} finally {
 				return result;
 			}
@@ -176,7 +179,8 @@ public class AddressFindController implements TransactionController<AddressFind,
 			try {
 				result = proxy.find(addressFind.getQuery());
 			} catch (Exception e){
-				throw new RuntimeException(e.getMessage(), e.getCause());			
+				addressFind.setErrorMessage(e.getMessage());
+				// throw new RuntimeException(e.getMessage(), e.getCause());			
 			} finally {
 				return result;
 			}
@@ -189,7 +193,8 @@ public class AddressFindController implements TransactionController<AddressFind,
 			try {
 				result = proxy.find(addressFind.getQuery());
 			} catch (Exception e){
-				throw new RuntimeException(e.getMessage(), e.getCause());			
+				addressFind.setErrorMessage(e.getMessage());
+				// throw new RuntimeException(e.getMessage(), e.getCause());			
 			} finally {
 				return result;
 			}
@@ -202,7 +207,8 @@ public class AddressFindController implements TransactionController<AddressFind,
 			try {
 				result = proxy.find(addressFind.getQuery());
 			} catch (Exception e){
-				throw new RuntimeException(e.getMessage(), e.getCause());			
+				addressFind.setErrorMessage(e.getMessage());
+				// throw new RuntimeException(e.getMessage(), e.getCause());		
 			} finally {
 				return result;
 			}
@@ -278,9 +284,13 @@ public class AddressFindController implements TransactionController<AddressFind,
 		bufText.append("<body>");
 		bufText.append("Hello,");
 		bufText.append("<br><br>");
-		bufText.append(" Please find at " + outputFileUrl
-				+ " the results of the processing of the file " + inputFileName
-				+ " you have submitted to Address Doctor Batch Services.");
+		
+		bufText.append(" Please find at ");
+		bufText.append("<a href='"+ outputFileUrl +"'>" + outputFileUrl + "</a>");
+		bufText.append(" the results of the processing of the file ");
+		bufText.append(inputFileName);
+		bufText.append(" you have submitted to Address Doctor Batch Services.");
+		
 		bufText.append("<br><br>");
 		bufText.append("Thanks.");
 		bufText.append("<br>");
@@ -423,7 +433,7 @@ public class AddressFindController implements TransactionController<AddressFind,
 		strBuf.append(BatchUtils.trimOutputField(addressFind.getQuery().getSubBuilding6())).append(",");
 		
 		// OUTPUT 
-		strBuf.append(",");
+		strBuf.append(BatchUtils.trimOutputField(addressFind.getErrorMessage())).append(",");
 		
 		// TODO
 		// key1-RECORD_ID key2-RECORD_ID	key3-RECORD_ID
@@ -759,4 +769,5 @@ public class AddressFindController implements TransactionController<AddressFind,
 		}
 		return buf.toString();
 	}
+	
 }

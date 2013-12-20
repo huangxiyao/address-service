@@ -65,6 +65,7 @@ public class AddressFindController implements TransactionController<AddressFind,
 	private Map<AddressFind, AddressQueryResult> outputMap = new LinkedHashMap<AddressFind, AddressQueryResult>();
 	private List<String> emailList = null;
 	private String outputFileName;
+	private URI outputFileUri;
 
 	public AddressFindController(Configuration configuration) {
 		this.addressDoctorEnv  = configuration.getJobParameters().get(ADDRESSDOCTOR_ENV);
@@ -244,6 +245,7 @@ public class AddressFindController implements TransactionController<AddressFind,
 				IoFiles.delete(path);
 			}
 			path = IoFiles.createFile(path);
+			outputFileUri = path.toUri();
 			writer = IoFiles.newBufferedWriter(path, Charset.forName("UTF-8"));
 			writer.write(BatchUtils.OUTPUT_TEMPLATE_LINE_1);
 			writer.write("\r\n");
@@ -290,7 +292,6 @@ public class AddressFindController implements TransactionController<AddressFind,
 		}
 		
 		String inputFileName = outputFileName.substring(0, outputFileName.indexOf("_OUTPUT")) + ".csv";
-		String outputFileUrl = addressDoctorFEZOutputPath + outputFileName;
 		
 		String emailSubject = "[Address Doctor Batch Services] Notification of completion - " + inputFileName;
 		
@@ -302,7 +303,7 @@ public class AddressFindController implements TransactionController<AddressFind,
 		bufText.append("<br><br>");
 		
 		bufText.append(" Please find at ");
-		bufText.append("<a href='"+ outputFileUrl +"'>" + outputFileUrl + "</a>");
+		bufText.append("<a href='"+ outputFileUri +"'>" + outputFileUri + "</a>");
 		bufText.append(" the results of the processing of the file ");
 		bufText.append(inputFileName);
 		bufText.append(" you have submitted to Address Doctor Batch Services.");
@@ -325,6 +326,9 @@ public class AddressFindController implements TransactionController<AddressFind,
 		} catch (Exception e) {
 			String message = String.format("Error occured when sending mail.");
 			throw new RuntimeException(message, e);
+		} finally {
+			/* clear temporary variable */
+			outputFileUri = null;
 		}
 		
 	}

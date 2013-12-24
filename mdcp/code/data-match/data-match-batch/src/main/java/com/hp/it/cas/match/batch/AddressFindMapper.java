@@ -7,6 +7,7 @@ import javax.validation.ConstraintViolationException;
 import com.hp.it.cas.batch.driver.pipe.FieldSet;
 import com.hp.it.cas.batch.driver.pipe.FieldSetMapper;
 import com.hp.it.cas.match.address.AddressQuery;
+import com.hp.it.cas.match.address.utilities.StringUtils;
 import com.hp.it.cas.match.batch.utilities.BatchUtils;
 
 /**
@@ -120,6 +121,33 @@ public class AddressFindMapper implements FieldSetMapper<AddressFind>{
 	public static int SUBBUILDING5 = 100;
 	public static int SUBBUILDING6 = 101;
 	
+	public enum ModeUse {
+		BATCH, INTERACTIVE, FASTCOMPLETION, CERTIFIED, PARSE, COUNTRYRECOGNITION;
+		public static boolean matchMode(String value){
+			if ("BATCH".equals(value)){
+				return true;
+			} else if ("BATCH".equals(value)){
+				return true;
+			} else if ("INTERACTIVE".equals(value)){
+				return true;
+			} else if ("FASTCOMPLETION".equals(value)){
+				return true;
+			} else if ("CERTIFIED".equals(value)){
+				return true;
+			} else if ("PARSE".equals(value)){
+				return true;
+			} else if ("COUNTRYRECOGNITION".equals(value)){
+				return true;
+			} else {
+				return false;
+			}
+		}
+		
+		public static String getModeNames(){
+			return ModeUse.BATCH.name() + ", " +ModeUse.INTERACTIVE.name() + ", " + ModeUse.FASTCOMPLETION.name() + ", " + ModeUse.CERTIFIED.name() + ", " + ModeUse.PARSE.name() + ", " + ModeUse.COUNTRYRECOGNITION.name();
+ 		}
+	};
+	
 	@Override
 	public AddressFind map(FieldSet fieldSet) throws ConstraintViolationException {
 		AddressFind addressFind = new AddressFind();
@@ -150,7 +178,21 @@ public class AddressFindMapper implements FieldSetMapper<AddressFind>{
 		}
 		
 		/* save Mode */		
-		addressFind.setModeUsed(BatchUtils.trimInputField(MODEUSED < size ? fieldSet.getString(MODEUSED) : "BATCH"));
+		if (MODEUSED < size) {
+			String mode = fieldSet.getString(MODEUSED);
+			if (StringUtils.isNullOrEmpty(mode)) {
+				addressFind.setErrorMessage("The modeUsed is empty. The value should be in the list of {" + ModeUse.getModeNames() + "}.");
+			} else {
+				addressFind.setModeUsed(BatchUtils.trimInputField(mode));
+			}
+				
+			if (! ModeUse.matchMode(mode)){
+				addressFind.setErrorMessage("The modeUsed is invalid. The value should be in the list of {" + ModeUse.getModeNames() + "}.");
+			}
+			
+		} else {
+			addressFind.setErrorMessage("The modeUsed is empty. It should be in the list of {" + ModeUse.getModeNames() + "}");
+		}
 		
 		/* save address query */
 		addressFind.setQuery(retrieveAddressQuery(fieldSet));

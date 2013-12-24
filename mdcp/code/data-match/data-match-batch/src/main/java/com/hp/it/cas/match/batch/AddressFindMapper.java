@@ -182,12 +182,11 @@ public class AddressFindMapper implements FieldSetMapper<AddressFind>{
 			String mode = fieldSet.getString(MODEUSED);
 			if (StringUtils.isNullOrEmpty(mode)) {
 				addressFind.setErrorMessage("The modeUsed is empty. The value should be in the list of {" + ModeUse.getModeNames() + "}.");
+			} else if (! ModeUse.matchMode(mode)){
+				addressFind.setModeUsed(BatchUtils.trimInputField(mode));
+				addressFind.setErrorMessage("The modeUsed is invalid. The value should be in the list of {" + ModeUse.getModeNames() + "}.");
 			} else {
 				addressFind.setModeUsed(BatchUtils.trimInputField(mode));
-			}
-				
-			if (! ModeUse.matchMode(mode)){
-				addressFind.setErrorMessage("The modeUsed is invalid. The value should be in the list of {" + ModeUse.getModeNames() + "}.");
 			}
 			
 		} else {

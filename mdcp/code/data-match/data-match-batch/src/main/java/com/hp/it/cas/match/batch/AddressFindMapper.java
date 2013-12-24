@@ -126,21 +126,20 @@ public class AddressFindMapper implements FieldSetMapper<AddressFind>{
 		
 		int size = fieldSet.size();
 		
-		// TODO
-		// empty data
+		/* empty data */
 		if (size == 0) {
 			addressFind.setErrorMessage("This is an empty record.");
 			return addressFind;
 		}
 		
-		// save outputFileName:InputFileName_OUTPUT.csv
+		/* save outputFileName:InputFileName_OUTPUT.csv */
 		if (BatchUtils.checkOutputFileName(fieldSet.getString(0))){
 			String filename = fieldSet.getString(0);
 			addressFind.setOutputFileName(filename.substring(filename.indexOf(":") + 1, filename.length()));
 			return addressFind;
 		}
 		
-		// save the email
+		/* save the email */
 		if (BatchUtils.checkEmail(fieldSet.getString(0))){
 			ArrayList<String> emailList = new ArrayList<String>();
 			for (int i=0; i < size; i++) {
@@ -150,10 +149,10 @@ public class AddressFindMapper implements FieldSetMapper<AddressFind>{
 			return addressFind;
 		}
 		
-		// save Mode		
+		/* save Mode */		
 		addressFind.setModeUsed(BatchUtils.trimInputField(MODEUSED < size ? fieldSet.getString(MODEUSED) : "BATCH"));
 		
-		// save address query
+		/* save address query */
 		addressFind.setQuery(retrieveAddressQuery(fieldSet));
 		
 		return addressFind;

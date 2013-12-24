@@ -75,8 +75,7 @@ public class AddressFindController implements TransactionController<AddressFind,
 	@Override
 	public Void process(AddressFind addressFind, MessageContext messageContext, LockContext lockContext) throws Exception {
 		
-		// TODO
-		// empty file
+		/* empty file */
 		if (addressFind == null){
 			logger.error("There is an empty file, and just moved it to WIP without processing。");
 			return null;
@@ -109,8 +108,7 @@ public class AddressFindController implements TransactionController<AddressFind,
 			return null;
 		}
 
-		// TODO
-		// empty data
+		/* save empty data */
 		outputMap.put(addressFind, null);
 		return null;
 	}
@@ -143,93 +141,47 @@ public class AddressFindController implements TransactionController<AddressFind,
 	 * @return
 	 * 		AddressQueryResult
 	 */
-	@SuppressWarnings("finally")
 	private AddressQueryResult findAddress(AddressFind addressFind) {
 		AddressQueryResult result = null;
 		
 		String endpoint = addressDoctorEnv;
 		String function = addressFind.getModeUsed();
 	
-		// TODO
-		if (ModeUse.BATCH.name().equals(function)) {
-			endpoint += Function.validatedAddress.name();
-			ValidatedAddressFinderRestProxy proxy = new ValidatedAddressFinderRestProxy(endpoint);
-			try {
+		try {
+			if (ModeUse.BATCH.name().equals(function)) {
+				// TODO
+				// not sure map with which function
+				endpoint += Function.validatedAddress.name();
+				ValidatedAddressFinderRestProxy proxy = new ValidatedAddressFinderRestProxy(endpoint);
 				result = proxy.find(addressFind.getQuery());
-			} catch (Exception e){
-				addressFind.setErrorMessage(e.getMessage());
-				// throw new RuntimeException(e.getMessage(), e.getCause());	
-			} finally {
-				return result;
-			}
-		}
-
-		if (ModeUse.INTERACTIVE.name().equals(function)) {
-			endpoint += Function.addressSuggestions.name();
-			AddressSuggestionsAddressFinderRestProxy proxy = new AddressSuggestionsAddressFinderRestProxy(endpoint);
-			try {
+			} else if (ModeUse.INTERACTIVE.name().equals(function)) {
+				endpoint += Function.addressSuggestions.name();
+				AddressSuggestionsAddressFinderRestProxy proxy = new AddressSuggestionsAddressFinderRestProxy(endpoint);
 				result = proxy.suggest(addressFind.getQuery());
-			} catch (Exception e){
-				addressFind.setErrorMessage(e.getMessage());
-				// throw new RuntimeException(e.getMessage(), e.getCause());		
-			} finally {
-				return result;
-			}
-		}
-
-		if (ModeUse.FASTCOMPLETION.name().equals(function)) {
-			endpoint += Function.fastCompletionAddress.name();
-			FastCompletionAddressFinderRestProxy proxy = new FastCompletionAddressFinderRestProxy(endpoint);
-			try {
+			} else if (ModeUse.FASTCOMPLETION.name().equals(function)) {
+				endpoint += Function.fastCompletionAddress.name();
+				FastCompletionAddressFinderRestProxy proxy = new FastCompletionAddressFinderRestProxy(endpoint);
 				result = proxy.find(addressFind.getQuery());
-			} catch (Exception e){
-				addressFind.setErrorMessage(e.getMessage());
-				// throw new RuntimeException(e.getMessage(), e.getCause());			
-			} finally {
-				return result;
-			}
-		}
-
-		if (ModeUse.CERTIFIED.name().equals(function)) {
-			endpoint += Function.certifiedAddress.name();
-			CertifiedAddressFinderRestProxy proxy = new CertifiedAddressFinderRestProxy(endpoint);
-			try {
+			} else if (ModeUse.CERTIFIED.name().equals(function)) {
+				endpoint += Function.certifiedAddress.name();
+				CertifiedAddressFinderRestProxy proxy = new CertifiedAddressFinderRestProxy(endpoint);
 				result = proxy.find(addressFind.getQuery());
-			} catch (Exception e){
-				addressFind.setErrorMessage(e.getMessage());
-				// throw new RuntimeException(e.getMessage(), e.getCause());			
-			} finally {
-				return result;
-			}
-		}
-
-		// TODO
-		if (ModeUse.PARSE.name().equals(function)) {
-			endpoint += Function.validatedAddress.name();
-			ValidatedAddressFinderRestProxy proxy = new ValidatedAddressFinderRestProxy(endpoint);
-			try {
+			} else if (ModeUse.PARSE.name().equals(function)) {
+				// TODO
+				// not sure map with which function
+				endpoint += Function.validatedAddress.name();
+				ValidatedAddressFinderRestProxy proxy = new ValidatedAddressFinderRestProxy(endpoint);
 				result = proxy.find(addressFind.getQuery());
-			} catch (Exception e){
-				addressFind.setErrorMessage(e.getMessage());
-				// throw new RuntimeException(e.getMessage(), e.getCause());			
-			} finally {
-				return result;
-			}
-		}
-
-		// TODO
-		if (ModeUse.COUNTRYRECOGNITION.name().equals(function)) {
-			endpoint += Function.validatedAddress.name();
-			ValidatedAddressFinderRestProxy proxy = new ValidatedAddressFinderRestProxy(endpoint);
-			try {
+			} else if (ModeUse.COUNTRYRECOGNITION.name().equals(function)) {
+				// TODO
+				// not sure map with which function
+				endpoint += Function.validatedAddress.name();
+				ValidatedAddressFinderRestProxy proxy = new ValidatedAddressFinderRestProxy(endpoint);
 				result = proxy.find(addressFind.getQuery());
-			} catch (Exception e){
-				addressFind.setErrorMessage(e.getMessage());
-				// throw new RuntimeException(e.getMessage(), e.getCause());		
-			} finally {
-				return result;
 			}
-		}
+		} catch (Exception e){
+			addressFind.setErrorMessage(e.getMessage());
+		} 
 		
 		return result;
 	}
@@ -463,6 +415,7 @@ public class AddressFindController implements TransactionController<AddressFind,
 		strBuf.append(BatchUtils.trimOutputField(addressFind.getErrorMessage())).append(",");
 		
 		// TODO
+		// not sure the mapping between the fields of the AddressQueryResult and the columns
 		// key1-RECORD_ID key2-RECORD_ID	key3-RECORD_ID
 		// key1-TRANSACTION_KEY	key2-TRANSACTION_KEY key3-TRANSACTION_KEY	
 		// ResultNumber
@@ -495,7 +448,6 @@ public class AddressFindController implements TransactionController<AddressFind,
 			
 			// ADDRESS ELEMENTS-DEFAULT TYPES
 			// country1-NAME_EN	
-			// TODO
 			strBuf.append(retrieveAddresssDataWithSamePrefix("NAME_EN", addressData.getCountries()));
 			
 			// locality1-COMPLETE	locality2-COMPLETE	locality3-COMPLETE	locality4-COMPLETE	locality5-COMPLETE	locality6-COMPLETE	
@@ -560,7 +512,7 @@ public class AddressFindController implements TransactionController<AddressFind,
 			strBuf.append(retrieveAddresssDataWithSamePrefix("NAME_SE", addressData.getCountries()));
 			
 			// TODO
-			// not sure
+			// not sure the mapping between the fields of the AddressQueryResult and the columns
 			// country2-ABBREVIATION	country2-ISO2	country2-ISO3	country2- ISO_NUMBER	country2-NAME_CN	country2-NAME_DA	country2-NAME_DE	country2-NAME_ES	country2-NAME_FI	country2-NAME_FR	country2-NAME_GR	country2-NAME_HU	country2-NAME_IT	country2-NAME_JP	country2-NAME_KR	country2-NAME_NL	country2-NAME_PL	country2-NAME_PT	country2-NAME_RU	country2-NAME_SA	country2-NAME_SE	
 			// country3-ABBREVIATION	country3-ISO2	country3-ISO3	country3- ISO_NUMBER	country3-NAME_CN	country3-NAME_DA	country3-NAME_DE	country3-NAME_ES	country3-NAME_FI	country3-NAME_FR	country3-NAME_GR	country3-NAME_HU	country3-NAME_IT	country3-NAME_JP	country3-NAME_KR	country3-NAME_NL	country3-NAME_PL	country3-NAME_PT	country3-NAME_RU	country3-NAME_SA	country3-NAME_SE	
 			for (int i = 0; i < 42; i++) {
@@ -574,7 +526,7 @@ public class AddressFindController implements TransactionController<AddressFind,
 			strBuf.append(retrieveAddresssDataWithSamePrefix("ADD_INFO", addressData.getLocalities()));
 			
 			// TODO
-			// not sure
+			// not sure the mapping between the fields of the AddressQueryResult and the columns
 			// locality2-NAME	locality2-PREFERRED_NAME	locality2-SORTING_CODE	locality2-ADD_INFO	
 			// locality3-NAME	locality3-PREFERRED_NAME	locality3-SORTING_CODE	locality3-ADD_INFO	
 			// locality4-NAME	locality4-PREFERRED_NAME	locality4-SORTING_CODE	locality4-ADD_INFO	
@@ -590,7 +542,7 @@ public class AddressFindController implements TransactionController<AddressFind,
 			strBuf.append(retrieveAddresssDataWithSamePrefix("ADD_ON", addressData.getPostalCodes()));
 			
 			// TODO
-			// not sure
+			// not sure the mapping between the fields of the AddressQueryResult and the columns
 			// postalCode2-UNFORMATTED	postalCode2-BASE	postalCode2-ADD_ON	
 			// postalCode3-UNFORMATTED	postalCode3-BASE	postalCode3-ADD_ON	
 			for (int i = 0; i < 6; i++) {
@@ -603,6 +555,7 @@ public class AddressFindController implements TransactionController<AddressFind,
 			strBuf.append(retrieveAddresssDataWithSamePrefix("ISO", addressData.getProvinces()));
 			
 			// TODO
+			// not sure the mapping between the fields of the AddressQueryResult and the columns
 			// province2-ABBREVIATION	province2-EXTENDED	province2-ISO	
 			// province3-ABBREVIATION	province3-EXTENDED	province3-ISO	
 			// province4-ABBREVIATION	province4-EXTENDED	province4-ISO	
@@ -622,6 +575,7 @@ public class AddressFindController implements TransactionController<AddressFind,
 			strBuf.append(retrieveAddresssDataWithSamePrefix("ADD_INFO", addressData.getStreets()));
 			
 			// TODO
+			// not sure the mapping between the fields of the AddressQueryResult and the columns
 			// street2-COMPLETE_WITH_NUMBER	street2-NAME	street2-PRE_DESCRIPTOR	street2-POST_DESCRIPTOR	street2-PRE_DIRECTIONAL	street2-POST_DIRECTIONAL	street2-ADD_INFO	
 			// street3-COMPLETE_WITH_NUMBER	street3-NAME	street3-PRE_DESCRIPTOR	street3-POST_DESCRIPTOR	street3-PRE_DIRECTIONAL	street3-POST_DIRECTIONAL	street3-ADD_INFO	
 			// street4-COMPLETE_WITH_NUMBER	street4-NAME	street4-PRE_DESCRIPTOR	street4-POST_DESCRIPTOR	street4-PRE_DIRECTIONAL	street4-POST_DIRECTIONAL	street4-ADD_INFO	
@@ -637,6 +591,7 @@ public class AddressFindController implements TransactionController<AddressFind,
 			strBuf.append(retrieveAddresssDataWithSamePrefix("ADD_INFO", addressData.getNumbers()));
 			
 			// TODO
+			// not sure the mapping between the fields of the AddressQueryResult and the columns
 			// number2-NUMBER	number2-DESCRIPTOR	number2-ADD_INFO	
 			// number3-NUMBER	number3-DESCRIPTOR	number3-ADD_INFO	
 			// number4-NUMBER	number4-DESCRIPTOR	number4-ADD_INFO	
@@ -653,6 +608,7 @@ public class AddressFindController implements TransactionController<AddressFind,
 			strBuf.append(retrieveAddresssDataWithSamePrefix("DESCRIPTOR", addressData.getBuildings()));
 			
 			// TODO
+			// not sure the mapping between the fields of the AddressQueryResult and the columns
 			// building2-COMPLETE_WITH_SUBBUILDING	building2-NAME	building2-NUMBER 	building2-DESCRIPTOR	
 			// building3-COMPLETE_WITH_SUBBUILDING	building3-NAME	building3-NUMBER 	building3-DESCRIPTOR	
 			// building4-COMPLETE_WITH_SUBBUILDING	building4-NAME	building4-NUMBER 	building4-DESCRIPTOR	
@@ -669,6 +625,7 @@ public class AddressFindController implements TransactionController<AddressFind,
 			strBuf.append(retrieveAddresssDataWithSamePrefix("DESCRIPTOR", addressData.getSubBuildings()));
 			
 			// TODO
+			// not sure the mapping between the fields of the AddressQueryResult and the columns
 			// subBuilding2-NAME	subBuilding2-NUMBER 	subBuilding2-DESCRIPTOR	
 			// subBuilding3-NAME	subBuilding3-NUMBER 	subBuilding3-DESCRIPTOR	
 			// subBuilding4-NAME	subBuilding4-NUMBER 	subBuilding4-DESCRIPTOR	
@@ -684,6 +641,7 @@ public class AddressFindController implements TransactionController<AddressFind,
 			strBuf.append(retrieveAddresssDataWithSamePrefix("ADD_INFO", addressData.getDeliveryServices()));
 			
 			// TODO
+			// not sure the mapping between the fields of the AddressQueryResult and the columns
 			// deliveryService2-DESCRIPTOR	deliveryService2-NUMBER	deliveryService2-ADD_INFO	
 			// deliveryService3-DESCRIPTOR	deliveryService3-NUMBER	deliveryService3-ADD_INFO	
 			for (int i = 0; i < 6; i++) {
@@ -696,6 +654,7 @@ public class AddressFindController implements TransactionController<AddressFind,
 			strBuf.append(retrieveAddresssDataWithSamePrefix("DEPARTMENT", addressData.getOrganizations()));
 			
 			//TODO
+			// not sure the mapping between the fields of the AddressQueryResult and the columns
 			// organization2-NAME	organization2-DESCRIPTOR	organization2-DEPARTMENT	
 			// organization3-NAME	organization3-DESCRIPTOR	organization3-DEPARTMENT	
 			for (int i = 0; i < 6; i++) {
@@ -713,6 +672,7 @@ public class AddressFindController implements TransactionController<AddressFind,
 			strBuf.append(retrieveAddresssDataWithSamePrefix("GENDER", addressData.getContacts()));
 			
 			// TODO
+			// not sure the mapping between the fields of the AddressQueryResult and the columns
 			// contact2-FIRST_NAME	contact2-MIDDLE_NAME	contact2-LAST_NAME	contact2-NAME	contact2-TITLE	contact2-FUNCTION	contact2-SALUTATION	contact2-GENDER	
 			// contact3-FIRST_NAME	contact3-MIDDLE_NAME	contact3-LAST_NAME	contact3-NAME	contact3-TITLE	contact3-FUNCTION	contact3-SALUTATION	contact3-GENDER	
 			for (int i = 0; i < 16; i++) {
@@ -724,6 +684,7 @@ public class AddressFindController implements TransactionController<AddressFind,
 			strBuf.append(retrieveAddresssDataWithSamePrefix("SUPERFLUOUS", addressData.getResidues()));
 			
 			// TODO
+			// not sure the mapping between the fields of the AddressQueryResult and the columns
 			// residue2-NECESSARY	residue2-SUPERFLUOUS
 			// residue3-NECESSARY	residue3-SUPERFLUOUS	
 			// residue4-NECESSARY	residue4-SUPERFLUOUS	
@@ -751,7 +712,7 @@ public class AddressFindController implements TransactionController<AddressFind,
 			if (flag) {
 				break;
 			} else if (i >= list.size()) {
-				// not exist, then set null
+				/* if the value isn't exist, then set with null */
 				buf.append(",");
 			}
 		}
@@ -770,7 +731,7 @@ public class AddressFindController implements TransactionController<AddressFind,
 				buf.append(BatchUtils.trimOutputField(element)).append(",");
 			}
 			for (int i = 0; i < count - list.size(); i++) {
-				// not exist, then set null
+				/* if the value isn't exist, then set with null */
 				buf.append(",");
 			}
 		}
@@ -790,7 +751,7 @@ public class AddressFindController implements TransactionController<AddressFind,
 
 		if (num <= count) {
 			for (int i = 0; i < count - num; i++) {
-				// not exist, then set null
+				/* if the value isn't exist, then set with null */
 				buf.append(",");
 			}
 		}

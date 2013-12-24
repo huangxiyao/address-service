@@ -83,7 +83,7 @@ public class MailHelper {
 
 			MimeMultipart mmp = new MimeMultipart();
 			MimeBodyPart mbp_text = new MimeBodyPart();
-			mbp_text.setContent(data.get(EMAIL_TEXT), "text/html;charset=gbk");
+			mbp_text.setContent(data.get(EMAIL_TEXT), "text/html;charset=utf-8");
 			mmp.addBodyPart(mbp_text);
 
 			if (data.get(EMAIL_ATTACHMENT) != null) {

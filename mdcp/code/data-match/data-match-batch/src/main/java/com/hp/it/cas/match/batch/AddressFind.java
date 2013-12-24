@@ -5,7 +5,7 @@ import java.util.ArrayList;
 import com.hp.it.cas.match.address.AddressQuery;
 
 /**
- * an record from the input file.
+ * a record from the input file.
  * 
  * @author yu-juan.zhang@hp.com
  * 

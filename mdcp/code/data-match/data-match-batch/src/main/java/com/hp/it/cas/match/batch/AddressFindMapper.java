@@ -181,16 +181,16 @@ public class AddressFindMapper implements FieldSetMapper<AddressFind>{
 		if (MODEUSED < size) {
 			String mode = fieldSet.getString(MODEUSED);
 			if (StringUtils.isNullOrEmpty(mode)) {
-				addressFind.setErrorMessage("The modeUsed is empty. The value should be in the list of {" + ModeUse.getModeNames() + "}.");
+				addressFind.setErrorMessage("The modeUsed can't be null. The value should be in the list of {" + ModeUse.getModeNames() + "}.");
 			} else if (! ModeUse.matchMode(mode)){
 				addressFind.setModeUsed(BatchUtils.trimInputField(mode));
-				addressFind.setErrorMessage("The modeUsed is invalid. The value should be in the list of {" + ModeUse.getModeNames() + "}.");
+				addressFind.setErrorMessage("The modeUsed("+ mode +") is invalid. The value should be in the list of {" + ModeUse.getModeNames() + "}.");
 			} else {
 				addressFind.setModeUsed(BatchUtils.trimInputField(mode));
 			}
 			
 		} else {
-			addressFind.setErrorMessage("The modeUsed is empty. It should be in the list of {" + ModeUse.getModeNames() + "}");
+			addressFind.setErrorMessage("The modeUsed can't be null. It should be in the list of {" + ModeUse.getModeNames() + "}");
 		}
 		
 		/* save address query */

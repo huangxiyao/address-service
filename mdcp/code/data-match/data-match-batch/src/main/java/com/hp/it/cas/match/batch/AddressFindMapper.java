@@ -124,19 +124,17 @@ public class AddressFindMapper implements FieldSetMapper<AddressFind>{
 	public enum ModeUse {
 		BATCH, INTERACTIVE, FASTCOMPLETION, CERTIFIED, PARSE, COUNTRYRECOGNITION;
 		public static boolean matchMode(String value){
-			if ("BATCH".equals(value)){
+			if (ModeUse.BATCH.name().equals(value)){
 				return true;
-			} else if ("BATCH".equals(value)){
+			} else if (ModeUse.INTERACTIVE.name().equals(value)){
 				return true;
-			} else if ("INTERACTIVE".equals(value)){
+			} else if (ModeUse.FASTCOMPLETION.name().equals(value)){
 				return true;
-			} else if ("FASTCOMPLETION".equals(value)){
+			} else if (ModeUse.CERTIFIED.name().equals(value)){
 				return true;
-			} else if ("CERTIFIED".equals(value)){
+			} else if (ModeUse.PARSE.name().equals(value)){
 				return true;
-			} else if ("PARSE".equals(value)){
-				return true;
-			} else if ("COUNTRYRECOGNITION".equals(value)){
+			} else if (ModeUse.COUNTRYRECOGNITION.name().equals(value)){
 				return true;
 			} else {
 				return false;
@@ -144,7 +142,7 @@ public class AddressFindMapper implements FieldSetMapper<AddressFind>{
 		}
 		
 		public static String getModeNames(){
-			return ModeUse.BATCH.name() + ", " +ModeUse.INTERACTIVE.name() + ", " + ModeUse.FASTCOMPLETION.name() + ", " + ModeUse.CERTIFIED.name() + ", " + ModeUse.PARSE.name() + ", " + ModeUse.COUNTRYRECOGNITION.name();
+			return ModeUse.BATCH.name() + ", " + ModeUse.INTERACTIVE.name() + ", " + ModeUse.FASTCOMPLETION.name() + ", " + ModeUse.CERTIFIED.name() + ", " + ModeUse.PARSE.name() + ", " + ModeUse.COUNTRYRECOGNITION.name();
  		}
 	};
 	

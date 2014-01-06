@@ -1,6 +1,6 @@
 package com.hp.it.cas.match.batch;
 
-import java.util.ArrayList;
+import java.util.List;
 
 import com.hp.it.cas.match.address.AddressQuery;
 
@@ -11,7 +11,7 @@ import com.hp.it.cas.match.address.AddressQuery;
  * 
  */
 public class AddressFind {
-	private ArrayList<String> emailList;
+	private List<String> emailList;
 	private String outputFileName;
 	private String modeUsed;
 	private AddressQuery query;
@@ -25,11 +25,11 @@ public class AddressFind {
 		this.errorMessage = errorMessage;
 	}
 
-	public ArrayList<String> getEmailList() {
+	public List<String> getEmailList() {
 		return emailList;
 	}
 
-	public void setEmailList(ArrayList<String> emailList) {
+	public void setEmailList(List<String> emailList) {
 		this.emailList = emailList;
 	}
 

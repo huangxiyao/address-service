@@ -21,7 +21,7 @@ public class OutputRecord extends AddressInput {
 	public String preferred_Language;
 	public String preferred_Script;
 	public String processStatus;
-	public String countOverflow;
+	public boolean countOverFlow;
 	public String elementInputStatus;
 	public String elementResultStatus;
 	public String elementRelevance;
@@ -500,16 +500,12 @@ public class OutputRecord extends AddressInput {
 		this.processStatus = processStatus;
 	}
 
-	public String getCountOverflow() {
-		return countOverflow;
+	public boolean isCountOverFlow() {
+		return countOverFlow;
 	}
 
-	public void setCountOverflow(String countOverflow) {
-		this.countOverflow = countOverflow;
-	}
-
-	public void setCountOverflow(boolean countOverflow) {
-		this.countOverflow = countOverflow ? "TRUE" : "FALSE";
+	public void setCountOverFlow(boolean countOverFlow) {
+		this.countOverFlow = countOverFlow;
 	}
 
 	public String getElementInputStatus() {
@@ -3534,10 +3530,5 @@ public class OutputRecord extends AddressInput {
 			e.printStackTrace();
 		}
 	}
-	
-	public static void main(String[] args){
-		OutputRecord out = new OutputRecord();
-		out.setBuilding1("building1");
-		System.out.println(out.toString());
-	}
+
 }

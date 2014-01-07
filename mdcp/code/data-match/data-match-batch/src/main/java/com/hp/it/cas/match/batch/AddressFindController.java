@@ -152,32 +152,32 @@ public class AddressFindController implements TransactionController<AddressFind,
 		AddressQueryResult result = null;
 
 		String endpoint = addressDoctorEnv;
-		String function = addressFind.getModeUsed();
+		String mode = addressFind.getModeUsed();
 
 		try {
-			if (ModeUse.BATCH.name().equals(function)) {
+			if (ModeUse.BATCH.name().equals(mode)) {
 				// TODO not sure map with which function
 				endpoint += Function.validatedAddress.name();
 				ValidatedAddressFinderRestProxy proxy = new ValidatedAddressFinderRestProxy(endpoint);
 				result = proxy.find(addressFind.getQuery());
-			} else if (ModeUse.INTERACTIVE.name().equals(function)) {
+			} else if (ModeUse.INTERACTIVE.name().equals(mode)) {
 				endpoint += Function.addressSuggestions.name();
 				AddressSuggestionsAddressFinderRestProxy proxy = new AddressSuggestionsAddressFinderRestProxy(endpoint);
 				result = proxy.suggest(addressFind.getQuery());
-			} else if (ModeUse.FASTCOMPLETION.name().equals(function)) {
+			} else if (ModeUse.FASTCOMPLETION.name().equals(mode)) {
 				endpoint += Function.fastCompletionAddress.name();
 				FastCompletionAddressFinderRestProxy proxy = new FastCompletionAddressFinderRestProxy(endpoint);
 				result = proxy.find(addressFind.getQuery());
-			} else if (ModeUse.CERTIFIED.name().equals(function)) {
+			} else if (ModeUse.CERTIFIED.name().equals(mode)) {
 				endpoint += Function.certifiedAddress.name();
 				CertifiedAddressFinderRestProxy proxy = new CertifiedAddressFinderRestProxy(endpoint);
 				result = proxy.find(addressFind.getQuery());
-			} else if (ModeUse.PARSE.name().equals(function)) {
+			} else if (ModeUse.PARSE.name().equals(mode)) {
 				// TODO not sure map with which function
 				endpoint += Function.validatedAddress.name();
 				ValidatedAddressFinderRestProxy proxy = new ValidatedAddressFinderRestProxy(endpoint);
 				result = proxy.find(addressFind.getQuery());
-			} else if (ModeUse.COUNTRYRECOGNITION.name().equals(function)) {
+			} else if (ModeUse.COUNTRYRECOGNITION.name().equals(mode)) {
 				// TODO not sure map with which function
 				endpoint += Function.validatedAddress.name();
 				ValidatedAddressFinderRestProxy proxy = new ValidatedAddressFinderRestProxy(endpoint);
@@ -300,6 +300,7 @@ public class AddressFindController implements TransactionController<AddressFind,
 			if (result != null) {
 				BeanUtils.copyProperties(result, outputRecord);
 				outputRecord.setMode_Used(result.getModeUsed());
+				outputRecord.setCountry_ISO3(result.getIso3());
 				retriveAddressData(outputRecord, result.getAddressData().get(0));
 			}
 			listOutputRecord.add(outputRecord);

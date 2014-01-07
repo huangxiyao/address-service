@@ -78,7 +78,7 @@ public class AddressFindMapper implements FieldSetMapper<AddressFind>{
 		addressFind.setQuery(retrieveAddressQuery(fieldSet));
 		
 		/* save Mode */		
-		String mode = address.getModeUsed();
+		String mode = StringUtils.isNullOrEmpty(address.getModeUsed()) ? address.getModeUsed() : address.getModeUsed().trim();
 		if (StringUtils.isNullOrEmpty(mode)) {
 			addressFind.setErrorMessage("The modeUsed can't be null. The value should be in the list of {" + ModeUse.getModeNames() + "}.");
 		} else if (ModeUse.matchMode(mode)){

@@ -21,7 +21,7 @@ public class OutputRecord extends AddressInput {
 	public String preferred_Language;
 	public String preferred_Script;
 	public String processStatus;
-	public boolean countOverFlow;
+	public String countOverFlow;
 	public String elementInputStatus;
 	public String elementResultStatus;
 	public String elementRelevance;
@@ -500,11 +500,11 @@ public class OutputRecord extends AddressInput {
 		this.processStatus = processStatus;
 	}
 
-	public boolean isCountOverFlow() {
+	public String getCountOverFlow() {
 		return countOverFlow;
 	}
 
-	public void setCountOverFlow(boolean countOverFlow) {
+	public void setCountOverFlow(String countOverFlow) {
 		this.countOverFlow = countOverFlow;
 	}
 

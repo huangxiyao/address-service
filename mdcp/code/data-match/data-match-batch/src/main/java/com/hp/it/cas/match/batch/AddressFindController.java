@@ -28,6 +28,7 @@ import com.hp.it.cas.io.adapter.IoFiles;
 import com.hp.it.cas.io.adapter.IoPath;
 import com.hp.it.cas.io.adapter.IoPaths;
 import com.hp.it.cas.match.address.AddressElement;
+import com.hp.it.cas.match.address.AddressQuery;
 import com.hp.it.cas.match.address.AddressQueryResult;
 import com.hp.it.cas.match.address.AddressQueryResult.AddressData;
 import com.hp.it.cas.match.address.ClientTestEnvironment;
@@ -36,15 +37,17 @@ import com.hp.it.cas.match.address.rest.AddressSuggestionsAddressFinderRestProxy
 import com.hp.it.cas.match.address.rest.CertifiedAddressFinderRestProxy;
 import com.hp.it.cas.match.address.rest.FastCompletionAddressFinderRestProxy;
 import com.hp.it.cas.match.address.rest.ValidatedAddressFinderRestProxy;
+import com.hp.it.cas.match.address.utilities.StringUtils;
 import com.hp.it.cas.match.batch.opencsv.bean.AddressDoctorBeanToCsv;
 import com.hp.it.cas.match.batch.utilities.Constant;
 import com.hp.it.cas.match.batch.utilities.MailHelper;
+import com.hp.it.cas.match.batch.utilities.ValidInputData;
 import com.hp.it.cas.xa.security.SecurityContextHolder;
 
 /**
- * 1. Each line in the input file call AD service and got the result 
- * 2. Save the query and the result in the FEZ output file 
- * 3. Send notification email to specified customer of each InputFile
+ * 1. Each line in the input file call AD service and got the result 2. Save the
+ * query and the result in the FEZ output file 3. Send notification email to
+ * specified customer of each InputFile
  * 
  * @author yu-juan.zhang@hp.com
  * 
@@ -56,19 +59,13 @@ public class AddressFindController implements TransactionController<AddressFind,
 	private final String addressDoctorFEZOutputPath;
 	private final Logger logger = LoggerFactory.getLogger(AddressFindController.class);
 
-	private enum ModeUse {
-		BATCH, INTERACTIVE, FASTCOMPLETION, CERTIFIED, PARSE, COUNTRYRECOGNITION
-	};
-
-	// TODO
-	// 6 MODEUSED, but 5 functions.
-	// verify the relationship between MODE and Function
 	private enum Function {
 		looselyValidatedAddress, addressSuggestions, fastCompletionAddress, certifiedAddress, validatedAddress
 	};
 
 	/*
-	 * temporary variable to save the INPUT and Result for each Input file, email and outputFileName.
+	 * temporary variable to save the INPUT and Result for each Input file,
+	 * email and outputFileName.
 	 */
 	private Map<AddressFind, AddressQueryResult> outputMap = new LinkedHashMap<AddressFind, AddressQueryResult>();
 	private List<String> emailList = null;
@@ -95,6 +92,18 @@ public class AddressFindController implements TransactionController<AddressFind,
 			return null;
 		}
 
+		AddressInput addressInput = addressFind.getAddressInput();
+		if (addressInput != null) {
+			if (validInputData(addressFind, addressInput)){
+				AddressQueryResult result = callADService(addressFind);
+				outputMap.put(addressFind, result);
+			}
+
+		} else {
+			/* save empty data */
+			outputMap.put(addressFind, null);
+		}
+
 		/* outputFileName + email --> send email */
 		if (outputFileName != null && addressFind.getEmailList() != null) {
 			emailList = addressFind.getEmailList();
@@ -108,17 +117,55 @@ public class AddressFindController implements TransactionController<AddressFind,
 			return null;
 		}
 
-		if (addressFind.getQuery() != null) {
-			/* call AD Service */
-			AddressQueryResult result = callADService(addressFind);
-			/* temporary save Input and Result */
-			outputMap.put(addressFind, result);
-			return null;
-		}
-
-		/* save empty data */
-		outputMap.put(addressFind, null);
 		return null;
+	}
+
+	private boolean validInputData(AddressFind addressFind, AddressInput addressInput) {
+		String mode = StringUtils.isNullOrEmpty(addressInput.getModeUsed()) ? addressInput.getModeUsed() : addressInput.getModeUsed().trim();
+		if (StringUtils.isNullOrEmpty(mode)) {
+			addressFind.setErrorMessage("The modeUsed can't be null. The value should be in the list of {" + ValidInputData.ModeUsed.getModeNames() + "}.");
+			outputMap.put(addressFind, null);
+			return false;
+		} else if (!ValidInputData.ModeUsed.isValidMode(mode)) {
+			addressFind.setErrorMessage("The modeUsed(" + mode + ") is invalid. The value should be in the list of {" + ValidInputData.ModeUsed.getModeNames() + "}.");
+			outputMap.put(addressFind, null);
+			return false;
+		}
+		
+		String preferredLanguage = StringUtils.isNullOrEmpty(addressInput.getPreferredLanguage()) ? addressInput.getPreferredLanguage() : addressInput.getPreferredLanguage().trim();
+		if (StringUtils.isNullOrEmpty(preferredLanguage)){
+			addressFind.setErrorMessage("The preferredLanguage is invalid. The value should be in the list of {" + ValidInputData.PreferredLanguage.getPreferredLanguageNames() + "}");
+			outputMap.put(addressFind, null);
+			return false;
+		} else if (!ValidInputData.PreferredLanguage.isValidPreferredLanguage(preferredLanguage)){
+			addressFind.setErrorMessage("The preferredLanguage is invalid. The value should be in the list of {" + ValidInputData.PreferredLanguage.getPreferredLanguageNames() + "}");
+			outputMap.put(addressFind, null);
+			return false;
+		}
+		
+		String preferredScript = StringUtils.isNullOrEmpty(addressInput.getPreferredScript()) ? addressInput.getPreferredScript() : addressInput.getPreferredScript().trim();
+		if (StringUtils.isNullOrEmpty(preferredScript)){
+			addressFind.setErrorMessage("The preferredScript is invalid. The value should be in the list of {" + ValidInputData.PreferredScript.getPreferredScriptNames() + "}");
+			outputMap.put(addressFind, null);
+			return false;
+		} else if (!ValidInputData.PreferredScript.isValidPreferredScript(preferredScript)){
+			addressFind.setErrorMessage("The preferredScript is invalid. The value should be in the list of {" + ValidInputData.PreferredScript.getPreferredScriptNames() + "}");
+			outputMap.put(addressFind, null);
+			return false;
+		}
+		
+		String characterScriptDetectionIndicator = StringUtils.isNullOrEmpty(addressInput.getCharacterScriptDetectionIndicator()) ? addressInput.getCharacterScriptDetectionIndicator() : addressInput.getCharacterScriptDetectionIndicator().trim();
+		if (StringUtils.isNullOrEmpty(characterScriptDetectionIndicator)){
+			addressFind.setErrorMessage("The characterScriptDetectionIndicator is an invalid boolean value. The value should be TRUE or FALSE.");
+			outputMap.put(addressFind, null);
+			return false;
+		} else if (!("TRUE".equalsIgnoreCase(characterScriptDetectionIndicator) || "FALSE".equalsIgnoreCase(characterScriptDetectionIndicator))) {
+			addressFind.setErrorMessage("The characterScriptDetectionIndicator is an invalid boolean value. The value should be TRUE or FALSE.");
+			outputMap.put(addressFind, null);
+			return false;
+		}
+		
+		return true;
 	}
 
 	/**
@@ -126,8 +173,7 @@ public class AddressFindController implements TransactionController<AddressFind,
 	 * 
 	 * @param addressFind
 	 *            AddressFind
-	 * @return result 
-	 * 			  AddressQueryResult
+	 * @return result AddressQueryResult
 	 */
 	private AddressQueryResult callADService(AddressFind addressFind) {
 		Principal principal = SecurityContextHolder.getInstance().getAuditPrincipal();
@@ -152,36 +198,41 @@ public class AddressFindController implements TransactionController<AddressFind,
 		AddressQueryResult result = null;
 
 		String endpoint = addressDoctorEnv;
-		String mode = addressFind.getModeUsed();
-
+		
+		AddressInput addressInput = addressFind.getAddressInput();
+		AddressQuery query = new AddressQuery();
+		BeanUtils.copyProperties(addressInput, query, new String[] { "characterScriptDetectionIndicator" });
+		query.setCharacterScriptDetectionIndicator(Boolean.valueOf(addressInput.getCharacterScriptDetectionIndicator()));
+		
+		String mode = addressInput.getModeUsed();
 		try {
-			if (ModeUse.BATCH.name().equals(mode)) {
+			if (ValidInputData.ModeUsed.BATCH.name().equals(mode)) {
 				// TODO not sure map with which function
 				endpoint += Function.validatedAddress.name();
 				ValidatedAddressFinderRestProxy proxy = new ValidatedAddressFinderRestProxy(endpoint);
-				result = proxy.find(addressFind.getQuery());
-			} else if (ModeUse.INTERACTIVE.name().equals(mode)) {
+				result = proxy.find(query);
+			} else if (ValidInputData.ModeUsed.INTERACTIVE.name().equals(mode)) {
 				endpoint += Function.addressSuggestions.name();
 				AddressSuggestionsAddressFinderRestProxy proxy = new AddressSuggestionsAddressFinderRestProxy(endpoint);
-				result = proxy.suggest(addressFind.getQuery());
-			} else if (ModeUse.FASTCOMPLETION.name().equals(mode)) {
+				result = proxy.suggest(query);
+			} else if (ValidInputData.ModeUsed.FASTCOMPLETION.name().equals(mode)) {
 				endpoint += Function.fastCompletionAddress.name();
 				FastCompletionAddressFinderRestProxy proxy = new FastCompletionAddressFinderRestProxy(endpoint);
-				result = proxy.find(addressFind.getQuery());
-			} else if (ModeUse.CERTIFIED.name().equals(mode)) {
+				result = proxy.find(query);
+			} else if (ValidInputData.ModeUsed.CERTIFIED.name().equals(mode)) {
 				endpoint += Function.certifiedAddress.name();
 				CertifiedAddressFinderRestProxy proxy = new CertifiedAddressFinderRestProxy(endpoint);
-				result = proxy.find(addressFind.getQuery());
-			} else if (ModeUse.PARSE.name().equals(mode)) {
+				result = proxy.find(query);
+			} else if (ValidInputData.ModeUsed.PARSE.name().equals(mode)) {
 				// TODO not sure map with which function
 				endpoint += Function.validatedAddress.name();
 				ValidatedAddressFinderRestProxy proxy = new ValidatedAddressFinderRestProxy(endpoint);
-				result = proxy.find(addressFind.getQuery());
-			} else if (ModeUse.COUNTRYRECOGNITION.name().equals(mode)) {
+				result = proxy.find(query);
+			} else if (ValidInputData.ModeUsed.COUNTRYRECOGNITION.name().equals(mode)) {
 				// TODO not sure map with which function
 				endpoint += Function.validatedAddress.name();
 				ValidatedAddressFinderRestProxy proxy = new ValidatedAddressFinderRestProxy(endpoint);
-				result = proxy.find(addressFind.getQuery());
+				result = proxy.find(query);
 			}
 		} catch (Exception e) {
 			addressFind.setErrorMessage(e.getMessage());
@@ -219,6 +270,17 @@ public class AddressFindController implements TransactionController<AddressFind,
 		bufText.append(" the results of the processing of the file ");
 		bufText.append(inputFileName);
 		bufText.append(" you have submitted to Address Doctor Batch Services.");
+
+		bufText.append("<br><br>");
+		bufText.append("For proper handling of non-Latin characters, please avoid double-clicking on the downloaded file when Microsoft Excel is the program associated to the .csv file type.");
+		bufText.append("<br>");
+		bufText.append("Instead, please use one of the file opening approaches documented in the training material.");
+		bufText.append("<br>");
+		bufText.append("For example, you can alternatively:");
+		bufText.append("<br>");
+		bufText.append("&nbsp;&nbsp;&nbsp;&nbsp;1.&nbsp;Start Microsoft Excel and click on Menu Item Data => From Text and select ‘File Origin: 65001:Unicode (UTF-8)’;");
+		bufText.append("<br>");
+		bufText.append("&nbsp;&nbsp;&nbsp;&nbsp;2.&nbsp;Start Apache OpenOffice and select ‘Character Set: Unicode (UTF-8)’in Text Import Wizard.");
 
 		bufText.append("<br><br>");
 		bufText.append("Thanks.");
@@ -290,17 +352,18 @@ public class AddressFindController implements TransactionController<AddressFind,
 		for (AddressFind addressFind : keySet) {
 			AddressQueryResult result = outputMap.get(addressFind);
 			OutputRecord outputRecord = new OutputRecord();
-			if (addressFind != null ) {
+			if (addressFind != null) {
 				BeanUtils.copyProperties(addressFind, outputRecord);
-				if (addressFind.getQuery() != null){
-					BeanUtils.copyProperties(addressFind.getQuery(), outputRecord);
+				if (addressFind.getAddressInput() != null) {
+					BeanUtils.copyProperties(addressFind.getAddressInput(), outputRecord);
 				}
 			}
-			
+
 			if (result != null) {
-				BeanUtils.copyProperties(result, outputRecord);
+				BeanUtils.copyProperties(result, outputRecord, new String[]{"countOverFlow"});
 				outputRecord.setMode_Used(result.getModeUsed());
 				outputRecord.setCountry_ISO3(result.getIso3());
+				outputRecord.setCountOverFlow(result.isCountOverFlow() ? "true" : "false");
 				retriveAddressData(outputRecord, result.getAddressData().get(0));
 			}
 			listOutputRecord.add(outputRecord);
@@ -313,7 +376,7 @@ public class AddressFindController implements TransactionController<AddressFind,
 
 		outputRecord.getMethodWithSameSuffix("Key", outputRecord, addressData.getKeys(), "RECORD_ID");
 		outputRecord.getMethodWithSameSuffix("Key", outputRecord, addressData.getKeys(), "TRANSACTION_KEY");
-		
+
 		outputRecord.getMethodWithSameSuffix("Locality", outputRecord, addressData.getLocalities(), "COMPLETE");
 		outputRecord.getMethodWithSameSuffix("PostalCode", outputRecord, addressData.getPostalCodes(), "FORMATTED");
 		outputRecord.getMethodWithSameSuffix("Province", outputRecord, addressData.getProvinces(), "COUNTRY_STANDARD");
@@ -325,12 +388,12 @@ public class AddressFindController implements TransactionController<AddressFind,
 		outputRecord.getMethodWithSameSuffix("Organization", outputRecord, addressData.getOrganizations(), "COMPLETE");
 		outputRecord.getMethodWithSameSuffix("Contact", outputRecord, addressData.getContacts(), "COMPLETE");
 		outputRecord.getMethodWithSameSuffix("Residue", outputRecord, addressData.getResidues(), "UNRECOGNIZED");
-		
+
 		outputRecord.getMethodWithDiffLine("RecipientLine", outputRecord, addressData.getRecipientLines());
 		outputRecord.getMethodWithDiffLine("DeliveryAddressLine", outputRecord, addressData.getDeliveryAddressLines());
 		outputRecord.getMethodWithDiffLine("CountrySpecificLocalityLine", outputRecord, addressData.getCountrySpecificLocalityLines());
-		outputRecord.getMethodWithDiffLine("FormattedAddressLine", outputRecord, addressData.getFormattedAddressLines());		
-		
+		outputRecord.getMethodWithDiffLine("FormattedAddressLine", outputRecord, addressData.getFormattedAddressLines());
+
 		retriveCountries(outputRecord, convertAddressElementToMap(addressData.getCountries()));
 		retriveLocalities(outputRecord, convertAddressElementToMap(addressData.getLocalities()));
 		retrivePostalCodes(outputRecord, convertAddressElementToMap(addressData.getPostalCodes()));

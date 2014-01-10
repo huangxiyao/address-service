@@ -7,7 +7,7 @@ public class AddressInput {
 	public String modeUsed;
 	public String preferredLanguage;
 	public String preferredScript;
-	public boolean characterScriptDetectionIndicator;
+	public String characterScriptDetectionIndicator;
 	public String country1;
 	public String country2;
 	public String country3;
@@ -152,21 +152,12 @@ public class AddressInput {
 		this.preferredScript = preferredScript;
 	}
 
-	public boolean isCharacterScriptDetectionIndicator() {
+	public String getCharacterScriptDetectionIndicator() {
 		return characterScriptDetectionIndicator;
 	}
-	
-	public String getCharacterScriptDetectionIndicator() {
-		return characterScriptDetectionIndicator ? "TRUE" : "FALSE";
-	}
 
-	public void setCharacterScriptDetectionIndicator(
-			boolean characterScriptDetectionIndicator) {
-		this.characterScriptDetectionIndicator = characterScriptDetectionIndicator;
-	}
-	
 	public void setCharacterScriptDetectionIndicator(String characterScriptDetectionIndicator) {
-		this.characterScriptDetectionIndicator = Boolean.valueOf(characterScriptDetectionIndicator);
+		this.characterScriptDetectionIndicator = characterScriptDetectionIndicator;
 	}
 
 	public String getCountry1() {

@@ -2,8 +2,6 @@ package com.hp.it.cas.match.batch;
 
 import java.util.List;
 
-import com.hp.it.cas.match.address.AddressQuery;
-
 /**
  * a record from the input file.
  * 
@@ -13,10 +11,9 @@ import com.hp.it.cas.match.address.AddressQuery;
 public class AddressFind {
 	private List<String> emailList;
 	private String outputFileName;
-	private String modeUsed;
-	private AddressQuery query;
+	private AddressInput addressInput;
 	private String errorMessage;
-	
+
 	public String getErrorMessage() {
 		return errorMessage;
 	}
@@ -41,20 +38,11 @@ public class AddressFind {
 		this.outputFileName = outputFileName;
 	}
 
-	public String getModeUsed() {
-		return modeUsed;
+	public AddressInput getAddressInput() {
+		return addressInput;
 	}
 
-	public void setModeUsed(String modeUsed) {
-		this.modeUsed = modeUsed;
+	public void setAddressInput(AddressInput addressInput) {
+		this.addressInput = addressInput;
 	}
-
-	public AddressQuery getQuery() {
-		return query;
-	}
-
-	public void setQuery(AddressQuery query) {
-		this.query = query;
-	}
-
 }

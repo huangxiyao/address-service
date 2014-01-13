@@ -204,7 +204,7 @@ public class AddressFindController implements TransactionController<AddressFind,
 		BeanUtils.copyProperties(addressInput, query, new String[] { "characterScriptDetectionIndicator" });
 		query.setCharacterScriptDetectionIndicator(Boolean.valueOf(addressInput.getCharacterScriptDetectionIndicator()));
 		
-		String mode = addressInput.getModeUsed();
+		String mode = StringUtils.isNullOrEmpty(addressInput.getModeUsed()) ? addressInput.getModeUsed() : addressInput.getModeUsed().trim();
 		try {
 			if (ValidInputData.ModeUsed.BATCH.name().equals(mode)) {
 				// TODO not sure map with which function

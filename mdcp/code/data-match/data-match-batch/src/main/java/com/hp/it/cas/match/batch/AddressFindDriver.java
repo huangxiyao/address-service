@@ -7,7 +7,7 @@ import java.util.regex.Pattern;
 import com.hp.it.cas.batch.driver.pipe.Configuration;
 import com.hp.it.cas.batch.driver.pipe.DelimitedLineTokenizer;
 import com.hp.it.cas.batch.driver.pipe.FileDisposition;
-import com.hp.it.cas.batch.driver.pipe.FileDispositionMove;
+import com.hp.it.cas.batch.driver.pipe.FileDispositionDelete;
 import com.hp.it.cas.batch.driver.pipe.LineMapper;
 import com.hp.it.cas.batch.driver.pipe.PatternLineMapper;
 import com.hp.it.cas.batch.driver.pipe.TransactionController;
@@ -24,11 +24,9 @@ import com.hp.it.cas.batch.driver.pipe.TransactionFileDriver;
  */
 public class AddressFindDriver extends TransactionFileDriver<AddressFind, Void> {
 	
-	private final Configuration configuration;
 
 	public AddressFindDriver(Configuration configuration) {
 		super(configuration);
-		this.configuration = configuration;
 	}
 
 	@Override
@@ -38,7 +36,7 @@ public class AddressFindDriver extends TransactionFileDriver<AddressFind, Void> 
 
 	@Override
 	protected FileDisposition getFileDisposition() {
-		return new FileDispositionMove(configuration);
+		return new FileDispositionDelete();
 	}
 
 	@Override

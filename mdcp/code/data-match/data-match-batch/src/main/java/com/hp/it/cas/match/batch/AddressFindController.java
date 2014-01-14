@@ -82,7 +82,7 @@ public class AddressFindController implements TransactionController<AddressFind,
 
 		/* empty file */
 		if (addressFind == null) {
-			logger.error("There is an empty file, and just moved it to WIP without processing。");
+			logger.error("Meet with an empty file, and will delete it after processing.");
 			return null;
 		}
 

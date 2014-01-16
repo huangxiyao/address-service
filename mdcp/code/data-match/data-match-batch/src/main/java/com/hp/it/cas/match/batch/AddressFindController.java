@@ -278,14 +278,14 @@ public class AddressFindController implements TransactionController<AddressFind,
 		bufText.append("<br>");
 		bufText.append("For example, you can alternatively:");
 		bufText.append("<br>");
-		bufText.append("&nbsp;&nbsp;&nbsp;&nbsp;1.&nbsp;Start Microsoft Excel and click on Menu Item Data => From Text and select ‘File Origin: 65001:Unicode (UTF-8)’;");
+		bufText.append("&nbsp;&nbsp;&nbsp;&nbsp;1.&nbsp;Start Microsoft Excel and click on Menu Item Data => From Text and select 'File Origin: 65001:Unicode (UTF-8)';");
 		bufText.append("<br>");
-		bufText.append("&nbsp;&nbsp;&nbsp;&nbsp;2.&nbsp;Start Apache OpenOffice and select ‘Character Set: Unicode (UTF-8)’in Text Import Wizard.");
+		bufText.append("&nbsp;&nbsp;&nbsp;&nbsp;2.&nbsp;Start Apache OpenOffice and select 'Character Set: Unicode (UTF-8)' in Text Import Wizard.");
 
 		bufText.append("<br><br>");
 		bufText.append("Thanks.");
 		bufText.append("<br>");
-		bufText.append("Best regards. ");
+		bufText.append("Best regards.");
 		bufText.append("<br>");
 		bufText.append("</body>");
 		bufText.append("</html>");

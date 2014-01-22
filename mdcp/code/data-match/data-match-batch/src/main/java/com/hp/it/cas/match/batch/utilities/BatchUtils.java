@@ -33,7 +33,7 @@ public class BatchUtils {
 	 * 		true if it contains OutputFileName, otherwise return false
 	 */
 	public static boolean checkOutputFileName(String field){
-		return field == null ? false : field.startsWith(OUTPUTFILENAME);
+		return field == null ? false : field.startsWith(OUTPUTFILENAME) || field.startsWith("\"" + OUTPUTFILENAME);
 	}
 
 	/**

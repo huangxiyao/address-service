@@ -31,10 +31,15 @@ public class AddressFindMapper implements FieldSetMapper<AddressFind>{
 			return addressFind;
 		}
 		
-		/* save outputFileName:InputFileName_OUTPUT.csv */
+		/* save outputFileName:InputFileName_OUTPUT.csv or "outputFileName:filename,withcomma_OUTPUT.csv"*/
 		if (BatchUtils.checkOutputFileName(fieldSet.getString(0))){
 			String filename = fieldSet.getString(0);
-			addressFind.setOutputFileName(filename.substring(filename.indexOf(":") + 1, filename.length()));
+			if (filename.endsWith("\"")) {
+				filename = filename.substring(filename.indexOf(":") + 1, filename.length()-1);
+			} else {
+				filename = filename.substring(filename.indexOf(":") + 1, filename.length());
+			}
+			addressFind.setOutputFileName(filename);
 			return addressFind;
 		}
 		

@@ -8,10 +8,16 @@
 	</parent>
 
 	<artifactId>data-match-batch</artifactId>
-	<version>2013.12.02</version>
+	<version>2014.04-SNAPSHOT</version>
 	<name>Data match batch code</name>
 	<packaging>bar</packaging>
 	<description>batch job code for the data match project is found here</description>
+	
+	<scm>
+		<connection>scm:svn:http://code1.corp.hp.com:1181/svn/120482/trunk/mdcp/code/data-match/data-match-batch</connection>
+		<developerConnection>scm:svn:https://code1.corp.hp.com:1181/svn/120482/trunk/mdcp/code/data-match/data-match-batch</developerConnection>
+		<url>http://code1.corp.hp.com:1181/svn/120482/trunk/mdcp/code/data-match/data-match-batch</url>
+	</scm>
 
 	<dependencies>
 		<dependency>
@@ -81,12 +87,4 @@
 			</plugin>
 		</plugins>
 	</build>
-
-
-
-  <scm>
-    <connection>scm:svn:http://code1.corp.hp.com/svn/120482/tags/data-match-batch-2013.12.02</connection>
-    <developerConnection>scm:svn:https://code1.corp.hp.com/svn/120482/tags/data-match-batch-2013.12.02</developerConnection>
-    <url>http://code1.corp.hp.com/svn/120482/tags/data-match-batch-2013.12.02</url>
-  </scm>
 </project>

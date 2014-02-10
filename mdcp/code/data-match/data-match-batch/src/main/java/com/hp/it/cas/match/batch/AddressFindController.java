@@ -364,7 +364,9 @@ public class AddressFindController implements TransactionController<AddressFind,
 				outputRecord.setMode_Used(result.getModeUsed());
 				outputRecord.setCountry_ISO3(result.getIso3());
 				outputRecord.setCountOverFlow(result.isCountOverFlow() ? "true" : "false");
-				retriveAddressData(outputRecord, result.getAddressData().get(0));
+				if (result.getAddressData() != null && result.getAddressData().size() > 0){
+					retriveAddressData(outputRecord, result.getAddressData().get(0));
+				}
 			}
 			listOutputRecord.add(outputRecord);
 		}

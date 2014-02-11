@@ -165,6 +165,12 @@ public class AddressFindController implements TransactionController<AddressFind,
 			return false;
 		}
 		
+		if (StringUtils.isNullOrEmpty(addressInput.getCountry1())){
+			addressFind.setErrorMessage("The country1 must not be null");
+			outputMap.put(addressFind, null);
+			return false;
+		}
+		
 		return true;
 	}
 

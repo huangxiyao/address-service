@@ -366,7 +366,9 @@ public class AddressFindController implements TransactionController<AddressFind,
 			}
 
 			if (result != null) {
-				BeanUtils.copyProperties(result, outputRecord, new String[]{"countOverFlow"});
+				/* escape the same properties between AddressQueryResult and AddressFind, AddressInput */
+				String[] sameProperties = new String[]{"modeUsed", "preferredLanguage", "preferredScript", "countOverFlow"};
+				BeanUtils.copyProperties(result, outputRecord, sameProperties);
 				outputRecord.setMode_Used(result.getModeUsed());
 				outputRecord.setCountry_ISO3(result.getIso3());
 				outputRecord.setPreferred_Language(result.getPreferredLanguage());
@@ -382,7 +384,9 @@ public class AddressFindController implements TransactionController<AddressFind,
 	}
 
 	private void retriveAddressData(OutputRecord outputRecord, AddressData addressData) {
-		BeanUtils.copyProperties(addressData, outputRecord);
+		/* escape the same properties between AddressQueryResult and AddressFind, AddressInput */
+		String[] sameProperties = new String[]{"recipientLine1", "recipientLine2", "recipientLine3", "deliveryAddressLine1", "deliveryAddressLine2", "deliveryAddressLine3", "deliveryAddressLine4", "deliveryAddressLine5", "deliveryAddressLine6", "countrySpecificLocalityLine1", "countrySpecificLocalityLine2", "countrySpecificLocalityLine3", "countrySpecificLocalityLine4", "countrySpecificLocalityLine5", "countrySpecificLocalityLine6", "FormattedAddressLine1", "FormattedAddressLine2", "FormattedAddressLine3", "FormattedAddressLine4", "FormattedAddressLine5", "FormattedAddressLine6", "FormattedAddressLine7", "FormattedAddressLine8", "FormattedAddressLine9", "FormattedAddressLine10", "FormattedAddressLine11", "FormattedAddressLine12", "FormattedAddressLine13", "FormattedAddressLine14", "FormattedAddressLine15", "FormattedAddressLine16", "FormattedAddressLine17", "FormattedAddressLine18", "FormattedAddressLine19"};
+		BeanUtils.copyProperties(addressData, outputRecord, sameProperties);
 
 		outputRecord.getMethodWithSameSuffix("Key", outputRecord, addressData.getKeys(), "RECORD_ID");
 		outputRecord.getMethodWithSameSuffix("Key", outputRecord, addressData.getKeys(), "TRANSACTION_KEY");

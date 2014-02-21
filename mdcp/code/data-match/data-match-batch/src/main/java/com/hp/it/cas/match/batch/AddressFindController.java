@@ -369,6 +369,8 @@ public class AddressFindController implements TransactionController<AddressFind,
 				BeanUtils.copyProperties(result, outputRecord, new String[]{"countOverFlow"});
 				outputRecord.setMode_Used(result.getModeUsed());
 				outputRecord.setCountry_ISO3(result.getIso3());
+				outputRecord.setPreferred_Language(result.getPreferredLanguage());
+				outputRecord.setPreferred_Script(result.getPreferredScript());
 				outputRecord.setCountOverFlow(result.isCountOverFlow() ? "true" : "false");
 				if (result.getAddressData() != null && result.getAddressData().size() > 0){
 					retriveAddressData(outputRecord, result.getAddressData().get(0));

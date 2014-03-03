@@ -3,12 +3,20 @@ package com.hp.it.match.batch.AddressFindExcel.utilities;
 import java.util.LinkedHashMap;
 import java.util.Map;
 
-//TODO add java doc
+/**
+ * Constant of input and output excel file header.
+ * 
+ * @author yu-juan.zhang@hp.com
+ *
+ */
 public class Constant {
 	private static Map<Integer, String> inputColumnNamesMap; 
 	private static Map<Integer, String> outputRecordColumnNameMap;
 
-	// INPUT FILE HEADER
+	/**
+	 * INPUT FILE HEADER.
+	 * Each column mapped with a field of the AddressInput object.
+	 */
 	public static String[] INPUT_HEADER = new String[] { "key1", "key2", "key3", "modeUsed", "preferredLanguage", "preferredScript", "characterScriptDetectionIndicator", "country1", "country2", "country3", "addressComplete", "building1", "building2",
 			"building3", "building4", "building5", "building6", "locality1", "locality2", "locality3", "locality4", "locality5", "locality6", "postalCode1", "postalCode2", "postalCode3", "countrySpecificLocalityLine1", "countrySpecificLocalityLine2",
 			"countrySpecificLocalityLine3", "countrySpecificLocalityLine4", "countrySpecificLocalityLine5", "countrySpecificLocalityLine6", "street1", "street2", "street3", "street4", "street5", "street6", "number1", "number2", "number3", "number4",
@@ -18,7 +26,10 @@ public class Constant {
 			"formattedAddressLine15", "formattedAddressLine16", "formattedAddressLine17", "formattedAddressLine18", "formattedAddressLine19", "organization1", "organization2", "organization3", "contact1", "contact2", "contact3", "recipientLine1",
 			"recipientLine2", "recipientLine3", "residue1", "residue2", "residue3", "residue4", "residue5", "residue6", "subBuilding1", "subBuilding2", "subBuilding3", "subBuilding4", "subBuilding5", "subBuilding6" };
 
-	// OUTPUT FILE HEADER LINE 2
+	/**
+	 * OUTPUT FILE HEADER LINE 2.
+	 * Each column mapped with a field of the OutputRecord object.
+	 */
 	public static String[] OUTPUT_HEADER_LINE_2 = new String[] { "key1", "key2", "key3", "modeUsed", "preferredLanguage", "preferredScript", "characterScriptDetectionIndicator", "country1", "country2", "country3", "addressComplete", "building1", "building2",
 			"building3", "building4", "building5", "building6", "locality1", "locality2", "locality3", "locality4", "locality5", "locality6", "postalCode1", "postalCode2", "postalCode3", "countrySpecificLocalityLine1", "countrySpecificLocalityLine2",
 			"countrySpecificLocalityLine3", "countrySpecificLocalityLine4", "countrySpecificLocalityLine5", "countrySpecificLocalityLine6", "street1", "street2", "street3", "street4", "street5", "street6", "number1", "number2", "number3", "number4",
@@ -27,7 +38,7 @@ public class Constant {
 			"formattedAddressLine6", "formattedAddressLine7", "formattedAddressLine8", "formattedAddressLine9", "formattedAddressLine10", "formattedAddressLine11", "formattedAddressLine12", "formattedAddressLine13", "formattedAddressLine14",
 			"formattedAddressLine15", "formattedAddressLine16", "formattedAddressLine17", "formattedAddressLine18", "formattedAddressLine19", "organization1", "organization2", "organization3", "contact1", "contact2", "contact3", "recipientLine1",
 			"recipientLine2", "recipientLine3", "residue1", "residue2", "residue3", "residue4", "residue5", "residue6", "subBuilding1", "subBuilding2", "subBuilding3", "subBuilding4", "subBuilding5", "subBuilding6", "errorMessage", "key1_RECORD_ID",
-			"key2_RECORD_ID", "key3_RECORD_ID", "key1_TRANSACTION_KEY", "key2_TRANSACTION_KEY", "key3_TRANSACTION_KEY", "ResultNumber", "country_ISO3", "mode_Used", "preferred_Language", "preferred_Script", "processStatus", "countOverFlow",
+			"key2_RECORD_ID", "key3_RECORD_ID", "key1_TRANSACTION_KEY", "key2_TRANSACTION_KEY", "key3_TRANSACTION_KEY", "resultNumber", "country_ISO3", "mode_Used", "preferred_Language", "preferred_Script", "processStatus", "countOverFlow",
 			"elementInputStatus", "elementResultStatus", "elementRelevance", "mailabilityScore", "resultPercentage", "cassStatus", "serpStatus", "snaStatus", "supplementaryGBStatus", "supplementaryUSStatus", "country1_NAME_EN", "locality1_COMPLETE",
 			"locality2_COMPLETE", "locality3_COMPLETE", "locality4_COMPLETE", "locality5_COMPLETE", "locality6_COMPLETE", "postalCode1_FORMATTED", "postalCode2_FORMATTED", "postalCode3_FORMATTED", "province1_COUNTRY_STANDARD", "province2_COUNTRY_STANDARD",
 			"province3_COUNTRY_STANDARD", "province4_COUNTRY_STANDARD", "province5_COUNTRY_STANDARD", "province6_COUNTRY_STANDARD", "street1_COMPLETE", "street2_COMPLETE", "street3_COMPLETE", "street4_COMPLETE", "street5_COMPLETE", "street6_COMPLETE",
@@ -66,7 +77,9 @@ public class Constant {
 			"contact3_NAME", "contact3_TITLE", "contact3_FUNCTION", "contact3_SALUTATION", "contact3_GENDER", "residue1_NECESSARY", "residue1_SUPERFLUOUS", "residue2_NECESSARY", "residue2_SUPERFLUOUS", "residue3_NECESSARY", "residue3_SUPERFLUOUS",
 			"residue4_NECESSARY", "residue4_SUPERFLUOUS", "residue5_NECESSARY", "residue5_SUPERFLUOUS", "residue6_NECESSARY", "residue6_SUPERFLUOUS" };
 
-	// OUTPUT EXCEL FILE HEADER LINE1
+	/**
+	 * Actual OUTPUT EXCEL FILE HEADER LINE1.
+	 */
 	public static String[] OUTPUT_EXCEL_HEADER_LINE_1 = new String[] { "INPUT", "", "", "", "", "", "", "", "", "", "", "", "", "", "", "", "", "", "", "", "", "", "", "", "", "", "", "", "", "", "", "", "", "", "", "", "", "", "", "", "", "", "", "", "", "",
 			"", "", "", "", "", "", "", "", "", "", "", "", "", "", "", "", "", "", "", "", "", "", "", "", "", "", "", "", "", "", "", "", "", "", "", "", "", "", "", "", "", "", "", "", "", "", "", "", "", "", "", "", "", "", "", "", "OUTPUT", "", "", "",
 			"", "", "", "", "RESULT", "", "", "", "", "RESULTDATA", "", "", "", "", "", "", "", "", "", "", "ADDRESS ELEMENTS-DEFAULT TYPES", "", "", "", "", "", "", "", "", "", "", "", "", "", "", "", "", "", "", "", "", "", "", "", "", "", "", "", "", "",
@@ -77,7 +90,9 @@ public class Constant {
 			"", "", "", "", "", "", "", "", "", "", "", "", "", "", "", "", "", "", "", "", "", "", "", "", "", "", "", "", "", "", "", "", "", "", "", "", "", "", "", "", "", "", "", "", "", "", "", "", "", "", "", "", "", "", "", "", "", "", "", "", "", "",
 			"", "", "", "", "", "", "", "", "", "", "", "", "", "", "", "", "", "", "", "", "", "", "", "", "", "", "", "", "", "", "", "", "" };
 
-	// OUTPUT EXCEL FILE HEADER LINE2
+	/**
+	 * Actual OUTPUT EXCEL FILE HEADER LINE2.
+	 */
 	public static String[] OUTPUT_EXCEL_HEADER_LINE_2 = new String[] { "key1", "key2", "key3", "modeUsed", "preferredLanguage", "preferredScript", "characterScriptDetectionIndicator", "country1", "country2", "country3", "addressComplete", "building1",
 			"building2", "building3", "building4", "building5", "building6", "locality1", "locality2", "locality3", "locality4", "locality5", "locality6", "postalCode1", "postalCode2", "postalCode3", "countrySpecificLocalityLine1",
 			"countrySpecificLocalityLine2", "countrySpecificLocalityLine3", "countrySpecificLocalityLine4", "countrySpecificLocalityLine5", "countrySpecificLocalityLine6", "street1", "street2", "street3", "street4", "street5", "street6", "number1", "number2",
@@ -126,6 +141,10 @@ public class Constant {
 			"residue4-NECESSARY", "residue4-SUPERFLUOUS", "residue5-NECESSARY", "residue5-SUPERFLUOUS", "residue6-NECESSARY", "residue6-SUPERFLUOUS" };
 
 	
+	/**
+	 * Initial the inputColumnNamesMap to store each column name of an input file. 
+	 * @return inputColumnNamesMap
+	 */
 	public static Map<Integer, String> getInputColumnNamesMap() {
 		if (inputColumnNamesMap != null){
 			return inputColumnNamesMap;
@@ -139,6 +158,10 @@ public class Constant {
 		return inputColumnNamesMap;
 	}
 
+	/**
+	 * Initial the outputRecordColumnNameMap to store each column name of an output file. 
+	 * @return outputRecordColumnNameMap
+	 */
 	public static Map<Integer, String> getOutputRecordColumnNamesMap() {
 		if (outputRecordColumnNameMap != null ) {
 			return outputRecordColumnNameMap;

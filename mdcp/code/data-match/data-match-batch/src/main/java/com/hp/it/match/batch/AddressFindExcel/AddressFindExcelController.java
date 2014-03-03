@@ -403,25 +403,25 @@ public class AddressFindExcelController implements TransactionController<Address
 				"formattedAddressLine12", "formattedAddressLine13", "formattedAddressLine14", "formattedAddressLine15", "formattedAddressLine16", "formattedAddressLine17", "formattedAddressLine18", "formattedAddressLine19" };
 		BeanUtils.copyProperties(addressData, outputRecord, sameProperties);
 
-		outputRecord.getMethodWithSameSuffix("Key", outputRecord, addressData.getKeys(), "RECORD_ID");
-		outputRecord.getMethodWithSameSuffix("Key", outputRecord, addressData.getKeys(), "TRANSACTION_KEY");
+		outputRecord.setMethodWithSameSuffix("Key", outputRecord, addressData.getKeys(), "RECORD_ID");
+		outputRecord.setMethodWithSameSuffix("Key", outputRecord, addressData.getKeys(), "TRANSACTION_KEY");
 
-		outputRecord.getMethodWithSameSuffix("Locality", outputRecord, addressData.getLocalities(), "COMPLETE");
-		outputRecord.getMethodWithSameSuffix("PostalCode", outputRecord, addressData.getPostalCodes(), "FORMATTED");
-		outputRecord.getMethodWithSameSuffix("Province", outputRecord, addressData.getProvinces(), "COUNTRY_STANDARD");
-		outputRecord.getMethodWithSameSuffix("Street", outputRecord, addressData.getStreets(), "COMPLETE");
-		outputRecord.getMethodWithSameSuffix("Number", outputRecord, addressData.getNumbers(), "COMPLETE");
-		outputRecord.getMethodWithSameSuffix("Building", outputRecord, addressData.getBuildings(), "COMPLETE");
-		outputRecord.getMethodWithSameSuffix("SubBuilding", outputRecord, addressData.getSubBuildings(), "COMPLETE");
-		outputRecord.getMethodWithSameSuffix("DeliverService", outputRecord, addressData.getDeliveryServices(), "COMPLETE");
-		outputRecord.getMethodWithSameSuffix("Organization", outputRecord, addressData.getOrganizations(), "COMPLETE");
-		outputRecord.getMethodWithSameSuffix("Contact", outputRecord, addressData.getContacts(), "COMPLETE");
-		outputRecord.getMethodWithSameSuffix("Residue", outputRecord, addressData.getResidues(), "UNRECOGNIZED");
+		outputRecord.setMethodWithSameSuffix("Locality", outputRecord, addressData.getLocalities(), "COMPLETE");
+		outputRecord.setMethodWithSameSuffix("PostalCode", outputRecord, addressData.getPostalCodes(), "FORMATTED");
+		outputRecord.setMethodWithSameSuffix("Province", outputRecord, addressData.getProvinces(), "COUNTRY_STANDARD");
+		outputRecord.setMethodWithSameSuffix("Street", outputRecord, addressData.getStreets(), "COMPLETE");
+		outputRecord.setMethodWithSameSuffix("Number", outputRecord, addressData.getNumbers(), "COMPLETE");
+		outputRecord.setMethodWithSameSuffix("Building", outputRecord, addressData.getBuildings(), "COMPLETE");
+		outputRecord.setMethodWithSameSuffix("SubBuilding", outputRecord, addressData.getSubBuildings(), "COMPLETE");
+		outputRecord.setMethodWithSameSuffix("DeliverService", outputRecord, addressData.getDeliveryServices(), "COMPLETE");
+		outputRecord.setMethodWithSameSuffix("Organization", outputRecord, addressData.getOrganizations(), "COMPLETE");
+		outputRecord.setMethodWithSameSuffix("Contact", outputRecord, addressData.getContacts(), "COMPLETE");
+		outputRecord.setMethodWithSameSuffix("Residue", outputRecord, addressData.getResidues(), "UNRECOGNIZED");
 
-		outputRecord.getMethodWithDiffLine("RecipientLine", outputRecord, addressData.getRecipientLines());
-		outputRecord.getMethodWithDiffLine("DeliveryAddressLine", outputRecord, addressData.getDeliveryAddressLines());
-		outputRecord.getMethodWithDiffLine("CountrySpecificLocalityLine", outputRecord, addressData.getCountrySpecificLocalityLines());
-		outputRecord.getMethodWithDiffLine("FormattedAddressLine", outputRecord, addressData.getFormattedAddressLines());
+		outputRecord.setMethodWithDiffLine("RecipientLine", outputRecord, addressData.getRecipientLines());
+		outputRecord.setMethodWithDiffLine("DeliveryAddressLine", outputRecord, addressData.getDeliveryAddressLines());
+		outputRecord.setMethodWithDiffLine("CountrySpecificLocalityLine", outputRecord, addressData.getCountrySpecificLocalityLines());
+		outputRecord.setMethodWithDiffLine("FormattedAddressLine", outputRecord, addressData.getFormattedAddressLines());
 
 		retriveCountries(outputRecord, convertAddressElementToMap(addressData.getCountries()));
 		retriveLocalities(outputRecord, convertAddressElementToMap(addressData.getLocalities()));

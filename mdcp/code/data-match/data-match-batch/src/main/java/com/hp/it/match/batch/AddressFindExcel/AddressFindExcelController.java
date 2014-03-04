@@ -373,7 +373,12 @@ public class AddressFindExcelController implements TransactionController<Address
 				OutputRecord outputRecord = new OutputRecord();
 				BeanUtils.copyProperties(addressFind, outputRecord);
 				if (addressFind.getAddressInput() != null) {
-					BeanUtils.copyProperties(addressFind.getAddressInput(), outputRecord);
+					BeanUtils.copyProperties(addressFind.getAddressInput(), outputRecord, new String[] { "characterScriptDetectionIndicator" });
+					String characterScriptDetectionIndicator = addressFind.getAddressInput().getCharacterScriptDetectionIndicator();
+					if ("true".equals(characterScriptDetectionIndicator) || "false".equals(characterScriptDetectionIndicator)){
+						characterScriptDetectionIndicator = org.apache.commons.lang.StringUtils.upperCase(characterScriptDetectionIndicator);
+					}
+					outputRecord.setCharacterScriptDetectionIndicator(characterScriptDetectionIndicator);
 					if (result != null) {
 						/* escape the same fields between AddressQueryResult and AddressFind, AddressInput */
 						String[] sameProperties = new String[] { "modeUsed", "preferredLanguage", "preferredScript", "countOverFlow" };

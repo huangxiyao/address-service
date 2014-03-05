@@ -2,6 +2,8 @@ package com.hp.it.match.batch.AddressFindExcel.bean;
 
 import java.lang.reflect.InvocationTargetException;
 import java.lang.reflect.Method;
+import java.util.HashMap;
+import java.util.Map;
 
 import org.apache.commons.lang.StringUtils;
 import org.slf4j.Logger;
@@ -119,6 +121,8 @@ public class AddressInput {
 	private String subBuilding5;
 	private String subBuilding6;
 
+	private static Map<String, Method> fieldMethodsMap = new HashMap<String, Method>();
+	
 	/**
 	 * Get the value of column key1.
 	 * 
@@ -1701,7 +1705,7 @@ public class AddressInput {
 	/**
 	 * Get the value of column recipientLine2.
 	 * 
-	 * @return recipientLine2.
+	 * @return recipientLine2
 	 */
 	public String getRecipientLine2() {
 		return recipientLine2;
@@ -1963,9 +1967,12 @@ public class AddressInput {
 	public void setFieldValue(AddressInput addressInput, String fieldName, String fieldValue) {
 		Class<? extends AddressInput> clazz = addressInput.getClass();
 		String methodName = "set" + StringUtils.capitalize(fieldName);
-		Method method;
+		Method method = fieldMethodsMap.get(methodName);
 		try {
-			method = clazz.getDeclaredMethod(methodName, String.class);
+			if (method == null) {
+				method = clazz.getDeclaredMethod(methodName, String.class);
+				fieldMethodsMap.put(methodName, method);
+			}
 			method.invoke(addressInput, fieldValue);
 		} catch (NoSuchMethodException e) {
 			logger.error(e.getMessage());

@@ -2,7 +2,9 @@ package com.hp.it.match.batch.AddressFindExcel.bean;
 
 import java.lang.reflect.InvocationTargetException;
 import java.lang.reflect.Method;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 import org.apache.commons.lang.StringUtils;
 import org.slf4j.Logger;
@@ -18,7 +20,8 @@ import com.hp.it.cas.match.address.AddressElement;
  */
 public class OutputRecord extends AddressInput {
 	private final Logger logger = LoggerFactory.getLogger(OutputRecord.class);
-
+	private static Map<String, Method> fieldMethodsMap = new HashMap<String, Method>();
+	
 	private String errorMessage;
 	private String key1_RECORD_ID;
 	private String key2_RECORD_ID;
@@ -7819,9 +7822,12 @@ public class OutputRecord extends AddressInput {
 	 */
 	public void setMethodValue(OutputRecord outputRecord, String value, String methodName) {
 		Class<? extends OutputRecord> clazz = outputRecord.getClass();
-		Method method;
+		Method method = fieldMethodsMap.get(methodName);
 		try {
-			method = clazz.getMethod(methodName, String.class);
+			if (method == null) {
+				method = clazz.getMethod(methodName, String.class);
+				fieldMethodsMap.put(methodName, method);
+			}
 			method.invoke(outputRecord, value);
 		} catch (SecurityException e) {
 			logger.error(e.getMessage());
@@ -7847,11 +7853,14 @@ public class OutputRecord extends AddressInput {
 	 */
 	public String getMethodValue(OutputRecord outputRecord, String fieldName) {
 		Class<? extends OutputRecord> clazz = outputRecord.getClass();
-		Method method;
+		String methodName = "get" + StringUtils.capitalize(fieldName);
+		Method method = fieldMethodsMap.get(methodName);
 		String value = "";
 		try {
-			String methodName = "get" + StringUtils.capitalize(fieldName);
-			method = clazz.getMethod(methodName);
+			if (method == null) {
+				method = clazz.getMethod(methodName);
+				fieldMethodsMap.put(methodName, method);
+			}
 			value = (String) method.invoke(outputRecord);
 		} catch (SecurityException e) {
 			logger.error(e.getMessage());

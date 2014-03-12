@@ -3,13 +3,14 @@ package com.hp.it.cas.batch.driver.pipe;
 import com.hp.it.cas.foundation.pipe.Pipe;
 import com.hp.it.cas.foundation.pipe.Pipeline;
 import com.hp.it.cas.foundation.pipe.StartPipe;
+
+import org.apache.poi.openxml4j.opc.OPCPackage;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
 import javax.sql.DataSource;
 import java.beans.PropertyEditor;
 import java.io.File;
-import java.io.InputStream;
 import java.net.URI;
 import java.net.URISyntaxException;
 import java.util.Collection;
@@ -64,22 +65,25 @@ public abstract class ExcelFileDriver<T, R> extends DataSourceDriver<R> {
 			Checkpointer checkpointer = new Checkpointer(configuration, dataSource);
 			Auditor auditor = getAuditor();
 
-			flow = new CheckpointRestartPipe<Void, R>(checkpointer, new Pipeline<Void, R>(new StartPipe<URI>(
-					directoryPath(configuration)), new DirectoryListPipe(), new AntFileFilterPipe(
-					filePattern(configuration)), new RestartFilterPipe<URI>(configuration,
-					Restart.DATA_SOURCE_URI.name(), URI_PROPERTY_EDITOR), new LockFileFilterPipe(configuration,
-					dataSource), getFileDispositionPipe(), new StatisticsPipe<File>(configuration, "file"),
+			flow = new CheckpointRestartPipe<Void, R>(checkpointer, new Pipeline<Void, R>(
+					new StartPipe<URI>(directoryPath(configuration)), 
+					new DirectoryListPipe(), 
+					new AntFileFilterPipe(filePattern(configuration)), 
+					new RestartFilterPipe<URI>(configuration, Restart.DATA_SOURCE_URI.name(), URI_PROPERTY_EDITOR), 
+					new LockFileFilterPipe(configuration, dataSource), 
+					getFileDispositionPipe(), 
+					new StatisticsPipe<File>(configuration, "file"),
 					new CheckpointTriggerPipe<File>(configuration, checkpointer, 1),
-					new FileInputStreamPipe<R>(new Pipeline<InputStream, R>(new RowReaderPipe(getFileHeaderRowCount()),
-							new RestartAfterFilterPipe<Row>(configuration, Restart.AFTER_ROW_NUMBER.name(),
-									ROW_NUMBER_PROPERTY_EDITOR), new ConstraintViolationBoundaryPipe<Row, R>(
-									configuration, auditor, new Pipeline<Row, R>(getRowMapperPipe(),
-											new CheckpointTriggerPipe<T>(configuration, checkpointer,
-													checkpointInterval(configuration)), new StatisticsPipe<T>(
-													configuration, "transaction"), new SavepointPipe<T, R>(
-													configuration, dataSource, new TransactionControllerPipe<T, R>(
-															configuration, dataSource, auditor,
-															getTransactionControllers()))))))));
+					new ExcelFileInputStreamPipe<R>(auditor, new Pipeline<OPCPackage, R>(
+							new RowReaderPipe(getFileHeaderRowCount()),
+							new RestartAfterFilterPipe<Row>(configuration, Restart.AFTER_ROW_NUMBER.name(), 
+									ROW_NUMBER_PROPERTY_EDITOR), 
+							new ConstraintViolationBoundaryPipe<Row, R>(configuration, auditor, new Pipeline<Row, R>(
+									getRowMapperPipe(),
+									new CheckpointTriggerPipe<T>(configuration, checkpointer,checkpointInterval(configuration)), 
+									new StatisticsPipe<T>(configuration, "transaction"), 
+									new SavepointPipe<T, R>(configuration, dataSource, 
+											new TransactionControllerPipe<T, R>(configuration, dataSource, auditor, getTransactionControllers()))))))));
 		}
 
 		return flow;
@@ -98,7 +102,7 @@ public abstract class ExcelFileDriver<T, R> extends DataSourceDriver<R> {
 	 * @return the file disposition
 	 */
 	protected abstract FileDisposition getFileDisposition();
-
+		
 	/**
 	 * Gets the row mapper.
 	 * 

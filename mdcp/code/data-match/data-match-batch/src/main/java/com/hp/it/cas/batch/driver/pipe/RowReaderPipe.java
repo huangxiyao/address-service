@@ -1,34 +1,32 @@
 package com.hp.it.cas.batch.driver.pipe;
 
 import com.hp.it.cas.foundation.pipe.AbstractPipe;
+import com.hp.it.cas.foundation.pipe.EmptyIterator;
 import com.hp.it.cas.foundation.pipe.Pipe;
 import com.hp.it.cas.foundation.pipe.Pipeline;
 import com.hp.it.cas.foundation.pipe.SingleIterator;
 
-import org.apache.poi.openxml4j.exceptions.InvalidFormatException;
 import org.apache.poi.openxml4j.opc.OPCPackage;
 import org.apache.poi.xssf.usermodel.XSSFRow;
 import org.apache.poi.xssf.usermodel.XSSFSheet;
 import org.apache.poi.xssf.usermodel.XSSFWorkbook;
 
 import java.io.IOException;
-import java.io.InputStream;
 
 import java.util.NoSuchElementException;
 
 /**
- * Takes InputStream and gives {@link Row}. The InputStream is used by {@link OPCPackage} to retrieve the
- * {@link XSSFWorkbook}, then loop all the {@link XSSFSheet} in {@link XSSFWorkbook}. For each {@link XSSFSheet},
- * retrieve each {@link XSSFRow}, gives {@link Row} cantains {@link XSSFRow}.
+ * Takes OPCPackage and gives {@link Row}. The {@link OPCPackage} is used to retrieve the {@link XSSFWorkbook}, then
+ * loop all the {@link XSSFSheet} in {@link XSSFWorkbook}. For each {@link XSSFSheet}, retrieve each {@link XSSFRow},
+ * gives {@link Row} cantains {@link XSSFRow}.
  * 
  * @author quintin.may@hp.com
  * @author hugh.mckee@hp.com
  * @author hong-bol@hp.com
  */
-public class RowReaderPipe extends AbstractPipe<InputStream, Row> {
+public class RowReaderPipe extends AbstractPipe<OPCPackage, Row> {
 	private Pipe<XSSFWorkbook, Row> pipe;
 
-	OPCPackage opcPackage;
 	XSSFWorkbook xssfWorkbook;
 	int headerRowCount;
 
@@ -47,18 +45,18 @@ public class RowReaderPipe extends AbstractPipe<InputStream, Row> {
 		try {
 			while (true) {
 				if (xssfWorkbook == null) {
-					openOPCPackage(getStarts().next());
+					openWorkbook(getStarts().next());
 					initialPipeLine();
 				}
 
 				try {
 					return pipe.next();
 				} catch (NoSuchElementException e) {
-					closeOPCPackage();
+					xssfWorkbook = null;
 				}
 			}
 		} catch (RuntimeException e) {
-			closeOPCPackage();
+			xssfWorkbook = null;
 			throw e;
 		}
 	}
@@ -69,40 +67,22 @@ public class RowReaderPipe extends AbstractPipe<InputStream, Row> {
 	 */
 	private void initialPipeLine() {
 		pipe = new Pipeline<XSSFWorkbook, Row>(new SheetPipe(), new RowPipe(headerRowCount));
-		pipe.setStarts(new SingleIterator<XSSFWorkbook>(xssfWorkbook));
+		pipe.setStarts(xssfWorkbook == null ? new EmptyIterator<XSSFWorkbook>() : new SingleIterator<XSSFWorkbook>(xssfWorkbook));
 	}
 
 	/**
-	 * Open a package with the inputStream.
+	 * Open XSSFWorkbook with opcPackage.
 	 * 
-	 * @param inputStream
-	 *            the InputStream to read the package from
+	 * @param opcPackage {@link OPCPackage}
 	 */
-	private void openOPCPackage(InputStream inputStream) {
+	private void openWorkbook(OPCPackage opcPackage) {	
 		try {
-			opcPackage = OPCPackage.open(inputStream);
-			xssfWorkbook = new XSSFWorkbook(opcPackage);
-		} catch (InvalidFormatException e) {
-			throw new TunnelledException(e);
+			xssfWorkbook = opcPackage == null ? null : new XSSFWorkbook(opcPackage);
 		} catch (IOException e) {
 			throw new TunnelledException(e);
 		}
 	}
 
-	/**
-	 * Close the package.
-	 */
-	private void closeOPCPackage() {
-		try {
-			if (opcPackage != null) {
-				opcPackage.close();
-			}
-		} catch (IOException e) {
-			throw new TunnelledException(e);
-		} finally {
-			xssfWorkbook = null;
-		}
-	}
 
 	class RowPipe extends AbstractPipe<XSSFSheet, Row> {
 		private final int headerRowCount;

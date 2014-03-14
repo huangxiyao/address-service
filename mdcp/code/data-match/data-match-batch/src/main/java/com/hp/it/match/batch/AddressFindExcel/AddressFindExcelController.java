@@ -172,7 +172,7 @@ public class AddressFindExcelController implements TransactionController<Address
 		Principal principal = SecurityContextHolder.getInstance().getAuditPrincipal();
 
 		SecurityContextTestController securityController = new SecurityContextTestController();
-		securityController.collectAndSetupSecurityContext(new ClientTestEnvironment("w-mdcp:prd-http", null, null));
+		securityController.collectAndSetupSecurityContext(new ClientTestEnvironment("w-addr-serv:ad-batch", null, null));
 		AddressQueryResult result = findAddress(addressFind);
 
 		/* when run the job got NullPointerException of principal */

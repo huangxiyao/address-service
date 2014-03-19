@@ -9,7 +9,7 @@
 
 
 	<artifactId>data-match</artifactId>
-	<version>2014.03</version>
+	<version>2014.06-SNAPSHOT</version>
 	<packaging>pom</packaging>
 	<name>Data matching tools</name>
 	<description>Data matching tools</description>
@@ -195,10 +195,4 @@
 			</plugin>
 		</plugins>
 	</build>
-
-  <scm>
-    <connection>scm:svn:http://code1.corp.hp.com/svn/120482/tags/data-match-2014.03</connection>
-    <developerConnection>scm:svn:https://code1.corp.hp.com/svn/120482/tags/data-match-2014.03</developerConnection>
-    <url>http://code1.corp.hp.com/svn/120482/tags/data-match-2014.03</url>
-  </scm>
 </project>

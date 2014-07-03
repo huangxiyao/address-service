@@ -49,7 +49,9 @@ class AddressQueryResultJsonRepresentation extends StandardResponseJsonRepresent
 			.pair("serpStatus", result.getSerpStatus())
 			.pair("snaStatus", result.getSnaStatus())
 			.pair("supplementaryGBStatus", result.getSupplementaryGBStatus())
-			.pair("supplementaryUSStatus", result.getSupplementaryUSStatus());
+			.pair("supplementaryUSStatus", result.getSupplementaryUSStatus())
+			.pair("geoCodingStatus", result.getGeoCodingStatus());
+		
 		JsonArrayWriter<?> arrayWriter = objectWriter.name("key").array();
 		for(AddressElement element: result.getKeys()){
 			writeAddressElement(arrayWriter, element);
@@ -64,6 +66,12 @@ class AddressQueryResultJsonRepresentation extends StandardResponseJsonRepresent
 		
 		arrayWriter = objectWriter.name("supplementaryUS").array();
 		for(AddressElement element: result.getSupplementaryUs()){
+			writeAddressElement(arrayWriter, element);
+		}
+		arrayWriter.endArray();
+		
+		arrayWriter = objectWriter.name("geoCoding").array();
+		for(AddressElement element: result.getGeoCoding()){
 			writeAddressElement(arrayWriter, element);
 		}
 		arrayWriter.endArray();

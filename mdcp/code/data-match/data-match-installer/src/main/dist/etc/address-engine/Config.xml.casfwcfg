@@ -8,5 +8,6 @@
   <DataBase CountryISO3="ALL" Path="@@ad_db_path@@" PreloadingType="@@ad_preloading_type@@" Type="BATCH_INTERACTIVE"/>
   <DataBase CountryISO3="ALL" Path="@@ad_db_path@@" PreloadingType="@@ad_preloading_type@@" Type="FASTCOMPLETION"/>
   <DataBase CountryISO3="ALL" Path="@@ad_db_path@@" PreloadingType="@@ad_preloading_type@@" Type="SUPPLEMENTARY"/>
+  <DataBase CountryISO3="ALL" Path="@@ad_db_path@@" PreloadingType="@@ad_preloading_type@@" Type="GEOCODING"/>
 </SetConfig>
 

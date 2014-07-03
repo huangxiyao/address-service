@@ -4,7 +4,7 @@ if [ -r ${HOME}/.casfwrc ]; then
     source ${HOME}/.casfwrc
 fi
 
-casfw_java_home="$(ls -d ${CASFW_HOME}/software/oracle-java-1.6.* 2>/dev/null | tail -n1)"
+casfw_java_home="$(ls -d ${CASFW_HOME}/software/oracle-java-1.7.* 2>/dev/null | tail -n1)"
 export JAVA_HOME="$(cd ${casfw_java_home} && pwd)"
 
 if [ -z "${data_match_web_version}" ]; then

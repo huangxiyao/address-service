@@ -33,6 +33,7 @@ public class AddressQueryResult {
 		private String snaStatus;
 		private String supplementaryGBStatus;
 		private String supplementaryUSStatus;
+		private String geoCodingStatus;
 
 		/**
 		 * Status value associated with the CASS certification.
@@ -167,6 +168,30 @@ public class AddressQueryResult {
 		public void setSupplementaryUSStatus(String supplementaryUSStatus) {
 			this.supplementaryUSStatus = supplementaryUSStatus;
 		}
+		
+		/**
+		 * United States enrichment status value. Possible values are:
+		 * 
+		 * <dl>
+		 * <dt>EGC0..EGC8</dt>
+		 * </dl>
+		 * 
+		 * @return the US enrichment status value
+		 * 
+		 */
+		public String getGeoCodingStatus(){
+			return geoCodingStatus;
+		}
+		
+		/**
+		 * Set the United States enrichment status value
+		 * 
+		 * @param geoCodingStatus
+		 * 				the United States enrichment status value
+		 */
+		public void setGeoCodingStatus(String geoCodingStatus){
+			this.geoCodingStatus = geoCodingStatus;
+		}
 
 		private List<AddressElement> keys = new ArrayList<AddressElement>();
 		private List<AddressElement> countries = new ArrayList<AddressElement>();
@@ -192,6 +217,8 @@ public class AddressQueryResult {
 		private List<AddressElement> sna = new ArrayList<AddressElement>();
 		private List<AddressElement> supplementaryGb = new ArrayList<AddressElement>();
 		private List<AddressElement> supplementaryUs = new ArrayList<AddressElement>();
+		private List<AddressElement> geoCoding = new ArrayList<AddressElement>();
+		
 
 		/**
 		 * List of CASS certified address elements. The following data types may be returned.
@@ -374,6 +401,36 @@ public class AddressQueryResult {
 		 */
 		public void setSupplementaryUs(List<AddressElement> supplementaryUs) {
 			this.supplementaryUs = supplementaryUs;
+		}
+
+		/**
+		 * Geocoding data for the United States (if available). The following data types may be returned.
+		 * 
+		 * <dl>
+		 * <dt>COMPLETE</dt>
+		 * <dd>The complete result, consisting of a concatenated string of the 3 other types</dd>
+		 * <dt>LATITUDE</dt>
+		 * <dd>The latitude in the format</dd>
+		 * <dt>LONGITUDE</dt>
+		 * <dd>The longitude in the format</dd>
+		 * <dt>LAT_LONG_UNIT</dt>
+		 * <dd>The unit of both latitude and longitude, i.e. "WGS84"</dd> 
+		 * </dl>
+		 * 
+		 * @return the geoCoding US data
+		 */
+		public List<AddressElement> getGeoCoding() {
+			return geoCoding;
+		}
+
+		/**
+		 * Set the geoCoding United States data.
+		 * 
+		 * @param geoCoding
+		 * 			the geoCoding United States data
+		 */
+		public void setGeoCoding(List<AddressElement> geoCoding) {
+			this.geoCoding = geoCoding;
 		}
 
 		/**

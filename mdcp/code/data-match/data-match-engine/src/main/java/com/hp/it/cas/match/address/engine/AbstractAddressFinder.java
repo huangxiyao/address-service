@@ -323,6 +323,7 @@ public abstract class AbstractAddressFinder {
 			addressData.setSnaStatus(addressObject.getResultEnrichmentDataParameter(resultIndex + 1, "SNAStatus"));
 			addressData.setSupplementaryGBStatus(addressObject.getResultEnrichmentDataParameter(resultIndex + 1, "SupplementaryGBStatus"));
 			addressData.setSupplementaryUSStatus(addressObject.getResultEnrichmentDataParameter(resultIndex + 1, "SupplementaryUSStatus"));
+			addressData.setGeoCodingStatus(addressObject.getResultEnrichmentDataParameter(resultIndex + 1, "GeoCodingStatus"));
 
 			String token = "Building";
 			int numBuildings = addressObject.getResultAddressElementItemCount(resultIndex + 1, token);
@@ -517,6 +518,14 @@ public abstract class AbstractAddressFinder {
 				addAddressElement(addressObject.getResultEnrichmentElement(resultIndex + 1 , token, "PLACE_FIPS_CODE"),"PLACE_FIPS_CODE", addressData.getSupplementaryUs());
 				addAddressElement(addressObject.getResultEnrichmentElement(resultIndex + 1 , token, "TIME_ZONE_CODE"),"TIME_ZONE_CODE", addressData.getSupplementaryUs());
 				addAddressElement(addressObject.getResultEnrichmentElement(resultIndex + 1 , token, "TIME_ZONE_NAME"),"TIME_ZONE_NAME", addressData.getSupplementaryUs());
+			}
+			
+			token = "GeoCoding";
+			if (addressObject.getResultEnrichmentElementExists(resultIndex + 1,  token)){
+				addAddressElement(addressObject.getResultEnrichmentElement(resultIndex + 1, token, "COMPLETE"), "COMPLETE", addressData.getGeoCoding());
+				addAddressElement(addressObject.getResultEnrichmentElement(resultIndex + 1, token, "LATITUDE"), "LATITUDE", addressData.getGeoCoding());
+				addAddressElement(addressObject.getResultEnrichmentElement(resultIndex + 1, token, "LONGITUDE"), "LONGITUDE", addressData.getGeoCoding());
+				addAddressElement(addressObject.getResultEnrichmentElement(resultIndex + 1, token, "LAT_LONG_UNIT"), "LAT_LONG_UNIT", addressData.getGeoCoding());
 			}
 
 			addressData.setCompleteAddress(addressObject.getResultAddressComplete(resultIndex + 1));

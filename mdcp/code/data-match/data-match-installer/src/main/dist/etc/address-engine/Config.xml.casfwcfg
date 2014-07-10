@@ -4,6 +4,7 @@
   <General MaxResultCount="@@ad_max_result_count@@" CacheSize="@@ad_cache_size@@" MaxAddressObjectCount="@@ad_max_address_object_count@@" MaxThreadCount="@@ad_max_thread_count@@" MaxMemoryUsageMB="@@ad_max_memory_usage_mb@@" PreloadingMethod="MAP" WriteXMLBOM="NEVER" WriteXMLEncoding="UTF-16"></General>
   <UnlockCode>@@ad_unlock_code@@</UnlockCode>
   <UnlockCode>@@ad_unlock_code_future@@</UnlockCode>
+  <UnlockCode>@@ad_unlock_code_supplementary@@</UnlockCode>
   <DataBase CountryISO3="ALL" Path="@@ad_db_path@@" PreloadingType="@@ad_preloading_type@@" Type="CERTIFIED"/>
   <DataBase CountryISO3="ALL" Path="@@ad_db_path@@" PreloadingType="@@ad_preloading_type@@" Type="BATCH_INTERACTIVE"/>
   <DataBase CountryISO3="ALL" Path="@@ad_db_path@@" PreloadingType="@@ad_preloading_type@@" Type="FASTCOMPLETION"/>

@@ -34,6 +34,15 @@ public class AddressQueryResult {
 		private String supplementaryGBStatus;
 		private String supplementaryUSStatus;
 		private String geoCodingStatus;
+		private String supplementaryATStatus;
+		private String supplementaryBRStatus;
+		private String supplementaryCHStatus;
+		private String supplementaryDEStatus;
+		private String supplementaryFRStatus;
+		private String supplementaryJPStatus;
+		private String supplementaryPLStatus;
+		private String supplementaryRSStatus;
+		private String supplementaryZAStatus;
 
 		/**
 		 * Status value associated with the CASS certification.
@@ -170,13 +179,13 @@ public class AddressQueryResult {
 		}
 		
 		/**
-		 * United States enrichment status value. Possible values are:
+		 * Geo Coding enrichment status value. Possible values are:
 		 * 
 		 * <dl>
 		 * <dt>EGC0..EGC8</dt>
 		 * </dl>
 		 * 
-		 * @return the US enrichment status value
+		 * @return the Geo Coding enrichment status value
 		 * 
 		 */
 		public String getGeoCodingStatus(){
@@ -184,13 +193,199 @@ public class AddressQueryResult {
 		}
 		
 		/**
-		 * Set the United States enrichment status value
+		 * Set the Geo Coding enrichment status value
 		 * 
 		 * @param geoCodingStatus
-		 * 				the United States enrichment status value
+		 * 				the Geo Coding enrichment status value
 		 */
 		public void setGeoCodingStatus(String geoCodingStatus){
 			this.geoCodingStatus = geoCodingStatus;
+		}
+		
+		/**
+		 * Austria supplementary enrichment status value.
+		 * 
+		 * @return the Austria supplementary enrichment status value
+		 * 
+		 */
+		public String getSupplementaryATStatus() {
+			return supplementaryATStatus;
+		}
+
+		/**
+		 * Set Austria supplementary enrichment status value.
+		 * 
+		 * @param supplementaryATStatus
+		 * 			the Austria supplementary enrichment status value
+		 */
+		public void setSupplementaryATStatus(String supplementaryATStatus) {
+			this.supplementaryATStatus = supplementaryATStatus;
+		}
+
+		/**
+		 * Brazil supplementary enrichment status value.
+		 * 
+		 * @return the Brazil supplementary enrichment status value
+		 *  
+		 */
+		public String getSupplementaryBRStatus() {
+			return supplementaryBRStatus;
+		}
+
+		/**
+		 * Set the Brazil supplementary enrichment status value.
+		 * 
+		 * @param supplementaryBRStatus
+		 * 			the Brazil supplementary enrichment status value
+		 */
+		public void setSupplementaryBRStatus(String supplementaryBRStatus) {
+			this.supplementaryBRStatus = supplementaryBRStatus;
+		}
+
+		/**
+		 * Switzerland supplementary enrichment status value.
+		 * 
+		 * @return the Switzerland supplementary enrichment status value
+		 * 
+		 */
+		public String getSupplementaryCHStatus() {
+			return supplementaryCHStatus;
+		}
+
+		/**
+		 * Set the Switzerland supplementary enrichment status value.
+		 * 
+		 * @param supplementaryCHStatus
+		 * 			Switzerland supplementary enrichment status value
+		 * 
+		 */
+		public void setSupplementaryCHStatus(String supplementaryCHStatus) {
+			this.supplementaryCHStatus = supplementaryCHStatus;
+		}
+
+		/**
+		 * Germany supplementary enrichment status value.
+		 * 
+		 * @return the Germany supplementary enrichment status value
+		 * 
+		 */
+		public String getSupplementaryDEStatus() {
+			return supplementaryDEStatus;
+		}
+
+		/**
+		 * Set the Germany supplementary enrichment status value.
+		 * 
+		 * @param supplementaryDEStatus
+		 * 			the Germany supplementary enrichment status value
+		 * 
+		 */
+		public void setSupplementaryDEStatus(String supplementaryDEStatus) {
+			this.supplementaryDEStatus = supplementaryDEStatus;
+		}
+
+		/**
+		 * France supplementary enrichment status value.
+		 * 
+		 * @return the supplementary enrichment status value
+		 * 
+		 */
+		public String getSupplementaryFRStatus() {
+			return supplementaryFRStatus;
+		}
+
+		/**
+		 * Set the supplementary enrichment status value.
+		 * 
+		 * @param supplementaryFRStatus
+		 * 			the supplementary enrichment status value
+		 * 
+		 */
+		public void setSupplementaryFRStatus(String supplementaryFRStatus) {
+			this.supplementaryFRStatus = supplementaryFRStatus;
+		}
+
+		/**
+		 * Japan supplementary enrichment status value.
+		 * 
+		 * @return the Japan supplementary enrichment status value
+		 * 
+		 */
+		public String getSupplementaryJPStatus() {
+			return supplementaryJPStatus;
+		}
+
+		/**
+		 * Set the Japan supplementary enrichment status value.
+		 * 
+		 * @param supplementaryJPStatus
+		 * 			the Japan supplementary enrichment status value
+		 * 
+		 */
+		public void setSupplementaryJPStatus(String supplementaryJPStatus) {
+			this.supplementaryJPStatus = supplementaryJPStatus;
+		}
+
+		/**
+		 * Poland supplementary enrichment status value.
+		 * 
+		 * @return the Poland supplementary enrichment status value
+		 * 
+		 */
+		public String getSupplementaryPLStatus() {
+			return supplementaryPLStatus;
+		}
+
+		/**
+		 * Set the Poland supplementary enrichment status value.
+		 * 
+		 * @param supplementaryPLStatus
+		 * 			the Poland supplementary enrichment status value
+		 * 
+		 */
+		public void setSupplementaryPLStatus(String supplementaryPLStatus) {
+			this.supplementaryPLStatus = supplementaryPLStatus;
+		}
+
+		/**
+		 * Serbia supplementary enrichment status value.
+		 * 
+		 * @return the Serbia supplementary enrichment status value
+		 */
+		public String getSupplementaryRSStatus() {
+			return supplementaryRSStatus;
+		}
+
+		/**
+		 * Set the Serbia supplementary enrichment status value.
+		 * 
+		 * @param supplementaryRSStatus
+		 * 			the Serbia supplementary enrichment status value
+		 * 
+		 */
+		public void setSupplementaryRSStatus(String supplementaryRSStatus) {
+			this.supplementaryRSStatus = supplementaryRSStatus;
+		}
+
+		/**
+		 * South Africa supplementary enrichment status value.
+		 * 
+		 * @return the South Africa supplementary enrichment status value
+		 * 
+		 */
+		public String getSupplementaryZAStatus() {
+			return supplementaryZAStatus;
+		}
+
+		/**
+		 * Set the South Africa supplementary enrichment status value.
+		 * 
+		 * @param supplementaryZAStatus
+		 * 			the South Africa supplementary enrichment status value
+		 * 
+		 */
+		public void setSupplementaryZAStatus(String supplementaryZAStatus) {
+			this.supplementaryZAStatus = supplementaryZAStatus;
 		}
 
 		private List<AddressElement> keys = new ArrayList<AddressElement>();
@@ -218,7 +413,15 @@ public class AddressQueryResult {
 		private List<AddressElement> supplementaryGb = new ArrayList<AddressElement>();
 		private List<AddressElement> supplementaryUs = new ArrayList<AddressElement>();
 		private List<AddressElement> geoCoding = new ArrayList<AddressElement>();
-		
+		private List<AddressElement> supplementaryAt = new ArrayList<AddressElement>();
+		private List<AddressElement> supplementaryBr = new ArrayList<AddressElement>();
+		private List<AddressElement> supplementaryCh = new ArrayList<AddressElement>();
+		private List<AddressElement> supplementaryDe = new ArrayList<AddressElement>();
+		private List<AddressElement> supplementaryFr = new ArrayList<AddressElement>();
+		private List<AddressElement> supplementaryJp = new ArrayList<AddressElement>();
+		private List<AddressElement> supplementaryPl = new ArrayList<AddressElement>();
+		private List<AddressElement> supplementaryRs = new ArrayList<AddressElement>();
+		private List<AddressElement> supplementaryZa = new ArrayList<AddressElement>();
 
 		/**
 		 * List of CASS certified address elements. The following data types may be returned.
@@ -431,6 +634,248 @@ public class AddressQueryResult {
 		 */
 		public void setGeoCoding(List<AddressElement> geoCoding) {
 			this.geoCoding = geoCoding;
+		}
+		
+		/**
+		 * Supplementary enrichment data for Austria (if available). The following data types may be returned.
+		 * 
+		 * <d1>
+		 * <dt>POSTAL_ADDRESS_CODE</dt>
+		 * <dd>the POSTAL_ADDRESS_CODE</dd>
+		 * </d1>
+		 * 
+		 * @return return the Supplementary enrichment data for Austria
+		 * 
+		 */
+		public List<AddressElement> getSupplementaryAt() {
+			return supplementaryAt;
+		}
+
+		/**
+		 * Set the supplementary enrichment data for Austria.
+		 * 
+		 * @param supplementaryAt
+		 * 			the supplementary enrichment data for Austria
+		 * 
+		 */
+		public void setSupplementaryAt(List<AddressElement> supplementaryAt) {
+			this.supplementaryAt = supplementaryAt;
+		}
+
+		/**
+		 * Supplementary enrichment data for Brazil (if available). The following data types may be returned.
+		 * 
+		 * <d1>
+		 * <dt>IBGE_CODE</dt>
+		 * <dd>the IBGE_CODE</dd>
+		 * </d1>
+		 * 
+		 * @return the supplementary enrichment data for Brazil
+		 * 
+		 */
+		public List<AddressElement> getSupplementaryBr() {
+			return supplementaryBr;
+		}
+
+		/**
+		 * Set the supplementary enrichment data for Brazil.
+		 * 
+		 * @param supplementaryBr
+		 * 			the supplementary enrichment data for Brazil
+		 * 
+		 */
+		public void setSupplementaryBr(List<AddressElement> supplementaryBr) {
+			this.supplementaryBr = supplementaryBr;
+		}
+
+		/**
+		 * Supplementary enrichment data for Switzerland (if available). The following data types may be returned.
+		 * 
+		 * <d1>
+		 * <dt>POCO_EXT</dt>
+		 * <dd>the POCO_EXT</dd>
+		 * </d1>
+		 * 
+		 * @return the supplementary enrichment data for Switzerland
+		 * 
+		 */
+		public List<AddressElement> getSupplementaryCh() {
+			return supplementaryCh;
+		}
+
+		/**
+		 * Set the supplementary enrichment data for Switzerland.
+		 * 
+		 * @param supplementaryCh
+		 * 			the supplementary enrichment data for Switzerland
+		 * 
+		 */
+		public void setSupplementaryCh(List<AddressElement> supplementaryCh) {
+			this.supplementaryCh = supplementaryCh;
+		}
+
+		/**
+		 * Supplementary enrichment data for Germany (if available). The following data types may be returned.
+		 * 
+		 * <d1>
+		 * <dt>DEU_AGS</dt>
+		 * <dd>The Amtliche Gemeindeschlüssel (AGS) is a variable length code that uniquely identifies a locality in Germany. There may be more than one locality for a given AGS code.</dd>		 
+		 * <dt>DEU_LOCALITY_ID</dt>
+		 * <dd>The Locality ID is a variable length code that uniquely identifies a German locality.</dd>
+		 * <dt>DEU_STREET_ID</dt>
+		 * <dd>The Street ID is a variable length code that uniquely identifies a German street address.</dd>
+		 * </d1>
+		 * 
+		 * @return the supplementary enrichment data for Germany
+		 */
+		public List<AddressElement> getSupplementaryDe() {
+			return supplementaryDe;
+		}
+
+		/**
+		 * Set the supplementary enrichment data for Germany.
+		 * 
+		 * @param supplementaryDe
+		 * 			the supplementary enrichment data for Germany
+		 * 
+		 */
+		public void setSupplementaryDe(List<AddressElement> supplementaryDe) {
+			this.supplementaryDe = supplementaryDe;
+		}
+
+		/**
+		 * Supplementary enrichment data for France (if available). The following data types may be returned.
+		 * 
+		 *<d1>
+		 *<dt>INSEE_CODE</dt>
+		 *<dd>The INSEE code is a numerical indexing code used by the French National Institute for Statistics and Economic Studies (INSEE) to identify various entities including French communes and departments.</dd>
+		 *<d1>
+		 * 
+		 * @return the supplementary enrichment data for France
+		 */
+		public List<AddressElement> getSupplementaryFr() {
+			return supplementaryFr;
+		}
+
+		/**
+		 * Set the supplementary enrichment data for France.
+		 * 
+		 * @param supplementaryFr
+		 * 			the supplementary enrichment data for France
+		 * 
+		 */
+		public void setSupplementaryFr(List<AddressElement> supplementaryFr) {
+			this.supplementaryFr = supplementaryFr;
+		}
+
+		/**
+		 * Supplementary enrichment data for Japan (if available). The following data types may be returned.
+		 * 
+		 * <d1>
+		 * <dt>CHOUMEI_AZA_CODE</dt>
+		 * <dd>the CHOUMEI_AZA_CODE</dd>
+		 * <dt>NEW_CHOUMEI_AZA_CODE</dt>
+		 * <dd>the NEW_CHOUMEI_AZA_CODE</dd>
+		 * </d1>
+		 * 
+		 * @return the Supplementary enrichment data for JP
+		 * 
+		 */
+		public List<AddressElement> getSupplementaryJp() {
+			return supplementaryJp;
+		}
+
+		/**
+		 * Set Supplementary enrichment data for JP.
+		 * 
+		 * @param supplementaryJp
+		 * 			the Supplementary enrichment data for JP
+		 * 
+		 */
+		public void setSupplementaryJp(List<AddressElement> supplementaryJp) {
+			this.supplementaryJp = supplementaryJp;
+		}
+
+		/**
+		 * Supplementary enrichment data for Poland (if available). The following data types may be returned.
+		 * 
+		 * <d1>
+		 * <dt>GMINA_CODE</dt>
+		 * <dd>the GMINA_CODE</dd>
+		 * <dt>LOCALITY_TERYT_ID</dt>
+		 * <dd>the LOCALITY_TERYT_ID</dd>
+		 * <dt>STREET_TERYT_ID</dt>
+		 * <dd>the STREET_TERYT_ID</dd>
+		 * </d1>
+		 * 
+		 * @return the supplementary enrichment data for Poland
+		 * 
+		 */
+		public List<AddressElement> getSupplementaryPl() {
+			return supplementaryPl;
+		}
+
+		/**
+		 * Set the supplementary enrichment data for Poland.
+		 * 
+		 * @param supplementaryPl
+		 * 			the supplementary enrichment data for Poland
+		 * 
+		 */
+		public void setSupplementaryPl(List<AddressElement> supplementaryPl) {
+			this.supplementaryPl = supplementaryPl;
+		}
+
+		/**
+		 * Supplementary enrichment data for Serbia (if available). The following data types may be returned.
+		 * 
+		 * <d1>
+		 * <dt>POSTAL_ADDRESS_CODE</dt>
+		 * <dd>Post Serbia has introduced an additional six-digit Postal Address Code (PAK) which goes down to the street level.</dd>
+		 * </d1>
+		 * 
+		 * @return the supplementary enrichment data for Serbia
+		 * 
+		 */
+		public List<AddressElement> getSupplementaryRs() {
+			return supplementaryRs;
+		}
+
+		/**
+		 * Set the supplementary enrichment data for Serbia.
+		 * 
+		 * @param supplementaryRs
+		 * 			the supplementary enrichment data for Serbia
+		 * 
+		 */
+		public void setSupplementaryRs(List<AddressElement> supplementaryRs) {
+			this.supplementaryRs = supplementaryRs;
+		}
+
+		/**
+		 * Supplementary enrichment data for South Africa (if available). The following data types may be returned.
+		 * 
+		 * <d1>
+		 * <dt>NAD_ID</dt>
+		 * <dd>The NAD ID is a unique numeric ID assigned to each street address.</dd>
+		 * </d1>
+		 * 
+		 * @return the supplementary enrichment data for South Africa
+		 * 
+		 */
+		public List<AddressElement> getSupplementaryZa() {
+			return supplementaryZa;
+		}
+
+		/**
+		 * Set the supplementary enrichment data for South Africa.
+		 * 
+		 * @param supplementaryZa
+		 * 			the supplementary enrichment data for South Africa
+		 * 
+		 */
+		public void setSupplementaryZa(List<AddressElement> supplementaryZa) {
+			this.supplementaryZa = supplementaryZa;
 		}
 
 		/**

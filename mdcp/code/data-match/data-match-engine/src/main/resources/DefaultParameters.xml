@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <!DOCTYPE Parameters >
 <Parameters WriteXMLBOM="NEVER" WriteXMLEncoding="UTF-16">
-  <Process Mode="BATCH" EnrichmentGeoCoding="ON" EnrichmentGeoCodingType="NONE" EnrichmentCASS="ON" EnrichmentSERP="ON" EnrichmentSNA="ON" EnrichmentSupplementaryGB="ON" EnrichmentSupplementaryUS="ON"/>
+  <Process Mode="BATCH" EnrichmentGeoCoding="ON" EnrichmentGeoCodingType="NONE" EnrichmentCASS="ON" EnrichmentSERP="ON" EnrichmentSNA="ON" EnrichmentSupplementaryGB="ON" EnrichmentSupplementaryUS="ON" EnrichmentSupplementaryAT="ON" EnrichmentSupplementaryBR="ON" EnrichmentSupplementaryCH="ON" EnrichmentSupplementaryDE="ON" EnrichmentSupplementaryFR="ON" EnrichmentSupplementaryJP="ON" EnrichmentSupplementaryPL="ON" EnrichmentSupplementaryRS="ON" EnrichmentSupplementaryZA="ON"/>
   <Input Encoding="UTF-16" FormatDelimiter="CRLF" FormatType="ALL" FormatWithCountry="OFF" WriteXMLBOM="NEVER"/>
   <Result MaxResultCount="20" AddressComplete="ON" AddressElements="STANDARD" AddressLines="ON" CountryType="NAME_EN" Encoding="UTF-16" FormatDelimiter="CRLF" FormatMaxLines="19" FormatType="ALL" FormatWithCountry="OFF" PreferredScript="DATABASE" PreferredLanguage="DATABASE" WriteXMLBOM="NEVER"/>
   <AddressElementStandardize>

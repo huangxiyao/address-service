@@ -50,7 +50,16 @@ class AddressQueryResultJsonRepresentation extends StandardResponseJsonRepresent
 			.pair("snaStatus", result.getSnaStatus())
 			.pair("supplementaryGBStatus", result.getSupplementaryGBStatus())
 			.pair("supplementaryUSStatus", result.getSupplementaryUSStatus())
-			.pair("geoCodingStatus", result.getGeoCodingStatus());
+			.pair("geoCodingStatus", result.getGeoCodingStatus())
+			.pair("supplementaryATStatus", result.getSupplementaryATStatus())
+			.pair("supplementaryBRStatus", result.getSupplementaryBRStatus())
+			.pair("supplementaryCHStatus", result.getSupplementaryCHStatus())
+			.pair("supplementaryDEStatus", result.getSupplementaryDEStatus())
+			.pair("supplementaryFRStatus", result.getSupplementaryFRStatus())
+			.pair("supplementaryJPStatus", result.getSupplementaryJPStatus())
+			.pair("supplementaryPLStatus", result.getSupplementaryPLStatus())
+			.pair("supplementaryRSStatus", result.getSupplementaryRSStatus())
+			.pair("supplementaryZAStatus", result.getSupplementaryZAStatus());
 		
 		JsonArrayWriter<?> arrayWriter = objectWriter.name("key").array();
 		for(AddressElement element: result.getKeys()){
@@ -64,6 +73,12 @@ class AddressQueryResultJsonRepresentation extends StandardResponseJsonRepresent
 		}
 		arrayWriter.endArray();
 		
+		arrayWriter = objectWriter.name("supplementaryGB").array();
+		for(AddressElement element: result.getSupplementaryGb()){
+			writeAddressElement(arrayWriter, element);
+		}
+		arrayWriter.endArray();
+		
 		arrayWriter = objectWriter.name("supplementaryUS").array();
 		for(AddressElement element: result.getSupplementaryUs()){
 			writeAddressElement(arrayWriter, element);
@@ -72,6 +87,60 @@ class AddressQueryResultJsonRepresentation extends StandardResponseJsonRepresent
 		
 		arrayWriter = objectWriter.name("geoCoding").array();
 		for(AddressElement element: result.getGeoCoding()){
+			writeAddressElement(arrayWriter, element);
+		}
+		arrayWriter.endArray();
+		
+		arrayWriter = objectWriter.name("supplementaryAT").array();
+		for(AddressElement element: result.getSupplementaryAt()){
+			writeAddressElement(arrayWriter, element);
+		}
+		arrayWriter.endArray();
+		
+		arrayWriter = objectWriter.name("supplementaryBR").array();
+		for(AddressElement element: result.getSupplementaryBr()){
+			writeAddressElement(arrayWriter, element);
+		}
+		arrayWriter.endArray();
+		
+		arrayWriter = objectWriter.name("supplementaryCH").array();
+		for(AddressElement element: result.getSupplementaryCh()){
+			writeAddressElement(arrayWriter, element);
+		}
+		arrayWriter.endArray();
+		
+		arrayWriter = objectWriter.name("supplementaryDE").array();
+		for(AddressElement element: result.getSupplementaryDe()){
+			writeAddressElement(arrayWriter, element);
+		}
+		arrayWriter.endArray();
+		
+		arrayWriter = objectWriter.name("supplementaryFR").array();
+		for(AddressElement element: result.getSupplementaryFr()){
+			writeAddressElement(arrayWriter, element);
+		}
+		arrayWriter.endArray();
+		
+		arrayWriter = objectWriter.name("supplementaryJP").array();
+		for(AddressElement element: result.getSupplementaryJp()){
+			writeAddressElement(arrayWriter, element);
+		}
+		arrayWriter.endArray();
+		
+		arrayWriter = objectWriter.name("supplementaryPL").array();
+		for(AddressElement element: result.getSupplementaryPl()){
+			writeAddressElement(arrayWriter, element);
+		}
+		arrayWriter.endArray();
+		
+		arrayWriter = objectWriter.name("supplementaryRS").array();
+		for(AddressElement element: result.getSupplementaryRs()){
+			writeAddressElement(arrayWriter, element);
+		}
+		arrayWriter.endArray();
+		
+		arrayWriter = objectWriter.name("supplementaryZA").array();
+		for(AddressElement element: result.getSupplementaryZa()){
 			writeAddressElement(arrayWriter, element);
 		}
 		arrayWriter.endArray();

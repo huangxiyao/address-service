@@ -5,11 +5,11 @@
 	<parent>
 		<artifactId>data-match</artifactId>
 		<groupId>com.hp.it.120482</groupId>
-		<version>2014.06-SNAPSHOT</version>
+		<version>2014.08-SNAPSHOT</version>
 	</parent>
 
 	<artifactId>data-match-web</artifactId>
-  <version>2014.06-SNAPSHOT</version>
+  <version>2014.08-SNAPSHOT</version>
 
 	<packaging>war</packaging>
 
@@ -85,7 +85,7 @@
 			<artifactId>addressdoctor</artifactId>
 		</dependency>
 
-		<dependency>
+<!-- 		<dependency>
 			<groupId>com.hp.it.118361</groupId>
 			<artifactId>security-impl</artifactId>
 		</dependency>
@@ -93,7 +93,7 @@
 		<dependency>
 			<groupId>com.oracle</groupId>
 			<artifactId>ojdbc5</artifactId>
-		</dependency>
+		</dependency> -->
 
 	</dependencies>
 

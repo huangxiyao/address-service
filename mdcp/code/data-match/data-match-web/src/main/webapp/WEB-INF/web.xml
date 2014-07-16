@@ -4,13 +4,13 @@
 	xmlns="http://java.sun.com/xml/ns/javaee" xmlns:web="http://java.sun.com/xml/ns/javaee/web-app_2_5.xsd"
 	xsi:schemaLocation="http://java.sun.com/xml/ns/javaee http://java.sun.com/xml/ns/javaee/web-app_2_5.xsd"
 	id="data-matching" version="2.5">
-
+<!-- 
 	<resource-ref>
 		<description>Container-managed JNDI data source. (see src/main/webapp/META-INF/context.xml)</description>
 		<res-ref-name>jdbc/SecurityDatasource</res-ref-name>
 		<res-type>javax.sql.DataSource</res-type>
 	</resource-ref>
-
+ -->
 	<context-param>
 		<param-name>log4jConfigLocation</param-name>
 		<param-value>classpath:log4j.xml</param-value>
@@ -26,7 +26,7 @@
 	<listener>
 		<listener-class>com.sun.xml.ws.transport.http.servlet.WSServletContextListener</listener-class>
 	</listener>
-
+<!-- 
 	<filter>
 		<filter-name>WebResourceSecurityFilter</filter-name>
 		<filter-class>com.hp.it.cas.security.web.WebResourceSecurityFilter</filter-class>
@@ -52,7 +52,18 @@
 		<filter-name>WebResourceSecurityFilter</filter-name>
 		<url-pattern>/match/*</url-pattern>
 	</filter-mapping>
+ -->
+ 	
+ 	<filter>
+		<filter-name>WebResourceFilter</filter-name>
+		<filter-class>com.hp.it.cas.match.address.web.WebResourceFilter</filter-class>
+	</filter>
 
+	<filter-mapping>
+		<filter-name>WebResourceFilter</filter-name>
+		<url-pattern>/match/*</url-pattern>
+	</filter-mapping>
+ 	
 	<servlet>
 		<description>JAX-WS endpoint - fromjava</description>
 		<display-name>CASServiceSoapImplService</display-name>

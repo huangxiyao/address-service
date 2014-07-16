@@ -518,7 +518,7 @@ public abstract class AbstractAddressFinder {
 			}
 			
 			token = "SupplementaryUS";			
-			if(addressObject.getResultEnrichmentElementExists(resultIndex + 1, token)){
+			if (addressObject.getResultEnrichmentElementExists(resultIndex + 1, token)) {
 				addAddressElement(addressObject.getResultEnrichmentElement(resultIndex + 1 , token, "COUNTY_FIPS_CODE"),"COUNTY_FIPS_CODE", addressData.getSupplementaryUs());
 				addAddressElement(addressObject.getResultEnrichmentElement(resultIndex + 1 , token, "STATE_FIPS_CODE"),"STATE_FIPS_CODE", addressData.getSupplementaryUs());
 				addAddressElement(addressObject.getResultEnrichmentElement(resultIndex + 1 , token, "MSA_ID"),"MSA_ID", addressData.getSupplementaryUs());
@@ -626,21 +626,23 @@ public abstract class AbstractAddressFinder {
 	
 	protected AddressQueryResult withLogging(AddressQuery query, String xmlConfiguration, InvokedMethod method){
 		AddressQueryResult result = null;
-		try{
-			if(SecurityContextHolder.isSecurityContextSet()){
-				@SuppressWarnings("rawtypes")
-				SecurityContext context = SecurityContextHolder.get();
-				if(context instanceof RichSecurityContext){
-					RichSecurityContext richSecurityContext = (RichSecurityContext)context;
-					ApplicationProcessAccess applicationProcessAccess = richSecurityContext.getCallerApplicationProcess();
-					applicationProcessAccess.getApplicationProcessUid();
-					MDC.put("ap-uid", applicationProcessAccess.getApplicationProcessUid());
-					result = withTiming(query, xmlConfiguration, method);
-				}
-			}
-		} finally{
-			MDC.remove("ap-uid");
-		}
+//		try{
+//			if(SecurityContextHolder.isSecurityContextSet()){
+//				@SuppressWarnings("rawtypes")
+//				SecurityContext context = SecurityContextHolder.get();
+//				if(context instanceof RichSecurityContext){
+//					RichSecurityContext richSecurityContext = (RichSecurityContext)context;
+//					ApplicationProcessAccess applicationProcessAccess = richSecurityContext.getCallerApplicationProcess();
+//					applicationProcessAccess.getApplicationProcessUid();
+//					MDC.put("ap-uid", applicationProcessAccess.getApplicationProcessUid());
+//					result = withTiming(query, xmlConfiguration, method);
+//				}
+//			}
+
+			result = withTiming(query, xmlConfiguration, method);
+//		} finally{
+//			MDC.remove("ap-uid");
+//		}
 		
 		return result;
 	}

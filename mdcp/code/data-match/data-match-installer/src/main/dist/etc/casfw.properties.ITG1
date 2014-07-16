@@ -15,7 +15,7 @@ ad_preloading_type=FULL
 jmx_port=1099
 jmx_user=casfw
 jmx_password=casmanage
-application_db_url=jdbc:oracle:thin:@(DESCRIPTION=(SDU=32768)(enable=broken)(LOAD_BALANCE=yes)(ADDRESS=(PROTOCOL=TCP)(HOST=gcu21262.austin.hp.com)(PORT=1526))(CONNECT_DATA=(SERVICE_NAME=MDCPI)))
-application_db_user=mdcp_cas_service
-application_db_pwd=mdcp_cas_service_1011
+# application_db_url=jdbc:oracle:thin:@(DESCRIPTION=(SDU=32768)(enable=broken)(LOAD_BALANCE=yes)(ADDRESS=(PROTOCOL=TCP)(HOST=gcu21262.austin.hp.com)(PORT=1526))(CONNECT_DATA=(SERVICE_NAME=MDCPI)))
+# application_db_user=mdcp_cas_service
+# application_db_pwd=mdcp_cas_service_1011
 ad_instance_name=data-match1

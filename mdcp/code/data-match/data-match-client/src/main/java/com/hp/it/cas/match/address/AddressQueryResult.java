@@ -719,7 +719,7 @@ public class AddressQueryResult {
 		 * 
 		 * <d1>
 		 * <dt>DEU_AGS</dt>
-		 * <dd>The Amtliche Gemeindeschlüssel (AGS) is a variable length code that uniquely identifies a locality in Germany. There may be more than one locality for a given AGS code.</dd>		 
+		 * <dd>The AGS is a variable length code that uniquely identifies a locality in Germany. There may be more than one locality for a given AGS code.</dd>		 
 		 * <dt>DEU_LOCALITY_ID</dt>
 		 * <dd>The Locality ID is a variable length code that uniquely identifies a German locality.</dd>
 		 * <dt>DEU_STREET_ID</dt>

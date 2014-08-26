@@ -4,11 +4,11 @@
 	<parent>
 		<artifactId>data-match</artifactId>
 		<groupId>com.hp.it.120482</groupId>
-		<version>2014.08-SNAPSHOT</version>
+		<version>2014.08.02</version>
 	</parent>
 	
 	<artifactId>data-match-access</artifactId>
-  <version>2014.08-SNAPSHOT</version>
+  <version>2014.08.02</version>
 	
 	<name>Data match access code</name>
 	<description>AddressDoctor code for the client is found here</description>

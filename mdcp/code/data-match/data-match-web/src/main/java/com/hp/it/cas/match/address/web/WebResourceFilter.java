@@ -59,8 +59,7 @@ public class WebResourceFilter implements Filter {
 	}
 	
 	private boolean webResourceIsAvailableWithoutApplicationProcessUid(String requestUri) {
-		String uriPatternRegEx = ".*/documentation";
-		return requestUri.matches(uriPatternRegEx);	
+		return (requestUri.contains("/documentation") || requestUri.contains("/match/about/health"));
 	}
 
 	private void checkApplicationProcessUid(String applicationProcessUid) throws Exception {

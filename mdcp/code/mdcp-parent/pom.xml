@@ -16,9 +16,9 @@
 	</organization>
 
 	<scm>
-		<connection>scm:svn:http://code1.corp.hp.com/svn/120482/trunk/mdcp/code/mdcp-parent</connection>
-		<developerConnection>scm:svn:https://code1.corp.hp.com/svn/120482/trunk/mdcp/code/mdcp-parent</developerConnection>
-		<url>http://code1.corp.hp.com/svn/120482/trunk/mdcp/code/mdcp-parent</url>
+		<connection>scm:git:https://cgit-pro.houston.hp.com/gerrit/p/address-service.git</connection>
+		<developerConnection>scm:git:https://cgit-pro.houston.hp.com/gerrit/p/address-service.git</developerConnection>
+		<url>https://cgit-pro.houston.hp.com/gerrit/p/address-service.git</url>
 	</scm>
 
 	<ciManagement>
@@ -93,9 +93,9 @@
 	<properties>
 		<project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
 
-		<mdcp.codeReadUrl>scm:svn:http://code1.corp.hp.com/svn/120482/trunk/mdcp/code</mdcp.codeReadUrl>
-		<mdcp.codeWriteUrl>scm:svn:https://code1.corp.hp.com/svn/120482/trunk/mdcp/code</mdcp.codeWriteUrl>
-		<mdcp.codeViewUrl>http://code1.corp.hp.com/svn/120482/trunk/mdcp/code</mdcp.codeViewUrl>
+		<mdcp.codeReadUrl>scm:git:https://cgit-pro.houston.hp.com/gerrit/p/address-service.git</mdcp.codeReadUrl>
+		<mdcp.codeWriteUrl>scm:git:https://cgit-pro.houston.hp.com/gerrit/p/address-service.git</mdcp.codeWriteUrl>
+		<mdcp.codeViewUrl>https://cgit-pro.houston.hp.com/gerrit/p/address-service.git</mdcp.codeViewUrl>
 
 		<distributeSnapshotUrl>http://repo1.corp.hp.com/nexus/content/repositories/snapshots</distributeSnapshotUrl>
 		<distributeReleaseUrl>http://repo1.corp.hp.com/nexus/content/repositories/releases</distributeReleaseUrl>

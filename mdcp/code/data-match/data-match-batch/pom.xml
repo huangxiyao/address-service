@@ -4,11 +4,11 @@
 	<parent>
 		<artifactId>data-match</artifactId>
 		<groupId>com.hp.it.120482</groupId>
-		<version>2014.08-SNAPSHOT</version>
+		<version>2014.11-M1</version>
 	</parent>
 
 	<artifactId>data-match-batch</artifactId>
-	<version>2014.08-SNAPSHOT</version>
+	<version>2014.11-M1</version>
 	<name>Data match batch code</name>
 	<packaging>bar</packaging>
 	<description>batch job code for the data match project is found here</description>
@@ -17,7 +17,8 @@
 		<connection>scm:svn:http://code1.corp.hp.com:1181/svn/120482/trunk/mdcp/code/data-match/data-match-batch</connection>
 		<developerConnection>scm:svn:https://code1.corp.hp.com:1181/svn/120482/trunk/mdcp/code/data-match/data-match-batch</developerConnection>
 		<url>http://code1.corp.hp.com:1181/svn/120482/trunk/mdcp/code/data-match/data-match-batch</url>
-	</scm>
+	  <tag>data-match-2014.11-M1</tag>
+  </scm>
 
 	<dependencies>
 		<dependency>

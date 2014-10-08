@@ -3,7 +3,7 @@
 	<parent>
 		<artifactId>data-match</artifactId>
 		<groupId>com.hp.it.120482</groupId>
-		<version>2014.08.02</version>
+		<version>2014.11-M2</version>
 	</parent>
 
 	<artifactId>data-match-installer</artifactId>

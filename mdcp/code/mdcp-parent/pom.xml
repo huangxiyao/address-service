@@ -4,7 +4,7 @@
 
 	<groupId>com.hp.it.120482</groupId>
 	<artifactId>mdcp-parent</artifactId>
-	<version>2014.11-SNAPSHOT</version>
+	<version>2014.11-M2</version>
 	<packaging>pom</packaging>
 
 	<name>MDCP top-level POM</name>
@@ -19,7 +19,7 @@
 		<connection>scm:git:https://cgit-pro.houston.hp.com/gerrit/p/address-service.git</connection>
 		<developerConnection>scm:git:https://cgit-pro.houston.hp.com/gerrit/p/address-service.git</developerConnection>
 		<url>https://cgit-pro.houston.hp.com/gerrit/p/address-service.git</url>
-	  <tag>HEAD</tag>
+	  <tag>mdcp-parent-2014.11-M2</tag>
   </scm>
 
 	<ciManagement>

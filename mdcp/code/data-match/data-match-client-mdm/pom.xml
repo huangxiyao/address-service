@@ -28,7 +28,7 @@
 		<dependency>
 			<groupId>com.hp.it.120482</groupId>
 			<artifactId>data-match-client</artifactId>
-			<version>${project.version}</version>
+			<version>2014.11-M2</version>
 		</dependency>
 
 		<dependency>

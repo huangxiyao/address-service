@@ -10,9 +10,9 @@
 	<description>All configuration and scripts for the MDCP proxy servers.</description>
 
 	<scm>
-		<connection>scm:svn:http://code1.corp.hp.com/svn/120482/proxy-bundle-installer/source/trunk</connection>
-		<developerConnection>scm:svn:https://code1.corp.hp.com/svn/120482/proxy-bundle-installer/source/trunk</developerConnection>
-		<url>http://code1.corp.hp.com/svn/120482/proxy-bundle-installer/source/trunk</url>
+		<connection>scm:git:https://cgit-pro.houston.hp.com/gerrit/p/address-service.git</connection>
+		<developerConnection>scm:git:https://cgit-pro.houston.hp.com/gerrit/p/address-service.git</developerConnection>
+		<url>https://cgit-pro.houston.hp.com/gerrit/gitweb?p=address-service.git;a=summary</url>
 	</scm>
 
 	<ciManagement>

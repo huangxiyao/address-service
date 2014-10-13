@@ -1,0 +1,44 @@
+<IfModule !mod_cgi.c>
+  LoadModule cgi_module modules/mod_cgi.so
+</IfModule>
+
+<IfModule !mod_rewrite.c>
+  LoadModule rewrite_module modules/mod_rewrite.so
+</IfModule>
+
+Alias /auth/ "@@casfw_home@@/software/www/auth/"
+
+<Directory @@casfw_home@@/software/www/auth>
+  Options FollowSymLinks
+  DirectoryIndex index.html
+
+  AddHandler cgi-script cgi pl
+  Options +ExecCGI
+
+  AllowOverride All
+  Allow from all
+  Order allow,deny
+</Directory>
+
+RewriteEngine On
+RewriteRule ^/unauthorized/?.* @@casfw_home@@/software/www/auth/noauth.pl [NC,L]
+
+RewriteCond %{REQUEST_METHOD} OPTIONS
+RewriteRule (.*) / [R=200,L]
+
+Header always set Access-Control-Allow-Origin *
+Header always append Access-Control-Allow-Methods GET
+Header always append Access-Control-Allow-Methods OPTIONS
+Header always append Access-Control-Allow-Headers ORIGIN
+Header always append Access-Control-Allow-Headers CONTENT-TYPE
+Header always append Access-Control-Allow-Headers ACCEPT
+Header always append Access-Control-Allow-Headers X-HP-Application-Process-UID
+Header always append Access-Control-Allow-Headers uid
+Header always append Access-Control-Allow-Headers SFDC_USER
+
+Header always append Allow GET
+Header always append Allow HEAD
+Header always append Allow POST
+Header always append Allow PUT
+Header always append Allow DELETE
+Header always append Allow OPTIONS

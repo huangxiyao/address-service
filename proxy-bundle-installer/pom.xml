@@ -1,0 +1,120 @@
+<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/maven-v4_0_0.xsd">
+	<modelVersion>4.0.0</modelVersion>
+
+	<groupId>com.hp.it.120482</groupId>
+	<artifactId>proxy-bundle-installer</artifactId>
+	<version>2014.11-SNAPSHOT</version>
+
+	<packaging>cdi</packaging>
+	<name>MDCP Proxy Bundle</name>
+	<description>All configuration and scripts for the MDCP proxy servers.</description>
+
+	<scm>
+		<connection>scm:svn:http://code1.corp.hp.com/svn/120482/proxy-bundle-installer/source/trunk</connection>
+		<developerConnection>scm:svn:https://code1.corp.hp.com/svn/120482/proxy-bundle-installer/source/trunk</developerConnection>
+		<url>http://code1.corp.hp.com/svn/120482/proxy-bundle-installer/source/trunk</url>
+	</scm>
+
+	<ciManagement>
+		<system>Hudson</system>
+		<url>https://build2.corp.hp.com/hudson</url>
+	</ciManagement>
+
+	<distributionManagement>
+		<repository>
+			<id>releases</id>
+			<name>Internal Releases</name>
+			<url>http://repo1.corp.hp.com/nexus/content/repositories/releases</url>
+		</repository>
+		<snapshotRepository>
+			<id>snapshots</id>
+			<name>Internal Snapshots</name>
+			<url>http://repo1.corp.hp.com/nexus/content/repositories/snapshots</url>
+		</snapshotRepository>
+	</distributionManagement>
+
+	<repositories>
+		<repository>
+			<id>central</id>
+			<name>HP Central</name>
+			<url>http://repo1.corp.hp.com/nexus/content/groups/public</url>
+			<releases>
+				<updatePolicy>always</updatePolicy>
+				<checksumPolicy>warn</checksumPolicy>
+			</releases>
+			<snapshots>
+				<updatePolicy>never</updatePolicy>
+				<checksumPolicy>fail</checksumPolicy>
+			</snapshots>
+		</repository>
+	</repositories>
+
+	<pluginRepositories>
+		<pluginRepository>
+			<id>central</id>
+			<name>Public</name>
+			<url>http://repo1.corp.hp.com/nexus/content/groups/public</url>
+			<releases>
+				<updatePolicy>never</updatePolicy>
+				<checksumPolicy>warn</checksumPolicy>
+			</releases>
+			<snapshots>
+				<updatePolicy>interval:15</updatePolicy>
+				<checksumPolicy>fail</checksumPolicy>
+			</snapshots>
+		</pluginRepository>
+	</pluginRepositories>
+
+	<properties>
+		<project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
+		<scmRevision>UNDEFINED</scmRevision>
+		<casVersion>2013.05</casVersion>
+	</properties>
+
+	<build>
+		<!--  Stores Eclipse m2e settings only -->
+		<!--  TODO: remove when m2e 1.1 Eclipse plugin is available -->
+		<pluginManagement>
+			<plugins>
+				<plugin>
+					<groupId>org.eclipse.m2e</groupId>
+					<artifactId>lifecycle-mapping</artifactId>
+					<version>1.0.0</version>
+					<configuration>
+						<lifecycleMappingMetadata>
+							<pluginExecutions>
+								<pluginExecution>
+									<pluginExecutionFilter>
+										<groupId>com.hp.it.118361</groupId>
+										<artifactId>install-assembler-maven-plugin</artifactId>
+										<versionRange>[${casVersion},)</versionRange>
+										<goals>
+											<goal>prepareContent</goal>
+										</goals>
+									</pluginExecutionFilter>
+									<action>
+										<execute>
+											<runOnIncremental>true</runOnIncremental>
+										</execute>
+									</action>
+								</pluginExecution>
+							</pluginExecutions>
+						</lifecycleMappingMetadata>
+					</configuration>
+				</plugin>
+			</plugins>
+		</pluginManagement>
+		<plugins>
+			<plugin>
+				<groupId>com.hp.it.118361</groupId>
+				<artifactId>install-assembler-maven-plugin</artifactId>
+				<version>${casVersion}</version>
+				<extensions>true</extensions>
+				<configuration>
+					<installDirectoryName>proxy-bundle-${project.version}</installDirectoryName>
+					<scmRevision>${scmRevision}</scmRevision>
+				</configuration>
+			</plugin>
+		</plugins>
+	</build>
+</project>

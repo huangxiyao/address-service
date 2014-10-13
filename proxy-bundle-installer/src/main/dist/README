@@ -1,0 +1,29 @@
+Proxy Bundle Installer
+----------------------
+The proxy bundle installer contains all the configuration and scripts necessary to
+configure the MDCP proxy tier.  This installer takes 2 parameters:
+
+-d which sets the directory to extract the files into
+-e which sets the environment specific configuration
+
+The default configuration is currently set to the development-diet configuration.  If the 
+individual running the installer doesn't pass the -e argument, then it will use the
+DEV-DIET configuration.
+
+Based on the environment configuration, the installer will symbolically link the correct
+directory.
+
+The following Apache configuration files must be updated in order for this bundle
+configuration to be taken into account:
+
+1) /opt/webhost/local/WHA-General-Inst/apache/conf/httpd.conf
+
+If not present yet append the following line to the file above:
+
+Include /opt/casfw/proxy-bundle/etc/conf.d/httpd-*.conf
+
+2) /opt/webhost/local/WHA-General-Inst/apache/conf/ssl.conf
+
+If not present yet append the following line to the file above:
+
+Include /opt/casfw/proxy-bundle/etc/conf.d/ssl-*.conf

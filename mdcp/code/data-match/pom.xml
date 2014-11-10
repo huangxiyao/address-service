@@ -9,7 +9,7 @@
 
 
 	<artifactId>data-match</artifactId>
-	<version>2014.11-SNAPSHOT</version>
+	<version>2015.01-SNAPSHOT</version>
 	<packaging>pom</packaging>
 	<name>Data matching tools</name>
 	<description>Data matching tools</description>
@@ -24,7 +24,7 @@
 	<properties>
 		<junitVersion>4.5</junitVersion>
 		<springVersion>2.5.6</springVersion>
-		<addressDoctorVersion>5.5.0</addressDoctorVersion>
+		<addressDoctorVersion>5.6.0</addressDoctorVersion>
 		<javaVersion>1.6</javaVersion>
 		<hamcrestVersion>1.1</hamcrestVersion>
 		<jmockVersion>2.5.1</jmockVersion>

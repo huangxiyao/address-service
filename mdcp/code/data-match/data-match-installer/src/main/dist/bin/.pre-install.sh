@@ -31,7 +31,7 @@ echo "Setting permissions"
 # - user to read+write+browse (i.e. execute for directories, and if execute for files was already there we are fine), 
 # - group to read+browse, 
 # - others to do nothing
-chmod -R u+rwX,g=rX,o= ${CASFW_HOME}
+chmod -R u+rwX,g=rX,o=rX ${CASFW_HOME}
 
 # And now we explicitely set 'execute' permissions for files we know we need
 chmod ug+x ${CASFW_HOME}/bin/*.sh

@@ -4,11 +4,11 @@
 	<parent>
 		<artifactId>data-match</artifactId>
 		<groupId>com.hp.it.120482</groupId>
-		<version>2015.01-M1</version>
+		<version>2015.01-SNAPSHOT</version>
 	</parent>
 
 	<artifactId>data-match-batch</artifactId>
-	<version>2015.01-M1</version>
+	<version>2015.01-SNAPSHOT</version>
 	<name>Data match batch code</name>
 	<packaging>bar</packaging>
 	<description>batch job code for the data match project is found here</description>
@@ -17,7 +17,7 @@
 		<connection>scm:git:https://cgit-pro.houston.hp.com/gerrit/p/address-service.git</connection>
 		<developerConnection>scm:git:https://cgit-pro.houston.hp.com/gerrit/p/address-service.git</developerConnection>
 		<url>https://cgit-pro.houston.hp.com/gerrit/gitweb?p=address-service.git;a=summary</url>
-	  <tag>data-match-2015.01-M1</tag>
+	  <tag>HEAD</tag>
   </scm>
 
 	<dependencies>

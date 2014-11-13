@@ -4,6 +4,8 @@
 # the directory hierarchy to get to CASFW root directory
 CASFW_HOME="$(cd "$(dirname "$0")/.." && pwd)"
 
+umask u=rwx,g=rx,o=rx
+
 source ${CASFW_HOME}/bin/.casfwrc
 AD_HOME="$(cd $(ls -d ${CASFW_HOME}/software/address-engine-* | tail -n1) && pwd)"
 default_catalina_opts="-Djava.awt.headless=true -Dcas.config.dir=${CASFW_HOME}/etc/address-engine -Djava.library.path=${AD_HOME}/lib64"

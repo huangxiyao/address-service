@@ -7,15 +7,9 @@
   <UnlockCode>2AX90UWTV8FJF2KHLXWMY8F2D8WL5HFMK7MC</UnlockCode>
   <UnlockCode>VNT4FPWCKX0TS0S7SP2MPMS6LEJ7EWA12K5C</UnlockCode>
   <UnlockCode>FADVQAE15PPFCRVFZXCVAE37USANPNZDYQ0A</UnlockCode>
-  <!--  <DataBase CountryISO3="ALL" Path="C:/Developer/AddressDoctorDB/" PreloadingType="NONE" Type="CERTIFIED"></DataBase>
+  <DataBase CountryISO3="ALL" Path="C:/Developer/AddressDoctorDB/" PreloadingType="NONE" Type="CERTIFIED"></DataBase>
   <DataBase CountryISO3="ALL" Path="C:/Developer/AddressDoctorDB/" PreloadingType="NONE" Type="SUPPLEMENTARY"></DataBase>
   <DataBase CountryISO3="ALL" Path="C:/Developer/AddressDoctorDB/" PreloadingType="NONE" Type="GEOCODING"></DataBase>
   <DataBase CountryISO3="ALL" Path="C:/Developer/AddressDoctorDB/" PreloadingType="NONE" Type="BATCH_INTERACTIVE"></DataBase>
   <DataBase CountryISO3="ALL" Path="C:/Developer/AddressDoctorDB/" PreloadingType="NONE" Type="FASTCOMPLETION"></DataBase>
-  -->
-  <DataBase CountryISO3="ALL" Path="C:/addressdoctor/DB/2014.10/" PreloadingType="NONE" Type="CERTIFIED"></DataBase>
-  <DataBase CountryISO3="ALL" Path="C:/addressdoctor/DB/2014.10/" PreloadingType="NONE" Type="SUPPLEMENTARY"></DataBase>
-  <DataBase CountryISO3="ALL" Path="C:/addressdoctor/DB/2014.10/" PreloadingType="NONE" Type="GEOCODING"></DataBase>
-  <DataBase CountryISO3="ALL" Path="C:/addressdoctor/DB/2014.10/" PreloadingType="NONE" Type="BATCH_INTERACTIVE"></DataBase>
-  <DataBase CountryISO3="ALL" Path="C:/addressdoctor/DB/2014.10/" PreloadingType="NONE" Type="FASTCOMPLETION"></DataBase>
 </SetConfig>

@@ -5,11 +5,11 @@
 	<parent>
 		<artifactId>data-match</artifactId>
 		<groupId>com.hp.it.120482</groupId>
-		<version>2015.01-SNAPSHOT</version>
+		<version>2015.02</version>
 	</parent>
 
 	<artifactId>data-match-web</artifactId>
-  <version>2015.01-SNAPSHOT</version>
+  <version>2015.02</version>
 
 	<packaging>war</packaging>
 

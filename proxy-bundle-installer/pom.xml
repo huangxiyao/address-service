@@ -70,7 +70,18 @@
 		<project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
 		<scmRevision>UNDEFINED</scmRevision>
 		<casVersion>2013.05</casVersion>
-	</properties>
+		 <!-- plugins -->
+		<vnPluginVersion>2.6.1</vnPluginVersion>
+		<findBugsPluginVersion>3.0.0</findBugsPluginVersion>
+		<compilerPluginVersion>3.2</compilerPluginVersion>
+		<javadocPluginVersion>2.10.1</javadocPluginVersion>
+		<buildHelperPluginVersion>1.9.1</buildHelperPluginVersion>
+		<jacocoPluginVersion>0.7.2.201409121644</jacocoPluginVersion>
+		<checkstylePluginVersion>2.13</checkstylePluginVersion>
+		<surefirePluginVersion>2.18.1</surefirePluginVersion>
+		<failsafePluginVersion>2.18.1</failsafePluginVersion>
+		<jxrPluginVersion>2.5</jxrPluginVersion>
+		</properties>
 
 	<build>
 		<!--  Stores Eclipse m2e settings only -->
@@ -139,7 +150,7 @@
 						</execution>
 					</executions>
 				</plugin>
-				<!-- Begin: Code quality -->
+
 				<plugin>
 					<groupId>org.apache.maven.plugins</groupId>
 					<artifactId>maven-checkstyle-plugin</artifactId>
@@ -220,7 +231,7 @@
 					<version>${jacocoPluginVersion}</version>
 					<configuration>
 						<excludes>
-							<exclude>**/*.class</exclude>    <!-- ignore generated classes -->
+							<exclude>**/data/*.class</exclude>    <!-- ignore generated classes -->
 						</excludes>
 					</configuration>
 					<executions>

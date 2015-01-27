@@ -36,9 +36,10 @@
 		<validationApiVersion>1.0.0.GA</validationApiVersion>
 		<aspectJVersion>1.6.7</aspectJVersion>
 		<oracleJdbcVersion>11.2.0.1.0</oracleJdbcVersion>
-		<!-- Code an plugins -->
+		<!-- Code analysis plugins -->
 		<checkstylePluginVersion>2.13</checkstylePluginVersion>
 		<checkstyleVersion>6.2</checkstyleVersion>
+		<jxrPluginVersion>2.5</jxrPluginVersion>
 	</properties>
 
 	<modules>
@@ -209,6 +210,20 @@
 				</executions>
 			</plugin>
 			
+			<plugin>
+			    <groupId>org.apache.maven.plugins</groupId>
+			    <artifactId>maven-jxr-plugin</artifactId>
+			    <version>${jxrPluginVersion}</version>
+			    <executions>
+			        <execution>
+			            <phase>compile</phase>
+			            <goals>
+			                <goal>jxr</goal>
+			            </goals>
+			        </execution>
+			    </executions>
+			</plugin>
+
 			<plugin>
 				<groupId>org.apache.maven.plugins</groupId>
 				<artifactId>maven-checkstyle-plugin</artifactId>

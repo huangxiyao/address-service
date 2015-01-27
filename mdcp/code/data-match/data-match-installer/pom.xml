@@ -3,11 +3,11 @@
 	<parent>
 		<artifactId>data-match</artifactId>
 		<groupId>com.hp.it.120482</groupId>
-		<version>2015.02</version>
+		<version>2015.02.01</version>
 	</parent>
 
 	<artifactId>data-match-installer</artifactId>
-	<version>2015.02-SNAPSHOT</version>
+	<version>2015.02.01-SNAPSHOT</version>
 
 	<packaging>cdi</packaging>
 

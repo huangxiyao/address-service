@@ -1,0 +1,14 @@
+---
+# This playbook deploys an CAS Address Doctor Proxy Bundle
+- hosts: proxy-itg-g2
+  gather_facts: no
+  serial: 1
+  su: yes
+  su_user: casfw
+  vars:
+    proxy_bundle_release_version: 2014.11-M1
+    release_env: ITG-G2
+    casfw_home: /opt/casfw
+  roles:
+  - common
+  - proxybundle

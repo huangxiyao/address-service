@@ -1,0 +1,32 @@
+---
+########## Copy Template files #################
+
+  - name: Download the argument's template files -> /opt/casfw
+    template: src=ansible-functions.sh dest={{ casfw_home }} mode=0755 owner=casfw force
+    tags:
+      - copybashscript
+
+########## Download Proxy Bundle #################
+
+  - name: Download proxy-bundle installation CDI
+    action: command wget -Nnv http://repo1.corp.hp.com/nexus/content/groups/public/com/hp/it/120482/proxy-bundle-installer/{{ proxy_bundle_release_version }}/proxy-bundle-installer-{{ proxy_bundle_release_version }}.cdi -P {{casfw_home}}
+    tags:
+      - downloadproxybundlecdi
+
+########## Deploy Proxy Bundle #################
+  - name: Deploy proxy-bundle CDI
+    action: command bash {{ casfw_home }}/ansible-functions.sh installProxyBundleCdi
+    tags: 
+      - deployproxybundlecdi
+
+########## Create Proxy Bundle Symbol Link #################
+  - name: Create proxy-bundle Symbol Link
+    action: command bash {{ casfw_home }}/ansible-functions.sh createProxyBundleLink
+    tags: 
+      - createproxybundlelink
+
+########## Restart apache instance #################
+  - name: Restart Apache Instance
+    action: command /opt/webhost/whaeng/bin/restart_apache {{ apache_instance }}
+    tags:
+      - restartapacheinstance

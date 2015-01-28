@@ -97,11 +97,7 @@
 			<type>jar</type>
 			<scope>compile</scope>
 		</dependency>
-		
-		<dependency>
-			<groupId>com.hp.it.118361</groupId>
-			<artifactId>foundation</artifactId>
-		</dependency>
+
 	</dependencies>
 	
 	<build>
@@ -123,6 +119,16 @@
 				<configuration>
 					<encoding>UTF-8</encoding>
 				</configuration>
+			</plugin>
+			
+			<plugin>
+			    <groupId>org.apache.maven.plugins</groupId>
+			    <artifactId>maven-jxr-plugin</artifactId>
+			</plugin>
+
+			<plugin>
+			    <groupId>org.apache.maven.plugins</groupId>
+			    <artifactId>maven-checkstyle-plugin</artifactId>
 			</plugin>
 		</plugins>
 	</build>

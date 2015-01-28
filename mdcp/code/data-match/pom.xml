@@ -36,6 +36,10 @@
 		<validationApiVersion>1.0.0.GA</validationApiVersion>
 		<aspectJVersion>1.6.7</aspectJVersion>
 		<oracleJdbcVersion>11.2.0.1.0</oracleJdbcVersion>
+		<!-- Code analysis plugins -->
+		<checkstylePluginVersion>2.13</checkstylePluginVersion>
+		<checkstyleVersion>6.2</checkstyleVersion>
+		<jxrPluginVersion>2.5</jxrPluginVersion>
 	</properties>
 
 	<modules>
@@ -139,12 +143,6 @@
 				<scope>runtime</scope>
 			</dependency>
 
-			<dependency>
-				<groupId>com.hp.it.118361</groupId>
-				<artifactId>foundation</artifactId>
-				<version>${casVersion}</version>
-			</dependency>
-
 		</dependencies>
 	</dependencyManagement>
 
@@ -207,6 +205,45 @@
 						<phase>package</phase>
 						<goals>
 							<goal>jar</goal>
+						</goals>
+					</execution>
+				</executions>
+			</plugin>
+			
+			<plugin>
+			    <groupId>org.apache.maven.plugins</groupId>
+			    <artifactId>maven-jxr-plugin</artifactId>
+			    <version>${jxrPluginVersion}</version>
+			    <executions>
+			        <execution>
+			            <phase>compile</phase>
+			            <goals>
+			                <goal>jxr</goal>
+			            </goals>
+			        </execution>
+			    </executions>
+			</plugin>
+
+			<plugin>
+				<groupId>org.apache.maven.plugins</groupId>
+				<artifactId>maven-checkstyle-plugin</artifactId>
+				<version>${checkstylePluginVersion}</version>
+				<dependencies>
+					<dependency>
+						<groupId>com.puppycrawl.tools</groupId>
+						<artifactId>checkstyle</artifactId>
+						<version>${checkstyleVersion}</version>
+					</dependency>
+				</dependencies>
+				<configuration>
+					<configLocation>cas-checks.xml</configLocation>
+				</configuration>
+				<executions>
+					<execution>
+						<phase>compile</phase>
+						<goals>
+							<goal>checkstyle</goal>
+							<goal>check</goal>
 						</goals>
 					</execution>
 				</executions>

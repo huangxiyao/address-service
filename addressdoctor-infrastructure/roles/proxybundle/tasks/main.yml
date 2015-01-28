@@ -62,15 +62,16 @@
     pause: seconds=10 #minutes=1 TODO:
     delegate_to: localhost
   - name: validate apache instance health page
-    uri: url={{ item }}
+    uri: url={{ item.url }} status_code={{ item.stauscode }}
     retries: 5
     delegate_to: localhost
     su: no
     with_items:
-      #- http://{{ inventory_hostname }}:1180/DO_NOT_REMOVE/welcome.jsp
-      - http://g2t0594g.austin.hp.com:1180/DO_NOT_REMOVE/welcome.jsp
-      - http://g2t0594g.austin.hp.com:1180/DO_NOT_REMOVE/welcome.txt
-      - http://g2t0594g.austin.hp.com:1180/DO_NOT_REMOVE/health_check.htm
-      - http://g2t0594g.austin.hp.com:1180/DO_NOT_REMOVE/static_test.htm
+      #TODO- http://{{ inventory_hostname }}:1180/DO_NOT_REMOVE/welcome.jsp
+      - { url: 'http://g2t0594g.austin.hp.com:1180/DO_NOT_REMOVE/welcome.jsp', statuscode: 200}
+      - { url: 'http://g2t0594g.austin.hp.com:1180/DO_NOT_REMOVE/welcome.txt', statuscode: 200}
+      - { url: 'http://g2t0594g.austin.hp.com:1180/DO_NOT_REMOVE/health_check.htm', statuscode: 200}
+      - { url: 'http://g2t0594g.austin.hp.com:1180/DO_NOT_REMOVE/static_test.htm', statuscode: 200}
+      - { url: 'http://g2t0594g.austin.hp.com:1180/match/about/health', statuscode: 204}
     tags:
       - validateinstallation

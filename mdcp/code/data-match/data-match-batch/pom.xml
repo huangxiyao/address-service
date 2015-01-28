@@ -83,24 +83,25 @@
 				<filtering>false</filtering>
 			</testResource>
 		</testResources>
-
-		<plugins>
-			<plugin>
-				<groupId>com.hp.it.118361</groupId>
-				<artifactId>tool-maven-archive-plugin</artifactId>
-				<version>${casVersion}</version>
-				<extensions>true</extensions>
-			</plugin>
-			
-			<plugin>
-			    <groupId>org.apache.maven.plugins</groupId>
-			    <artifactId>maven-jxr-plugin</artifactId>
-			</plugin>
-
-			<plugin>
-			    <groupId>org.apache.maven.plugins</groupId>
-			    <artifactId>maven-checkstyle-plugin</artifactId>
-			</plugin>
-		</plugins>
+		<pluginManagement>
+			<plugins>
+				<plugin>
+					<groupId>com.hp.it.118361</groupId>
+					<artifactId>tool-maven-archive-plugin</artifactId>
+					<version>${casVersion}</version>
+					<extensions>true</extensions>
+				</plugin>
+				
+				<plugin>
+				    <groupId>org.apache.maven.plugins</groupId>
+				    <artifactId>maven-jxr-plugin</artifactId>
+				</plugin>
+	
+				<plugin>
+				    <groupId>org.apache.maven.plugins</groupId>
+				    <artifactId>maven-checkstyle-plugin</artifactId>
+				</plugin>
+			</plugins>
+		</pluginManagement>
 	</build>
 </project>

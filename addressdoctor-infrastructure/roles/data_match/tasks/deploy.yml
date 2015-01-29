@@ -1,0 +1,60 @@
+---
+########## Copy Template files #################
+
+  - name: Download the argument's template files -> /opt/casfw
+    template: src=ansible-functions.sh dest={{ casfw_home }} mode=0755 owner=casfw force
+    tags:
+      - copybashscript
+          
+  - name: search if there is the data-match instance process
+    shell: cd {{ casfw_home }}/{{ data_match_instance }}/{{ data_match_release_version }}/bin/tomcat-ad.sh
+    register: foo_result
+    ignore_errors: True
+          
+  - name: stop current tomcat process
+    #shell: bash {{ casfw_home }}/{{ data_match_instance }}/{{ data_match_release_version }}/bin/tomcat-ad.sh stop -force
+    action: command bash {{ casfw_home }}/ansible-functions.sh stopTomcatPS
+    when: foo_result.rc == 0
+    tags:
+      - stopTomcatPS
+          
+  - name: clean up data-match instances
+    action: command bash {{ casfw_home }}/ansible-functions.sh cleanupInstance
+    tags:
+      - cleanupInstance
+         
+  - name: clean up the current
+    action: command bash {{ casfw_home }}/ansible-functions.sh cleanupCurrent
+    tags:
+      - cleanupCurrent
+          
+#  - name: wget cdi package from hudson
+#   action: command wget http://repo1.corp.hp.com/nexus/content/repositories/releases/com/hp/it/120482/data-match-installer/2015.02/data-match-installer-2015.02.cdi -P /opt/casfw
+  
+  - name: Download the argument's template files -> {{ casfw_home }}
+    template: src={{ item }} dest={{ casfw_home }} mode=0664 owner=casfw force
+    with_items:
+      - "{{ release_environment }}-data-match-cdi-args.txt"
+    tags:
+      - downloadarguments
+
+  - name: install new cdi
+    action: command bash {{ casfw_home }}/ansible-functions.sh installcdi
+    tags:
+       - installcdi
+   
+ # - name: clean up data-match-version.cdi
+ #   action: command bash {{ casfw_home }}/ansible-functions.sh cleanupcdi
+ #   tags:
+ #     - cleanupcdi
+  
+              
+ # - name: start tomcat
+ #                    #  action: command bash /opt/casfw/data-match2/data-match-2015.02/bin/tomcat-ad.sh start
+    #shell: nohup bash {{ casfw_home }}/{{ data_match_instance }}/{{ data_match_release_version }}/bin/tomcat-ad.sh start > /dev/null 2>&1&
+ 
+  - name: check instance
+    action: command bash {{ casfw_home }}/ansible-functions.sh checkInstance
+    tags:
+      - checkInstance
+ 

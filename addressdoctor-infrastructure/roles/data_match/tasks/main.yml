@@ -1,0 +1,12 @@
+---
+  - name: clean up cdi packages
+    action: command bash {{ casfw_home }}/ansible-functions.sh cleanupcdi
+    tags:
+      - cleanupcdi
+ 
+  - name: wget cdi package from hudson
+    action: command wget http://repo1.corp.hp.com/nexus/content/repositories/releases/com/hp/it/120482/data-match-installer/2015.02/data-match-installer-2015.02.cdi -P /opt/casfw
+
+  - include: deploy.yml data_match_instance=data-match1 release_env=ITG1 
+  - include: deploy.yml data_match_instance=data-match2 release_env=ITG2
+  - include: deploy.yml data_match_instance=data-match3 release_env=ITG3

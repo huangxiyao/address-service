@@ -1,8 +1,8 @@
 ---
 ########## Template files copy and init cleanup #################
-
+#TODO: group=casfwgrp
   - name: Download the argument's template files -> /opt/casfw
-    template: src=proxy-functions.sh dest={{ casfw_home }} mode=0755 owner=casfw group=casfwgrp force
+    template: src=proxy-functions.sh dest={{ casfw_home }} mode=0755 owner=casfw force
     tags:
       - copybashscript
   - name: Initial Cleanup - remove old symbol link
@@ -39,10 +39,10 @@
       - createproxybundlelink
 
 ########## Restart apache instance #################
-
+#TODO: not iscloudserver
   - name: Restart Apache Instance
     action: command bash {{ casfw_home }}/proxy-functions.sh restartApacheInstance
-    when: not iscloudserver
+    when: iscloudserver
     tags:
       - restartapacheinstance
   - name: Restart Cloud Apache Instance
@@ -67,10 +67,10 @@
     su: no
     with_items:
       #TODO- http://{{ inventory_hostname }}:1180/DO_NOT_REMOVE/welcome.jsp
-      - { url: 'http://{{ inventory_hostname }}:1180/DO_NOT_REMOVE/welcome.jsp', statuscode: 200}
-      - { url: 'http://{{ inventory_hostname }}:1180/DO_NOT_REMOVE/welcome.txt', statuscode: 200}
-      - { url: 'http://{{ inventory_hostname }}:1180/DO_NOT_REMOVE/health_check.htm', statuscode: 200}
-      - { url: 'http://{{ inventory_hostname }}:1180/DO_NOT_REMOVE/static_test.htm', statuscode: 200}
-      - { url: 'http://{{ inventory_hostname }}:1180/match/about/health', statuscode: 204}
+      - { url: 'http://g2t0594g.austin.hp.com:1180/DO_NOT_REMOVE/welcome.jsp', statuscode: 200}
+      - { url: 'http://g2t0594g.austin.hp.com:1180/DO_NOT_REMOVE/welcome.txt', statuscode: 200}
+      - { url: 'http://g2t0594g.austin.hp.com:1180/DO_NOT_REMOVE/health_check.htm', statuscode: 200}
+      - { url: 'http://g2t0594g.austin.hp.com:1180/DO_NOT_REMOVE/static_test.htm', statuscode: 200}
+      - { url: 'http://g2t0594g.austin.hp.com:1180/match/about/health', statuscode: 204}
     tags:
       - validateinstallation

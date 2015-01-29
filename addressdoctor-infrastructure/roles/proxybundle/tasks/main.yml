@@ -1,9 +1,8 @@
 ---
 ########## Template files copy and init cleanup #################
 
-#TODO: group=casfwgrp is missing in template!!!
   - name: Download the argument's template files -> /opt/casfw
-    template: src=proxy-functions.sh dest={{ casfw_home }} mode=0755 owner=casfw force
+    template: src=proxy-functions.sh dest={{ casfw_home }} mode=0755 owner=casfw group=casfwgrp force
     tags:
       - copybashscript
   - name: Initial Cleanup - remove old symbol link
@@ -59,19 +58,19 @@
     tags:
       - finalcleanup
   - name: Pause to make sure Apache instance process has started
-    pause: seconds=10 #minutes=1 TODO:
+    pause: minutes=1
     delegate_to: localhost
   - name: validate apache instance health page
-    uri: url={{ item.url }} status_code={{ item.stauscode }}
+    uri: url={{ item.url }} status_code={{ item.statuscode }}
     retries: 5
     delegate_to: localhost
     su: no
     with_items:
       #TODO- http://{{ inventory_hostname }}:1180/DO_NOT_REMOVE/welcome.jsp
-      - { url: 'http://g2t0594g.austin.hp.com:1180/DO_NOT_REMOVE/welcome.jsp', statuscode: 200}
-      - { url: 'http://g2t0594g.austin.hp.com:1180/DO_NOT_REMOVE/welcome.txt', statuscode: 200}
-      - { url: 'http://g2t0594g.austin.hp.com:1180/DO_NOT_REMOVE/health_check.htm', statuscode: 200}
-      - { url: 'http://g2t0594g.austin.hp.com:1180/DO_NOT_REMOVE/static_test.htm', statuscode: 200}
-      - { url: 'http://g2t0594g.austin.hp.com:1180/match/about/health', statuscode: 204}
+      - { url: 'http://{{ inventory_hostname }}:1180/DO_NOT_REMOVE/welcome.jsp', statuscode: 200}
+      - { url: 'http://{{ inventory_hostname }}:1180/DO_NOT_REMOVE/welcome.txt', statuscode: 200}
+      - { url: 'http://{{ inventory_hostname }}:1180/DO_NOT_REMOVE/health_check.htm', statuscode: 200}
+      - { url: 'http://{{ inventory_hostname }}:1180/DO_NOT_REMOVE/static_test.htm', statuscode: 200}
+      - { url: 'http://{{ inventory_hostname }}:1180/match/about/health', statuscode: 204}
     tags:
       - validateinstallation

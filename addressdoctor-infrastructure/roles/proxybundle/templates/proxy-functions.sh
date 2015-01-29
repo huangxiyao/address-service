@@ -14,7 +14,7 @@ function cleanupProxyBundle {
 }
 
 function installProxyBundleCdi {
-	#TODO: Set JAVA HOME, need to remove in future
+	#TODO: Set JAVA HOME, need to be removed
 	export JAVA_HOME=/opt/mount/app/java
     export PATH=$JAVA_HOME/bin:$PATH
 
@@ -55,7 +55,6 @@ function restartCloudApacheInstance {
 
 function finalCleanup {
     cd {{ casfw_home }}
-    rm -rf proxy-bundle*.cdi
     rm -f *.sh
 }
 

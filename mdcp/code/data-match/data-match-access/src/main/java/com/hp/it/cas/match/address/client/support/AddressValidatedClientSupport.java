@@ -122,14 +122,14 @@ public class AddressValidatedClientSupport {
 	 * in getAddressQueryResultSuit(), the key is AddressQueryResultSuitID, the
 	 * value is AddressQueryResultSuit
 	 */
-	private static Map<String, AddressQueryResultSuit> addressQueryResultSuitMap = new HashMap<String, AddressQueryResultSuit>();;
+	private static Map<String, AddressQueryResultSuit> addressQueryResultSuitMap = new HashMap<String, AddressQueryResultSuit>();
 
 	/**
 	 * This value indicate map collect the all SoapInOutputSuit assembled in
 	 * getSoapInOutputSuitMap, the key is SoapInOutputSuitID, the value is
 	 * SoapInOutputSuit
 	 */
-	private static Map<String, SoapInOutputSuit> soapInOutputSuitMap = new HashMap<String, SoapInOutputSuit>();;
+	private static Map<String, SoapInOutputSuit> soapInOutputSuitMap = new HashMap<String, SoapInOutputSuit>();
 
 	/**
 	 * Create the logger instance for logging when the error happens

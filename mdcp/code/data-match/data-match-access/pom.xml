@@ -33,28 +33,26 @@
 	</dependencies>
 
 	<build>
-		<pluginManagement>
-			<plugins>
-				<plugin>
-					<artifactId>maven-compiler-plugin</artifactId>
-					<inherited>true</inherited>
-					<configuration>
-						<source>${javaVersion}</source>
-						<target>${javaVersion}</target>
-					</configuration>
-				</plugin>
-				
-				<plugin>
-				    <groupId>org.apache.maven.plugins</groupId>
-				    <artifactId>maven-jxr-plugin</artifactId>
-				</plugin>
-	
-				<plugin>
-				    <groupId>org.apache.maven.plugins</groupId>
-				    <artifactId>maven-checkstyle-plugin</artifactId>
-				</plugin>
-			</plugins>
-		</pluginManagement>
+		<plugins>
+			<plugin>
+				<artifactId>maven-compiler-plugin</artifactId>
+				<inherited>true</inherited>
+				<configuration>
+					<source>${javaVersion}</source>
+					<target>${javaVersion}</target>
+				</configuration>
+			</plugin>
+			
+			<plugin>
+			    <groupId>org.apache.maven.plugins</groupId>
+			    <artifactId>maven-jxr-plugin</artifactId>
+			</plugin>
+		
+			<plugin>
+			    <groupId>org.apache.maven.plugins</groupId>
+			    <artifactId>maven-checkstyle-plugin</artifactId>
+			</plugin>
+		</plugins>
 	</build>
 
 </project>

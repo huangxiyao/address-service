@@ -210,6 +210,7 @@
 	<build>
 		<pluginManagement>
 			<plugins>
+			<!-- 
 				<plugin>
 					<groupId>com.hp.it.118361</groupId>
 					<artifactId>data-code-generator-maven-plugin</artifactId>
@@ -223,7 +224,7 @@
 						</execution>
 					</executions>
 				</plugin>
-
+			 -->
 				<plugin>
 					<groupId>org.apache.maven.plugins</groupId>
 					<artifactId>maven-compiler-plugin</artifactId>

@@ -6,11 +6,12 @@
   su: yes
   su_user: casfw
   vars:
-    proxy_bundle_version: 2014.11-SNAPSHOT
-    proxybundlesnapshot: true
+    proxy_bundle_version: 2014.11-M1
+    proxybundlesnapshot: false
     release_env: ITG-G2
     casfw_home: /opt/casfw
     apache_instance: WHA-General-Inst
+    jdk_verion: 1.7.0_65
   roles:
   - common
   - proxybundle

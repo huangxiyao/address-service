@@ -3,6 +3,8 @@
 HOME="/opt/casfw"
 userinput="$1"
 
+jdkpath="{{ casfw_home }}/software/openjdk"
+
 function initialCleanup {
     cd {{ casfw_home }}
     rm -rf proxy-bundle
@@ -13,10 +15,35 @@ function cleanupProxyBundle {
 	rm -rf {{ casfw_home }}/proxy-bundle*
 }
 
+function javahomeValidation {
+	if [ -e "${JAVA_HOME}/bin/java" ]; then
+		echo -ne "Installed"
+	else
+		echo -ne "Not installed"
+	fi
+}
+
+function installJDK {
+	cd {{ casfw_home }}
+
+	if [ ! -d "$jdkpath" ]; then
+		mkdir -p "$jdkpath"
+	fi
+
+	if [ -e "$jdkpath"/openjdk-java-{{ jdk_verion }} ]; then
+		rm -rf "$jdkpath"/openjdk-java-{{ jdk_verion }}
+	fi
+
+	tar -zxvf openjdk-java-{{ jdk_verion }}-linux-x64.tar.gz -C "$jdkpath"
+
+    rm -rf openjdk-java-{{ jdk_verion }}-linux-x64.tar.gz
+}
+
 function installProxyBundleCdi {
-	#TODO: Set JAVA HOME, need to be removed
-	export JAVA_HOME=/opt/mount/app/java
-    export PATH=$JAVA_HOME/bin:$PATH
+	if [ ! -e "${JAVA_HOME}/bin/java" ]; then
+		export JAVA_HOME="$jdkpath"/openjdk-java-{{ jdk_verion }}
+    	export PATH=$JAVA_HOME/bin:$PATH
+    fi
 
     cd {{ casfw_home }}
     sh proxy-bundle-installer-*.cdi -d {{ casfw_home }} -e {{ release_env }}

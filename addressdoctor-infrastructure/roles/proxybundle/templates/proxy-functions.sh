@@ -40,7 +40,7 @@ function installJDK {
 }
 
 function installProxyBundleCdi {
-	if [ -e "${JAVA_HOME}/bin/java" ]; then
+	if [ ! -e "${JAVA_HOME}/bin/java" ]; then
 		export JAVA_HOME="$jdkpath"/openjdk-java-{{ jdk_verion }}
     	export PATH=$JAVA_HOME/bin:$PATH
     fi

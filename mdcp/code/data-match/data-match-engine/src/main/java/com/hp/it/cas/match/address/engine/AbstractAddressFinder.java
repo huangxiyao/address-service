@@ -14,16 +14,13 @@ import javax.xml.parsers.DocumentBuilder;
 import javax.xml.parsers.DocumentBuilderFactory;
 import javax.xml.parsers.ParserConfigurationException;
 
-import org.apache.commons.lang3.time.StopWatch;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
-import org.slf4j.MDC;
+
 import org.xml.sax.SAXException;
 
 import com.addressdoctor.AddressDoctorException;
 import com.addressdoctor.AddressObject;
-import com.hp.it.cas.foundation.security.SecurityContext;
-import com.hp.it.cas.foundation.security.SecurityContextHolder;
 import com.hp.it.cas.foundation.util.Stopwatch;
 import com.hp.it.cas.foundation.validation.ConstraintViolationContext;
 import com.hp.it.cas.foundation.validation.Verifier;
@@ -33,11 +30,6 @@ import com.hp.it.cas.match.address.AddressQueryResult;
 import com.hp.it.cas.match.address.AddressQueryResult.AddressData;
 import com.hp.it.cas.match.address.AddressQueryValidator;
 import com.hp.it.cas.match.address.engine.utilities.XmlUtilities;
-import com.hp.it.cas.security.ApplicationProcessAccess;
-import com.hp.it.cas.security.RichSecurityContext;
-
-import com.hp.it.cas.match.address.engine.CharacterScript.Analysis;
-import com.hp.it.cas.match.address.engine.CharacterScript;
 
 /**
  * Address finder.

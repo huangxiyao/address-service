@@ -27,6 +27,7 @@ public class ValidInputFields {
 				ModeUsed.valueOf(value);
 				return true;
 			} catch (Exception e) {
+				e.printStackTrace();
 			}
 			return false;
 		}
@@ -61,6 +62,7 @@ public class ValidInputFields {
 				PreferredLanguage.valueOf(value);
 				return true;
 			} catch (Exception e) {
+				e.printStackTrace();
 			}
 			return false;
 		}
@@ -97,6 +99,7 @@ public class ValidInputFields {
 				PreferredScript.valueOf(value);
 				return true;
 			} catch (Exception e) {
+				e.printStackTrace();
 			}
 			return false;
 		}

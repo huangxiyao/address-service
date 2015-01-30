@@ -14,6 +14,7 @@ public class ValidInputData {
 				ModeUsed.valueOf(value);
 				return true;
 			} catch (Exception e) {
+				e.printStackTrace();
 			}
 			return false;
 		}
@@ -30,6 +31,7 @@ public class ValidInputData {
 				PreferredLanguage.valueOf(value);
 				return true;
 			} catch (Exception e) {
+				e.printStackTrace();
 			}
 			return false;
 		}
@@ -47,6 +49,7 @@ public class ValidInputData {
 				PreferredScript.valueOf(value);
 				return true;
 			} catch (Exception e) {
+				e.printStackTrace();
 			}
 			return false;
 		}

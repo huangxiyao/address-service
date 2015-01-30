@@ -24,11 +24,11 @@
 <module name = "Checker">
     <property name="charset" value="UTF-8"/>
     <property name="severity" value="warning"/>
-
+	<!-- 
     <module name="FileTabCharacter">
         <property name="eachLine" value="true"/>
     </module>
-
+	 -->
     <module name="TreeWalker">
         <module name="OuterTypeFilename"/>
         <module name="IllegalTokenText">
@@ -44,22 +44,22 @@
         <module name="AvoidStarImport"/>
         <module name="FallThrough"/>
         <module name="UpperEll"/>
-        <module name="ModifierOrder"/>
-        <module name="PackageName">
+        <!-- <module name="ModifierOrder"/>  -->
+        <!-- <module name="PackageName">
             <property name="format" value="^[a-z]+(\.[a-z][a-zA-Z0-9]*)*$"/>
             <message key="name.invalidPattern" value="Package name ''{0}'' must match pattern ''{1}''."/>
-        </module>
+        </module> -->
         <module name="TypeName">
             <message key="name.invalidPattern" value="Type name ''{0}'' must match pattern ''{1}''."/>
         </module>
-        <module name="MemberName">
+        <!-- <module name="MemberName">
             <property name="format" value="^[a-z][a-z0-9][a-zA-Z0-9]*$"/>
             <message key="name.invalidPattern" value="Member name ''{0}'' must match pattern ''{1}''."/>
-        </module>
-        <module name="ParameterName">
+        </module>  -->
+        <!-- <module name="ParameterName">
             <property name="format" value="^[a-z][a-z0-9][a-zA-Z0-9]*$"/>
             <message key="name.invalidPattern" value="Parameter name ''{0}'' must match pattern ''{1}''."/>
-        </module>
+        </module>  -->
         <module name="LocalVariableName">
             <property name="tokens" value="VARIABLE_DEF"/>
             <property name="format" value="^[a-z][a-z0-9][a-zA-Z0-9]*$"/>
@@ -76,7 +76,7 @@
         </module>
         <module name="AbbreviationAsWordInName">
             <property name="ignoreFinal" value="false"/>
-            <property name="allowedAbbreviationLength" value="1"/>
+            <property name="allowedAbbreviationLength" value="20"/>
         </module>
         <module name="MethodName">
             <property name="format" value="^[a-z][a-z0-9][a-zA-Z0-9_]*$"/>
@@ -104,7 +104,7 @@
             <property name="option" value="NL"/>
             <property name="tokens" value="BAND, BOR, BSR, BXOR, DIV, EQUAL, GE, GT, LAND, LE, LITERAL_INSTANCEOF, LOR, LT, MINUS, MOD, NOT_EQUAL, PLUS, QUESTION, SL, SR, STAR "/>
         </module>
-        <module name="Indentation"/>
+        <!-- <module name="Indentation"/>  -->
         <module name="MethodParamPad"/>
         <module name="AnnotationLocation"/>
         <module name="GenericWhitespace">

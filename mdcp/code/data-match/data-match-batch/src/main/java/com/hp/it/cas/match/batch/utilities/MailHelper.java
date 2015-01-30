@@ -82,9 +82,9 @@ public class MailHelper {
 			message.setSubject(encodeText(data.get(EMAIL_SUBJECT)));
 
 			MimeMultipart mmp = new MimeMultipart();
-			MimeBodyPart mbp_text = new MimeBodyPart();
-			mbp_text.setContent(data.get(EMAIL_TEXT), "text/html;charset=utf-8");
-			mmp.addBodyPart(mbp_text);
+			MimeBodyPart mbpText = new MimeBodyPart();
+			mbpText.setContent(data.get(EMAIL_TEXT), "text/html;charset=utf-8");
+			mmp.addBodyPart(mbpText);
 
 			if (data.get(EMAIL_ATTACHMENT) != null) {
 				setAttachment(data.get(EMAIL_ATTACHMENT), mmp);
@@ -126,11 +126,11 @@ public class MailHelper {
 		String[] files = attachment.split(",");
 		if (files.length != 0) {
 			for (String file : files) {
-				MimeBodyPart mbp_file = new MimeBodyPart();
+				MimeBodyPart mbpFile = new MimeBodyPart();
 				FileDataSource fds = new FileDataSource(file);
-				mbp_file.setDataHandler(new DataHandler(fds));
-				mbp_file.setFileName(encodeText(fds.getName()));
-				mmp.addBodyPart(mbp_file);
+				mbpFile.setDataHandler(new DataHandler(fds));
+				mbpFile.setFileName(encodeText(fds.getName()));
+				mmp.addBodyPart(mbpFile);
 			}
 		}
 	}

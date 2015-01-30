@@ -90,9 +90,9 @@ public final class ScriptRun {
 	 * @return true if there is another script run, false otherwise.
 	 */
 	public boolean next() {
-		if (scriptLimit >= limit)
+		if (scriptLimit >= limit) {
 			return false;
-
+		}
 		scriptCode = UScript.COMMON;
 		scriptStart = scriptLimit;
 		graphemeLength = 0;
@@ -166,15 +166,18 @@ public final class ScriptRun {
 	private static final int basicLatin[] = new int[128];
 
 	static {
-		for (int i = 0; i < basicLatin.length; i++)
+		for (int i = 0; i < basicLatin.length; i++) {
 			basicLatin[i] = UScript.getScript(i);
+		}
 	}
 
 	/** fast version of UScript.getScript(). Basic Latin is an array lookup */
 	private static int getScript(int codepoint) {
-		if (0 <= codepoint && codepoint < basicLatin.length)
+		if (0 <= codepoint && codepoint < basicLatin.length) {
 			return basicLatin[codepoint];
-		else
+		}
+		else {
 			return UScript.getScript(codepoint);
+		}
 	}
 }

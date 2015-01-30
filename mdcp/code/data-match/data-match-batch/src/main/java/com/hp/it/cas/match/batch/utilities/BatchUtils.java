@@ -42,18 +42,20 @@ public class BatchUtils {
 	 * @return String
 	 */
 	public static String arrayToString(Object[] array) {
-		if (array == null)
+		if (array == null) {
 			return "null";
-		int iMax = array.length - 1;
-		if (iMax == -1)
+		}
+		int arrayMax = array.length - 1;
+		if (arrayMax == -1) {
 			return "";
-
-		StringBuilder b = new StringBuilder();
+		}
+		StringBuilder strBuilder = new StringBuilder();
 		for (int i = 0;; i++) {
-			b.append(String.valueOf(array[i]));
-			if (i == iMax)
-				return b.toString();
-			b.append(",");
+			strBuilder.append(String.valueOf(array[i]));
+			if (i == arrayMax) {
+				return strBuilder.toString();
+			}
+			strBuilder.append(",");
 		}
 	}
 }

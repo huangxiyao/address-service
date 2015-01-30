@@ -14,6 +14,24 @@
     tags:
       - cleanupproxybundle
 
+########## Install JDK if needed #################
+
+  - name: Validate JAVA_HOME configuration
+    action: command bash {{ casfw_home }}/proxy-functions.sh javahomeValidation
+    register: javahomevalidateresponse
+    tags:
+      - javahomeValidation
+  - name: Download JDK if JAVA_HOME is not found
+    action: command wget -Nnv http://repo1.corp.hp.com/nexus/content/groups/public/net/java/openjdk/openjdk-java/{{ jdk_verion }}/openjdk-java-{{ jdk_verion }}-linux-x64.tar.gz -O {{ casfw_home }}/openjdk-java-{{ jdk_verion }}-linux-x64.tar.gz
+    when: javahomevalidateresponse.stdout != 'Installed'
+    tags:
+      - downloadJDK
+  - name: Install JDK and setup JAVA_HOME
+    action: command bash {{ casfw_home }}/proxy-functions.sh installJDK
+    when: javahomevalidateresponse.stdout != 'Installed'
+    tags:
+      - installJDK
+
 ########## Download Proxy Bundle #################
 
   - name: Download proxy-bundle installation CDI
@@ -39,10 +57,9 @@
       - createproxybundlelink
 
 ########## Restart apache instance #################
-#TODO: not iscloudserver
   - name: Restart Apache Instance
     action: command bash {{ casfw_home }}/proxy-functions.sh restartApacheInstance
-    when: iscloudserver
+    when: not iscloudserver
     tags:
       - restartapacheinstance
   - name: Restart Cloud Apache Instance

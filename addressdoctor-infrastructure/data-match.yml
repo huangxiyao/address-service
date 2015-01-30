@@ -1,0 +1,13 @@
+#This playbook deploys an CAS Address Doctor Proxy Bundle
+- hosts: IT_Cloud
+  gather_facts: no
+  serial: 1
+  su: yes
+  su_user: casfw
+  vars:
+    data_match_release_version: data-match-2015.02
+    release_environment: itg
+    casfw_home: /opt/casfw
+  roles:
+  - common
+  - data_match

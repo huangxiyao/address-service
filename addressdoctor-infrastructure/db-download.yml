@@ -1,0 +1,18 @@
+
+---
+# This playbook for Address Doctor databases download
+- hosts: dbCloudServer
+  gather_facts: no
+  serial: 1
+  su: yes
+  su_user: casfw
+  vars:
+    downloadtool_version: 1.0
+    download_xml_version: 5.6.0
+    adm_client_folder: /opt/casfw/address-doctor/databases/ADM
+    software_dir: /opt/casfw/software
+    oracle_java_version: 1.7.0_21
+    casfw_home: /opt/casfw
+  roles:
+  - common
+  - dbdownload

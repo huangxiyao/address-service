@@ -8,7 +8,7 @@ function cleanupInstance {
 }
 
 function stopTomcatPS {
-     bash {{ casfw_home }}/{{ data_match_instance }}/{{ data_match_release_version }}/bin/tomcat-ad.sh stop -force
+     bash {{ casfw_home }}/current/{{ data_match_instance }}/bin/tomcat-ad.sh stop -force
 }
  
 function cleanupCurrent {
@@ -17,11 +17,11 @@ function cleanupCurrent {
 
 function installcdi {
       cd {{ casfw_home }}
-      xargs -a {{ release_environment }}-data-match-cdi-args.txt sh data-match-installer-2015.02.cdi      
+      xargs -a {{ release_environment }}-data-match-cdi-args.txt sh {{ data_match_release_version }}.cdi      
 }
 
 function cleanupcdi {
-      rm -rf {{ casfw_home }}/data-match-installer-2015.02.cdi
+      rm -rf {{ casfw_home }}/{{ data_match_release_version }}.cdi
 }
 
 function checkInstance {

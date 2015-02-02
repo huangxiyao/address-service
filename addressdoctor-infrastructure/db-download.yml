@@ -12,6 +12,10 @@
     adm_client_folder: /opt/casfw/address-doctor/databases/ADM
     software_dir: /opt/casfw/software
     oracle_java_version: 1.7.0_21
+    https_proxy_host: web-proxy.austin.hp.com
+    https_proxy_port: 8088
+    user_name: santhosh.chandan@hp.com
+    password: Anagha@123
     casfw_home: /opt/casfw
   roles:
   - common

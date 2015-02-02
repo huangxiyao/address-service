@@ -1,0 +1,7 @@
+-Dhttps.proxyHost={{ https_proxy_host }}
+-Dhttps.proxyPort={{ https_proxy_port }}
+-jar
+{{ adm_client_folder }}/Downloadtool.jar
+-ng
+-un:{{ user_name }}
+-pd:{{ password }}

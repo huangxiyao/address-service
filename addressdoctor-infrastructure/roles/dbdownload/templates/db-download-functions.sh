@@ -33,12 +33,13 @@ function prepareDownloadtool {
 function downloadDB {
     cd {{ adm_client_folder }}
     mkdir Downloads
-    {{software_dir}}/oracle-java-{{ oracle_java_version }}/bin/java -Dhttps.proxyHost=web-proxy.austin.hp.com -Dhttps.proxyPort=8088 -jar Downloadtool.jar -ng -un:santhosh.chandan@hp.com -pd:Anagha@123
+    xargs -a {{ casfw_home }}/db-download-args.txt {{software_dir}}/oracle-java-{{ oracle_java_version }}/bin/java
 }
 
 function finalCleanup {
 	cd {{ casfw_home }}
     rm -f db-download-functions.sh
+    rm -f db-download-args.txt
 }
 
 $userinput

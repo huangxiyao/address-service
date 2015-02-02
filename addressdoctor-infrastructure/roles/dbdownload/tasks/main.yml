@@ -1,10 +1,15 @@
 ---
 ########## Copy Template files #################
 
-  - name: Download the argument's template files -> /opt/casfw
+  - name: Download the argument's template files -> {{ casfw_home }}
     template: src=db-download-functions.sh dest={{ casfw_home }} mode=0755 owner=casfw force
     tags:
       - copybashscript
+
+  - name: Download the argument's template files -> {{ casfw_home }}
+    template: src=db-download-args.txt dest={{ casfw_home }} mode=0664 owner=casfw force
+    tags:
+      - downloadarguments
 
 ########## Initial Environment #################
   - name: Initial Environment

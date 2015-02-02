@@ -5,11 +5,16 @@
     template: src=ansible-functions.sh dest={{ casfw_home }} mode=0755 owner=casfw force
     tags:
       - copybashscript
-          
-          
+ 
+  - name: search if there is the data-match instance process
+    shell: cd {{ casfw_home }}/current/{{ data_match_instance }}
+    register: foo_result
+    ignore_errors: True
+     
   - name: stop current tomcat process
     #shell: bash {{ casfw_home }}/{{ data_match_instance }}/{{ data_match_release_version }}/bin/tomcat-ad.sh stop -force
     action: command bash {{ casfw_home }}/ansible-functions.sh stopTomcatPS
+    when: foo_result.rc == 0
     tags:
       - stopTomcatPS
           

@@ -1,13 +1,13 @@
 ---
 ########## Copy Template files #################
-
+#TODO: group={{ usergroup }}
   - name: Download the argument's template files -> {{ casfw_home }}
-    template: src=db-download-functions.sh dest={{ casfw_home }} mode=0755 owner=casfw force
+    template: src=db-download-functions.sh dest={{ casfw_home }} mode=0755 owner={{ useraccount }} force
     tags:
       - copybashscript
 
   - name: Download the argument's template files -> {{ casfw_home }}
-    template: src=db-download-args.txt dest={{ casfw_home }} mode=0664 owner=casfw force
+    template: src=db-download-args.txt dest={{ casfw_home }} mode=0664 owner={{ useraccount }} force
     tags:
       - downloadarguments
 
@@ -17,17 +17,23 @@
     tags: 
       - initial
 
-########## Download oracle-java7  #################
-  - name: Download oracle-java7
-    action: command wget -Nnv http://repo1.corp.hp.com/nexus/content/repositories/thirdparty/com/oracle/java/oracle-java/{{ oracle_java_version }}/oracle-java-{{ oracle_java_version }}-linux-x64.tar.gz -P {{ software_dir }}
-    tags:
-      - downloadOracleJava7
+########## Install JDK if needed #################
 
-###### Install oracle-java7 #################
-  - name: Install oracle-java7
-    action: command bash {{ casfw_home }}/db-download-functions.sh installJava7
-    tags: 
-      - installJava7
+  - name: Validate JAVA_HOME configuration
+    action: command bash {{ casfw_home }}/db-download-functions.sh javahomeValidation
+    register: javahomevalidateresponse
+    tags:
+      - javahomeValidation
+  - name: Download JDK if JAVA_HOME is not found
+    action: command wget -Nnv http://repo1.corp.hp.com/nexus/content/groups/public/net/java/openjdk/openjdk-java/{{ jdk_verion }}/openjdk-java-{{ jdk_verion }}-linux-x64.tar.gz -O {{ casfw_home }}/openjdk-java-{{ jdk_verion }}-linux-x64.tar.gz
+    when: javahomevalidateresponse.stdout != 'Installed'
+    tags:
+      - downloadJDK
+  - name: Install JDK 
+    action: command bash {{ casfw_home }}/db-download-functions.sh installJDK
+    when: javahomevalidateresponse.stdout != 'Installed'
+    tags:
+      - installJDK
 
 ########## Download DB Downloadtool and download.xml file  #################
 

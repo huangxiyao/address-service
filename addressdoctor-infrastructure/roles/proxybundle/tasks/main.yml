@@ -1,8 +1,8 @@
 ---
 ########## Template files copy and init cleanup #################
-#TODO: group=casfwgrp
+#TODO: group={{ usergroup }}
   - name: Download the argument's template files -> /opt/casfw
-    template: src=proxy-functions.sh dest={{ casfw_home }} mode=0755 owner=casfw force
+    template: src=proxy-functions.sh dest={{ casfw_home }} mode=0755 owner={{ useraccount }} force
     tags:
       - copybashscript
   - name: Initial Cleanup - remove old symbol link
@@ -26,7 +26,7 @@
     when: javahomevalidateresponse.stdout != 'Installed'
     tags:
       - downloadJDK
-  - name: Install JDK and setup JAVA_HOME
+  - name: Install JDK 
     action: command bash {{ casfw_home }}/proxy-functions.sh installJDK
     when: javahomevalidateresponse.stdout != 'Installed'
     tags:
@@ -56,6 +56,24 @@
     tags: 
       - createproxybundlelink
 
+########## Download apache conf file  #################
+  - name: Validate apache conf file 
+    action: command bash {{ casfw_home }}/proxy-functions.sh validateApacheConf
+    register: apacheconfexist
+    tags:
+      - validateapacheconf
+  - name: Download apache conf file # TODO: group={{ usergroup }}
+    copy: src=casfw.conf dest={{ casfw_home }}/ mode=0755 owner={{ useraccount }} force
+    when: apacheconfexist.stdout != "Existed"
+    tags:
+      - downloadapacheconf
+  - name: Copy casfw.conf to {{ httpd_confd_path }}
+    action: command bash {{ casfw_home }}/proxy-functions.sh copyCasfwConfScript
+    su: no
+    when: apacheconfexist.stdout != "Existed"
+    tags: 
+      - copyapacheconf
+
 ########## Restart apache instance #################
   - name: Restart Apache Instance
     action: command bash {{ casfw_home }}/proxy-functions.sh restartApacheInstance
@@ -64,6 +82,7 @@
       - restartapacheinstance
   - name: Restart Cloud Apache Instance
     action: command bash {{ casfw_home }}/proxy-functions.sh restartCloudApacheInstance
+    su: no
     when: iscloudserver
     tags:
       - restartcloudapacheinstance

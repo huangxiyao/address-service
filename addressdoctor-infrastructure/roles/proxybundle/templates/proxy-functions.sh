@@ -54,6 +54,27 @@ function createProxyBundleLink {
     ln -sf proxy-bundle-{{ proxy_bundle_version }} proxy-bundle
 }
 
+function validateApacheConf {
+	if [ -e "{{ httpd_confd_path }}/casfw.conf" ]; then
+		echo -ne "Existed"
+	else
+		echo -ne "Not existed"
+	fi
+}
+
+function copyCasfwConfScript {
+    if [ -d /opt/cloudhost ]; then
+		copyScript         
+    fi
+}
+
+function copyScript {
+	if [ ! -f {{ httpd_confd_path }}/casfw.conf ]; then
+        /opt/pb/bin/pbrun cp {{ casfw_home }}/casfw.conf {{ httpd_confd_path }}
+        /opt/pb/bin/pbrun chmod 644 {{ httpd_confd_path }}/casfw.conf
+    fi
+}
+
 function startApacheInstance {
 	/opt/webhost/whaeng/bin/start_apache {{ apache_instance }}
 }
@@ -82,6 +103,7 @@ function restartCloudApacheInstance {
 
 function finalCleanup {
     cd {{ casfw_home }}
+    rm -f *.conf
     rm -f *.sh
 }
 

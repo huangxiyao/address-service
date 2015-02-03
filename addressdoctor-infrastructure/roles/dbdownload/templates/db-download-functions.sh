@@ -3,23 +3,38 @@
 HOME="/opt/casfw"
 userinput="$1"
 
+jdkpath="{{ casfw_home }}/software/openjdk"
+
 function initial {
 	if [[ -d {{ adm_client_folder }} ]]; then
 		mv {{ adm_client_folder }} {{ adm_client_folder }}_"$(date +"%Y-%m-%d-%H:%M:%S")"
 	else
 		mkdir -p {{ adm_client_folder }}
 	fi
-
-	if [[ -d {{ software_dir }} ]]; then 
-		rm -rf {{ software_dir }}/*
-	else
-		mkdir -p {{ software_dir }}
-	fi
 }	
 
-function installJava7 {
-	cd {{ software_dir }}
-	tar -zxvf oracle-java-{{ oracle_java_version }}-linux-x64.tar.gz
+function javahomeValidation {
+	if [ -e "${JAVA_HOME}/bin/java" ]; then
+		echo -ne "Installed"
+	else
+		echo -ne "Not installed"
+	fi
+}
+
+function installJDK {
+	cd {{ casfw_home }}
+
+	if [ ! -d "$jdkpath" ]; then
+		mkdir -p "$jdkpath"
+	fi
+
+	if [ -e "$jdkpath"/openjdk-java-{{ jdk_verion }} ]; then
+		rm -rf "$jdkpath"/openjdk-java-{{ jdk_verion }}
+	fi
+
+	tar -zxvf openjdk-java-{{ jdk_verion }}-linux-x64.tar.gz -C "$jdkpath"
+
+    rm -rf openjdk-java-{{ jdk_verion }}-linux-x64.tar.gz
 }
 
 function prepareDownloadtool {
@@ -33,12 +48,13 @@ function prepareDownloadtool {
 function downloadDB {
     cd {{ adm_client_folder }}
     mkdir Downloads
-    {{software_dir}}/oracle-java-{{ oracle_java_version }}/bin/java -Dhttps.proxyHost=web-proxy.austin.hp.com -Dhttps.proxyPort=8088 -jar Downloadtool.jar -ng -un:santhosh.chandan@hp.com -pd:Anagha@123
+    xargs -a {{ casfw_home }}/db-download-args.txt "$jdkpath"/openjdk-java-{{ jdk_verion }}/bin/java
 }
 
 function finalCleanup {
 	cd {{ casfw_home }}
     rm -f db-download-functions.sh
+    rm -f db-download-args.txt
 }
 
 $userinput

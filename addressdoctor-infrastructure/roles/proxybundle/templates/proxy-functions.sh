@@ -88,17 +88,8 @@ function restartApacheInstance {
 	startApacheInstance
 }
 
-function startCloudApacheInstance {
-	sudo monit start httpd
-}
-
-function stopCloudApacheInstance {
-	sudo monit stop httpd
-}
-
 function restartCloudApacheInstance {
-	stopCloudApacheInstance
-	startCloudApacheInstance
+	sudo service httpd restart
 }
 
 function finalCleanup {

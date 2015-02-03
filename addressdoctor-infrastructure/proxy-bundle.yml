@@ -14,7 +14,8 @@
     jdk_verion: 1.7.0_65
     httpd_confd_path: /etc/httpd/conf.d
     useraccount: casfw
-    usergroup: casfw
+    usergroup: casfwgrp
+    httpd_port: 80
   roles:
   - common
   - proxybundle

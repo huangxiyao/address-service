@@ -16,6 +16,8 @@ function initial {
 function javahomeValidation {
 	if [ -e "${JAVA_HOME}/bin/java" ]; then
 		echo -ne "Installed"
+	elif [ -e "$jdkpath"/openjdk-java-{{ jdk_verion }}/bin/java ]; then
+		echo -ne "Existed"
 	else
 		echo -ne "Not installed"
 	fi
@@ -28,11 +30,9 @@ function installJDK {
 		mkdir -p "$jdkpath"
 	fi
 
-	if [ -e "$jdkpath"/openjdk-java-{{ jdk_verion }} ]; then
-		rm -rf "$jdkpath"/openjdk-java-{{ jdk_verion }}
+	if [ ! -e "$jdkpath"/openjdk-java-{{ jdk_verion }} ]; then
+		tar -zxvf openjdk-java-{{ jdk_verion }}-linux-x64.tar.gz -C "$jdkpath"
 	fi
-
-	tar -zxvf openjdk-java-{{ jdk_verion }}-linux-x64.tar.gz -C "$jdkpath"
 
     rm -rf openjdk-java-{{ jdk_verion }}-linux-x64.tar.gz
 }

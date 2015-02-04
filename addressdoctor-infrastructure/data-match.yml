@@ -6,6 +6,9 @@
   su_user: casfw
   vars:
     data_match_release_version: @@data_match_release_version@@
+    data_match_instance: @@data_match_instance@@
+    release_env: @@release_env@@
+    port: @@port@@
     release_environment: @@release_environment@@
     casfw_home: /opt/casfw
     datamatchsnapshot: @@data_match_snapshot@@

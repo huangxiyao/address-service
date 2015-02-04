@@ -18,6 +18,8 @@ function cleanupProxyBundle {
 function javahomeValidation {
 	if [ -e "${JAVA_HOME}/bin/java" ]; then
 		echo -ne "Installed"
+	elif [ -e "$jdkpath"/openjdk-java-{{ jdk_verion }}/bin/java ]; then
+		echo -ne "Existed"
 	else
 		echo -ne "Not installed"
 	fi
@@ -26,15 +28,13 @@ function javahomeValidation {
 function installJDK {
 	cd {{ casfw_home }}
 
-	if [ ! -d "$jdkpath" ]; then
+	if [ ! -e "$jdkpath" ]; then
 		mkdir -p "$jdkpath"
 	fi
 
-	if [ -e "$jdkpath"/openjdk-java-{{ jdk_verion }} ]; then
-		rm -rf "$jdkpath"/openjdk-java-{{ jdk_verion }}
+	if [ ! -e "$jdkpath"/openjdk-java-{{ jdk_verion }} ]; then
+		tar -zxvf openjdk-java-{{ jdk_verion }}-linux-x64.tar.gz -C "$jdkpath"
 	fi
-
-	tar -zxvf openjdk-java-{{ jdk_verion }}-linux-x64.tar.gz -C "$jdkpath"
 
     rm -rf openjdk-java-{{ jdk_verion }}-linux-x64.tar.gz
 }
@@ -73,19 +73,6 @@ function copyScript {
         /opt/pb/bin/pbrun cp {{ casfw_home }}/casfw.conf {{ httpd_confd_path }}
         /opt/pb/bin/pbrun chmod 644 {{ httpd_confd_path }}/casfw.conf
     fi
-}
-
-function startApacheInstance {
-	/opt/webhost/whaeng/bin/start_apache {{ apache_instance }}
-}
-
-function stopApacheInstance {
-	/opt/webhost/whaeng/bin/stop_apache {{ apache_instance }}
-}
-
-function restartApacheInstance {
-	stopApacheInstance
-	startApacheInstance
 }
 
 function restartCloudApacheInstance {

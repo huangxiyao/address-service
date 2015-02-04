@@ -22,12 +22,12 @@
       - javahomeValidation
   - name: Download JDK if JAVA_HOME is not found
     action: command wget -Nnv http://repo1.corp.hp.com/nexus/content/groups/public/net/java/openjdk/openjdk-java/{{ jdk_verion }}/openjdk-java-{{ jdk_verion }}-linux-x64.tar.gz -O {{ casfw_home }}/openjdk-java-{{ jdk_verion }}-linux-x64.tar.gz
-    when: javahomevalidateresponse.stdout != 'Installed'
+    when: javahomevalidateresponse.stdout == 'Not installed'
     tags:
       - downloadJDK
   - name: Install JDK 
     action: command bash {{ casfw_home }}/proxy-functions.sh installJDK
-    when: javahomevalidateresponse.stdout != 'Installed'
+    when: javahomevalidateresponse.stdout == 'Not installed'
     tags:
       - installJDK
 
@@ -74,15 +74,9 @@
       - copyapacheconf
 
 ########## Restart apache instance #################
-  - name: Restart Apache Instance
-    action: command bash {{ casfw_home }}/proxy-functions.sh restartApacheInstance
-    when: not iscloudserver
-    tags:
-      - restartapacheinstance
   - name: Restart Cloud Apache Instance
     action: command bash {{ casfw_home }}/proxy-functions.sh restartCloudApacheInstance
     su: no
-    when: iscloudserver
     tags:
       - restartcloudapacheinstance
 
@@ -95,26 +89,11 @@
   - name: Pause to make sure Apache instance process has started
     pause: minutes=1
     delegate_to: localhost
-  - name: validate non-cloud apache instance health page
-    uri: url={{ item.url }} status_code={{ item.statuscode }}
-    retries: 5
-    delegate_to: localhost
-    su: no
-    when: not iscloudserver
-    with_items:
-      - { url: 'http://{{ inventory_hostname }}:{{ httpd_port }}/DO_NOT_REMOVE/welcome.jsp', statuscode: 200}
-      - { url: 'http://{{ inventory_hostname }}:{{ httpd_port }}/DO_NOT_REMOVE/welcome.txt', statuscode: 200}
-      - { url: 'http://{{ inventory_hostname }}:{{ httpd_port }}/DO_NOT_REMOVE/health_check.htm', statuscode: 200}
-      - { url: 'http://{{ inventory_hostname }}:{{ httpd_port }}/DO_NOT_REMOVE/static_test.htm', statuscode: 200}
-      - { url: 'http://{{ inventory_hostname }}:{{ httpd_port }}/match/about/health', statuscode: 204}
-    tags:
-      - validateinstallation
   - name: validate cloud apache instance health page
     uri: url={{ item.url }} status_code={{ item.statuscode }}
     retries: 5
     delegate_to: localhost
     su: no
-    when: iscloudserver
     with_items:
       - { url: 'http://{{ inventory_hostname }}:{{ httpd_port }}/DO_NOT_REMOVE/health_check.html', statuscode: 200}
       - { url: 'http://{{ inventory_hostname }}:{{ httpd_port }}/match/about/health', statuscode: 204}

@@ -1,7 +1,7 @@
 
 ---
 # This playbook for Address Doctor databases download
-- hosts: DB-{{  }}
+- hosts: DB-{{ db_download_server }}
   gather_facts: no
   serial: 1
   su: yes

@@ -94,8 +94,8 @@ function restartCloudApacheInstance {
 
 function finalCleanup {
     cd {{ casfw_home }}
-    rm -f *.conf
-    rm -f *.sh
+    rm -f casfw.conf
+    rm -f proxy-*.sh
 }
 
 $userinput

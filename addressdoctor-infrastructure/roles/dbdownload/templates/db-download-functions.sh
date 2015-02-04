@@ -53,8 +53,8 @@ function downloadDB {
 
 function finalCleanup {
 	cd {{ casfw_home }}
-    rm -f db-download-functions.sh
-    rm -f db-download-args.txt
+    rm -f db-download*.sh
+    rm -f db-download*.txt
 }
 
 $userinput

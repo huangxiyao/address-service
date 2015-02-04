@@ -13,11 +13,11 @@
     jdk_verion: 1.7.0_65
     https_proxy_host: web-proxy.austin.hp.com
     https_proxy_port: 8088
-    user_name: santhosh.chandan@hp.com
-    password: Anagha@123
     casfw_home: /opt/casfw
     useraccount: casfw
     usergroup: casfw
+  vars_files:
+    - roles/dbdownload/vars/vars.yml
   roles:
   - common
   - dbdownload

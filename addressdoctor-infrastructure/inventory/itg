@@ -1,5 +1,5 @@
 [PROXY-ITG-G2]
-g2t0594g.austin.hp.com iscloudserver=false
+g2t0594g.austin.hp.com iscloudserver=false httpd_port=1180
 
 [IT_Cloud]
 C0004715.itcs.hp.com

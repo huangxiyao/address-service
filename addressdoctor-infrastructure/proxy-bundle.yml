@@ -6,16 +6,15 @@
   su: yes
   su_user: casfw
   vars:
-    proxy_bundle_version: 2014.11-M1
-    proxybundlesnapshot: false
-    release_env: ITG-G2
+    proxy_bundle_version: @@proxy_bundle_version@@
+    proxybundlesnapshot: @@proxy_bundle_snapshot@@
+    release_env: @@release_env@@
     casfw_home: /opt/casfw
     apache_instance: WHA-General-Inst
     jdk_verion: 1.7.0_65
     httpd_confd_path: /etc/httpd/conf.d
     useraccount: casfw
     usergroup: casfwgrp
-    httpd_port: 80
   roles:
   - common
   - proxybundle

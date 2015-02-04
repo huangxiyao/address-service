@@ -7,7 +7,7 @@
   vars:
     data_match_release_version: @@data_match_release_version@@
     release_environment: @@release_environment
-    casfw_home: /opt/casfw
+@@    casfw_home: /opt/casfw
     datamatchsnapshot: @@data_match_snapshot@@
     useraccount: casfw
     usergroup: casfwgrp

@@ -1,0 +1,22 @@
+ <soapenv:Envelope xmlns:soapenv="http://schemas.xmlsoap.org/soap/envelope/" xmlns:loc="http://localhost/">
+    <soapenv:Header/>
+    <soapenv:Body>
+       <loc:standardizeHybridAddress>
+          <loc:DistInput>
+            <loc:string></loc:string>
+            <loc:string></loc:string>
+            <loc:string>100 N LOS ANGELES ST</loc:string>
+            <loc:string></loc:string>
+            <loc:string></loc:string>
+            <loc:string></loc:string>
+            <loc:string>"LOS ANGELES"</loc:string>
+            <loc:string></loc:string>
+            <loc:string></loc:string>
+            <loc:string>CA</loc:string>
+            <loc:string></loc:string>
+            <loc:string>90012</loc:string>  
+            <loc:string>US</loc:string>
+          </loc:DistInput>
+       </loc:standardizeDiscreteAddress>
+    </soapenv:Body>
+ </soapenv:Envelope>

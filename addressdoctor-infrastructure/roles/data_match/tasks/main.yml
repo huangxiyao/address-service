@@ -1,12 +1,21 @@
 ---
-  - name: clean up cdi packages
-    action: command bash {{ casfw_home }}/ansible-functions.sh cleanupcdi
+  - name: download data-match installation CDI 
+    action: command wget http://repo1.corp.hp.com/nexus/content/repositories/releases/com/hp/it/120482/data-match-installer/{{ data_match_release_version }}/data-match-installer-{{ data_match_release_version }}.cdi -P {{ casfw_home }}
+    when: not datamatchsnapshot
     tags:
-      - cleanupcdi
- 
-  - name: wget cdi package from hudson
-    action: command wget http://repo1.corp.hp.com/nexus/content/repositories/releases/com/hp/it/120482/data-match-installer/2015.02/data-match-installer-2015.02.cdi -P /opt/casfw
+      - downloaddatamatchcdi
 
-  - include: deploy.yml data_match_instance=data-match1 release_env=ITG1 
-  - include: deploy.yml data_match_instance=data-match2 release_env=ITG2
-  - include: deploy.yml data_match_instance=data-match3 release_env=ITG3
+  - name: download data-match installation CDI (snapshot) 
+    action: command wget -Nnv http://repo1.corp.hp.com/nexus/service/local/artifact/maven/redirect?r=snapshots&g=com.hp.it.120482&a=data-match-installer&v={{ data_match_release_version }}&e=cdi -O {{ casfw_home }}/data-match-installer-{{ data_match_release_version }}.cdi
+    when: datamatchsnapshot
+    tags:
+      - downloaddatamatchsnapshotcdi   
+
+  - name: Download the argument's template files -> /opt/casfw
+    template: src=ansible-functions.sh dest={{ casfw_home }} mode=0755 owner={{ useraccount }} group={{ usergroup }} force
+    tags:
+      - copybashscript
+  
+  - include: deploy.yml data_match_instance=data-match1 release_env=ITG1 port=8380 
+  - include: deploy.yml data_match_instance=data-match2 release_env=ITG2 port=8390
+  - include: deploy.yml data_match_instance=data-match3 release_env=ITG3 port=8400

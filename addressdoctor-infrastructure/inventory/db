@@ -1,5 +1,5 @@
-[dbserver]
+[DB-CloudServer]
 c2t05879.itcs.hp.com
 
-[dbCloudServer]
+[DB-LocalTest]
 C0004716.itcs.hp.com

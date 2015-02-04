@@ -1,0 +1,7 @@
+---
+########## Copy Template files #################
+
+  - name: check databases loaded
+    action: command bash {{ casfw_home }}/database-check-functions.sh checkDatabasesLoaded
+    tags:
+      - checkDatabasesLoaded

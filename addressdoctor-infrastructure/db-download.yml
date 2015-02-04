@@ -8,7 +8,7 @@
   su_user: casfw
   vars:
     downloadtool_version: 1.0
-    download_xml_version: 5.6.0
+    download_xml_version: demo
     adm_client_folder: /opt/casfw/address-doctor/databases/ADM-Client
     jdk_verion: 1.7.0_65
     https_proxy_host: web-proxy.austin.hp.com

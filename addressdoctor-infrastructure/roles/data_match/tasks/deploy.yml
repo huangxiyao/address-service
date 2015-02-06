@@ -37,12 +37,6 @@
     action: command bash {{ casfw_home }}/ansible-functions.sh checkInstance
     tags:
       - checkInstance
-  
-   
-  - name: clean up cdi packages
-    action: command bash {{ casfw_home }}/ansible-functions.sh cleanupcdi
-    tags:
-      - cleanupcdi
 
   - name: Pause to make sure data-match instance process has started
     pause: minutes=6

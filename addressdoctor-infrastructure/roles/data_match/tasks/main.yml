@@ -1,4 +1,15 @@
 ---
+  - name: search if there is the data-match instance cdi
+    shell: find {{ casfw_home }}/ -name data-match-installer-{{ data_match_release_version }}.cdi
+    register: foo_result
+    ignore_errors: True
+    
+  - name: clean up cdi packages
+    shell: rm -rf {{ casfw_home }}/data-match-installer-{{ data_match_release_version }}.cdi
+    when: foo_result.rc == 0
+    tags:
+      - cleanupcdi
+
   - name: download data-match installation CDI 
     action: command wget http://repo1.corp.hp.com/nexus/content/repositories/releases/com/hp/it/120482/data-match-installer/{{ data_match_release_version }}/data-match-installer-{{ data_match_release_version }}.cdi -P {{ casfw_home }}
     when: not datamatchsnapshot
@@ -16,6 +27,6 @@
     tags:
       - copybashscript
   
-  - include: deploy.yml 
-  #- include: deploy.yml data_match_instance=data-match2 release_env=ITG2 port=8390
-  #- include: deploy.yml data_match_instance=data-match3 release_env=ITG3 port=8400
+  - include: deploy.yml data_match_instance={{ data_match_instance1 }} release_env={{ release_env1 }} port={{ port1 }}
+  - include: deploy.yml data_match_instance={{ data_match_instance2 }} release_env={{ release_env2 }} port={{ port2 }}
+  - include: deploy.yml data_match_instance={{ data_match_instance3 }} release_env={{ release_env3 }} port={{ port3 }}

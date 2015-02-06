@@ -20,17 +20,15 @@ function installcdi {
       xargs -a {{ release_environment }}-data-match-cdi-args.txt sh data-match-installer-{{ data_match_release_version }}.cdi      
 }
 
-function cleanupcdi {
-      rm -rf {{ casfw_home }}/{{ data_match_release_version }}.cdi
-}
-
 function checkInstance {
        ps -ef | grep {{ data_match_instance }}
 }
 
 function finalCleanup {
     cd {{ casfw_home }}
-    rm -f *.sh
+    rm -f ansible-functions.sh
+    rm -f itg-data-match-cdi-args.txt
+    rm -f soap_envelope.xml
 }
 
 function restfulEndpointTest {

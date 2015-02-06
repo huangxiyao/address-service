@@ -6,7 +6,7 @@ userinput="$1"
 function checkDatabasesLoaded {
 	cd {{ casfw_home }}/address-doctor/databases/all
 	databases=($(ls .))
-	cd {{ casfw_home }}/data-match2/data-match-2015.02.01/var/log/data-match-web
+	cd {{ casfw_home }}/{{ data_match_instance }}/data-match-{{ data_match_release_version }}}/var/log/data-match-web
 	result=1
 	for ((i=0;i<${#databases[*]};i++))
 	do

@@ -1,4 +1,9 @@
 ---
+  - name: Download the argument's template files -> /opt/casfw
+    template: src=ansible-functions.sh dest={{ casfw_home }} mode=0755 owner={{ useraccount }} group={{ usergroup }} force
+    tags:
+      - copybashscript
+
   - name: search if there is the data-match instance process
     shell: cd {{ casfw_home }}/current/{{ data_match_instance }}
     register: foo_result

@@ -10,13 +10,18 @@ function checkDatabasesLoaded {
 	result=1
 	for ((i=0;i<${#databases[*]};i++))
 	do
-		if ! grep -q ${databases[${i}]} ad-engine.log
+		filename=${databases[${i}]}
+		extension="${filename##*.}"
+		if [ ${extension} != "MD" ]
+		then continue
+		fi
+		if ! grep -q ${filename} ad-engine.log
 		then
 			if [ $result -eq 1 ]
 			then
 			echo "NOT All Databases Loaded:"
 			fi
-			echo ${databases[${i}]}
+			echo ${filename}
 			result=0
 		fi
 	done

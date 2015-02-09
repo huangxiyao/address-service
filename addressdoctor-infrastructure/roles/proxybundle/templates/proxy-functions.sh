@@ -5,10 +5,14 @@ userinput="$1"
 
 jdkpath="{{ casfw_home }}/software/openjdk"
 
+function cleanCdi {
+    cd {{ casfw_home }}
+    rm -f proxy-bundle*.cdi
+}
+
 function initialCleanup {
     cd {{ casfw_home }}
     rm -rf proxy-bundle
-    rm -rf proxy-bundle*.cdi
 }
 
 function cleanupProxyBundle {

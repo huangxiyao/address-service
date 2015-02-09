@@ -1,18 +1,4 @@
 ---
-########## Template files copy and init cleanup #################
-  - name: Download the argument's template files -> /opt/casfw
-    template: src=proxy-functions.sh dest={{ casfw_home }} mode=0755 owner={{ useraccount }} group={{ usergroup }} force
-    tags:
-      - copybashscript
-  - name: Initial Cleanup - remove old symbol link
-    action: command bash {{ casfw_home }}/proxy-functions.sh initialCleanup
-    tags:
-      - initialcleanup
-  - name: Remove the existing version of the proxy-bundle
-    action: command bash {{ casfw_home }}/proxy-functions.sh cleanupProxyBundle
-    tags:
-      - cleanupproxybundle
-
 ########## Install JDK if needed #################
 
   - name: Validate JAVA_HOME configuration
@@ -31,18 +17,37 @@
     tags:
       - installJDK
 
+########## Template files copy and old cdi cleanup #################
+  - name: Download the argument's template files -> /opt/casfw
+    template: src=proxy-functions.sh dest={{ casfw_home }} mode=0755 owner={{ useraccount }} group={{ usergroup }} force
+    tags:
+      - copybashscript
+  - name: Initial Cleanup - remove old cdi file
+    action: command bash {{ casfw_home }}/proxy-functions.sh cleanCdi
+    tags:
+      - cleanCdi
+      
 ########## Download Proxy Bundle #################
-
   - name: Download proxy-bundle installation CDI
-    action: command wget -Nnv http://repo1.corp.hp.com/nexus/content/groups/public/com/hp/it/120482/proxy-bundle-installer/{{ proxy_bundle_version }}/proxy-bundle-installer-{{ proxy_bundle_version }}.cdi -O {{ casfw_home }}/proxy-bundle-installer-{{ proxy_bundle_version }}.cdi
+    action: command wget -Nnv http://repo1.corp.hp.com/nexus/content/groups/public/com/hp/it/120482/proxy-bundle-installer/{{ proxy_bundle_version }}/proxy-bundle-installer-{{ proxy_bundle_version }}.cdi  -P /opt/casfw {{ casfw_home }}
     when: not proxybundlesnapshot
     tags:
       - downloadproxybundlecdi
   - name: Download proxy-bundle installation CDI (snapshot)
-    action: command wget -Nnv http://repo1.corp.hp.com/nexus/service/local/artifact/maven/redirect?r=snapshots&g=com.hp.it.120482&a=proxy-bundle-installer&v={{ proxy_bundle_version }}&e=cdi -O {{ casfw_home }}/proxy-bundle-installer-{{ proxy_bundle_version }}.cdi
+    action: command wget -Nnv http://repo1.corp.hp.com/nexus/service/local/artifact/maven/redirect?r=snapshots&g=com.hp.it.120482&a=proxy-bundle-installer&v={{ proxy_bundle_version }}&e=cdi -P /opt/casfw {{ casfw_home }}
     when: proxybundlesnapshot
     tags:
       - downloadproxybundlesnapshotcdi
+
+########## init cleanup #################
+  - name: Initial Cleanup - remove old symbol link
+    action: command bash {{ casfw_home }}/proxy-functions.sh initialCleanup
+    tags:
+      - initialcleanup
+  - name: Remove the existing version of the proxy-bundle
+    action: command bash {{ casfw_home }}/proxy-functions.sh cleanupProxyBundle
+    tags:
+      - cleanupproxybundle
 
 ########## Deploy Proxy Bundle #################
 

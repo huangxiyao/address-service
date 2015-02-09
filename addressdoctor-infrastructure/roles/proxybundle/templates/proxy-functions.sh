@@ -16,7 +16,8 @@ function initialCleanup {
 }
 
 function cleanupProxyBundle {
-	rm -rf {{ casfw_home }}/proxy-bundle*
+	#rm -rf {{ casfw_home }}/proxy-bundle*
+	find {{ casfw_home }} -maxdepth 1  -type d  -name "proxy-bundle-*" -exec rm -rf {} \;
 }
 
 function javahomeValidation {

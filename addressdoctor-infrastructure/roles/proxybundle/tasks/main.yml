@@ -1,6 +1,11 @@
 ---
+########## Template files copy and old cdi cleanup #################
+  - name: Download the argument's template files -> /opt/casfw
+    template: src=proxy-functions.sh dest={{ casfw_home }} mode=0755 owner={{ useraccount }} group={{ usergroup }} force
+    tags:
+      - copybashscript
+      
 ########## Install JDK if needed #################
-
   - name: Validate JAVA_HOME configuration
     action: command bash {{ casfw_home }}/proxy-functions.sh javahomeValidation
     register: javahomevalidateresponse
@@ -16,18 +21,12 @@
     when: javahomevalidateresponse.stdout == 'Not installed'
     tags:
       - installJDK
-
-########## Template files copy and old cdi cleanup #################
-  - name: Download the argument's template files -> /opt/casfw
-    template: src=proxy-functions.sh dest={{ casfw_home }} mode=0755 owner={{ useraccount }} group={{ usergroup }} force
-    tags:
-      - copybashscript
-  - name: Initial Cleanup - remove old cdi file
+      
+########## Download Proxy Bundle #################
+  - name: remove old cdi file
     action: command bash {{ casfw_home }}/proxy-functions.sh cleanCdi
     tags:
       - cleanCdi
-      
-########## Download Proxy Bundle #################
   - name: Download proxy-bundle installation CDI
     action: command wget -Nnv http://repo1.corp.hp.com/nexus/content/groups/public/com/hp/it/120482/proxy-bundle-installer/{{ proxy_bundle_version }}/proxy-bundle-installer-{{ proxy_bundle_version }}.cdi  -P /opt/casfw {{ casfw_home }}
     when: not proxybundlesnapshot

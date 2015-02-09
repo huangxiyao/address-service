@@ -11,11 +11,18 @@
     tags:
       - downloadarguments
 
-########## Initial Environment #################
-  - name: Initial Environment
-    action: command bash {{ casfw_home }}/db-download-functions.sh initial
+########## Check Disk Space #################
+  - name: Check Disk Space
+    action: command bash {{ casfw_home }}/db-download-functions.sh checkDiskSpace
+    tags:
+      - checkDiskSpace
+    ignore_errors: no
+
+########## Initial ADM-Client folder #################
+  - name: Initial ADM-Client folder
+    action: command bash {{ casfw_home }}/db-download-functions.sh initialADMClientFolder
     tags: 
-      - initial
+      - initialADMClientFolder
 
 ########## Install JDK if needed #################
 

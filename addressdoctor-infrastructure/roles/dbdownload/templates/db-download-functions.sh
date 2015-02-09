@@ -5,7 +5,23 @@ userinput="$1"
 
 jdkpath="{{ casfw_home }}/software/openjdk"
 
-function initial {
+function error {
+    local message=$1
+    echo $1 >&2
+    exit -1
+}
+
+function checkDiskSpace {
+        mountDisk=$(df -hP {{ casfw_home }}| tail -1 | awk '{print $6}');
+        leftSpace=$(df -mP $mountDisk | tail -1 | awk '{print $4}');
+
+        # the left disk space should not less than 40G
+        if [ "$leftSpace" -lt 40960 ]; then
+                error "The left space of disk $mountDisk is NOT enough: less than 40G";
+        fi
+}
+
+function initialADMClientFolder {
 	if [[ -d {{ adm_client_folder }} ]]; then
 		mv {{ adm_client_folder }} {{ adm_client_folder }}_"$(date +"%Y-%m-%d-%H:%M:%S")"
 	else

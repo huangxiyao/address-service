@@ -1,7 +1,11 @@
 ---
 ########## Copy Template files #################
-
-  - name: check databases loaded
-    action: command bash {{ casfw_home }}/database-check-functions.sh checkDatabasesLoaded
+  - name: Download the argument's template files -> {{ casfw_home }}
+    template: src=database-check-functions.sh dest={{ casfw_home }} mode=0755 owner={{ useraccount }} force
     tags:
+      - copybashscript
+
+  - name: Check databases loaded
+    action: command bash {{ casfw_home }}/database-check-functions.sh checkDatabasesLoaded
+    tags: 
       - checkDatabasesLoaded

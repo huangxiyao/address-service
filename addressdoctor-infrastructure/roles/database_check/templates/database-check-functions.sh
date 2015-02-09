@@ -3,14 +3,13 @@
 HOME="/opt/casfw"
 userinput="$1"
 
-function checkDatabasesLoaded {
+function checkDatabasesLoaded {	
 	cd {{ casfw_home }}/address-doctor/databases/all
 	databases=($(ls .))
-	cd {{ casfw_home }}/{{ data_match_instance }}/data-match-{{ data_match_release_version }}}/var/log/data-match-web
+	cd {{ casfw_home }}/{{ data_match_instance }}/data-match-{{ data_match_release_version }}/var/log/data-match-web
 	result=1
-	for ((i=0;i<${#databases[*]};i++))
+	for filename in ${databases[*]}
 	do
-		filename=${databases[${i}]}
 		extension="${filename##*.}"
 		if [ ${extension} != "MD" ]
 		then continue

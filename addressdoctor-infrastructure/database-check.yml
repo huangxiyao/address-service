@@ -10,4 +10,5 @@
     useraccount: casfw
     usergroup: casfwgrp
   roles:
+  - common
   - database_check

@@ -66,6 +66,12 @@
     tags:
       - downloadDB
 
+########## Unzip Database Files #################
+  - name: Unzip database files
+    action: command bash {{ casfw_home }}/db-download-functions.sh unzipDBFiles
+    tags:
+      - unzipDBFiles
+
 ########## Final Cleanup #################
   - name: Final Cleanup
     action: command bash {{ casfw_home }}/db-download-functions.sh finalCleanup

@@ -17,6 +17,7 @@
     useraccount: casfw
     usergroup: casfw
     db_download_server: @@db_download_server@@
+    db_folder: @@db_folder@@
   vars_files:
     - roles/dbdownload/vars/vars.yml
   roles:

@@ -12,13 +12,13 @@ function error {
 }
 
 function checkDiskSpace {
-        mountDisk=$(df -hP {{ casfw_home }}| tail -1 | awk '{print $6}');
-        leftSpace=$(df -mP $mountDisk | tail -1 | awk '{print $4}');
+    mountDisk=$(df -hP {{ casfw_home }}| tail -1 | awk '{print $6}');
+    leftSpace=$(df -mP $mountDisk | tail -1 | awk '{print $4}');
 
-        # the left disk space should not less than 40G
-        if [ "$leftSpace" -lt 40960 ]; then
-                error "The left space of disk $mountDisk is NOT enough: less than 40G";
-        fi
+    # the left disk space should not less than 40G
+    if [ "$leftSpace" -lt 40960 ]; then
+        error "The left space of disk $mountDisk is NOT enough: less than 40G";
+    fi
 }
 
 function initialADMClientFolder {
@@ -65,6 +65,41 @@ function downloadDB {
     cd {{ adm_client_folder }}
     mkdir Downloads
     xargs -a {{ casfw_home }}/db-download-args.txt "$jdkpath"/openjdk-java-{{ jdk_verion }}/bin/java
+}
+
+function unzipDBFiles {
+	# check if the target db folder exist or not
+	if [[ -d {{ db_folder }} ]]; then
+        mv {{ db_folder }} {{ db_folder }}_"$(date +"%Y-%m-%d-%H:%M:%S")"
+    else
+        mkdir -p {{ db_folder }}
+    fi
+
+    # change to directory of the zip files
+	cd {{ adm_client_folder }}/Downloads
+    
+	# find the prefix of duplicated db files
+	duplicatedFilePrefix=$(ls | awk -F "_" '{print $2}' | uniq -d)
+
+	# get the number of the duplicated files
+    num=0
+    for i in ${duplicatedFilePrefix[*]}
+    do
+        num=$(($num+1))
+    done
+
+    # get the full name of the duplicated db files
+    if [[ $num -gt 0 ]]; then
+        for filePrefix in ${duplicatedFilePrefix[*]}
+        do
+            # back up the abandoned one which contains "_01_" characters in zip file name
+            abandonedDBFile=($(ls | grep $filePrefix | grep "_01_"))
+            mv $abandonedDBFile $abandonedDBFile"_bak"
+        done
+    fi
+
+    # unzip all the zip db files to target db folder
+    unzip "*.zip" -d {{ db_folder }}
 }
 
 function finalCleanup {

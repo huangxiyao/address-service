@@ -12,7 +12,7 @@ function error {
 }
 
 function checkDiskSpace {
-    mountDisk=$(df -hP {{ casfw_home }}| tail -1 | awk '{print $6}');
+    mountDisk=$(df -hP {{ casfw_home }} | tail -1 | awk '{print $6}');
     leftSpace=$(df -mP $mountDisk | tail -1 | awk '{print $4}');
 
     # the left disk space should not less than 40G
@@ -92,13 +92,20 @@ function unzipDBFiles {
         num=$(($num+1))
     done
 
-    # get the full name of the duplicated db files
+    # handle the duplicated files
     if [[ $num -gt 0 ]]; then
         for filePrefix in ${duplicatedFilePrefix[*]}
         do
-            # back up the abandoned one which contains "_01_" characters in zip file name
-            abandonedDBFile=($(ls | grep $filePrefix | grep "_01_"))
-            mv $abandonedDBFile $abandonedDBFile"_bak"
+            # find out the latest date of the duplicated zip files
+            latestDate=($(ls | grep $filePrefix | awk -F "_" '{print $4}' | awk -F "." '{print $1}' | sort -n | tail -1))
+            
+            # find out the old zip db files
+            oldFiles=($(ls | grep $filePrefix | grep $latestDate -v))
+            for oldFile in ${oldFiles[*]}
+            do
+                # back up the old db files
+                mv $oldFile $oldFile"_bak"
+            done
         done
     fi
 

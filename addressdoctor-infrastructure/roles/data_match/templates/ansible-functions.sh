@@ -31,6 +31,33 @@ function finalCleanup {
     rm -f soap_envelope.xml
 }
 
+function checkDatabasesLoaded { 
+  cd {{ casfw_home }}/address-doctor/databases/all
+  databases=($(ls .))
+  cd {{ casfw_home }}/{{ data_match_instance }}/data-match-{{ data_match_release_version }}/var/log/data-match-web
+  result=1
+  for filename in ${databases[*]}
+  do
+    extension="${filename##*.}"
+    if [ ${extension} != "MD" ]
+    then continue
+    fi
+    if ! grep -q ${filename} ad-engine.log
+    then
+      if [ $result -eq 1 ]
+      then
+      echo "NOT All Databases Loaded:"
+      fi
+      echo ${filename}
+      result=0
+    fi
+  done
+  if [ $result -eq 1 ]
+  then
+    echo "All Databases Loaded"
+  fi  
+}
+
 function restfulEndpointTest {
     response=$(curl --header "X-HP-Application-Process-UID: w-mdcp:prd-http" -s -i http://{{ inventory_hostname }}:{{ port }}/match/validatedAddress?country1=US&deliveryAddressLine1=745+Riverhaven+Drive&characterScriptDetectionIndicator=false&postalCode1=30024)
     if ! echo "${response}" | grep -q "HTTP/1.1 200"

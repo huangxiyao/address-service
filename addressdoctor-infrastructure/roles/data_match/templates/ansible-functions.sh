@@ -3,6 +3,12 @@
 HOME="/opt/casfw"
 userinput="$1"
 
+function error {
+    local message=$1
+    echo $1 >&2
+    exit -1
+}
+
 function cleanupInstance {
       rm -rf {{ casfw_home }}/{{ data_match_instance }}
 }

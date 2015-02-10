@@ -62,9 +62,13 @@ function prepareDownloadtool {
 }
 
 function downloadDB {
+    if [ ! -e "${JAVA_HOME}/bin/java" ]; then
+        export JAVA_HOME="$jdkpath"/openjdk-java-{{ jdk_verion }}
+    fi
+    
     cd {{ adm_client_folder }}
     mkdir Downloads
-    xargs -a {{ casfw_home }}/db-download-args.txt "$jdkpath"/openjdk-java-{{ jdk_verion }}/bin/java
+    xargs -a {{ casfw_home }}/db-download-args.txt ${JAVA_HOME}/bin/java
 }
 
 function unzipDBFiles {

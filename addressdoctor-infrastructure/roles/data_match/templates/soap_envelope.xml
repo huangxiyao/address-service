@@ -1,7 +1,7 @@
  <soapenv:Envelope xmlns:soapenv="http://schemas.xmlsoap.org/soap/envelope/" xmlns:loc="http://localhost/">
     <soapenv:Header/>
     <soapenv:Body>
-       <loc:standardizeHybridAddress>
+       <loc:standardizeDiscreteAddress>
           <loc:DistInput>
             <loc:string></loc:string>
             <loc:string></loc:string>
@@ -19,4 +19,4 @@
           </loc:DistInput>
        </loc:standardizeDiscreteAddress>
     </soapenv:Body>
- </soapenv:Envelope>
+ </soapenv:Envelope> 

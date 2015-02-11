@@ -68,7 +68,7 @@ function restfulEndpointTest {
   restfulEndPoints=(validatedAddress certifiedAddress looselyValidatedAddress addressSuggestions fastCompletionAddress)
   for restfulEndPoint in ${restfulEndPoints[*]}
   do
-    url="http://{{ inventory_hostname }}:{{ port }}/${restfulEndPoint}?country1=US&deliveryAddressLine1=745+Riverhaven+Drive&characterScriptDetectionIndicator=false&postalCode1=30024"
+    url="http://{{ inventory_hostname }}:{{ port }}/match/${restfulEndPoint}?country1=US&deliveryAddressLine1=745+Riverhaven+Drive&characterScriptDetectionIndicator=false&postalCode1=30024"
     response=$(curl --header "X-HP-Application-Process-UID: w-mdcp:prd-http" -s -i ${url})
     if ! echo "${response}" | grep -q "HTTP/1.1 200"
     then

@@ -47,11 +47,6 @@
     pause: minutes=6
     delegate_to: localhost
 
-  - name: Check databases loaded
-    action: command bash {{ casfw_home }}/ansible-functions.sh checkDatabasesLoaded
-    tags: 
-      - checkDatabasesLoaded
-
   - name: validate Restful Endpoint
     action: command bash {{ casfw_home }}/ansible-functions.sh restfulEndpointTest 
     # when: release_environment == 'dev'
@@ -61,7 +56,12 @@
   - name: validate Soap Endpoint
     action: command bash {{ casfw_home }}/ansible-functions.sh soapEndpointTest
     tags:
-      - soapEndpointTest 
+      - soapEndpointTest
+
+  - name: Check databases loaded
+    action: command bash {{ casfw_home }}/ansible-functions.sh checkDatabasesLoaded
+    tags: 
+      - checkDatabasesLoaded
    
   - name: Final cleanup
     action: command bash {{ casfw_home }}/ansible-functions.sh finalCleanup

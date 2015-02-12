@@ -78,6 +78,7 @@ function restfulEndpointTest {
 }
 
 function soapEndpointTest {
+    cd {{ casfw_home }}
     response=$(curl --header "Content-Type: text/xml;charset=UTF-8" --header "X-HP-Application-Process-UID: w-mdcp:prd-http" --data @soap_envelope.xml -s -i http://{{ inventory_hostname }}:{{ port }}/legacy-match/address/v1?wsdl)
     if ! echo "${response}" | grep -q "HTTP/1.1 200"
     then

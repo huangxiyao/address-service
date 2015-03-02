@@ -24,7 +24,7 @@
     pause: seconds=60
 
 ########## Start tomcat instance #################
-  - name: Stop tomcat instance
+  - name: Start tomcat instance
     action: command bash {{ casfw_home }}/db-restart-tomcat-functions.sh startTomcatInstance
     tags:
       - startTomcatInstance

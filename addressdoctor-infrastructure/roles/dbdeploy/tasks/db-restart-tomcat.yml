@@ -1,0 +1,43 @@
+---
+# This playbook is for Address Doctor tomcat instances restart.
+########## Copy Template files #################
+#TODO: group={{ usergroup }}
+  - name: Download the argument's template files -> {{ casfw_home }}
+    template: src=db-restart-tomcat-functions.sh dest={{ casfw_home }} mode=0755 owner={{ useraccount }} force
+    tags:
+      - copybashscript
+
+  - name: Download the argument's template files -> /opt/casfw
+    template: src=db-restart-tomcat-args.txt dest={{ casfw_home }} mode=0664 owner=casfw force
+    tags:
+      - downloadarguments    
+
+########## Stop tomcat instance #################
+  - name: Stop tomcat instance
+    action: command bash {{ casfw_home }}/db-restart-tomcat-functions.sh stopTomcatInstance
+    tags:
+      - stopTomcatInstance
+
+#TODO: make sure tomcat process were stopped
+########## Pause 60 seconds to make sure tomcat processes were stopped #################
+  - name: Pause 60 seconds
+    pause: seconds=60
+
+########## Start tomcat instance #################
+  - name: Start tomcat instance
+    action: command bash {{ casfw_home }}/db-restart-tomcat-functions.sh startTomcatInstance
+    tags:
+      - startTomcatInstance
+
+########## check tomcat instance #################
+#  - name: check tomcat instance
+#    action: command bash {{ casfw_home }}/db-restart-tomcat-functions.sh checkTomcatInstance
+#    register: tomcatProcessCheckResponse
+#    tags:
+#      - checkTomcatInstance
+
+########## Final Cleanup #################
+  - name: Final Cleanup
+    action: command bash {{ casfw_home }}/db-restart-tomcat-functions.sh finalCleanup
+    tags:
+      - finalCleanup

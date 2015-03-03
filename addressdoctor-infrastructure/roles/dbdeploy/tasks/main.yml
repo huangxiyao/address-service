@@ -8,11 +8,17 @@
       - copybashscript
 
 ########## Check Disk Space #################
-#  - name: Check Disk Space
-#    action: command bash {{ casfw_home }}/db-deploy-functions.sh checkDiskSpace
-#    tags:
-#      - checkDiskSpace
-#    ignore_errors: no
+  - name: Check Disk Space
+    action: command bash {{ casfw_home }}/db-deploy-functions.sh checkDiskSpace
+    tags:
+      - checkDiskSpace
+    ignore_errors: no
+
+########## Check DB Target Folder #################
+  - name: Check DB Target Folder
+    action: command bash {{ casfw_home }}/db-deploy-functions.sh checkDBTargetFolder
+    tags:
+      - checkDBTargetFolder
 
 ########## Copy databases to target server #################
   - name: Copy database to target server

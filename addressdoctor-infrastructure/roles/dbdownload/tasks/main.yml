@@ -65,12 +65,16 @@
     action: command bash {{ casfw_home }}/db-download-functions.sh downloadDB
     tags:
       - downloadDB
+    async: 0
+    poll: 10
 
 ########## Unzip Database Files #################
   - name: Unzip database files
     action: command bash {{ casfw_home }}/db-download-functions.sh unzipDBFiles
     tags:
       - unzipDBFiles
+    async: 0
+    poll: 10
 
 ########## Final Cleanup #################
   - name: Final Cleanup

@@ -19,13 +19,13 @@ function checkDiskSpace {
     fi
 }
 
-# make sure db target folder exist
-function checkDBTargetFolder {
+# initial db target folder
+function initialDBTargetFolder {
     if [[ -d {{ db_target_folder }} ]]; then
         mv {{ db_target_folder }} {{ db_target_folder }}_"$(date +"%Y-%m-%d-%H:%M:%S")"
-    else
-        mkdir -p {{ db_target_folder }}
     fi
+    
+    mkdir -p {{ db_target_folder }}
 }
 
 # Update DB Symlink

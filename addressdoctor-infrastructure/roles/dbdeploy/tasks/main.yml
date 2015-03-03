@@ -14,11 +14,11 @@
       - checkDiskSpace
     ignore_errors: no
 
-########## Check DB Target Folder #################
-  - name: Check DB Target Folder
-    action: command bash {{ casfw_home }}/db-deploy-functions.sh checkDBTargetFolder
+########## Initial DB Target Folder #################
+  - name: Initial DB Target Folder
+    action: command bash {{ casfw_home }}/db-deploy-functions.sh initialDBTargetFolder
     tags:
-      - checkDBTargetFolder
+      - initialDBTargetFolder
 
 ########## Copy databases to target server #################
   - name: Copy database to target server

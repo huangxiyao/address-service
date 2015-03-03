@@ -15,10 +15,12 @@
 #    ignore_errors: no
 
 ########## Copy databases to target server #################
-#  - name: Copy database to target server
-#    copy: src={{ db_source_folder }} dest={{ db_target_folder }} mode=0644 owner={{ useraccount }} force
-#    tags:
-#      - copyDBFilesToTargetServer
+  - name: Copy database to target server
+    copy: src={{ item }} dest={{ db_target_folder }} mode=0755 owner={{ useraccount }} group={{ usergroup }} force
+    with_fileglob:
+      - "{{ db_source_folder }}/*.MD"
+    tags:
+      - copyDBFilesToTargetServer
 
 ########## Update DB Symlink #################
   - name: Update DB SymLink

@@ -7,7 +7,7 @@
   su_user: casfw
   vars:
     proxy_bundle_version: @@proxy_bundle_version@@
-    proxybundlesnapshot: @@proxy_bundle_snapshot@@
+    proxybundlesnapshot: false
     release_env: @@release_env@@
     casfw_home: /opt/casfw
     jdk_verion: 1.7.0_65

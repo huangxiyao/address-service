@@ -6,7 +6,7 @@
   su: yes
   su_user: casfw
   vars:
-    proxy_bundle_version: @@proxy_bundle_version@@
+    proxy_bundle_version: 1.0.23
     proxybundlesnapshot: @@proxy_bundle_snapshot@@
     release_env: @@release_env@@
     casfw_home: /opt/casfw

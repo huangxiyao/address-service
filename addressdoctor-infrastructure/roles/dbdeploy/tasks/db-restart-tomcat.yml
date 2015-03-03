@@ -35,3 +35,9 @@
 #    register: tomcatProcessCheckResponse
 #    tags:
 #      - checkTomcatInstance
+
+########## Final Cleanup #################
+  - name: Final Cleanup
+    action: command bash {{ casfw_home }}/db-restart-tomcat-functions.sh finalCleanup
+    tags:
+      - finalCleanup

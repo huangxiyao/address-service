@@ -29,8 +29,6 @@ function updateDBSymLink {
 function finalCleanup {
 	cd {{ casfw_home }}
     rm -f db-deploy*.sh
-    rm -f db-restart*.sh
-    rm -f db-restart*.txt
 }
 
 $userinput

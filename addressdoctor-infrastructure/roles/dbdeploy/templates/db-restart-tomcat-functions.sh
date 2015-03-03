@@ -1,3 +1,8 @@
+#!/bin/bash
+
+HOME="/opt/casfw"
+userinput="$1"
+
 function stopTomcatInstance {
     cd {{ casfw_home }}
     bash current/{{ data_match_instance }}/bin/tomcat-ad.sh stop -force
@@ -18,3 +23,11 @@ function checkTomcatInstance {
         echo "Start tomcat instance finished."
     fi
 }
+
+function finalCleanup {
+	cd {{ casfw_home }}
+    rm -f db-restart-tomcat*.sh
+    rm -f db-restart-tomcat*.txt
+}
+
+$userinput

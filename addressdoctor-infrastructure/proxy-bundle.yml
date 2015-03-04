@@ -6,7 +6,7 @@
   su: yes
   su_user: casfw
   vars:
-    proxy_bundle_version: 1.0.30
+    proxy_bundle_version: 1.0.31
     proxybundlesnapshot: false
     casfw_home: /opt/casfw
     jdk_verion: 1.7.0_65

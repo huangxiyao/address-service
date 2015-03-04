@@ -37,6 +37,10 @@
     action: command bash {{ casfw_home }}/ansible-functions.sh installcdi
     tags:
        - installcdi
+
+  - name: Pause to make sure Apache instance process has started
+    pause: minutes=1
+    delegate_to: localhost
    
   - name: check instance
     action: command bash {{ casfw_home }}/ansible-functions.sh checkInstance
@@ -57,6 +61,16 @@
     action: command bash {{ casfw_home }}/ansible-functions.sh soapEndpointTest
     tags:
       - soapEndpointTest
+
+  - name: Sample validate Restful Endpoint Test
+    action: command bash {{ casfw_home }}/ansible-functions.sh restValidationTest
+    tags:
+      - restValidationTest
+
+  - name: Sample Validate Soap Endpoint Test
+    action: command bash {{ casfw_home }}/ansible-functions.sh soapValidationTest
+    tags:
+      - soapValidationTest
 
   - name: Check databases loaded
     action: command bash {{ casfw_home }}/ansible-functions.sh checkDatabasesLoaded

@@ -24,9 +24,9 @@ function checkDiskSpace {
 function initialADMClientFolder {
 	if [[ -d {{ adm_client_folder }} ]]; then
 		mv {{ adm_client_folder }} {{ adm_client_folder }}_"$(date +"%Y-%m-%d-%H:%M:%S")"
-	else
-		mkdir -p {{ adm_client_folder }}
 	fi
+
+	mkdir -p {{ adm_client_folder }}
 }	
 
 function javahomeValidation {
@@ -75,9 +75,8 @@ function unzipDBFiles {
 	# check if the target db folder exist or not
 	if [[ -d {{ db_folder }} ]]; then
         mv {{ db_folder }} {{ db_folder }}_"$(date +"%Y-%m-%d-%H:%M:%S")"
-    else
-        mkdir -p {{ db_folder }}
     fi
+    mkdir -p {{ db_folder }}
 
     # change to directory of the zip files
 	cd {{ adm_client_folder }}/Downloads

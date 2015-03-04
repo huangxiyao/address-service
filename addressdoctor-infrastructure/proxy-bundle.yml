@@ -1,6 +1,6 @@
 ---
 # This playbook deploys an CAS Address Doctor Proxy Bundle
-- hosts: PROXY-{{release_env}}
+- hosts: proxy-bundle
   gather_facts: no
   serial: 1
   su: yes
@@ -8,7 +8,6 @@
   vars:
     proxy_bundle_version: @@proxy_bundle_version@@
     proxybundlesnapshot: false
-    release_env: @@release_env@@
     casfw_home: /opt/casfw
     jdk_verion: 1.7.0_65
     httpd_confd_path: /etc/httpd/conf.d

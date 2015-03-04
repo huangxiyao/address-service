@@ -52,7 +52,7 @@ function installProxyBundleCdi {
     fi
 
     cd {{ casfw_home }}
-    sh proxy-bundle-installer-*.cdi -d {{ casfw_home }} -e {{ release_env }}
+    sh proxy-bundle-installer-*.cdi -d {{ casfw_home }} -e {{ deploy_env }}
 }
 
 function createProxyBundleLink {

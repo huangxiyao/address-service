@@ -95,11 +95,8 @@ function unzipDBFiles {
     if [[ $num -gt 0 ]]; then
         for filePrefix in ${duplicatedFilePrefix[*]}
         do
-            # find out the latest date of the duplicated zip files
-            latestDate=($(ls | grep $filePrefix | awk -F "_" '{print $4}' | awk -F "." '{print $1}' | sort -n | tail -1))
-            
-            # find out the old zip db files
-            oldFiles=($(ls | grep $filePrefix | grep $latestDate -v))
+            # back up the old files which product id is 01, for example: DB5_SGP5BI_01_150201.zip
+            oldFiles=($(ls | grep $filePrefix | grep _01_))
             for oldFile in ${oldFiles[*]}
             do
                 # back up the old db files
@@ -107,6 +104,23 @@ function unzipDBFiles {
             done
         done
     fi
+
+#    # handle the duplicated files
+#    if [[ $num -gt 0 ]]; then
+#        for filePrefix in ${duplicatedFilePrefix[*]}
+#        do
+#            # find out the latest date of the duplicated zip files
+#            latestDate=($(ls | grep $filePrefix | awk -F "_" '{print $4}' | awk -F "." '{print $1}' | sort -n | tail -1))
+            
+#            # find out the old zip db files
+#            oldFiles=($(ls | grep $filePrefix | grep $latestDate -v))
+#            for oldFile in ${oldFiles[*]}
+#            do
+#                # back up the old db files
+#                mv $oldFile $oldFile"_bak"
+#            done
+#        done
+#    fi
 
     # unzip all the zip db files to target db folder
     unzip "*.zip" -d {{ db_folder }}

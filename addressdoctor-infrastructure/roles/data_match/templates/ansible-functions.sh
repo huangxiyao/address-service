@@ -69,13 +69,6 @@ function checkDatabasesLoaded {
 
     unlockcodes=($(awk '/^</{if (n++) print ""}{printf $0}' ad-engine.log | grep -P "UnlockCode"))
 
-    type=""
-    startDate=""
-    expirationDate=""
-    status=""
-    code=""
-
-
     validateresult=0
     supplementaryresult=0
     geocodingresult=0

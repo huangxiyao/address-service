@@ -19,6 +19,15 @@ function checkDiskSpace {
     fi
 }
 
+# initial db target folder
+function initialDBTargetFolder {
+    if [[ -d {{ db_target_folder }} ]]; then
+        mv {{ db_target_folder }} {{ db_target_folder }}_"$(date +"%Y-%m-%d-%H:%M:%S")"
+    fi
+    
+    mkdir -p {{ db_target_folder }}
+}
+
 # Update DB Symlink
 function updateDBSymLink {
     cd {{ casfw_home }}/address-doctor/databases

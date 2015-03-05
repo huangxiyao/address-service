@@ -50,15 +50,15 @@ function installJDK {
 		tar -zxvf openjdk-java-{{ jdk_verion }}-linux-x64.tar.gz -C "$jdkpath"
 	fi
 
-    rm -rf openjdk-java-{{ jdk_verion }}-linux-x64.tar.gz
+    rm -f openjdk-java-{{ jdk_verion }}-linux-x64.tar.gz
 }
 
 function prepareDownloadtool {
     cd {{ adm_client_folder }}
     unzip Downloadtool-{{ downloadtool_version }}.zip
     unzip download-{{ download_xml_version }}.zip
-    rm -rf Downloadtool-{{ downloadtool_version }}.zip
-    rm -rf download-{{ download_xml_version }}.zip
+    rm -f Downloadtool-{{ downloadtool_version }}.zip
+    rm -f download-{{ download_xml_version }}.zip
 }
 
 function downloadDB {

@@ -31,7 +31,7 @@ function initialDBTargetFolder {
 # Update DB Symlink
 function updateDBSymLink {
     cd {{ casfw_home }}/address-doctor/databases
-    rm -rf all
+    rm -f all
     ln -sf {{ db_target_folder }} all
 }
 

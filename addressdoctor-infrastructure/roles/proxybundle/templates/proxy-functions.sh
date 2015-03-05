@@ -12,11 +12,10 @@ function cleanCdi {
 
 function initialCleanup {
     cd {{ casfw_home }}
-    rm -rf proxy-bundle
+    rm -f proxy-bundle
 }
 
 function cleanupProxyBundle {
-	#rm -rf {{ casfw_home }}/proxy-bundle*
 	cd {{ casfw_home }}
 	find . -maxdepth 1  -type d  -name "proxy-bundle-*" -exec rm -rf {} \;
 }
@@ -42,7 +41,7 @@ function installJDK {
 		tar -zxvf openjdk-java-{{ jdk_verion }}-linux-x64.tar.gz -C "$jdkpath"
 	fi
 
-    rm -rf openjdk-java-{{ jdk_verion }}-linux-x64.tar.gz
+    rm -f openjdk-java-{{ jdk_verion }}-linux-x64.tar.gz
 }
 
 function installProxyBundleCdi {

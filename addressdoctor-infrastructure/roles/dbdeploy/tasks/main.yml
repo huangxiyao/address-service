@@ -35,9 +35,9 @@
       - updateDBSymLink
 
 ########## Restart Tomcat instances #################
-  - include: db-restart-tomcat.yml data_match_instance=@@data_match_instance1@@
-  - include: db-restart-tomcat.yml data_match_instance=@@data_match_instance2@@
-  - include: db-restart-tomcat.yml data_match_instance=@@data_match_instance3@@
+  - include: db-restart-tomcat.yml data_match_instance={{ data_match_instance1 }} port={{ tomcat_ad_port1 }}
+  - include: db-restart-tomcat.yml data_match_instance={{ data_match_instance2 }} port={{ tomcat_ad_port2 }}
+  - include: db-restart-tomcat.yml data_match_instance={{ data_match_instance3 }} port={{ tomcat_ad_port3 }}
 
 ########## Final Cleanup #################
   - name: Final Cleanup

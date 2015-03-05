@@ -68,7 +68,7 @@ function downloadDB {
     
     cd {{ adm_client_folder }}
     mkdir Downloads
-    xargs -a {{ casfw_home }}/db-download-args.txt ${JAVA_HOME}/bin/java
+    xargs -a {{ casfw_home }}/db-download-args.txt ${JAVA_HOME}/bin/java > /dev/null
 }
 
 function unzipDBFiles {
@@ -123,7 +123,8 @@ function unzipDBFiles {
 #    fi
 
     # unzip all the zip db files to target db folder
-    unzip "*.zip" -d {{ db_folder }}
+    # clear unzip output log
+    unzip "*.zip" -d {{ db_folder }} > /dev/null
 }
 
 function finalCleanup {

@@ -1,11 +1,15 @@
 ---
 # This playbook is for Address Doctor tomcat instances restart.
 ########## Copy Template files #################
-#TODO: group={{ usergroup }}
   - name: Download the argument's template files -> {{ casfw_home }}
-    template: src=db-restart-tomcat-functions.sh dest={{ casfw_home }} mode=0755 owner={{ useraccount }} force
+    template: src=db-restart-tomcat-functions.sh dest={{ casfw_home }} mode=0755 owner={{ useraccount }} group={{ usergroup }} force
     tags:
       - copybashscript 
+
+  - name: Download the argument's template files -> {{ casfw_home }}
+    template: src=soap_envelope.xml dest={{ casfw_home }} mode=0664 owner={{ useraccount }} group={{ usergroup }}  force
+    tags:
+      - downloadarguments
 
 ########## Stop tomcat instance #################
   - name: Stop tomcat instance

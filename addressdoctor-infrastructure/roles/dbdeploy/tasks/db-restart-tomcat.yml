@@ -5,12 +5,7 @@
   - name: Download the argument's template files -> {{ casfw_home }}
     template: src=db-restart-tomcat-functions.sh dest={{ casfw_home }} mode=0755 owner={{ useraccount }} force
     tags:
-      - copybashscript
-
-  - name: Download the argument's template files -> /opt/casfw
-    template: src=db-restart-tomcat-args.txt dest={{ casfw_home }} mode=0664 owner=casfw force
-    tags:
-      - downloadarguments    
+      - copybashscript 
 
 ########## Stop tomcat instance #################
   - name: Stop tomcat instance
@@ -18,23 +13,58 @@
     tags:
       - stopTomcatInstance
 
-#TODO: make sure tomcat process were stopped
-########## Pause 60 seconds to make sure tomcat processes were stopped #################
-  - name: Pause 60 seconds
-    pause: seconds=60
+########## Check tomcat process stopped #################
+  - name: Check tomcat process stopped
+    action: command bash {{ casfw_home }}/db-restart-tomcat-functions.sh checkTomcatProcessStopped
+    register: checkTomcatProcessStoppedResponse
+    tags:
+      - checkTomcatProcessStopped
 
 ########## Start tomcat instance #################
   - name: Start tomcat instance
     action: command bash {{ casfw_home }}/db-restart-tomcat-functions.sh startTomcatInstance
+    when: checkTomcatProcessStoppedResponse.stdout == 'Tomcat Process Stopped'
     tags:
       - startTomcatInstance
 
-########## check tomcat instance #################
-#  - name: check tomcat instance
-#    action: command bash {{ casfw_home }}/db-restart-tomcat-functions.sh checkTomcatInstance
-#    register: tomcatProcessCheckResponse
-#    tags:
-#      - checkTomcatInstance
+########## Check tomcat instance start finished #################
+  - name: Check tomcat instance start finished
+    action: command bash {{ casfw_home }}/db-restart-tomcat-functions.sh checkTomcatInstanceStartFinished
+    register: checkTomcatInstanceStartFinished
+    when: checkTomcatProcessStoppedResponse.stdout == 'Tomcat Process Stopped'
+    tags:
+      - checkTomcatInstanceStartFinished
+
+########## Check databases loaded #################
+  - name: Check databases loaded
+    action: command bash {{ casfw_home }}/db-restart-tomcat-functions.sh checkDatabasesLoaded
+    when: checkTomcatInstanceStartFinished.stdout == 'Tomcat Instance Start Finished'
+    tags: 
+      - checkDatabasesLoaded
+
+########## Validate Restful Endpoint #################
+  - name: Validate Restful Endpoint
+    action: command bash {{ casfw_home }}/db-restart-tomcat-functions.sh restfulEndpointTest 
+    tags:
+      - restfulEndpointTest
+
+########## Validate Soap Endpoint #################
+  - name: Validate Soap Endpoint
+    action: command bash {{ casfw_home }}/db-restart-tomcat-functions.sh soapEndpointTest
+    tags:
+      - soapEndpointTest
+
+########## Sample validate Restful Endpoint Test #################
+  - name: Sample validate Restful Endpoint Test
+    action: command bash {{ casfw_home }}/db-restart-tomcat-functions.sh restValidationTest
+    tags:
+      - restValidationTest
+
+########## Sample Validate Soap Endpoint Test #################
+  - name: Sample Validate Soap Endpoint Test
+    action: command bash {{ casfw_home }}/db-restart-tomcat-functions.sh soapValidationTest
+    tags:
+      - soapValidationTest
 
 ########## Final Cleanup #################
   - name: Final Cleanup

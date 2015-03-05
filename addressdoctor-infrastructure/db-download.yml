@@ -10,12 +10,11 @@
     download_xml_version: @@download_xml_version@@
     adm_client_folder: @@adm_client_folder@@
     jdk_verion: 1.7.0_65
-    https_proxy_host: @@https_proxy_host@@
-    https_proxy_port: @@https_proxy_port@@
+    https_proxy_host: web-proxy.austin.hp.com
+    https_proxy_port: 8088
     casfw_home: /opt/casfw
     useraccount: casfw
-    usergroup: casfw
-    db_download_server: @@db_download_server@@
+    usergroup: casfwgrp
     db_folder: @@db_folder@@
   vars_files:
     - roles/dbdownload/vars/vars.yml

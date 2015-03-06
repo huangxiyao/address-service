@@ -90,8 +90,9 @@
     action: command bash {{ casfw_home }}/proxy-functions.sh finalCleanup
     tags:
       - finalcleanup
-  - name: Pause to make sure Apache instance process has started
-    pause: minutes=1
+  - name: Wait for apache port to come up
+    wait_for: host={{ inventory_hostname }} port={{ httpd_port }} delay=15 state=started
+    su: no
     delegate_to: localhost
   - name: validate cloud apache instance health page
     uri: url={{ item.url }} status_code={{ item.statuscode }}

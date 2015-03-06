@@ -153,8 +153,9 @@ function soapValidationTest {
 }
 
 function finalCleanup {
-	cd {{ casfw_home }}
+    cd {{ casfw_home }}
     rm -f db-restart-tomcat*.sh
+    rm -f soap_envelope.xml
 }
 
 $userinput

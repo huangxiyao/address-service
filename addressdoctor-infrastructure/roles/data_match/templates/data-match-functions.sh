@@ -23,7 +23,8 @@ function cleanupCurrent {
 
 function installcdi {
       cd {{ casfw_home }}
-      xargs -a data-match-cdi-args.txt sh data-match-installer-{{ data_match_release_version }}.cdi      
+      xargs -a data-match-cdi-args.txt sh data-match-installer-{{ data_match_release_version }}.cdi
+     
 }
 
 function checkInstance {

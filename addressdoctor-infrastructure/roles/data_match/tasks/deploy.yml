@@ -45,17 +45,16 @@
     tags:
        - installcdi
 
-  - name: Pause to make sure Apache instance process has started
-    pause: minutes=1
-    delegate_to: localhost
-   
-  - name: check instance
-    action: command bash {{ casfw_home }}/data-match-functions.sh checkInstance
+   - name: Check tomcat process started
+    action: command bash {{ casfw_home }}/data-match-functions.sh checkTomcatProcessStarted
+    register: checkTomcatProcessStartedResponse
     tags:
-      - checkInstance
+      - checkTomcatProcessStopped
+
 
   - name: check if the tomcat start with database loading
     action: command bash {{ casfw_home }}/data-match-functions.sh checkTomcatInstanceStartFinished
+    when: checkTomcatProcessStartedResponse.stdout == 'Tomcat Process Started'
     register: check_result
     tags:
       - checkTomcatInstanceStartFinished

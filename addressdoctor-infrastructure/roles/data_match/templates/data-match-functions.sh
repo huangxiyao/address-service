@@ -33,8 +33,8 @@ function checkInstance {
 
 function finalCleanup {
     cd {{ casfw_home }}
-    rm -f ansible-functions.sh
-    rm -f itg-data-match-cdi-args.txt
+    rm -f data-match-functions.sh
+    rm -f data-match-cdi-args.txt
     rm -f soap_envelope.xml
 }
 
@@ -45,6 +45,18 @@ function checkTomcatProcessStopped {
         ps -ef | grep {{ data_match_instance }} | grep -v "grep" > /dev/null
         if [[ $? -ne 0 ]]; then
             echo -ne "Tomcat Process Stopped"
+            break
+        fi
+    done
+}
+
+function checkTomcatProcessStarted {
+    cd {{ casfw_home }}
+    while [ "1" = "1" ]; do
+        sleep 10
+        count=$(ps -ef | grep {{ data_match_instance }} | grep -v "grep" | wc -l)
+        if [[ $count -eq 2 ]]; then
+            echo -ne "Tomcat Process Started"
             break
         fi
     done

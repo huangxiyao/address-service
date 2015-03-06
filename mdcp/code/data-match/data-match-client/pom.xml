@@ -4,11 +4,11 @@
 	<parent>
 		<artifactId>data-match</artifactId>
 		<groupId>com.hp.it.120482</groupId>
-		<version>1.0.18</version>
+		<version>1.0.19</version>
 	</parent>
 
 	<artifactId>data-match-client</artifactId>
-  <version>1.0.18</version>
+  <version>1.0.19</version>
 
 	<name>Data match client code</name>
 	<description>Client code for the data match project is found here</description>

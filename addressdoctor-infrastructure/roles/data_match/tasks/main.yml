@@ -11,7 +11,7 @@
       - cleanupcdi
 
   - name: download data-match installation CDI 
-    action: command wget http://repo1.corp.hp.com/nexus/content/repositories/releases/com/hp/it/120482/data-match-installer/{{ data_match_release_version }}/data-match-installer-{{ data_match_release_version }}.cdi -P {{ casfw_home }}
+    action: command wget -nv http://repo1.corp.hp.com/nexus/content/repositories/releases/com/hp/it/120482/data-match-installer/{{ data_match_release_version }}/data-match-installer-{{ data_match_release_version }}.cdi -P {{ casfw_home }}
     when: not datamatchsnapshot
     tags:
       - downloaddatamatchcdi

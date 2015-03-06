@@ -1,6 +1,6 @@
 ---
   - name: Download the argument's template files -> /opt/casfw
-    template: src=ansible-functions.sh dest={{ casfw_home }} mode=0755 owner={{ useraccount }} group={{ usergroup }} force
+    template: src=data-match-functions.sh dest={{ casfw_home }} mode=0755 owner={{ useraccount }} group={{ usergroup }} force
     tags:
       - copybashscript
 
@@ -10,18 +10,18 @@
     ignore_errors: True
           
   - name: stop current tomcat process
-    action: command bash {{ casfw_home }}/ansible-functions.sh stopTomcatPS
+    action: command bash {{ casfw_home }}/data-match-functions.sh stopTomcatPS
     when: foo_result.rc == 0
     tags:
       - stopTomcatPS
           
   - name: clean up data-match instances
-    action: command bash {{ casfw_home }}/ansible-functions.sh cleanupInstance
+    action: command bash {{ casfw_home }}/data-match-functions.sh cleanupInstance
     tags:
       - cleanupInstance
          
   - name: clean up the current
-    action: command bash {{ casfw_home }}/ansible-functions.sh cleanupCurrent
+    action: command bash {{ casfw_home }}/data-match-functions.sh cleanupCurrent
     tags:
       - cleanupCurrent
           
@@ -33,8 +33,15 @@
     tags:
       - downloadarguments
 
+  - name: Check tomcat process stopped
+    action: command bash {{ casfw_home }}/db-restart-tomcat-functions.sh checkTomcatProcessStopped
+    register: checkTomcatProcessStoppedResponse
+    tags:
+      - checkTomcatProcessStopped
+
   - name: install new cdi
-    action: command bash {{ casfw_home }}/ansible-functions.sh installcdi
+    action: command bash {{ casfw_home }}/data-match-functions.sh installcdi
+    when: checkTomcatProcessStoppedResponse.stdout == 'Tomcat Process Stopped'
     tags:
        - installcdi
 
@@ -43,42 +50,45 @@
     delegate_to: localhost
    
   - name: check instance
-    action: command bash {{ casfw_home }}/ansible-functions.sh checkInstance
+    action: command bash {{ casfw_home }}/data-match-functions.sh checkInstance
     tags:
       - checkInstance
 
-  - name: Pause to make sure data-match instance process has started
-    pause: minutes=6
-    delegate_to: localhost
+  - name: check if the tomcat start with database loading
+    action: command bash {{ casfw_home }}/data-match-functions.sh checkTomcatInstanceStartFinished
+    register: check_result
+    tags:
+      - checkTomcatInstanceStartFinished
 
   - name: validate Restful Endpoint
-    action: command bash {{ casfw_home }}/ansible-functions.sh restfulEndpointTest 
+    action: command bash {{ casfw_home }}/data-match-functions.sh restfulEndpointTest
+    when: check_result.stdout == '</GetConfig>\nStart Finished' 
     # when: release_environment == 'dev'
     tags:
       - restfulEndpointTest
       
   - name: validate Soap Endpoint
-    action: command bash {{ casfw_home }}/ansible-functions.sh soapEndpointTest
+    action: command bash {{ casfw_home }}/data-match-functions.sh soapEndpointTest
     tags:
       - soapEndpointTest
 
   - name: Sample validate Restful Endpoint Test
-    action: command bash {{ casfw_home }}/ansible-functions.sh restValidationTest
+    action: command bash {{ casfw_home }}/data-match-functions.sh restValidationTest
     tags:
       - restValidationTest
 
   - name: Sample Validate Soap Endpoint Test
-    action: command bash {{ casfw_home }}/ansible-functions.sh soapValidationTest
+    action: command bash {{ casfw_home }}/data-match-functions.sh soapValidationTest
     tags:
       - soapValidationTest
 
   - name: Check databases loaded
-    action: command bash {{ casfw_home }}/ansible-functions.sh checkDatabasesLoaded
+    action: command bash {{ casfw_home }}/data-match-functions.sh checkDatabasesLoaded
     tags: 
       - checkDatabasesLoaded
    
   - name: Final cleanup
-    action: command bash {{ casfw_home }}/ansible-functions.sh finalCleanup
+    action: command bash {{ casfw_home }}/data-match-functions.sh finalCleanup
     tags:
       - finalcleanup
  

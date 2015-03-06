@@ -45,7 +45,7 @@
     tags:
        - installcdi
 
-   - name: Check tomcat process started
+  - name: Check tomcat process started
     action: command bash {{ casfw_home }}/data-match-functions.sh checkTomcatProcessStarted
     register: checkTomcatProcessStartedResponse
     tags:

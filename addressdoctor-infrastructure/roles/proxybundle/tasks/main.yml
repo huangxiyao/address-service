@@ -23,10 +23,6 @@
       - installJDK
       
 ########## Download Proxy Bundle #################
-  - name: remove old cdi file
-    action: command bash {{ casfw_home }}/proxy-functions.sh cleanCdi
-    tags:
-      - cleanCdi
   - name: Download proxy-bundle installation CDI
     action: command wget -Nnv http://repo1.corp.hp.com/nexus/content/groups/public/com/hp/it/120482/proxy-bundle-installer/{{ proxy_bundle_version }}/proxy-bundle-installer-{{ proxy_bundle_version }}.cdi  -P /opt/casfw {{ casfw_home }}
     when: not proxybundlesnapshot
@@ -86,6 +82,10 @@
 
 ########## Final Cleanup and validation #################
 
+  - name: remove old cdi file
+    action: command bash {{ casfw_home }}/proxy-functions.sh cleanOldCdi
+    tags:
+      - cleanOldCdi
   - name: Final cleanup
     action: command bash {{ casfw_home }}/proxy-functions.sh finalCleanup
     tags:

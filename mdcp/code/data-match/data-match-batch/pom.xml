@@ -4,11 +4,11 @@
 	<parent>
 		<artifactId>data-match</artifactId>
 		<groupId>com.hp.it.120482</groupId>
-		<version>1.0.22</version>
+		<version>1.0.23</version>
 	</parent>
 
 	<artifactId>data-match-batch</artifactId>
-	<version>1.0.22</version>
+	<version>1.0.23</version>
 	<name>Data match batch code</name>
 	<packaging>bar</packaging>
 	<description>batch job code for the data match project is found here</description>

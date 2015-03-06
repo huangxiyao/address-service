@@ -1,7 +1,7 @@
 
 ---
 # This playbook for Address Doctor databases deployment.
-- hosts: DB-{{ deploy_env }}
+- hosts: DB-DEPLOY
   gather_facts: no
   serial: 1
   su: yes
@@ -9,10 +9,9 @@
   vars:
     casfw_home: /opt/casfw
     useraccount: casfw
-    usergroup: @@usergroup@@
-    deploy_env: @@deploy_env@@
-    db_source_folder: @@db_source_folder@@
-    db_target_folder: @@db_target_folder@@
+    usergroup: casfwgrp
+    db_source_folder: /opt/casfw/address-doctor/databases/stage
+    db_target_folder: /opt/casfw/address-doctor/databases/db
     data_match_instance1: data-match1
     data_match_instance2: data-match2
     data_match_instance3: data-match3

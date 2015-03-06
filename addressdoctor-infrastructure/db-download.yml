@@ -1,23 +1,21 @@
 
 ---
 # This playbook for Address Doctor databases download
-- hosts: DB-{{ db_download_server }}
+- hosts: 127.0.0.1
+  connection: local
   gather_facts: no
   serial: 1
-  su: yes
-  su_user: casfw
   vars:
     downloadtool_version: @@downloadtool_version@@
     download_xml_version: @@download_xml_version@@
-    adm_client_folder: @@adm_client_folder@@
+    adm_client_folder: /opt/casfw/address-doctor/databases/ADM-Client
+    db_folder: /opt/casfw/address-doctor/databases/stage
     jdk_verion: 1.7.0_65
-    https_proxy_host: @@https_proxy_host@@
-    https_proxy_port: @@https_proxy_port@@
+    https_proxy_host: web-proxy.austin.hp.com
+    https_proxy_port: 8088
     casfw_home: /opt/casfw
     useraccount: casfw
-    usergroup: casfw
-    db_download_server: @@db_download_server@@
-    db_folder: @@db_folder@@
+    usergroup: casfwgrp
   vars_files:
     - roles/dbdownload/vars/vars.yml
   roles:

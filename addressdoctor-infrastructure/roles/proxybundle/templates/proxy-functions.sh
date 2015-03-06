@@ -5,9 +5,9 @@ userinput="$1"
 
 jdkpath="{{ casfw_home }}/software/openjdk"
 
-function cleanCdi {
+function cleanOldCdi {
     cd {{ casfw_home }}
-    rm -f proxy-bundle*.cdi
+    find . -name "proxy-bundle-installer-*.cdi" | grep -v {{ proxy_bundle_version }} | xargs rm -f
 }
 
 function initialCleanup {
@@ -51,7 +51,7 @@ function installProxyBundleCdi {
     fi
 
     cd {{ casfw_home }}
-    sh proxy-bundle-installer-*.cdi -d {{ casfw_home }} -e {{ deploy_env }}
+    sh proxy-bundle-installer-{{ proxy_bundle_version }}.cdi -d {{ casfw_home }} -e {{ deploy_env }}
 }
 
 function createProxyBundleLink {

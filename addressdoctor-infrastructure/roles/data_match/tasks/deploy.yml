@@ -34,7 +34,7 @@
       - downloadarguments
 
   - name: Check tomcat process stopped
-    action: command bash {{ casfw_home }}/db-restart-tomcat-functions.sh checkTomcatProcessStopped
+    action: command bash {{ casfw_home }}/data-match-functions.sh checkTomcatProcessStopped
     register: checkTomcatProcessStoppedResponse
     tags:
       - checkTomcatProcessStopped

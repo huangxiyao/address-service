@@ -31,11 +31,18 @@
     tags:
       - startTomcatInstance
 
+########## Check tomcat process started #################
+  - name: Check tomcat process started
+    action: command bash {{ casfw_home }}/db-restart-tomcat-functions.sh checkTomcatProcessStarted
+    register: checkTomcatProcessStartedResponse
+    tags:
+      - checkTomcatProcessStarted
+
 ########## Check tomcat instance start finished #################
   - name: Check tomcat instance start finished
     action: command bash {{ casfw_home }}/db-restart-tomcat-functions.sh checkTomcatInstanceStartFinished
     register: checkTomcatInstanceStartFinished
-    when: checkTomcatProcessStoppedResponse.stdout == 'Tomcat Process Stopped'
+    when: checkTomcatProcessStartedResponse.stdout == 'Tomcat Process Started'
     tags:
       - checkTomcatInstanceStartFinished
 

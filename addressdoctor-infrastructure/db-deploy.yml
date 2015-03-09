@@ -11,7 +11,8 @@
     useraccount: casfw
     usergroup: casfwgrp
     db_source_folder: /opt/casfw/address-doctor/databases/stage
-    db_target_folder: /opt/casfw/address-doctor/databases/db
+    db_target_folder: /opt/casfw/address-doctor/databases
+    db_latest_version: @@db_latest_version@@
     data_match_instance1: data-match1
     data_match_instance2: data-match2
     data_match_instance3: data-match3

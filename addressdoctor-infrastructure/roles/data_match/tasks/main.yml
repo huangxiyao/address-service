@@ -1,12 +1,7 @@
 ---
-  - name: search if there is the data-match instance cdi
-    shell: find {{ casfw_home }}/ -name data-match-installer-{{ data_match_release_version }}.cdi*
-    register: foo_result
-    ignore_errors: True
     
   - name: clean up cdi packages
     shell: rm -rf {{ casfw_home }}/data-match-installer-{{ data_match_release_version }}.cdi*
-    when: foo_result.rc == 0
     tags:
       - cleanupcdi
 

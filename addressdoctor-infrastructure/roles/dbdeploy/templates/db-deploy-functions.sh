@@ -19,20 +19,20 @@ function checkDiskSpace {
     fi
 }
 
-# initial db target folder
-function initialDBTargetFolder {
-    if [[ -d {{ db_target_folder }} ]]; then
-        mv {{ db_target_folder }} {{ db_target_folder }}_"$(date +"%Y-%m-%d-%H:%M:%S")"
+# initial db latest version folder
+function initialDBLatestVersionFolder {
+    if [[ -d {{ db_target_folder }}/{{ db_latest_version }} ]]; then
+        mv {{ db_target_folder }}/{{ db_latest_version }} {{ db_target_folder }}/{{ db_latest_version }}_"$(date +"%Y-%m-%d-%H:%M:%S")"
     fi
     
-    mkdir -p {{ db_target_folder }}
+    mkdir -p {{ db_target_folder }}/{{ db_latest_version }}
 }
 
 # Update DB Symlink
 function updateDBSymLink {
-    cd {{ casfw_home }}/address-doctor/databases
+    cd {{ db_target_folder }}
     rm -f all
-    ln -sf {{ db_target_folder }} all
+    ln -sf {{ db_latest_version }} all
 }
 
 function finalCleanup {

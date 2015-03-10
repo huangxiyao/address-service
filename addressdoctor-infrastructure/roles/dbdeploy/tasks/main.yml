@@ -13,15 +13,15 @@
       - checkDiskSpace
     ignore_errors: no
 
-########## Initial DB Target Folder #################
+########## Initial DB Latest Version Folder #################
   - name: Initial DB Target Folder
-    action: command bash {{ casfw_home }}/db-deploy-functions.sh initialDBTargetFolder
+    action: command bash {{ casfw_home }}/db-deploy-functions.sh initialDBLatestVersionFolder
     tags:
-      - initialDBTargetFolder
+      - initialDBLatestVersionFolder
 
 ########## Copy databases to target server #################
   - name: Copy database to target server
-    copy: src={{ item }} dest={{ db_target_folder }} mode=0755 owner={{ useraccount }} group={{ usergroup }} force
+    copy: src={{ item }} dest={{ db_target_folder }}/{{ db_latest_version }} mode=0755 owner={{ useraccount }} group={{ usergroup }} force
     with_fileglob:
       - "{{ db_source_folder }}/*.MD"
     tags:

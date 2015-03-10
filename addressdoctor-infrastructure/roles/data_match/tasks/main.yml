@@ -21,6 +21,11 @@
     when: datamatchsnapshot
     tags:
       - downloaddatamatchsnapshotcdi   
+
+  - name: search if there is the old data-match instance cdi
+    shell: find {{ casfw_home }}/ -name data-match-installer-*.cdi | grep -v {{ data_match_release_version }} | xargs rm -f
+    tags: cleanOldCDI
+
   
   - include: deploy.yml data_match_instance={{ data_match_instance1 }} release_env={{ release_env1 }} port={{ port1 }}
   - include: deploy.yml data_match_instance={{ data_match_instance2 }} release_env={{ release_env2 }} port={{ port2 }}

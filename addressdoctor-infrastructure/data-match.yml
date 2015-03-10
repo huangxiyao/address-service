@@ -5,7 +5,7 @@
   su: yes
   su_user: casfw
   vars:
-    data_match_release_version: @@data_match_release_version@@
+    data_match_release_version: 1.0.28
     casfw_home: /opt/casfw
     datamatchsnapshot: @@data_match_snapshot@@
     data_match_instance1: data-match1

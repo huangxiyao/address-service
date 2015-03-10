@@ -72,8 +72,8 @@ function checkTomcatInstanceStartFinished {
             echo "Start Finished"
             break
         fi
-        time=time+1
-        if [ time -eq 36 ]; then
+        time=$(( $time+1 ))
+        if [ $time -eq 36 ]; then
              echo "time out"
              break
         fi

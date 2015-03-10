@@ -43,8 +43,8 @@ function checkTomcatProcessStarted {
             echo -ne "Tomcat Process Started"
             break
         fi
-        time=time+1
-        if [ time -eq 6 ]; then
+        time=$(( $time + 1))
+        if [[ $time -eq 6 ]]; then
              echo -ne "time out"
              break
         fi

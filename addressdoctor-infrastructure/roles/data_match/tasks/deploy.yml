@@ -26,7 +26,7 @@
       - cleanupCurrent
           
   - name: Download the argument's template files -> {{ casfw_home }}
-    template: src={{ item }} dest={{ casfw_home }} mode=0664 owner=casfw force
+    template: src={{ item }} dest={{ casfw_home }} mode=0664 owner={{ useraccount }} group={{ usergroup }} force
     with_items:
       - "data-match-cdi-args.txt"
       - "soap_envelope.xml"

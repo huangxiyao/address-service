@@ -1,82 +1,46 @@
 ---
-########## Copy Template files #################
   - name: Download the argument's template files -> {{ casfw_home }}
     template: src=db-download-functions.sh dest={{ casfw_home }} mode=0755 owner={{ useraccount }} group={{ usergroup }} force
-    tags:
-      - copybashscript
 
   - name: Download the argument's template files -> {{ casfw_home }}
     template: src=db-download-args.txt dest={{ casfw_home }} mode=0664 owner={{ useraccount }} group={{ usergroup }} force
-    tags:
-      - downloadarguments
 
-########## Check Disk Space #################
   - name: Check Disk Space
     action: command bash {{ casfw_home }}/db-download-functions.sh checkDiskSpace
-    tags:
-      - checkDiskSpace
-    ignore_errors: no
 
-########## Initial ADM-Client folder #################
   - name: Initial ADM-Client folder
     action: command bash {{ casfw_home }}/db-download-functions.sh initialADMClientFolder
-    tags: 
-      - initialADMClientFolder
-
-########## Install JDK if needed #################
 
   - name: Validate JAVA_HOME configuration
     action: command bash {{ casfw_home }}/db-download-functions.sh javahomeValidation
     register: javahomevalidateresponse
-    tags:
-      - javahomeValidation
+
   - name: Download JDK if JAVA_HOME is not found
     action: command wget -Nnv http://repo1.corp.hp.com/nexus/content/groups/public/net/java/openjdk/openjdk-java/{{ jdk_verion }}/openjdk-java-{{ jdk_verion }}-linux-x64.tar.gz -O {{ casfw_home }}/openjdk-java-{{ jdk_verion }}-linux-x64.tar.gz
     when: javahomevalidateresponse.stdout == 'Not installed'
-    tags:
-      - downloadJDK
+
   - name: Install JDK 
     action: command bash {{ casfw_home }}/db-download-functions.sh installJDK
     when: javahomevalidateresponse.stdout == 'Not installed'
-    tags:
-      - installJDK
-
-########## Download DB Downloadtool and download.xml file  #################
 
   - name: Download DB Downloadtool
     action: command wget -Nnv http://repo1.corp.hp.com/nexus/content/repositories/thirdparty/com/addressdoctor/Downloadtool/{{ downloadtool_version }}/Downloadtool-{{ downloadtool_version }}.zip -P {{ adm_client_folder }}
-    tags:
-      - downloadDBDownloadtool
 
   - name: Download download.xml file
-    action: command wget -Nnv http://repo1.corp.hp.com/nexus/content/repositories/thirdparty/com/addressdoctor/download/{{ download_xml_version }}/download-{{ download_xml_version }}.zip -P {{ adm_client_folder }}
-    tags:
-      - downloadXMLfile 
+    action: command wget -Nnv http://repo1.corp.hp.com/nexus/content/repositories/thirdparty/com/addressdoctor/download/{{ download_xml_version }}/download-{{ download_xml_version }}.zip -P {{ adm_client_folder }} 
 
-########## Prepare Downloadtool #################
   - name: Prepare Downloadtool
     action: command bash {{ casfw_home }}/db-download-functions.sh prepareDownloadtool
-    tags: 
-      - prepareDownloadtool
 
-########## Start Download DB #################
   - name: Start Download DB
     action: command bash {{ casfw_home }}/db-download-functions.sh downloadDB
-    tags:
-      - downloadDB
     async: 0
     poll: 10
 
-########## Unzip Database Files #################
   - name: Unzip database files
     action: command bash {{ casfw_home }}/db-download-functions.sh unzipDBFiles
-    tags:
-      - unzipDBFiles
     async: 0
     poll: 10
 
-########## Final Cleanup #################
   - name: Final Cleanup
     action: command bash {{ casfw_home }}/db-download-functions.sh finalCleanup
-    tags:
-      - finalCleanup

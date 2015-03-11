@@ -8,12 +8,8 @@
   vars:
     proxy_bundle_version: 1.0.39
     proxybundlesnapshot: false
-    casfw_home: /opt/casfw
     jdk_verion: 1.7.0_65
     httpd_confd_path: /etc/httpd/conf.d
-    useraccount: casfw
-    usergroup: casfwgrp
     httpd_port: 80
   roles:
-  - common
   - proxybundle

@@ -1,9 +1,9 @@
 ---
 # This playbook is for Address Doctor tomcat instance restart
-  - name: Download the argument's template files -> {{ casfw_home }}
+  - name: Download the argument's template files -> /opt/casfw
     template: src=db-restart-tomcat-functions.sh dest={{ casfw_home }} mode=0755 owner={{ useraccount }} group={{ usergroup }} force
 
-  - name: Download the argument's template files -> {{ casfw_home }}
+  - name: Download the argument's template files -> /opt/casfw
     template: src=soap_envelope.xml dest={{ casfw_home }} mode=0664 owner={{ useraccount }} group={{ usergroup }}  force
 
   - name: Stop tomcat instance

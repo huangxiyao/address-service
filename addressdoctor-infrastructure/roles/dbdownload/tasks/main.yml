@@ -1,14 +1,14 @@
 ---
-  - name: Download the argument's template files -> {{ casfw_home }}
+  - name: Download the argument's template files -> /opt/casfw
     template: src=db-download-functions.sh dest={{ casfw_home }} mode=0755 owner={{ useraccount }} group={{ usergroup }} force
 
-  - name: Download the argument's template files -> {{ casfw_home }}
+  - name: Download the argument's template files -> /opt/casfw
     template: src=db-download-args.txt dest={{ casfw_home }} mode=0664 owner={{ useraccount }} group={{ usergroup }} force
 
-  - name: Check Disk Space
+  - name: Check disk space if it is enough and should not less than 40GB
     action: command bash {{ casfw_home }}/db-download-functions.sh checkDiskSpace
 
-  - name: Initial ADM-Client folder
+  - name: Initial ADM-Client folder which is used for the Address Doctor Database Dowmload Management Downloadtool
     action: command bash {{ casfw_home }}/db-download-functions.sh initialADMClientFolder
 
   - name: Validate JAVA_HOME configuration
@@ -23,21 +23,21 @@
     action: command bash {{ casfw_home }}/db-download-functions.sh installJDK
     when: javahomevalidateresponse.stdout == 'Not installed'
 
-  - name: Download DB Downloadtool
+  - name: Download Address Doctor Database Dowmload Management Downloadtool from nexus
     action: command wget -Nnv http://repo1.corp.hp.com/nexus/content/repositories/thirdparty/com/addressdoctor/Downloadtool/{{ downloadtool_version }}/Downloadtool-{{ downloadtool_version }}.zip -P {{ adm_client_folder }}
 
-  - name: Download download.xml file
+  - name: Download download.xml file which is about the DB list that we can download
     action: command wget -Nnv http://repo1.corp.hp.com/nexus/content/repositories/thirdparty/com/addressdoctor/download/{{ download_xml_version }}/download-{{ download_xml_version }}.zip -P {{ adm_client_folder }} 
 
-  - name: Prepare Downloadtool
+  - name: Prepare Downloadtool - unzip the Downloadtool and download xml file
     action: command bash {{ casfw_home }}/db-download-functions.sh prepareDownloadtool
 
-  - name: Start Download DB
+  - name: Start Download DB files with Address Doctor Downloadtool and all the DB zip files are saved under folder {{ adm_client_folder }}/Downloads
     action: command bash {{ casfw_home }}/db-download-functions.sh downloadDB
     async: 0
     poll: 10
 
-  - name: Unzip database files
+  - name: Unzip all the DB zip files to stage folder
     action: command bash {{ casfw_home }}/db-download-functions.sh unzipDBFiles
     async: 0
     poll: 10

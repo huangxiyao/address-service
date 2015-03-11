@@ -122,7 +122,7 @@ function unzipDBFiles {
 #        done
 #    fi
 
-    # unzip all the zip db files to target db folder
+    # unzip all the zip db files to db stage folder
     # clear unzip output log
     unzip "*.zip" -d {{ db_folder }} > /dev/null
 }

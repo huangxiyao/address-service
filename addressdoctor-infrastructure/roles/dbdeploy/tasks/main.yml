@@ -1,22 +1,23 @@
 ---
-# This playbook is for Address Doctor databases deployment.
-  - name: Download the argument's template files -> {{ casfw_home }}
+# This playbook is for Address Doctor databases deployment
+  - name: Download the argument's template files -> /opt/casfw
     template: src=db-deploy-functions.sh dest={{ casfw_home }} mode=0755 owner={{ useraccount }} group={{ usergroup }} force
 
-  - name: Check Disk Space
+  - name: Check disk space if it is enough and should not less than 40GB
     action: command bash {{ casfw_home }}/db-deploy-functions.sh checkDiskSpace
 
-  - name: Initial DB Target Folder
+  - name: Initial DB latest version folder which will save the latest DB files
     action: command bash {{ casfw_home }}/db-deploy-functions.sh initialDBLatestVersionFolder
 
-  - name: Copy database to target server
+  - name: Copy the DB MD files to target server and put in under the db latest version folder
     copy: src={{ item }} dest={{ db_target_folder }}/{{ db_latest_version }} mode=0755 owner={{ useraccount }} group={{ usergroup }} force
     with_fileglob:
       - "{{ db_source_folder }}/*.MD"
 
-  - name: Update DB SymLink
+  - name: Update DB symbol link and point to the latest db version folder
     action: command bash {{ casfw_home }}/db-deploy-functions.sh updateDBSymLink
 
+########## Restart Data Match Tomcat instances #################
   - include: db-restart-tomcat.yml data_match_instance={{ data_match_instance1 }} port={{ tomcat_ad_port1 }}
   - include: db-restart-tomcat.yml data_match_instance={{ data_match_instance2 }} port={{ tomcat_ad_port2 }}
   - include: db-restart-tomcat.yml data_match_instance={{ data_match_instance3 }} port={{ tomcat_ad_port3 }}

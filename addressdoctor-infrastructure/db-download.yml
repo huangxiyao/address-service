@@ -16,8 +16,6 @@
     casfw_home: /opt/casfw
     useraccount: casfw
     usergroup: casfwgrp
-  vars_files:
-    - roles/dbdownload/vars/vars.yml
   roles:
   - common
   - dbdownload

@@ -1,27 +1,26 @@
 ---
-    
+  - name: Copy the su file to -> /tmp
+    copy: src=su.sh dest=/tmp mode=0755 force
+    su: no
+
   - name: clean up cdi packages
     shell: rm -rf {{ casfw_home }}/data-match-installer-{{ data_match_release_version }}.cdi*
-    tags:
-      - cleanupcdi
 
   - name: download data-match installation CDI 
     action: command wget -nv http://repo1.corp.hp.com/nexus/content/repositories/releases/com/hp/it/120482/data-match-installer/{{ data_match_release_version }}/data-match-installer-{{ data_match_release_version }}.cdi -P {{ casfw_home }}
     when: not datamatchsnapshot
-    tags:
-      - downloaddatamatchcdi
 
   - name: download data-match installation CDI (snapshot) 
     action: command wget -Nnv http://repo1.corp.hp.com/nexus/service/local/artifact/maven/redirect?r=snapshots&g=com.hp.it.120482&a=data-match-installer&v={{ data_match_release_version }}&e=cdi -O {{ casfw_home }}/data-match-installer-{{ data_match_release_version }}.cdi
-    when: datamatchsnapshot
-    tags:
-      - downloaddatamatchsnapshotcdi   
+    when: datamatchsnapshot   
 
   - name: search if there is the old data-match instance cdi
     shell: find {{ casfw_home }}/ -name data-match-installer-*.cdi | grep -v {{ data_match_release_version }} | xargs rm -f
-    tags: cleanOldCDI
 
-  
   - include: deploy.yml data_match_instance={{ data_match_instance1 }} release_env={{ release_env1 }} port={{ port1 }}
   - include: deploy.yml data_match_instance={{ data_match_instance2 }} release_env={{ release_env2 }} port={{ port2 }}
   - include: deploy.yml data_match_instance={{ data_match_instance3 }} release_env={{ release_env3 }} port={{ port3 }}
+
+  - name: Remove the su file from /tmp/
+    shell: cd /tmp/; find -maxdepth 1 -type f -name "su.sh" | xargs rm
+    su: no

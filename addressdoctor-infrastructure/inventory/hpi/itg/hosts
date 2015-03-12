@@ -4,7 +4,6 @@ c2t05803.itcs.hp.com
 
 [proxy-bundle:vars]
 deploy_env=ITG-HPI
-pbrun_casfw=false
 
 [db-deploy]
 c1t05796.itcs.hp.com

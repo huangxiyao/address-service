@@ -3,7 +3,6 @@ c2t05879.itcs.hp.com
 
 [proxy-bundle:vars]
 deploy_env=ITG-G2
-pbrun_casfw=true
 
 [data-match]
 c2t05879.itcs.hp.com

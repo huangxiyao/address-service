@@ -1,15 +1,12 @@
 
 ---
 # This playbook for Address Doctor databases deployment.
-- hosts: DB-DEPLOY
+- hosts: db-deploy
   gather_facts: no
   serial: 1
   su: yes
   su_user: casfw
   vars:
-    casfw_home: /opt/casfw
-    useraccount: casfw
-    usergroup: casfwgrp
     db_source_folder: /opt/casfw/address-doctor/databases/stage
     db_target_folder: /opt/casfw/address-doctor/databases
     db_latest_version: @@db_latest_version@@
@@ -20,5 +17,4 @@
     tomcat_ad_port2: 8390
     tomcat_ad_port3: 8400
   roles:
-  - common
   - dbdeploy

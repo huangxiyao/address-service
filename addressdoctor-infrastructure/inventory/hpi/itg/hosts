@@ -1,6 +1,14 @@
 [proxy-bundle]
-c1t05915.itcs.hp.com 
-c2t06001.itcs.hp.com
+c1t05802.itcs.hp.com
+c2t05803.itcs.hp.com
 
 [proxy-bundle:vars]
 deploy_env=ITG-HPI
+
+[db-deploy]
+c1t05796.itcs.hp.com
+c2t05800.itcs.hp.com
+
+[data-match]
+c1t05796.itcs.hp.com
+c2t05800.itcs.hp.com

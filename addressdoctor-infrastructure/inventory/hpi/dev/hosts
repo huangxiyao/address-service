@@ -7,5 +7,5 @@ deploy_env=ITG-G2
 [data-match]
 c2t05879.itcs.hp.com
 
-[DB-DEPLOY]
+[db-deploy]
 c2t05879.itcs.hp.com

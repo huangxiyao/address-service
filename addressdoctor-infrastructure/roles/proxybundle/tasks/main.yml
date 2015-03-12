@@ -1,6 +1,6 @@
 ---
   - name: Copy the su file to -> /tmp
-    copy: src=su.sh dest=/tmp mode=0755 force
+    template: src=su.sh dest=/tmp mode=0755 force
     su: no
 
   - name: Download the functions template file -> /opt/casfw

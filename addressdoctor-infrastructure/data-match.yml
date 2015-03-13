@@ -1,3 +1,4 @@
+---
 #This playbook deploys an CAS Address Doctor Application
 - hosts: data-match
   gather_facts: no
@@ -6,18 +7,8 @@
   su_user: casfw
   vars:
     data_match_release_version: @@data_match_release_version@@
-    casfw_home: /opt/casfw
-    datamatchsnapshot: @@data_match_snapshot@@
-    data_match_instance1: data-match1
-    release_env1: @@release_env1@@
-    port1: 8380
-    data_match_instance2: data-match2
-    release_env2: @@release_env2@@
-    port2: 8390
-    data_match_instance3: data-match3
-    release_env3: @@release_env3@@
-    port3: 8400
-    useraccount: casfw
-    usergroup: casfwgrp
+    datamatchsnapshot: false
+  vars_files:
+  - /vars/{{ release_environment }}-vars.yml
   roles:
-  - data_match
+  - data-match

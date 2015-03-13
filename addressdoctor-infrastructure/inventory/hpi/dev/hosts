@@ -1,8 +1,5 @@
 [proxy-bundle]
-c2t05879.itcs.hp.com 
-
-[proxy-bundle:vars]
-deploy_env=ITG-G2
+c2t05879.itcs.hp.com
 
 [data-match]
 c2t05879.itcs.hp.com

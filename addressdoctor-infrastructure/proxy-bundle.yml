@@ -12,4 +12,4 @@
     httpd_confd_path: /etc/httpd/conf.d
     httpd_port: 80
   roles:
-  - proxybundle
+  - proxy-bundle

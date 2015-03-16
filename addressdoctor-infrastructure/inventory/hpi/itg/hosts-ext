@@ -1,6 +1,0 @@
-[proxy-bundle]
-c1t05915.itcs.hp.com
-c2t06001.itcs.hp.com
-
-[proxy-bundle:vars]
-deploy_env=ITG-INC-EXT

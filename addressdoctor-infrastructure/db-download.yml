@@ -17,4 +17,4 @@
     useraccount: casfw
     usergroup: casfwgrp
   roles:
-  - dbdownload
+  - db-download

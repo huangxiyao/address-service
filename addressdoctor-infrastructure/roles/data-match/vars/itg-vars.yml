@@ -1,0 +1,9 @@
+data_match_instance1: data-match1
+release_env1: ITG1
+port1: 8380
+data_match_instance2: data-match2
+release_env2: ITG2
+port2: 8390
+data_match_instance3: data-match3
+release_env3: ITG3
+port3: 8400

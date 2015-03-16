@@ -1,4 +1,4 @@
-release_environment : dev
+release_environment : pro
 
 useraccount: casfw
 usergroup: casfwgrp

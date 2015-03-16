@@ -76,7 +76,7 @@ function cleanupProxyBundle {
 
 function cleanupOldCdi {
     cd {{ casfw_home }}
-    find . -name "proxy-bundle-installer-*.cdi" | grep -v {{ proxy_bundle_version }} | xargs rm -f
+    find . -maxdepth 1  -type f -name "proxy-bundle-installer-*.cdi" | grep -v {{ proxy_bundle_version }} | xargs rm -f
 }
 
 function installProxyBundleCdi {

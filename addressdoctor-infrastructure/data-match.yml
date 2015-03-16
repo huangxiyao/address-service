@@ -9,6 +9,6 @@
     data_match_release_version: @@data_match_release_version@@
     datamatchsnapshot: false
   vars_files:
-  - /vars/{{ release_environment }}-vars.yml
+  - roles/data-match/vars/{{ release_environment }}-vars.yml
   roles:
   - data-match

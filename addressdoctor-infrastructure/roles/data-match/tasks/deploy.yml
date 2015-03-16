@@ -1,61 +1,55 @@
 ---
-  - name: Download the argument's template files -> /opt/casfw
+  - name: download the function template file -> /opt/casfw
     template: src=data-match-functions.sh dest={{ casfw_home }} mode=0755 owner={{ useraccount }} group={{ usergroup }} force
 
-  - name: search if there is the data-match instance process
-    shell: cd {{ casfw_home }}/current/{{ data_match_instance }}
-    register: checkProcess_result
-    ignore_errors: True
+  - name: check status of data-match instance process
+    action: command bash {{ casfw_home }}/data-match-functions.sh instanceRunningStatus
+    register: instance_running_status
 
-  - name: stop current tomcat process
-    action: command bash {{ casfw_home }}/data-match-functions.sh stopTomcatPS
-    when: checkProcess_result.rc == 0
+  - name: stop data-match instance process when running
+    action: command bash {{ casfw_home }}/data-match-functions.sh stopInstanceProcess
+    when: "'tomcat-ad running' in instance_running_status.stdout"
+    ignore_errors: yes
 
-  - name: clean up data-match instances
-    action: command bash {{ casfw_home }}/data-match-functions.sh cleanupInstance
+  - name: initial cleanup - remove instance directory and instance current symbol link
+    action: command bash {{ casfw_home }}/data-match-functions.sh initialCleanup
 
-  - name: clean up the current
-    action: command bash {{ casfw_home }}/data-match-functions.sh cleanupCurrent
+  - name: download the argument's template files -> {{ casfw_home }}
+    template: src=data-match-cdi-args.txt dest={{ casfw_home }} mode=0664 owner={{ useraccount }} group={{ usergroup }} force
 
-  - name: Download the argument's template files -> {{ casfw_home }}
-    template: src={{ item }} dest={{ casfw_home }} mode=0664 owner={{ useraccount }} group={{ usergroup }} force
-    with_items:
-      - "data-match-cdi-args.txt"
-      - "soap_envelope.xml"
+  - name: wait for data-match port to stopped
+    wait_for: host={{ inventory_hostname }} port={{ port }} delay=15 state=stopped
+    su: no
+    delegate_to: localhost
 
-  - name: Check tomcat process stopped
-    action: command bash {{ casfw_home }}/data-match-functions.sh checkTomcatProcessStopped
-    register: checkTomcatProcessStoppedResponse
-
-  - name: install new cdi
+  - name: deploy data-match CDI
     action: command bash {{ casfw_home }}/data-match-functions.sh installcdi
-    when: checkTomcatProcessStoppedResponse.stdout == 'Tomcat Process Stopped'
 
-  - name: Check tomcat process started
-    action: command bash {{ casfw_home }}/data-match-functions.sh checkTomcatProcessStarted
-    register: checkTomcatProcessStartedResponse
+  - name: wait for data-match port to started
+    wait_for: host={{ inventory_hostname }} port={{ port }} delay=15 state=started
+    su: no
+    delegate_to: localhost
 
-  - name: check if the tomcat start with database loading
-    action: command bash {{ casfw_home }}/data-match-functions.sh checkTomcatInstanceStartFinished
-    when: checkTomcatProcessStartedResponse.stdout == 'Tomcat Process Started'
-    register: check_result
+  - name: wait for data-match database load is finished
+    wait_for: path={{ casfw_home }}/current/{{ data_match_instance }}/var/log/data-match-web/ad-engine.log search_regex=</GetConfig> timeout=600
+
+  - name: check databases loaded
+    action: command bash {{ casfw_home }}/data-match-functions.sh checkDatabasesLoaded
 
   - name: validate Restful Endpoint
-    action: command bash {{ casfw_home }}/data-match-functions.sh restfulEndpointTest
-    when: check_result.stdout == '</GetConfig>\nStart Finished' 
+    action: command bash {{ casfw_home }}/data-match-functions.sh restfulEndpointTest 
 
   - name: validate Soap Endpoint
     action: command bash {{ casfw_home }}/data-match-functions.sh soapEndpointTest
 
-  - name: Sample validate Restful Endpoint Test
+  - name: sample validate Restful Endpoint Test
     action: command bash {{ casfw_home }}/data-match-functions.sh restValidationTest
 
-  - name: Sample Validate Soap Endpoint Test
+  - name: download soap test file -> {{ casfw_home }}
+    template: src=soap_envelope.xml dest={{ casfw_home }} mode=0664 owner={{ useraccount }} group={{ usergroup }} force
+
+  - name: sample Validate Soap Endpoint Test
     action: command bash {{ casfw_home }}/data-match-functions.sh soapValidationTest
 
-  - name: Check databases loaded
-    action: command bash {{ casfw_home }}/data-match-functions.sh checkDatabasesLoaded
-
-  - name: Final cleanup
+  - name: final cleanup
     action: command bash {{ casfw_home }}/data-match-functions.sh finalCleanup
-

@@ -31,7 +31,7 @@ function installJDK {
 	fi
 
 	if [ ! -e "$jdkpath"/openjdk-java-{{ jdk_verion }} ]; then
-		tar -zxvf openjdk-java-{{ jdk_verion }}-linux-x64.tar.gz -C "$jdkpath"
+		tar -zxvf openjdk-java-{{ jdk_verion }}-linux-x64.tar.gz -C "$jdkpath" > /dev/null
 	fi
 
     rm -f openjdk-java-{{ jdk_verion }}-linux-x64.tar.gz

@@ -71,6 +71,8 @@
 
   - name: sample Validate Soap Endpoint Test
     action: command bash {{ casfw_home }}/data-match-functions.sh soapValidationTest
+    register: soap_address_validate_result
+  - debug: msg="{{ soap_address_validate_result.stdout }}"
 
   - name: final cleanup
     action: command bash {{ casfw_home }}/data-match-functions.sh finalCleanup

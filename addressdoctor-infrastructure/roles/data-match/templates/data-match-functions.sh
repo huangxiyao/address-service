@@ -116,7 +116,8 @@ function soapValidationTest {
       error "Soap Validation test did not return 200 status."
     fi
 
-    echo "$checkurl - SUCCESS"
+    echo "$checkurl - SUCCESS with soap data: "
+    echo "$(cat soap_envelope.xml)"
 }
 
 function finalCleanup {

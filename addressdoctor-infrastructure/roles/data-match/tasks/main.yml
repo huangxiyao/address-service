@@ -1,26 +1,60 @@
 ---
-  - name: Copy the su file to -> /tmp
+  - name: copy the su file to -> /tmp
     copy: src=su.sh dest=/tmp mode=0755 force
     su: no
 
-  - name: clean up cdi packages
-    shell: rm -rf {{ casfw_home }}/data-match-installer-{{ data_match_release_version }}.cdi*
+  - name: check if data-match instance1 version to be deployed is already deployed
+    shell: cd {{ casfw_home }}; if [ -d {{ data_match_instance1 }}/data-match-{{ data_match_release_version }} ]; then echo 'Installed'; fi
+    register: instance_one_installed
+    ignore_errors: yes
+
+  - name: check if data-match instance2 version to be deployed is already deployed
+    shell: cd {{ casfw_home }}; if [ -d {{ data_match_instance2 }}/data-match-{{ data_match_release_version }} ]; then echo 'Installed'; fi
+    register: instance_two_installed
+    ignore_errors: yes
+
+  - name: check if data-match instance3 version to be deployed is already deployed
+    shell: cd {{ casfw_home }}; if [ -d {{ data_match_instance3 }}/data-match-{{ data_match_release_version }} ]; then echo 'Installed'; fi
+    register: instance_three_installed
+    ignore_errors: yes
+
+  - name: check if data-match CDI to be deployed is already existed
+    shell: find {{ casfw_home }}/ -maxdepth 1 -type f -name "data-match-installer-{{ data_match_release_version }}.cdi"
+    register: cdi_check
+    ignore_errors: yes
 
   - name: download data-match installation CDI 
-    action: command wget -nv http://repo1.corp.hp.com/nexus/content/repositories/releases/com/hp/it/120482/data-match-installer/{{ data_match_release_version }}/data-match-installer-{{ data_match_release_version }}.cdi -P {{ casfw_home }}
-    when: not datamatchsnapshot
+    action: command wget -Nnv http://repo1.corp.hp.com/nexus/content/repositories/releases/com/hp/it/120482/data-match-installer/{{ data_match_release_version }}/data-match-installer-{{ data_match_release_version }}.cdi -P {{ casfw_home }}
+    when: not datamatchsnapshot and "'{{ data_match_release_version }}' in cdi_check.stdout"
 
   - name: download data-match installation CDI (snapshot) 
     action: command wget -Nnv http://repo1.corp.hp.com/nexus/service/local/artifact/maven/redirect?r=snapshots&g=com.hp.it.120482&a=data-match-installer&v={{ data_match_release_version }}&e=cdi -O {{ casfw_home }}/data-match-installer-{{ data_match_release_version }}.cdi
-    when: datamatchsnapshot   
+    when: datamatchsnapshot and "'{{ data_match_release_version }}' in cdi_check.stdout"
 
-  - name: search if there is the old data-match instance cdi
-    shell: find {{ casfw_home }}/ -name data-match-installer-*.cdi | grep -v {{ data_match_release_version }} | xargs rm -f
+  - debug: msg="Skipping data-match instance1 installation on {{ inventory_hostname }}"
+    when: "'Installed' in instance_one_installed.stdout"
 
-  - include: deploy.yml data_match_instance={{ data_match_instance1 }} release_env={{ release_env1 }} port={{ port1 }}
-  - include: deploy.yml data_match_instance={{ data_match_instance2 }} release_env={{ release_env2 }} port={{ port2 }}
-  - include: deploy.yml data_match_instance={{ data_match_instance3 }} release_env={{ release_env3 }} port={{ port3 }}
+  - name: deploy data-match instance1
+    include: deploy.yml data_match_instance={{ data_match_instance1 }} release_env={{ release_env1 }} port={{ port1 }}
+    when: "'Installed' not in instance_one_installed.stdout"
 
-  - name: Remove the su file from /tmp/
+  - debug: msg="Skipping data-match instance2 installation on {{ inventory_hostname }}"
+    when: "'Installed' in instance_two_installed.stdout"
+
+  - name: deploy data-match instance2
+    include: deploy.yml data_match_instance={{ data_match_instance2 }} release_env={{ release_env2 }} port={{ port2 }}
+    when: "'Installed' not in instance_two_installed.stdout"
+
+  - debug: msg="Skipping data-match instance3 installation on {{ inventory_hostname }}"
+    when: "'Installed' in instance_three_installed.stdout"
+
+  - name: deploy data-match instance3
+    include: deploy.yml data_match_instance={{ data_match_instance3 }} release_env={{ release_env3 }} port={{ port3 }}
+    when: "'Installed' not in instance_three_installed.stdout"
+
+  - name: search if there is old data-match instance cdi
+    shell: find {{ casfw_home }}/ -maxdepth 1 -type f -name "data-match-installer-*.cdi" | grep -v {{ data_match_release_version }} | xargs rm -f
+
+  - name: remove the su file from /tmp/
     shell: cd /tmp/; find -maxdepth 1 -type f -name "su.sh" | xargs rm
     su: no

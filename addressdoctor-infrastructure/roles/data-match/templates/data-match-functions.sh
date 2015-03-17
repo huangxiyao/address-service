@@ -9,102 +9,39 @@ function error {
     exit -1
 }
 
-function cleanupInstance {
-      rm -rf {{ casfw_home }}/{{ data_match_instance }}
+function instanceRunningStatus {
+    pid_file="{{ casfw_home }}/current/{{ data_match_instance }}/var/tomcat-ad.pid"
+    if [ -f ${pid_file} ]; then
+      s=$(printf " %s " $(ps -e | grep $(cat ${pid_file})) | awk '{ print $1 }')
+      if [ -n "$s" ]; then
+        echo "tomcat-ad running $s"
+      fi
+    fi
 }
 
-function stopTomcatPS {
-     bash {{ casfw_home }}/current/{{ data_match_instance }}/bin/tomcat-ad.sh stop -force
+function stopInstanceProcess {
+    cd {{ casfw_home }}
+    if [ -f './current/{{ data_match_instance }}/bin/tomcat-ad.sh' ]; then
+      bash ./current/{{ data_match_instance }}/bin/tomcat-ad.sh stop -force
+    fi
 }
- 
-function cleanupCurrent {
-      rm -rf {{ casfw_home }}/current/{{ data_match_instance }}
+
+function initialCleanup {
+    cleanupInstance
+    cleanupCurrentLink
+}
+
+function cleanupInstance {
+    rm -rf {{ casfw_home }}/{{ data_match_instance }}/data-match-*
+}
+
+function cleanupCurrentLink {
+    rm -f {{ casfw_home }}/current/{{ data_match_instance }}
 }
 
 function installcdi {
-      cd {{ casfw_home }}
-      xargs -a data-match-cdi-args.txt sh data-match-installer-{{ data_match_release_version }}.cdi
-     
-}
-
-function checkInstance {
-       ps -ef | grep {{ data_match_instance }}
-}
-
-function finalCleanup {
     cd {{ casfw_home }}
-    rm -f data-match-functions.sh
-    rm -f data-match-cdi-args.txt
-    rm -f soap_envelope.xml
-}
-
-function checkTomcatProcessStopped {
-    cd {{ casfw_home }}
-    while [ "1" = "1" ]; do
-        sleep 10
-        ps -ef | grep {{ data_match_instance }} | grep -v "grep" > /dev/null
-        if [[ $? -ne 0 ]]; then
-            echo -ne "Tomcat Process Stopped"
-            break
-        fi
-    done
-}
-
-function checkTomcatProcessStarted {
-    cd {{ casfw_home }}
-    while [ "1" = "1" ]; do
-        sleep 10
-        count=$(ps -ef | grep {{ data_match_instance }} | grep -v "grep" | wc -l)
-        if [[ $count -eq 2 ]]; then
-            echo -ne "Tomcat Process Started"
-            break
-        fi
-    done
-}
-
-function checkTomcatInstanceStartFinished {
-    cd {{ casfw_home }}
-    time=0
-    while [ "1" = "1" ]; do
-        sleep 10
-        cat current/{{ data_match_instance }}/var/log/data-match-web/ad-engine.log | tail -2 | head -1 | grep "</GetConfig>"
-        if [[ $? -eq 0 ]]; then
-            echo "Start Finished"
-            break
-        fi
-        time=$(( $time+1 ))
-        if [ $time -eq 36 ]; then
-             echo "time out"
-             break
-        fi
-    done
-}
-
-function checkDatabasesLoaded1 { 
-  cd {{ casfw_home }}/address-doctor/databases/all
-  databases=($(ls .))
-  cd {{ casfw_home }}/{{ data_match_instance }}/data-match-{{ data_match_release_version }}/var/log/data-match-web
-  result=1
-  for filename in ${databases[*]}
-  do
-    extension="${filename##*.}"
-    if [ ${extension} != "MD" ]
-    then continue
-    fi
-    if ! grep -q ${filename} ad-engine.log
-    then
-      if [ $result -eq 1 ]
-      then
-      echo "NOT All Databases Loaded:"
-      fi
-      echo ${filename}
-      result=0
-    fi
-  done
-  if [ $result -eq 1 ]
-  then
-    echo "All Databases Loaded"
-  fi  
+    xargs -a data-match-cdi-args.txt sh data-match-installer-{{ data_match_release_version }}.cdi
 }
 
 function checkDatabasesLoaded {
@@ -170,47 +107,24 @@ function checkDatabasesLoaded {
     fi
 }
 
-function restfulEndpointTest {
-     restfulEndPoints=(validatedAddress certifiedAddress looselyValidatedAddress addressSuggestions fastCompletionAddress)
-     for restfulEndpoint in ${restfulEndpoints[*]}
-     do
-       url="http://{{ inventory_hostname }}:{{ port }}/match/${restfulEndPoint}/documentation"
-       response=$(curl --header "X-HP-Application-Process-UID: w-mdcp:prd-http" -s -i ${url})
-       if ! echo "${response}" | grep -q "HTTP/1.1 200"
-       then
-           error "Restful ${restfulEndPoint} endpoint test did not return 200 status."
-       fi
-     done
-}
-
-function soapEndpointTest {
-    response=$(curl --header "Content-Type: text/xml;charset=UTF-8" --header "X-HP-Application-Process-UID: w-mdcp:prd-http" -s -i http://{{ inventory_hostname }}:{{ port }}/legacy-match/address/v1?wsdl)
-    if ! echo "${response}" | grep -q "HTTP/1.1 200"
-    then
-      error "Soap endpoint test did not return 200 status."
-    fi
-}
-
-function restValidationTest {
-  restfulEndPoints=(validatedAddress certifiedAddress looselyValidatedAddress addressSuggestions fastCompletionAddress)
-  for restfulEndPoint in ${restfulEndPoints[*]}
-  do
-    url="http://{{ inventory_hostname }}:{{ port }}/match/${restfulEndPoint}?country1=US&deliveryAddressLine1=745+Riverhaven+Drive&characterScriptDetectionIndicator=false&postalCode1=30024"
-    response=$(curl --header "X-HP-Application-Process-UID: w-mdcp:prd-http" -s -i ${url})
-    if ! echo "${response}" | grep -q "HTTP/1.1 200"
-    then
-      error "Restful ${restfulEndPoint} Validation test did not return 200 status."
-    fi
-  done
-}
-
 function soapValidationTest {
     cd {{ casfw_home }}
-    response=$(curl --header "Content-Type: text/xml;charset=UTF-8" --header "X-HP-Application-Process-UID: w-mdcp:prd-http" --data @soap_envelope.xml -s -i http://{{ inventory_hostname }}:{{ port }}/legacy-match/address/v1?wsdl)
+    checkurl="http://{{ inventory_hostname }}:{{ port }}/legacy-match/address/v1?wsdl"
+    response=$(curl --header "Content-Type: text/xml;charset=UTF-8" --header "X-HP-Application-Process-UID: w-mdcp:prd-http" --data @soap_envelope.xml -s -i ${checkurl})
     if ! echo "${response}" | grep -q "HTTP/1.1 200"
     then
       error "Soap Validation test did not return 200 status."
     fi
+
+    echo "$checkurl - SUCCESS with soap data: "
+    echo "$(cat soap_envelope.xml)"
+}
+
+function finalCleanup {
+    cd {{ casfw_home }}
+    rm -f data-match-functions.sh
+    rm -f data-match-cdi-args.txt
+    rm -f soap_envelope.xml
 }
 
 $userinput

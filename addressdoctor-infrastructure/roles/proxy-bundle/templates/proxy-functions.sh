@@ -31,7 +31,7 @@ function installJDK {
 	fi
 
 	if [ ! -e "$jdkpath"/openjdk-java-{{ jdk_verion }} ]; then
-		tar -zxvf openjdk-java-{{ jdk_verion }}-linux-x64.tar.gz -C "$jdkpath"
+		tar -zxvf openjdk-java-{{ jdk_verion }}-linux-x64.tar.gz -C "$jdkpath" > /dev/null
 	fi
 
     rm -f openjdk-java-{{ jdk_verion }}-linux-x64.tar.gz
@@ -76,7 +76,7 @@ function cleanupProxyBundle {
 
 function cleanupOldCdi {
     cd {{ casfw_home }}
-    find . -name "proxy-bundle-installer-*.cdi" | grep -v {{ proxy_bundle_version }} | xargs rm -f
+    find . -maxdepth 1  -type f -name "proxy-bundle-installer-*.cdi" | grep -v {{ proxy_bundle_version }} | xargs rm -f
 }
 
 function installProxyBundleCdi {

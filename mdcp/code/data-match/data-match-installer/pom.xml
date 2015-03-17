@@ -7,7 +7,7 @@
 	</parent>
 
 	<artifactId>data-match-installer</artifactId>
-	<version>1.0.31</version>
+	<version>1.0.32</version>
 
 	<packaging>cdi</packaging>
 

@@ -36,14 +36,35 @@
   - name: check databases loaded
     action: command bash {{ casfw_home }}/data-match-functions.sh checkDatabasesLoaded
 
-  - name: validate Restful Endpoint
-    action: command bash {{ casfw_home }}/data-match-functions.sh restfulEndpointTest 
+  - name: validate data-match Restful Endpoint
+    uri: url=http://{{ inventory_hostname }}:{{ port }}/match/{{ item }}/documentation
+    retries: 5
+    delegate_to: localhost
+    su: no
+    with_items:
+      - validatedAddress
+      - certifiedAddress
+      - looselyValidatedAddress
+      - addressSuggestions
+      - fastCompletionAddress
 
-  - name: validate Soap Endpoint
-    action: command bash {{ casfw_home }}/data-match-functions.sh soapEndpointTest
+  - name: validate data-match Soap Endpoint
+    uri: url=http://{{ inventory_hostname }}:{{ port }}/legacy-match/address/v1?wsdl
+    retries: 5
+    delegate_to: localhost
+    su: no
 
   - name: sample validate Restful Endpoint Test
-    action: command bash {{ casfw_home }}/data-match-functions.sh restValidationTest
+    uri: url=http://{{ inventory_hostname }}:{{ port }}/match/{{ item }}?country1=US&deliveryAddressLine1=745+Riverhaven+Drive&characterScriptDetectionIndicator=false&postalCode1=30024 HEADER_X-HP-Application-Process-UID="w-mdcp:prd-http"
+    retries: 5
+    delegate_to: localhost
+    su: no
+    with_items:
+      - validatedAddress
+      - certifiedAddress
+      - looselyValidatedAddress
+      - addressSuggestions
+      - fastCompletionAddress
 
   - name: download soap test file -> {{ casfw_home }}
     template: src=soap_envelope.xml dest={{ casfw_home }} mode=0664 owner={{ useraccount }} group={{ usergroup }} force

@@ -32,7 +32,7 @@ function initialCleanup {
 }
 
 function cleanupInstance {
-    rm -rf {{ casfw_home }}/{{ data_match_instance }}
+    rm -rf {{ casfw_home }}/{{ data_match_instance }}/data-match-*
 }
 
 function cleanupCurrentLink {
@@ -107,47 +107,16 @@ function checkDatabasesLoaded {
     fi
 }
 
-function restfulEndpointTest {
-    restfulEndPoints=(validatedAddress certifiedAddress looselyValidatedAddress addressSuggestions fastCompletionAddress)
-    for restfulEndpoint in ${restfulEndpoints[*]}
-    do
-      url="http://{{ inventory_hostname }}:{{ port }}/match/${restfulEndPoint}/documentation"
-      response=$(curl --header "X-HP-Application-Process-UID: w-mdcp:prd-http" -s -i ${url})
-      if ! echo "${response}" | grep -q "HTTP/1.1 200"
-      then
-        error "Restful ${restfulEndPoint} endpoint test did not return 200 status."
-      fi
-    done
-}
-
-function soapEndpointTest {
-    response=$(curl --header "Content-Type: text/xml;charset=UTF-8" --header "X-HP-Application-Process-UID: w-mdcp:prd-http" -s -i http://{{ inventory_hostname }}:{{ port }}/legacy-match/address/v1?wsdl)
-    if ! echo "${response}" | grep -q "HTTP/1.1 200"
-    then
-      error "Soap endpoint test did not return 200 status."
-    fi
-}
-
-function restValidationTest {
-    restfulEndPoints=(validatedAddress certifiedAddress looselyValidatedAddress addressSuggestions fastCompletionAddress)
-    for restfulEndPoint in ${restfulEndPoints[*]}
-    do
-      url="http://{{ inventory_hostname }}:{{ port }}/match/${restfulEndPoint}?country1=US&deliveryAddressLine1=745+Riverhaven+Drive&characterScriptDetectionIndicator=false&postalCode1=30024"
-      response=$(curl --header "X-HP-Application-Process-UID: w-mdcp:prd-http" -s -i ${url})
-      if ! echo "${response}" | grep -q "HTTP/1.1 200"
-      then
-        error "Restful ${restfulEndPoint} Validation test did not return 200 status."
-      fi
-    done
-}
-
 function soapValidationTest {
     cd {{ casfw_home }}
-    response=$(curl --header "Content-Type: text/xml;charset=UTF-8" --header "X-HP-Application-Process-UID: w-mdcp:prd-http" --data @soap_envelope.xml -s -i http://{{ inventory_hostname }}:{{ port }}/legacy-match/address/v1?wsdl)
+    checkurl="http://{{ inventory_hostname }}:{{ port }}/legacy-match/address/v1?wsdl"
+    response=$(curl --header "Content-Type: text/xml;charset=UTF-8" --header "X-HP-Application-Process-UID: w-mdcp:prd-http" --data @soap_envelope.xml -s -i ${checkurl})
     if ! echo "${response}" | grep -q "HTTP/1.1 200"
     then
       error "Soap Validation test did not return 200 status."
     fi
+
+    echo "$checkurl - SUCCESS"
 }
 
 function finalCleanup {

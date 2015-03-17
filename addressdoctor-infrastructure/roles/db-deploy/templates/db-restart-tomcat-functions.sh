@@ -14,53 +14,26 @@ function stopTomcatInstance {
     bash current/{{ data_match_instance }}/bin/tomcat-ad.sh stop -force
 }
 
-# check tomcat instance stopped
-function checkTomcatProcessStopped {
-    cd {{ casfw_home }}
-    while [ "1" = "1" ]; do
-        sleep 10
-        ps -ef | grep {{ data_match_instance }} | grep -v "grep" > /dev/null
-        if [[ $? -ne 0 ]]; then
-            echo -ne "Tomcat Process Stopped"
-            break
-        fi
-    done
-}
-
 function startTomcatInstance {
     cd {{ casfw_home }}
     bash current/{{ data_match_instance }}/bin/tomcat-ad.sh start
 }
 
-# check tomcat process started
-function checkTomcatProcessStarted {
+# wait for data-match databases load is finished
+# polling check engine log to make sure the db files are loaded and tomcat start finised
+function waitDatabasesLoadFinished {
     cd {{ casfw_home }}
     time=0
     while [ "1" = "1" ]; do
         sleep 10
-        count=$(ps -ef | grep {{ data_match_instance }} | grep -v "grep" | wc -l)
-        if [[ $count -eq 2 ]]; then
-            echo -ne "Tomcat Process Started"
+        cat current/{{ data_match_instance }}/var/log/data-match-web/ad-engine.log | tail -2 | head -1 | grep "</GetConfig>" > /dev/null
+        if [[ $? -eq 0 ]]; then
+            echo -ne "Databases Load Finished"
             break
         fi
         time=$(( $time + 1))
-        if [[ $time -eq 6 ]]; then
-             echo -ne "time out"
-             break
-        fi
-    done
-}
-
-# check tomcat instance start finished 
-# polling check engine log to make sure the db files are loaded and tomcat start finised
-function checkTomcatInstanceStartFinished {
-    cd {{ casfw_home }}
-    while [ "1" = "1" ]; do
-        sleep 10
-        cat current/{{ data_match_instance }}/var/log/data-match-web/ad-engine.log | tail -2 | head -1 | grep "</GetConfig>" > /dev/null
-        if [[ $? -eq 0 ]]; then
-            echo -ne "Tomcat Instance Start Finished"
-            break
+        if [[ $time -eq 60 ]]; then
+             error -ne "Databases Load got time out after 10 minutes"
         fi
     done
 }

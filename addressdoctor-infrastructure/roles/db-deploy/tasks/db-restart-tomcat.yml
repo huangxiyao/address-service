@@ -9,26 +9,26 @@
   - name: Stop tomcat instance
     action: command bash {{ casfw_home }}/db-restart-tomcat-functions.sh stopTomcatInstance
 
-  - name: Check tomcat process stopped
-    action: command bash {{ casfw_home }}/db-restart-tomcat-functions.sh checkTomcatProcessStopped
-    register: checkTomcatProcessStoppedResponse
+  - name: Wait for data-match port to stopped
+    wait_for: host={{ inventory_hostname }} port={{ port }} delay=15 state=stopped
+    su: no
+    delegate_to: localhost
 
   - name: Start tomcat instance
     action: command bash {{ casfw_home }}/db-restart-tomcat-functions.sh startTomcatInstance
-    when: checkTomcatProcessStoppedResponse.stdout == 'Tomcat Process Stopped'
 
-  - name: Check tomcat process started
-    action: command bash {{ casfw_home }}/db-restart-tomcat-functions.sh checkTomcatProcessStarted
-    register: checkTomcatProcessStartedResponse
+  - name: Wait for data-match port to started
+    wait_for: host={{ inventory_hostname }} port={{ port }} delay=15 state=started
+    su: no
+    delegate_to: localhost
 
-  - name: Check tomcat instance start finished
-    action: command bash {{ casfw_home }}/db-restart-tomcat-functions.sh checkTomcatInstanceStartFinished
-    register: checkTomcatInstanceStartFinished
-    when: checkTomcatProcessStartedResponse.stdout == 'Tomcat Process Started'
+  - name: Wait for data-match databases load are finished and data-match instance start finished
+    action: command bash {{ casfw_home }}/db-restart-tomcat-functions.sh waitDatabasesLoadFinished
+    register: waitDatabasesLoadFinishedResponse
 
   - name: Check databases loaded
     action: command bash {{ casfw_home }}/db-restart-tomcat-functions.sh checkDatabasesLoaded
-    when: checkTomcatInstanceStartFinished.stdout == 'Tomcat Instance Start Finished'
+    when: waitDatabasesLoadFinishedResponse.stdout == 'Databases Load Finished'
 
   - name: Validate Restful Endpoint
     action: command bash {{ casfw_home }}/db-restart-tomcat-functions.sh restfulEndpointTest 

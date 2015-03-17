@@ -9,7 +9,7 @@
 
 
 	<artifactId>data-match</artifactId>
-	<version>1.0.31</version>
+	<version>1.0.32</version>
 	<packaging>pom</packaging>
 	<name>Data matching tools</name>
 	<description>Data matching tools</description>

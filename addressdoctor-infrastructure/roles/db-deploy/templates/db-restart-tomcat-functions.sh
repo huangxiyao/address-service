@@ -19,25 +19,6 @@ function startTomcatInstance {
     bash current/{{ data_match_instance }}/bin/tomcat-ad.sh start
 }
 
-# wait for data-match databases load is finished
-# polling check engine log to make sure the db files are loaded and tomcat start finised
-function waitDatabasesLoadFinished {
-    cd {{ casfw_home }}
-    time=0
-    while [ "1" = "1" ]; do
-        sleep 10
-        cat current/{{ data_match_instance }}/var/log/data-match-web/ad-engine.log | tail -2 | head -1 | grep "</GetConfig>" > /dev/null
-        if [[ $? -eq 0 ]]; then
-            echo -ne "Databases Load Finished"
-            break
-        fi
-        time=$(( $time + 1))
-        if [[ $time -eq 60 ]]; then
-             error -ne "Databases Load got time out after 10 minutes"
-        fi
-    done
-}
-
 function checkDatabasesLoaded {
     cd {{ casfw_home }}/current/{{ data_match_instance }}/var/log/data-match-web
 

@@ -14,55 +14,9 @@ function stopTomcatInstance {
     bash current/{{ data_match_instance }}/bin/tomcat-ad.sh stop -force
 }
 
-# check tomcat instance stopped
-function checkTomcatProcessStopped {
-    cd {{ casfw_home }}
-    while [ "1" = "1" ]; do
-        sleep 10
-        ps -ef | grep {{ data_match_instance }} | grep -v "grep" > /dev/null
-        if [[ $? -ne 0 ]]; then
-            echo -ne "Tomcat Process Stopped"
-            break
-        fi
-    done
-}
-
 function startTomcatInstance {
     cd {{ casfw_home }}
     bash current/{{ data_match_instance }}/bin/tomcat-ad.sh start
-}
-
-# check tomcat process started
-function checkTomcatProcessStarted {
-    cd {{ casfw_home }}
-    time=0
-    while [ "1" = "1" ]; do
-        sleep 10
-        count=$(ps -ef | grep {{ data_match_instance }} | grep -v "grep" | wc -l)
-        if [[ $count -eq 2 ]]; then
-            echo -ne "Tomcat Process Started"
-            break
-        fi
-        time=$(( $time + 1))
-        if [[ $time -eq 6 ]]; then
-             echo -ne "time out"
-             break
-        fi
-    done
-}
-
-# check tomcat instance start finished 
-# polling check engine log to make sure the db files are loaded and tomcat start finised
-function checkTomcatInstanceStartFinished {
-    cd {{ casfw_home }}
-    while [ "1" = "1" ]; do
-        sleep 10
-        cat current/{{ data_match_instance }}/var/log/data-match-web/ad-engine.log | tail -2 | head -1 | grep "</GetConfig>" > /dev/null
-        if [[ $? -eq 0 ]]; then
-            echo -ne "Tomcat Instance Start Finished"
-            break
-        fi
-    done
 }
 
 function checkDatabasesLoaded {
@@ -128,47 +82,17 @@ function checkDatabasesLoaded {
     fi
 }
 
-function restfulEndpointTest {
-     restfulEndPoints=(validatedAddress certifiedAddress looselyValidatedAddress addressSuggestions fastCompletionAddress)
-     for restfulEndpoint in ${restfulEndpoints[*]}
-     do
-       url="http://{{ inventory_hostname }}:{{ port }}/match/${restfulEndPoint}/documentation"
-       response=$(curl --header "X-HP-Application-Process-UID: w-mdcp:prd-http" -s -i ${url})
-       if ! echo "${response}" | grep -q "HTTP/1.1 200"
-       then
-           error "Restful ${restfulEndPoint} endpoint test did not return 200 status."
-       fi
-     done
-}
-
-function soapEndpointTest {
-    response=$(curl --header "Content-Type: text/xml;charset=UTF-8" --header "X-HP-Application-Process-UID: w-mdcp:prd-http" -s -i http://{{ inventory_hostname }}:{{ port }}/legacy-match/address/v1?wsdl)
-    if ! echo "${response}" | grep -q "HTTP/1.1 200"
-    then
-      error "Soap endpoint test did not return 200 status."
-    fi
-}
-
-function restValidationTest {
-  restfulEndPoints=(validatedAddress certifiedAddress looselyValidatedAddress addressSuggestions fastCompletionAddress)
-  for restfulEndPoint in ${restfulEndPoints[*]}
-  do
-    url="http://{{ inventory_hostname }}:{{ port }}/match/${restfulEndPoint}?country1=US&deliveryAddressLine1=745+Riverhaven+Drive&characterScriptDetectionIndicator=false&postalCode1=30024"
-    response=$(curl --header "X-HP-Application-Process-UID: w-mdcp:prd-http" -s -i ${url})
-    if ! echo "${response}" | grep -q "HTTP/1.1 200"
-    then
-      error "Restful ${restfulEndPoint} Validation test did not return 200 status."
-    fi
-  done
-}
-
 function soapValidationTest {
     cd {{ casfw_home }}
-    response=$(curl --header "Content-Type: text/xml;charset=UTF-8" --header "X-HP-Application-Process-UID: w-mdcp:prd-http" --data @soap_envelope.xml -s -i http://{{ inventory_hostname }}:{{ port }}/legacy-match/address/v1?wsdl)
+    checkurl="http://{{ inventory_hostname }}:{{ port }}/legacy-match/address/v1?wsdl"
+    response=$(curl --header "Content-Type: text/xml;charset=UTF-8" --header "X-HP-Application-Process-UID: w-mdcp:prd-http" --data @soap_envelope.xml -s -i ${checkurl})
     if ! echo "${response}" | grep -q "HTTP/1.1 200"
     then
       error "Soap Validation test did not return 200 status."
     fi
+
+    echo "$checkurl - SUCCESS with soap data: "
+    echo "$(cat soap_envelope.xml)"
 }
 
 function finalCleanup {

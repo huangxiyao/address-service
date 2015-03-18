@@ -64,5 +64,5 @@
     delegate_to: localhost
     su: no
     with_items:
-      - { url: 'http://{{ inventory_hostname }}:{{ httpd_port }}/DO_NOT_REMOVE/health_check.html', statuscode: 200}
-      - { url: 'http://{{ inventory_hostname }}:{{ httpd_port }}/match/about/health', statuscode: 204}
+      - { url: 'http://{{ inventory_hostname }}:{{ httpd_port }}/DO_NOT_REMOVE/health_check.html', statuscode: '200' }
+      - { url: 'http://{{ inventory_hostname }}:{{ httpd_port }}/match/about/health', statuscode: '204' }

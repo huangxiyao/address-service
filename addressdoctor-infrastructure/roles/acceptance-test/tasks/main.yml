@@ -1,0 +1,7 @@
+---
+  - debug: msg="Skipping acceptance-test due to lb_urls is not defined"
+    when: lb_urls is not defined
+
+  - name: Starting acceptance test
+    include: acceptance-test.yml
+    when: lb_urls is defined

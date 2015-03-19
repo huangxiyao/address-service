@@ -9,14 +9,18 @@ function error {
     exit -1
 }
 
-function stopTomcatInstance {
+function stopDataMatchInstance {
     cd {{ casfw_home }}
-    bash current/{{ data_match_instance }}/bin/tomcat-ad.sh stop -force
+    if [ -f './current/{{ data_match_instance }}/bin/tomcat-ad.sh' ]; then
+      bash ./current/{{ data_match_instance }}/bin/tomcat-ad.sh stop -force
+    fi
 }
 
-function startTomcatInstance {
+function startDataMatchInstance {
     cd {{ casfw_home }}
-    bash current/{{ data_match_instance }}/bin/tomcat-ad.sh start
+    if [ -f './current/{{ data_match_instance }}/bin/tomcat-ad.sh' ]; then
+      bash ./current/{{ data_match_instance }}/bin/tomcat-ad.sh start
+    fi
 }
 
 function checkDatabasesLoaded {

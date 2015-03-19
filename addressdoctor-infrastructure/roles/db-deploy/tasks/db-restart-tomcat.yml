@@ -3,7 +3,7 @@
   - name: Download the argument's template files -> /opt/casfw
     template: src=db-restart-tomcat-functions.sh dest={{ casfw_home }} mode=0755 owner={{ useraccount }} group={{ usergroup }} force
 
-  - name: Stop tomcat instance
+  - name: Stop data-match instance when running
     action: command bash {{ casfw_home }}/db-restart-tomcat-functions.sh stopDataMatchInstance
 
   - name: Wait for data-match port to stopped
@@ -11,7 +11,7 @@
     su: no
     delegate_to: localhost
 
-  - name: Start tomcat instance
+  - name: Start data-match instance
     action: command bash {{ casfw_home }}/db-restart-tomcat-functions.sh startDataMatchInstance
 
   - name: Wait for data-match port to started

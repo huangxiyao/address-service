@@ -29,7 +29,7 @@
   - debug: msg="data-match1 is running"
     when: "'tomcat-ad running' in datamatch1_running_status.stdout"
 
-########## Restart data-match intance 1 #################
+  - name: Restart data-match intance 1 when running
     include: db-restart-tomcat.yml data_match_instance={{ data_match_instance1 }} port={{ tomcat_ad_port1 }}
     when: "'tomcat-ad running' in datamatch1_running_status.stdout"
 
@@ -41,7 +41,7 @@
   - debug: msg="data-match2 is running"
     when: "'tomcat-ad running' in datamatch2_running_status.stdout"
 
-########## Restart data-match intance 2 #################
+  - name: Restart data-match intance 2 when running
     include: db-restart-tomcat.yml data_match_instance={{ data_match_instance2 }} port={{ tomcat_ad_port2 }}
     when: "'tomcat-ad running' in datamatch2_running_status.stdout"
 
@@ -53,7 +53,7 @@
   - debug: msg="data-match3 is running"
     when: "'tomcat-ad running' in datamatch3_running_status.stdout"
 
-########## Restart data-match intance 3 #################
+  - name: Restart data-match intance 3 when running
     include: db-restart-tomcat.yml data_match_instance={{ data_match_instance3 }} port={{ tomcat_ad_port3 }}
     when: "'tomcat-ad running' in datamatch3_running_status.stdout"
 

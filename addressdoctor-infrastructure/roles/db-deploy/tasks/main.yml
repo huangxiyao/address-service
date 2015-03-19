@@ -4,22 +4,22 @@
     copy: src=su.sh dest=/tmp mode=0755 force
     su: no
 
-#  - name: Download the argument's template files -> /opt/casfw
-#    template: src=db-deploy-functions.sh dest={{ casfw_home }} mode=0755 owner={{ useraccount }} group={{ usergroup }} force
+  - name: Download the argument's template files -> /opt/casfw
+    template: src=db-deploy-functions.sh dest={{ casfw_home }} mode=0755 owner={{ useraccount }} group={{ usergroup }} force
 
-#  - name: Check disk space if it is enough and should not less than 40GB
-#    action: command bash {{ casfw_home }}/db-deploy-functions.sh checkDiskSpace
+  - name: Check disk space if it is enough and should not less than 40GB
+    action: command bash {{ casfw_home }}/db-deploy-functions.sh checkDiskSpace
 
-#  - name: Initial DB latest version folder which will save the latest DB files
-#    action: command bash {{ casfw_home }}/db-deploy-functions.sh initialDBLatestVersionFolder
+  - name: Initial DB latest version folder which will save the latest DB files
+    action: command bash {{ casfw_home }}/db-deploy-functions.sh initialDBLatestVersionFolder
 
-#  - name: Copy the DB MD files to target server and put in under the db latest version folder
-#    copy: src={{ item }} dest={{ db_target_folder }}/{{ db_latest_version }} mode=0755 owner={{ useraccount }} group={{ usergroup }} force
-#    with_fileglob:
-#      - "{{ db_source_folder }}/*.MD"
+  - name: Copy the DB MD files to target server and put in under the db latest version folder
+    copy: src={{ item }} dest={{ db_target_folder }}/{{ db_latest_version }} mode=0755 owner={{ useraccount }} group={{ usergroup }} force
+    with_fileglob:
+      - "{{ db_source_folder }}/*.MD"
 
-#  - name: Update DB symbol link and point to the latest db version folder
-#    action: command bash {{ casfw_home }}/db-deploy-functions.sh updateDBSymLink
+  - name: Update DB symbol link and point to the latest db version folder
+    action: command bash {{ casfw_home }}/db-deploy-functions.sh updateDBSymLink
 
 ########## Restart Data Match Tomcat instance1 #################
   - name: Check data-match instace 1 is running or not 
@@ -57,8 +57,8 @@
     include: db-restart-tomcat.yml data_match_instance={{ data_match_instance3 }} port={{ tomcat_ad_port3 }}
     when: "'tomcat-ad running' in datamatch3_running_status.stdout"
 
-#  - name: Final Cleanup
-#    action: command bash {{ casfw_home }}/db-deploy-functions.sh finalCleanup
+  - name: Final Cleanup
+    action: command bash {{ casfw_home }}/db-deploy-functions.sh finalCleanup
 
   - name: Remove the su file from /tmp/
     shell: cd /tmp/; find -maxdepth 1 -type f -name "su.sh" | xargs rm

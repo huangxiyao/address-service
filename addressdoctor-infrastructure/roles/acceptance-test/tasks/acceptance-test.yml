@@ -12,7 +12,7 @@
     with_items: lb_urls
 
   - name: validate LB data-match restful endpoint
-    uri: url=http://{{ item[0]  }}/match/{{ item[1] }}/documentation
+    uri: url=https://{{ item[0]  }}/match/{{ item[1] }}/documentation
     retries: 5
     delegate_to: localhost
     with_nested:
@@ -20,13 +20,13 @@
       - [ validatedAddress, certifiedAddress, looselyValidatedAddress, addressSuggestions, fastCompletionAddress ]
 
   - name: validate LB data-match soap endpoint
-    uri: url=http://{{ item }}/legacy-match/address/v1?wsdl
+    uri: url=https://{{ item }}/legacy-match/address/v1?wsdl
     retries: 5
     delegate_to: localhost
     with_items: lb_urls
 
   - name: validate LB data-match restful addresses
-    uri: url=http://{{ item[0] }}/match/{{ item[1] }}?country1=US&deliveryAddressLine1=745+Riverhaven+Drive&characterScriptDetectionIndicator=false&postalCode1=30024 HEADER_X-HP-Application-Process-UID="w-mdcp:prd-http"
+    uri: url=https://{{ item[0] }}/match/{{ item[1] }}?country1=US&deliveryAddressLine1=745+Riverhaven+Drive&characterScriptDetectionIndicator=false&postalCode1=30024 HEADER_X-HP-Application-Process-UID="w-mdcp:prd-http"
     retries: 5
     delegate_to: localhost
     with_nested:

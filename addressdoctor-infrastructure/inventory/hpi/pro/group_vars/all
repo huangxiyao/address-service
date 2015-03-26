@@ -3,3 +3,5 @@ release_environment : pro
 useraccount: casfw
 usergroup: casfwgrp
 casfw_home: /opt/casfw
+
+lb_urls : [ address-service-inc-g1.itcs.hp.com, address-service-inc-g2.itcs.hp.com, address-service-inc.glb.itcs.hp.com, address-service-inc-ext-g1.itcs.hp.com, address-service-inc-ext-g2.itcs.hp.com, address-service-inc-ext.glb.itcs.hp.com ]

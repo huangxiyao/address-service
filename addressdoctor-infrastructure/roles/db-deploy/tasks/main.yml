@@ -22,40 +22,40 @@
     action: command bash {{ casfw_home }}/db-deploy-functions.sh updateDBSymLink
 
 ########## Restart Data Match Tomcat instance1 #################
-  - name: check data match instace 1 is running or not 
-    shell: pid_file="{{ casfw_home }}/current/{{ data_match_instance1 }}/var/tomcat-ad.pid"; if [ -f $pid_file ]; then s=$(printf " %s " $(ps -e | grep $(cat $pid_file)) | awk '{ print $1 }'); if [ -n "$s" ]; then echo "data-match1 is running"; fi; fi
+  - name: Check data-match instace 1 is running or not 
+    shell: pid_file="{{ casfw_home }}/current/{{ data_match_instance1 }}/var/tomcat-ad.pid"; if [ -f $pid_file ]; then s=$(printf " %s " $(ps -e | grep $(cat $pid_file)) | awk '{ print $1 }'); if [ -n "$s" ]; then echo "tomcat-ad running $s"; fi; fi
     register: datamatch1_running_status
 
-  - debug: msg="data-match1 is not running"
-    when: datamatch1_running_status.stdout != 'data-match1 is running'
+  - debug: msg="data-match1 is running"
+    when: "'tomcat-ad running' in datamatch1_running_status.stdout"
 
-  - name: reatart data-match intance 1
+  - name: Restart data-match intance 1 when running
     include: db-restart-tomcat.yml data_match_instance={{ data_match_instance1 }} port={{ tomcat_ad_port1 }}
-    when: datamatch1_running_status.stdout == 'data-match1 is running'
+    when: "'tomcat-ad running' in datamatch1_running_status.stdout"
 
 ########## Restart Data Match Tomcat instance2 #################
-  - name: check data match instace 2 is running or not 
-    shell: pid_file="{{ casfw_home }}/current/{{ data_match_instance2 }}/var/tomcat-ad.pid"; if [ -f $pid_file ]; then s=$(printf " %s " $(ps -e | grep $(cat $pid_file)) | awk '{ print $1 }'); if [ -n "$s" ]; then echo "data-match2 is running"; fi; fi
+  - name: Check data match instace 2 is running or not 
+    shell: pid_file="{{ casfw_home }}/current/{{ data_match_instance2 }}/var/tomcat-ad.pid"; if [ -f $pid_file ]; then s=$(printf " %s " $(ps -e | grep $(cat $pid_file)) | awk '{ print $1 }'); if [ -n "$s" ]; then echo "tomcat-ad running $s"; fi; fi
     register: datamatch2_running_status
 
-  - debug: msg="data-match2 is not running"
-    when: datamatch2_running_status.stdout != 'data-match2 is running'
+  - debug: msg="data-match2 is running"
+    when: "'tomcat-ad running' in datamatch2_running_status.stdout"
 
-  - name: reatart data-match intance 2
+  - name: Restart data-match intance 2 when running
     include: db-restart-tomcat.yml data_match_instance={{ data_match_instance2 }} port={{ tomcat_ad_port2 }}
-    when: datamatch2_running_status.stdout == 'data-match2 is running'
+    when: "'tomcat-ad running' in datamatch2_running_status.stdout"
 
 ########## Restart Data Match Tomcat instance3 #################
-  - name: check data match instace 3 is running or not 
-    shell: pid_file="{{ casfw_home }}/current/{{ data_match_instance3 }}/var/tomcat-ad.pid"; if [ -f $pid_file ]; then s=$(printf " %s " $(ps -e | grep $(cat $pid_file)) | awk '{ print $1 }'); if [ -n "$s" ]; then echo "data-match3 is running"; fi; fi
+  - name: Check data match instace 3 is running or not 
+    shell: pid_file="{{ casfw_home }}/current/{{ data_match_instance3 }}/var/tomcat-ad.pid"; if [ -f $pid_file ]; then s=$(printf " %s " $(ps -e | grep $(cat $pid_file)) | awk '{ print $1 }'); if [ -n "$s" ]; then echo "tomcat-ad running $s"; fi; fi
     register: datamatch3_running_status
 
-  - debug: msg="data-match3 is not running"
-    when: datamatch3_running_status.stdout != 'data-match3 is running'
+  - debug: msg="data-match3 is running"
+    when: "'tomcat-ad running' in datamatch3_running_status.stdout"
 
-  - name: reatart data-match intance 3
+  - name: Restart data-match intance 3 when running
     include: db-restart-tomcat.yml data_match_instance={{ data_match_instance3 }} port={{ tomcat_ad_port3 }}
-    when: datamatch3_running_status.stdout == 'data-match3 is running'
+    when: "'tomcat-ad running' in datamatch3_running_status.stdout"
 
   - name: Final Cleanup
     action: command bash {{ casfw_home }}/db-deploy-functions.sh finalCleanup

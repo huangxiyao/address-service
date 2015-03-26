@@ -1,0 +1,7 @@
+---
+# This playbook is used to do acceptance test
+- hosts: 127.0.0.1
+  connection: local
+  gather_facts: no
+  roles:
+  - acceptance-test

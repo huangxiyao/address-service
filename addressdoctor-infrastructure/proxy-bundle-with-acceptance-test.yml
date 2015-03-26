@@ -1,0 +1,3 @@
+---
+- include: proxy-bundle.yml
+- include: acceptance-test.yml

@@ -13,7 +13,7 @@ function error {
 function soapValidationTest {
     cd /tmp
 
-    checkurl="https://${lb_url}/legacy-match/address/v1?wsdl"
+    checkurl="http://${lb_url}/legacy-match/address/v1?wsdl"
     response=$(curl --header "Content-Type: text/xml;charset=UTF-8" --header "X-HP-Application-Process-UID: w-mdcp:prd-http" --data @soap_envelope.xml -s -i ${checkurl})
     if ! echo "${response}" | grep -q "HTTP/1.1 200"
     then

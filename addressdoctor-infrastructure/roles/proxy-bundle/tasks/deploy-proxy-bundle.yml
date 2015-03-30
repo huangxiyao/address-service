@@ -28,11 +28,11 @@
 
 ########## Download Proxy Bundle CDI #################
   - name: Download proxy-bundle installation CDI
-    action: command wget -Nnv http://repo1.corp.hp.com/nexus/content/groups/public/com/hp/it/120482/proxy-bundle-installer/{{ proxy_bundle_version }}/proxy-bundle-installer-{{ proxy_bundle_version }}.cdi  -P /opt/casfw {{ casfw_home }}
+    action: command wget -Nnv http://repo1.corp.hp.com/nexus/content/groups/public/com/hp/it/120482/proxy-bundle-installer/{{ proxy_bundle_version }}/proxy-bundle-installer-{{ proxy_bundle_version }}.cdi  -P {{ casfw_home }}
     when: not proxybundlesnapshot
 
   - name: Download proxy-bundle installation CDI (snapshot)
-    action: command wget -Nnv http://repo1.corp.hp.com/nexus/service/local/artifact/maven/redirect?r=snapshots&g=com.hp.it.120482&a=proxy-bundle-installer&v={{ proxy_bundle_version }}&e=cdi -P /opt/casfw {{ casfw_home }}
+    action: command wget -Nnv http://repo1.corp.hp.com/nexus/service/local/artifact/maven/redirect?r=snapshots&g=com.hp.it.120482&a=proxy-bundle-installer&v={{ proxy_bundle_version }}&e=cdi -P {{ casfw_home }}
     when: proxybundlesnapshot
 
 ########## Deploy Proxy Bundle #################

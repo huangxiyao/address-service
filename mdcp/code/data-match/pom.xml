@@ -1,390 +1,390 @@
-<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/maven-v4_0_0.xsd">
-	<modelVersion>4.0.0</modelVersion>
+<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+    xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/maven-v4_0_0.xsd">
+    <modelVersion>4.0.0</modelVersion>
 
-	<parent>
-		<artifactId>mdcp-parent</artifactId>
-		<groupId>com.hp.it.120482</groupId>
-		<version>2014.11-M2</version>
-	</parent>
+    <groupId>com.hp.it.120482</groupId>
+    <artifactId>data-match</artifactId>
+    <version>2015.07-SNAPSHOT</version>
+    <packaging>pom</packaging>
+
+    <name>Data matching tools</name>
+    <description>Data matching tools</description>
+
+    <organization>
+        <name>Common Architecture Services</name>
+        <url>http://cas.corp.hp.com/site/cas</url>
+    </organization>
+
+    <inceptionYear>2011</inceptionYear>
+
+    <properties>
+        <addressDoctorVersion>5.6.0</addressDoctorVersion>
+        <aspectJVersion>1.6.7</aspectJVersion>
+        <casVersion>2014.11.3</casVersion>
+        <cxfVersion>2.2.9</cxfVersion>
+        <hamcrestVersion>1.1</hamcrestVersion>
+        <javaVersion>1.6</javaVersion>
+        <jaxBApiVersion>2.1</jaxBApiVersion>
+        <jaxBImplVersion>2.1.10</jaxBImplVersion>
+        <jerseyVersion>1.5</jerseyVersion>
+        <jmockVersion>2.5.1</jmockVersion>
+        <junitVersion>4.5</junitVersion>
+        <logbackVersion>0.9.28</logbackVersion>
+        <metroVersion>2.1.1</metroVersion>
+        <oracleJdbcVersion>11.2.0.1.0</oracleJdbcVersion>
+        <springVersion>2.5.6</springVersion>
+        <validationApiVersion>1.0.0.GA</validationApiVersion>
+
+        <compilerPluginVersion>3.2</compilerPluginVersion>
+
+        <!-- Code analysis plugins -->
+        <checkstylePluginVersion>2.13</checkstylePluginVersion>
+        <checkstyleVersion>6.2</checkstyleVersion>
+        <failsafePluginVersion>2.18.1</failsafePluginVersion>
+        <findBugsPluginVersion>3.0.0</findBugsPluginVersion>
+        <jacocoPluginVersion>0.7.2.201409121644</jacocoPluginVersion>
+        <jxrPluginVersion>2.5</jxrPluginVersion>
+        <surefirePluginVersion>2.18.1</surefirePluginVersion>
+
+        <!-- build -->
+        <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
+        <project.reporting.outputEncoding>UTF-8</project.reporting.outputEncoding>
+    </properties>
+
+    <modules>
+        <module>data-match-engine</module>
+        <module>data-match-web</module>
+        <module>data-match-client</module>
+        <module>data-match-access</module>
+        <module>data-match-batch</module>
+        <module>data-match-installer</module>
+    </modules>
+
+    <scm>
+        <connection>scm:git:https://cgit-pro.houston.hp.com/gerrit/p/address-service.git</connection>
+        <developerConnection>scm:git:https://cgit-pro.houston.hp.com/gerrit/p/address-service.git</developerConnection>
+        <url>https://cgit-pro.houston.hp.com/gerrit/gitweb?p=address-service.git;a=summary</url>
+    </scm>
+
+    <dependencyManagement>
+        <dependencies>
+            <dependency>
+                <groupId>junit</groupId>
+                <artifactId>junit</artifactId>
+                <version>${junitVersion}</version>
+                <scope>test</scope>
+            </dependency>
+
+            <dependency>
+                <groupId>com.addressdoctor</groupId>
+                <artifactId>addressdoctor</artifactId>
+                <version>${addressDoctorVersion}</version>
+            </dependency>
+
+            <dependency>
+                <groupId>org.hamcrest</groupId>
+                <artifactId>hamcrest-core</artifactId>
+                <version>${hamcrestVersion}</version>
+                <scope>test</scope>
+            </dependency>
+
+            <dependency>
+                <groupId>org.hamcrest</groupId>
+                <artifactId>hamcrest-library</artifactId>
+                <version>${hamcrestVersion}</version>
+                <scope>test</scope>
+            </dependency>
+
+            <dependency>
+                <groupId>org.jmock</groupId>
+                <artifactId>jmock-junit4</artifactId>
+                <version>${jmockVersion}</version>
+                <scope>test</scope>
+            </dependency>
+
+            <dependency>
+                <groupId>com.hp.it.118361</groupId>
+                <artifactId>foundation</artifactId>
+                <version>${casVersion}</version>
+            </dependency>
+
+            <dependency>
+                <groupId>com.hp.it.118361</groupId>
+                <artifactId>security-impl</artifactId>
+                <version>${casVersion}</version>
+            </dependency>
 
 
-	<artifactId>data-match</artifactId>
-	<version>1.0.34</version>
-	<packaging>pom</packaging>
-	<name>Data matching tools</name>
-	<description>Data matching tools</description>
+            <dependency>
+                <groupId>com.sun.jersey</groupId>
+                <artifactId>jersey-server</artifactId>
+                <version>${jerseyVersion}</version>
+            </dependency>
 
-	<organization>
-		<name>Common Architecture Services</name>
-		<url>http://cas.corp.hp.com/site/cas</url>
-	</organization>
+            <dependency>
+                <groupId>com.sun.jersey</groupId>
+                <artifactId>jersey-core</artifactId>
+                <version>${jerseyVersion}</version>
+            </dependency>
 
-	<inceptionYear>2011</inceptionYear>
+            <dependency>
+                <groupId>org.glassfish.metro</groupId>
+                <artifactId>webservices-rt</artifactId>
+                <version>${metroVersion}</version>
+            </dependency>
 
-	<properties>
-		<junitVersion>4.5</junitVersion>
-		<springVersion>2.5.6</springVersion>
-		<addressDoctorVersion>5.6.0</addressDoctorVersion>
-		<javaVersion>1.6</javaVersion>
-		<hamcrestVersion>1.1</hamcrestVersion>
-		<jmockVersion>2.5.1</jmockVersion>
-		<jaxBApiVersion>2.1</jaxBApiVersion>
-		<jaxBImplVersion>2.1.10</jaxBImplVersion>
-		<cxfVersion>2.2.9</cxfVersion>
-		<jerseyVersion>1.5</jerseyVersion>
-		<metroVersion>2.1.1</metroVersion>
-		<validationApiVersion>1.0.0.GA</validationApiVersion>
-		<aspectJVersion>1.6.7</aspectJVersion>
-		<oracleJdbcVersion>11.2.0.1.0</oracleJdbcVersion>
-		<!-- Code analysis plugins -->
-		<checkstylePluginVersion>2.13</checkstylePluginVersion>
-		<checkstyleVersion>6.2</checkstyleVersion>
-		<jxrPluginVersion>2.5</jxrPluginVersion>
-		<findBugsPluginVersion>3.0.0</findBugsPluginVersion>
-		<surefirePluginVersion>2.18.1</surefirePluginVersion>
-		<failsafePluginVersion>2.18.1</failsafePluginVersion>
-		<jacocoPluginVersion>0.7.2.201409121644</jacocoPluginVersion>
-	</properties>
+            <dependency>
+                <groupId>javax.validation</groupId>
+                <artifactId>validation-api</artifactId>
+                <version>${validationApiVersion}</version>
+            </dependency>
 
-	<modules>
-		<module>data-match-engine</module>
-		<module>data-match-web</module>
-		<module>data-match-client</module>
-		<module>data-match-access</module>
-    	<module>data-match-batch</module>
-  </modules>
+            <dependency>
+                <groupId>org.aspectj</groupId>
+                <artifactId>aspectjrt</artifactId>
+                <version>${aspectJVersion}</version>
+            </dependency>
 
-  <scm>
-		<connection>scm:git:https://cgit-pro.houston.hp.com/gerrit/p/address-service.git</connection>
-		<developerConnection>scm:git:https://cgit-pro.houston.hp.com/gerrit/p/address-service.git</developerConnection>
-		<url>https://cgit-pro.houston.hp.com/gerrit/gitweb?p=address-service.git;a=summary</url>
-    <tag>HEAD</tag>
-  </scm>
-  
-	<dependencyManagement>
-		<dependencies>
-			<dependency>
-				<groupId>junit</groupId>
-				<artifactId>junit</artifactId>
-				<version>${junitVersion}</version>
-				<scope>test</scope>
-			</dependency>
+            <dependency>
+                <groupId>com.oracle</groupId>
+                <artifactId>ojdbc5</artifactId>
+                <version>${oracleJdbcVersion}</version>
+                <scope>runtime</scope>
+            </dependency>
 
-			<dependency>
-				<groupId>com.addressdoctor</groupId>
-				<artifactId>addressdoctor</artifactId>
-				<version>${addressDoctorVersion}</version>
-			</dependency>
+            <dependency>
+                <groupId>ch.qos.logback</groupId>
+                <artifactId>logback-core</artifactId>
+                <version>${logbackVersion}</version>
+                <scope>test</scope>
+            </dependency>
 
-			<dependency>
-				<groupId>org.hamcrest</groupId>
-				<artifactId>hamcrest-core</artifactId>
-				<version>${hamcrestVersion}</version>
-				<scope>test</scope>
-			</dependency>
+            <dependency>
+                <groupId>ch.qos.logback</groupId>
+                <artifactId>logback-classic</artifactId>
+                <version>${logbackVersion}</version>
+                <scope>test</scope>
+            </dependency>
 
-			<dependency>
-				<groupId>org.hamcrest</groupId>
-				<artifactId>hamcrest-library</artifactId>
-				<version>${hamcrestVersion}</version>
-				<scope>test</scope>
-			</dependency>
+            <dependency>
+                <groupId>javax.servlet</groupId>
+                <artifactId>servlet-api</artifactId>
+                <version>2.5</version>
+                <scope>provided</scope>
+            </dependency>
 
-			<dependency>
-				<groupId>org.jmock</groupId>
-				<artifactId>jmock-junit4</artifactId>
-				<version>${jmockVersion}</version>
-				<scope>test</scope>
-			</dependency>
+            <dependency>
+                <groupId>javax.ws.rs</groupId>
+                <artifactId>jsr311-api</artifactId> <!-- JAX-RS, ReST -->
+                <version>1.1.1</version>
+            </dependency>
 
-			<dependency>
-				<groupId>com.hp.it.118361</groupId>
-				<artifactId>foundation</artifactId>
-				<version>${casVersion}</version>
-			</dependency>
+            <dependency>
+                <groupId>net.jcip</groupId>
+                <artifactId>jcip-annotations</artifactId>
+                <version>1.0</version>
+                <optional>true</optional>
+            </dependency>
 
-			<dependency>
-				<groupId>com.hp.it.118361</groupId>
-				<artifactId>security-impl</artifactId>
-				<version>${casVersion}</version>
-			</dependency>
+            <dependency>
+                <groupId>org.hibernate</groupId>
+                <artifactId>hibernate-validator</artifactId>
+                <version>4.2.0.Final</version>
+            </dependency>
+        </dependencies>
+    </dependencyManagement>
 
+    <build>
+        <pluginManagement>
+            <plugins>
 
-			<dependency>
-				<groupId>com.sun.jersey</groupId>
-				<artifactId>jersey-server</artifactId>
-				<version>${jerseyVersion}</version>
-			</dependency>
+                <plugin>
+                    <groupId>org.apache.maven.plugins</groupId>
+                    <artifactId>maven-resources-plugin</artifactId>
+                    <version>2.5</version>
+                    <inherited>true</inherited>
+                    <configuration>
+                        <encoding>UTF-8</encoding>
+                    </configuration>
+                </plugin>
 
-			<dependency>
-				<groupId>com.sun.jersey</groupId>
-				<artifactId>jersey-core</artifactId>
-				<version>${jerseyVersion}</version>
-			</dependency>
+                <plugin>
+                    <artifactId>maven-compiler-plugin</artifactId>
+                    <version>${compilerPluginVersion}</version>
+                    <inherited>true</inherited>
+                    <configuration>
+                        <source>${javaVersion}</source>
+                        <target>${javaVersion}</target>
+                        <encoding>8859_1</encoding>
+                    </configuration>
+                </plugin>
 
-			<dependency>
-				<groupId>org.glassfish.metro</groupId>
-				<artifactId>webservices-rt</artifactId>
-				<version>${metroVersion}</version>
-			</dependency>
+                <plugin>
+                    <groupId>org.apache.maven.plugins</groupId>
+                    <artifactId>maven-release-plugin</artifactId>
+                    <configuration>
+                        <autoVersionSubmodules>true</autoVersionSubmodules>
+                        <preparationGoals>clean install</preparationGoals>
+                        <goals>deploy</goals>
+                    </configuration>
+                </plugin>
 
-			<dependency>
-				<groupId>javax.validation</groupId>
-				<artifactId>validation-api</artifactId>
-				<version>${validationApiVersion}</version>
-			</dependency>
+                <plugin>
+                    <groupId>org.apache.maven.plugins</groupId>
+                    <artifactId>maven-source-plugin</artifactId>
+                    <inherited>true</inherited>
+                    <executions>
+                        <execution>
+                            <id>attach-source</id>
+                            <phase>package</phase>
+                            <goals>
+                                <goal>jar</goal>
+                            </goals>
+                        </execution>
+                    </executions>
+                </plugin>
 
-			<dependency>
-				<groupId>org.aspectj</groupId>
-				<artifactId>aspectjrt</artifactId>
-				<version>${aspectJVersion}</version>
-			</dependency>
+                <plugin>
+                    <!-- group and version defined in reporting section -->
+                    <artifactId>maven-javadoc-plugin</artifactId>
+                    <version>2.9</version>
+                    <inherited>true</inherited>
+                    <executions>
+                        <execution>
+                            <id>attach-javadoc</id>
+                            <phase>package</phase>
+                            <goals>
+                                <goal>jar</goal>
+                            </goals>
+                        </execution>
+                    </executions>
+                </plugin>
 
-			<dependency>
-				<groupId>com.oracle</groupId>
-				<artifactId>ojdbc5</artifactId>
-				<version>${oracleJdbcVersion}</version>
-				<scope>runtime</scope>
-			</dependency>
+                <plugin>
+                    <groupId>org.apache.maven.plugins</groupId>
+                    <artifactId>maven-jxr-plugin</artifactId>
+                    <version>${jxrPluginVersion}</version>
+                    <executions>
+                        <execution>
+                            <phase>compile</phase>
+                            <goals>
+                                <goal>jxr</goal>
+                            </goals>
+                        </execution>
+                    </executions>
+                </plugin>
 
-		</dependencies>
-	</dependencyManagement>
+                <plugin>
+                    <groupId>org.apache.maven.plugins</groupId>
+                    <artifactId>maven-checkstyle-plugin</artifactId>
+                    <version>${checkstylePluginVersion}</version>
+                    <dependencies>
+                        <dependency>
+                            <groupId>com.puppycrawl.tools</groupId>
+                            <artifactId>checkstyle</artifactId>
+                            <version>${checkstyleVersion}</version>
+                        </dependency>
+                    </dependencies>
+                    <configuration>
+                        <configLocation>cas-checks.xml</configLocation>
+                    </configuration>
+                    <executions>
+                        <execution>
+                            <phase>compile</phase>
+                            <goals>
+                                <goal>checkstyle</goal>
+                                <goal>check</goal>
+                            </goals>
+                        </execution>
+                    </executions>
+                </plugin>
 
-	<build>
-		<pluginManagement>
-			<plugins>
-			
-	            <plugin>
-	                <groupId>org.apache.maven.plugins</groupId>
-	                <artifactId>maven-resources-plugin</artifactId>
-	                <version>2.5</version>
-	                <inherited>true</inherited>
-	                <configuration>
-	                    <encoding>UTF-8</encoding>
-	                </configuration>
-	            </plugin>		
-	
-				<plugin>
-					<artifactId>maven-compiler-plugin</artifactId>
-					<inherited>true</inherited>
-					<configuration>
-						<source>${javaVersion}</source>
-						<target>${javaVersion}</target>
-						<encoding>8859_1</encoding>
-					</configuration>
-				</plugin>
-	
-				<plugin>
-					<groupId>org.apache.maven.plugins</groupId>
-					<artifactId>maven-release-plugin</artifactId>
-					<configuration>
-						<autoVersionSubmodules>true</autoVersionSubmodules>
-						<preparationGoals>clean install</preparationGoals>
-						<goals>deploy</goals>
-					</configuration>
-				</plugin>
-	
-				<plugin>
-					<groupId>org.apache.maven.plugins</groupId>
-					<artifactId>maven-source-plugin</artifactId>
-					<inherited>true</inherited>
-					<executions>
-						<execution>
-							<id>attach-source</id>
-							<phase>package</phase>
-							<goals>
-								<goal>jar</goal>
-							</goals>
-						</execution>
-					</executions>
-				</plugin>
-	
-				<plugin>
-					<!-- group and version defined in reporting section -->
-					<artifactId>maven-javadoc-plugin</artifactId>
-					<version>2.9</version>
-					<inherited>true</inherited>
-					<executions>
-						<execution>
-							<id>attach-javadoc</id>
-							<phase>package</phase>
-							<goals>
-								<goal>jar</goal>
-							</goals>
-						</execution>
-					</executions>
-				</plugin>
-				
-				<plugin>
-				    <groupId>org.apache.maven.plugins</groupId>
-				    <artifactId>maven-jxr-plugin</artifactId>
-				    <version>${jxrPluginVersion}</version>
-				    <executions>
-				        <execution>
-				            <phase>compile</phase>
-				            <goals>
-				                <goal>jxr</goal>
-				            </goals>
-				        </execution>
-				    </executions>
-				</plugin>
-	
-				<plugin>
-					<groupId>org.apache.maven.plugins</groupId>
-					<artifactId>maven-checkstyle-plugin</artifactId>
-					<version>${checkstylePluginVersion}</version>
-					<dependencies>
-						<dependency>
-							<groupId>com.puppycrawl.tools</groupId>
-							<artifactId>checkstyle</artifactId>
-							<version>${checkstyleVersion}</version>
-						</dependency>
-					</dependencies>
-					<configuration>
-						<configLocation>cas-checks.xml</configLocation>
-					</configuration>
-					<executions>
-						<execution>
-							<phase>compile</phase>
-							<goals>
-								<goal>checkstyle</goal>
-								<goal>check</goal>
-							</goals>
-						</execution>
-					</executions>
-				</plugin>
-				
-				<plugin>
-				    <groupId>org.apache.maven.plugins</groupId>
-				    <artifactId>maven-pmd-plugin</artifactId>
-				    <version>3.3</version>
-				    <executions>
-				        <execution>
-				            <phase>compile</phase>
-				            <goals>
-				                <goal>pmd</goal>
-				                <!-- TODO: We have sub-par quality right now
-				                <goal>check</goal>
-				                -->
-				            </goals>
-				        </execution>
-				    </executions>
-				</plugin>
-				
-				<plugin>
-				    <groupId>org.codehaus.mojo</groupId>
-				    <artifactId>findbugs-maven-plugin</artifactId>
-				    <version>${findBugsPluginVersion}</version>
-				    <executions>
-				        <execution>
-				            <phase>compile</phase>
-				            <goals>
-				                <goal>findbugs</goal>
-				                <!-- TODO: We have sub-par quality right now
-				                <goal>check</goal>
-				                -->
-				            </goals>
-				        </execution>
-				    </executions>
-				</plugin>
-				
-				<plugin>
-				    <!-- unit test -->
-				    <groupId>org.apache.maven.plugins</groupId>
-				    <artifactId>maven-surefire-plugin</artifactId>
-				    <version>${surefirePluginVersion}</version>
-				</plugin>
-				
-				<plugin>
-				    <!-- integration test -->
-				    <groupId>org.apache.maven.plugins</groupId>
-				    <artifactId>maven-failsafe-plugin</artifactId>
-				    <version>${failsafePluginVersion}</version>
-				    <executions>
-				        <execution>
-				            <goals>
-				                <goal>integration-test</goal>
-				                <goal>verify</goal>
-				            </goals>
-				        </execution>
-				    </executions>
-				</plugin>
-				
-				<plugin>
-				    <!-- code coverage -->
-				    <groupId>org.jacoco</groupId>
-				    <artifactId>jacoco-maven-plugin</artifactId>
-				    <version>${jacocoPluginVersion}</version>
-				    <configuration>
-				        <excludes>
-				            <exclude>**/data/*.class</exclude>    <!-- ignore generated classes -->
-				        </excludes>
-				    </configuration>
-				    <executions>
-				        <execution>
-				            <id>jacoco-initialize</id>
-				            <goals>
-				                <goal>prepare-agent</goal>
-				            </goals>
-				        </execution>
-				        <execution>
-				            <id>jacoco-site</id>
-				            <phase>post-integration-test</phase>
-				            <goals>
-				                <goal>report</goal>
-				            </goals>
-				        </execution>
-				        <!-- TODO: We have sub-par quality right now
-				        <execution>
-				            <id>check</id>
-				            <phase>verify</phase>
-				            <goals>
-				                <goal>check</goal>
-				            </goals>
-				            <configuration>
-				                <rules>
-				                    <rule>
-				                        <element>BUNDLE</element>
-				                        <limits>
-				                            <limit>
-				                                <counter>CLASS</counter>
-				                                <value>COVEREDRATIO</value>
-				                                <minimum>0.95</minimum>
-				                            </limit>
-				                            <limit>
-				                                <counter>INSTRUCTION</counter>
-				                                <value>COVEREDRATIO</value>
-				                                <minimum>0.95</minimum>
-				                            </limit>
-				                            <limit>
-				                                <counter>METHOD</counter>
-				                                <value>COVEREDRATIO</value>
-				                                <minimum>0.90</minimum>
-				                            </limit>
-				                            <limit>
-				                                <counter>BRANCH</counter>
-				                                <value>COVEREDRATIO</value>
-				                                <minimum>0.95</minimum>
-				                            </limit>
-				                            <limit>
-				                                <counter>COMPLEXITY</counter>
-				                                <value>COVEREDRATIO</value>
-				                                <minimum>0.95</minimum>
-				                            </limit>
-				                            <limit>
-				                                <counter>LINE</counter>
-				                                <value>COVEREDRATIO</value>
-				                                <minimum>0.95</minimum>
-				                            </limit>
-				                        </limits>
-				                    </rule>
-				                </rules>
-				            </configuration>
-				        </execution>
-				        -->
-				    </executions>
-				</plugin>
-			</plugins>
-		</pluginManagement>
-	</build>
+                <plugin>
+                    <groupId>org.apache.maven.plugins</groupId>
+                    <artifactId>maven-pmd-plugin</artifactId>
+                    <version>3.3</version>
+                    <executions>
+                        <execution>
+                            <phase>compile</phase>
+                            <goals>
+                                <goal>pmd</goal>
+                                <!-- TODO: We have sub-par quality right now <goal>check</goal> -->
+                            </goals>
+                        </execution>
+                    </executions>
+                </plugin>
+
+                <plugin>
+                    <groupId>org.codehaus.mojo</groupId>
+                    <artifactId>findbugs-maven-plugin</artifactId>
+                    <version>${findBugsPluginVersion}</version>
+                    <executions>
+                        <execution>
+                            <phase>compile</phase>
+                            <goals>
+                                <goal>findbugs</goal>
+                                <!-- TODO: We have sub-par quality right now <goal>check</goal> -->
+                            </goals>
+                        </execution>
+                    </executions>
+                </plugin>
+
+                <plugin>
+                    <!-- unit test -->
+                    <groupId>org.apache.maven.plugins</groupId>
+                    <artifactId>maven-surefire-plugin</artifactId>
+                    <version>${surefirePluginVersion}</version>
+                </plugin>
+
+                <plugin>
+                    <!-- integration test -->
+                    <groupId>org.apache.maven.plugins</groupId>
+                    <artifactId>maven-failsafe-plugin</artifactId>
+                    <version>${failsafePluginVersion}</version>
+                    <executions>
+                        <execution>
+                            <goals>
+                                <goal>integration-test</goal>
+                                <goal>verify</goal>
+                            </goals>
+                        </execution>
+                    </executions>
+                </plugin>
+
+                <plugin>
+                    <!-- code coverage -->
+                    <groupId>org.jacoco</groupId>
+                    <artifactId>jacoco-maven-plugin</artifactId>
+                    <version>${jacocoPluginVersion}</version>
+                    <configuration>
+                        <excludes>
+                            <exclude>**/data/*.class</exclude>    <!-- ignore generated classes -->
+                        </excludes>
+                    </configuration>
+                    <executions>
+                        <execution>
+                            <id>jacoco-initialize</id>
+                            <goals>
+                                <goal>prepare-agent</goal>
+                            </goals>
+                        </execution>
+                        <execution>
+                            <id>jacoco-site</id>
+                            <phase>post-integration-test</phase>
+                            <goals>
+                                <goal>report</goal>
+                            </goals>
+                        </execution>
+                        <!-- TODO: We have sub-par quality right now <execution> <id>check</id> <phase>verify</phase> <goals> 
+                            <goal>check</goal> </goals> <configuration> <rules> <rule> <element>BUNDLE</element> <limits> <limit> <counter>CLASS</counter> 
+                            <value>COVEREDRATIO</value> <minimum>0.95</minimum> </limit> <limit> <counter>INSTRUCTION</counter> <value>COVEREDRATIO</value> 
+                            <minimum>0.95</minimum> </limit> <limit> <counter>METHOD</counter> <value>COVEREDRATIO</value> <minimum>0.90</minimum> </limit> 
+                            <limit> <counter>BRANCH</counter> <value>COVEREDRATIO</value> <minimum>0.95</minimum> </limit> <limit> <counter>COMPLEXITY</counter> 
+                            <value>COVEREDRATIO</value> <minimum>0.95</minimum> </limit> <limit> <counter>LINE</counter> <value>COVEREDRATIO</value> 
+                            <minimum>0.95</minimum> </limit> </limits> </rule> </rules> </configuration> </execution> -->
+                    </executions>
+                </plugin>
+            </plugins>
+        </pluginManagement>
+    </build>
 </project>

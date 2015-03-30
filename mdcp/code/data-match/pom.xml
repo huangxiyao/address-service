@@ -173,12 +173,6 @@
             </dependency>
 
             <dependency>
-                <groupId>com.hp.it.118361</groupId>
-                <artifactId>foundation</artifactId>
-                <version>${casVersion}</version>
-            </dependency>
-
-            <dependency>
                 <groupId>net.jcip</groupId>
                 <artifactId>jcip-annotations</artifactId>
                 <version>1.0</version>

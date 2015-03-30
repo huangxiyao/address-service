@@ -57,6 +57,7 @@
         <module>data-match-client</module>
         <module>data-match-access</module>
         <module>data-match-batch</module>
+        <module>data-match-installer</module>
     </modules>
 
     <scm>

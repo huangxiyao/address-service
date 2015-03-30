@@ -6,7 +6,7 @@
     <artifactId>data-match</artifactId>
     <version>2015.02.01-SNAPSHOT</version>
     <packaging>pom</packaging>
-    
+
     <name>Data matching tools</name>
     <description>Data matching tools</description>
 
@@ -34,7 +34,7 @@
         <oracleJdbcVersion>11.2.0.1.0</oracleJdbcVersion>
         <springVersion>2.5.6</springVersion>
         <validationApiVersion>1.0.0.GA</validationApiVersion>
-        
+
         <!-- Code analysis plugins -->
         <checkstylePluginVersion>2.13</checkstylePluginVersion>
         <checkstyleVersion>6.2</checkstyleVersion>
@@ -184,7 +184,7 @@
                 <version>1.0</version>
                 <optional>true</optional>
             </dependency>
-            
+
             <dependency>
                 <groupId>org.hibernate</groupId>
                 <artifactId>hibernate-validator</artifactId>

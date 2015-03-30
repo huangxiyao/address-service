@@ -1,111 +1,111 @@
-<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/maven-v4_0_0.xsd">
-	<modelVersion>4.0.0</modelVersion>
+<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+    xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/maven-v4_0_0.xsd">
+    <modelVersion>4.0.0</modelVersion>
 
-	<parent>
-		<artifactId>data-match</artifactId>
-		<groupId>com.hp.it.120482</groupId>
-		<version>2015.02.01-SNAPSHOT</version>
-	</parent>
+    <parent>
+        <artifactId>data-match</artifactId>
+        <groupId>com.hp.it.120482</groupId>
+        <version>2015.02.01-SNAPSHOT</version>
+    </parent>
 
-	<artifactId>data-match-client</artifactId>
-  <version>2015.02.01-SNAPSHOT</version>
+    <artifactId>data-match-client</artifactId>
 
-	<name>Data match client code</name>
-	<description>Client code for the data match project is found here</description>
+    <name>Data match client code</name>
+    <description>Client code for the data match project is found here</description>
 
-	<dependencies>
-		<dependency>
-			<groupId>junit</groupId>
-			<artifactId>junit</artifactId>
-		</dependency>
-		
-		<dependency>
-			<groupId>ch.qos.logback</groupId>
-			<artifactId>logback-core</artifactId>
-		</dependency>
+    <dependencies>
+        <dependency>
+            <groupId>junit</groupId>
+            <artifactId>junit</artifactId>
+        </dependency>
 
-		<dependency>
-			<groupId>ch.qos.logback</groupId>
-			<artifactId>logback-classic</artifactId>
-		</dependency>
+        <dependency>
+            <groupId>ch.qos.logback</groupId>
+            <artifactId>logback-core</artifactId>
+        </dependency>
 
-		<dependency>
-			<groupId>org.glassfish.metro</groupId>
-			<artifactId>webservices-rt</artifactId>
-		</dependency>
+        <dependency>
+            <groupId>ch.qos.logback</groupId>
+            <artifactId>logback-classic</artifactId>
+        </dependency>
 
-		<dependency>
-			<groupId>com.hp.it.118361</groupId>
-			<artifactId>foundation</artifactId>
-		</dependency>
+        <dependency>
+            <groupId>org.glassfish.metro</groupId>
+            <artifactId>webservices-rt</artifactId>
+        </dependency>
 
-		<dependency>
-			<!-- JAX-RS, ReST -->
-			<groupId>javax.ws.rs</groupId>
-			<artifactId>jsr311-api</artifactId>
-		</dependency>
+        <dependency>
+            <groupId>com.hp.it.118361</groupId>
+            <artifactId>foundation</artifactId>
+        </dependency>
 
-		<dependency>
-			<!-- Validation API Implementation -->
-			<groupId>org.hibernate</groupId>
-			<artifactId>hibernate-validator</artifactId>
-			<scope>runtime</scope>
-		</dependency>
+        <dependency>
+            <!-- JAX-RS, ReST -->
+            <groupId>javax.ws.rs</groupId>
+            <artifactId>jsr311-api</artifactId>
+        </dependency>
 
-		<dependency>
-			<groupId>com.hp.it.118361</groupId>
-			<artifactId>security-impl</artifactId>
-		</dependency>
+        <dependency>
+            <!-- Validation API Implementation -->
+            <groupId>org.hibernate</groupId>
+            <artifactId>hibernate-validator</artifactId>
+            <scope>runtime</scope>
+        </dependency>
+
+        <dependency>
+            <groupId>com.hp.it.118361</groupId>
+            <artifactId>security-impl</artifactId>
+        </dependency>
 
         <dependency>
             <groupId>net.jcip</groupId>
             <artifactId>jcip-annotations</artifactId>
             <optional>true</optional>
         </dependency>
-	</dependencies>
+    </dependencies>
 
-	<!-- We still have java5 clients, so I'm going to compile to java 5, but 
-		this client jar can be used on java6 clients as well. -->
-	<build>
-		<plugins>
-			<plugin>
-				<artifactId>maven-compiler-plugin</artifactId>
-				<inherited>true</inherited>
-				<configuration>
-					<source>1.5</source>
-					<target>1.5</target>
-				</configuration>
-			</plugin>
-			
-			<plugin>
-			    <groupId>org.apache.maven.plugins</groupId>
-			    <artifactId>maven-jxr-plugin</artifactId>
-			</plugin>
-	
-			<plugin>
-			    <groupId>org.apache.maven.plugins</groupId>
-			    <artifactId>maven-checkstyle-plugin</artifactId>
-			</plugin>
-			
-			<plugin>
-			    <groupId>org.codehaus.mojo</groupId>
-			    <artifactId>findbugs-maven-plugin</artifactId>
-			</plugin>
-			
-			<plugin>
-			    <groupId>org.apache.maven.plugins</groupId>
-			    <artifactId>maven-surefire-plugin</artifactId>
-			</plugin>
-			
-			<plugin>
-			    <groupId>org.apache.maven.plugins</groupId>
-			    <artifactId>maven-failsafe-plugin</artifactId>
-			</plugin>
-			
-			<plugin>
-			    <groupId>org.jacoco</groupId>
-			    <artifactId>jacoco-maven-plugin</artifactId>
-			</plugin>
-		</plugins>
-	</build>
+    <!-- We still have java5 clients, so I'm going to compile to java 5, but this client jar can be used on java6 clients 
+        as well. -->
+    <build>
+        <plugins>
+            <plugin>
+                <artifactId>maven-compiler-plugin</artifactId>
+                <inherited>true</inherited>
+                <configuration>
+                    <source>1.5</source>
+                    <target>1.5</target>
+                </configuration>
+            </plugin>
+
+            <plugin>
+                <groupId>org.apache.maven.plugins</groupId>
+                <artifactId>maven-jxr-plugin</artifactId>
+            </plugin>
+
+            <plugin>
+                <groupId>org.apache.maven.plugins</groupId>
+                <artifactId>maven-checkstyle-plugin</artifactId>
+            </plugin>
+
+            <plugin>
+                <groupId>org.codehaus.mojo</groupId>
+                <artifactId>findbugs-maven-plugin</artifactId>
+            </plugin>
+
+            <plugin>
+                <groupId>org.apache.maven.plugins</groupId>
+                <artifactId>maven-surefire-plugin</artifactId>
+            </plugin>
+
+            <plugin>
+                <groupId>org.apache.maven.plugins</groupId>
+                <artifactId>maven-failsafe-plugin</artifactId>
+            </plugin>
+
+            <plugin>
+                <groupId>org.jacoco</groupId>
+                <artifactId>jacoco-maven-plugin</artifactId>
+            </plugin>
+        </plugins>
+    </build>
 </project>

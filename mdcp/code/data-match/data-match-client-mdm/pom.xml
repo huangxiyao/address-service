@@ -1,228 +1,228 @@
-<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/maven-v4_0_0.xsd">
-	<modelVersion>4.0.0</modelVersion>
+<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+    xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/maven-v4_0_0.xsd">
+    <modelVersion>4.0.0</modelVersion>
 
-	<parent>
-		<artifactId>data-match</artifactId>
-		<groupId>com.hp.it.120482</groupId>
-		<version>2014.11-M2</version>
-	</parent>
+    <parent>
+        <artifactId>data-match</artifactId>
+        <groupId>com.hp.it.120482</groupId>
+        <version>2015.02.01-SNAPSHOT</version>
+    </parent>
 
-	<artifactId>data-match-client-mdm</artifactId>
-    <version>2014.11-SNAPSHOT</version>
+    <artifactId>data-match-client-mdm</artifactId>
 
-	<name>Data match client mdm code</name>
-	<description>Client mdm code for the data match project is found here</description>
+    <name>Data match client mdm code</name>
+    <description>Client mdm code for the data match project is found here</description>
 
-	<scm>
-		<connection>scm:git:https://cgit-pro.houston.hp.com/gerrit/p/address-service.git</connection>
-		<developerConnection>scm:git:https://cgit-pro.houston.hp.com/gerrit/p/address-service.git</developerConnection>
-		<url>https://cgit-pro.houston.hp.com/gerrit/gitweb?p=address-service.git;a=summary</url>
-  	  <tag>HEAD</tag>
-  </scm>
-  
-	<dependencies>
-		<dependency>
-			<groupId>com.hp.it.118361</groupId>
-			<artifactId>security-impl</artifactId>
-		</dependency>
+    <scm>
+        <connection>scm:git:https://cgit-pro.houston.hp.com/gerrit/p/address-service.git</connection>
+        <developerConnection>scm:git:https://cgit-pro.houston.hp.com/gerrit/p/address-service.git</developerConnection>
+        <url>https://cgit-pro.houston.hp.com/gerrit/gitweb?p=address-service.git;a=summary</url>
+        <tag>HEAD</tag>
+    </scm>
 
-		<dependency>
-			<groupId>com.hp.it.120482</groupId>
-			<artifactId>data-match-client</artifactId>
-			<version>2014.11-M2</version>
-		</dependency>
+    <dependencies>
+        <dependency>
+            <groupId>com.hp.it.118361</groupId>
+            <artifactId>security-impl</artifactId>
+        </dependency>
 
-		<dependency>
-			<!-- Validation API Implementation -->
-			<groupId>org.hibernate</groupId>
-			<artifactId>hibernate-validator</artifactId>
-			<scope>runtime</scope>
-		</dependency>
+        <dependency>
+            <groupId>com.hp.it.120482</groupId>
+            <artifactId>data-match-client</artifactId>
+            <version>2014.11-M2</version>
+        </dependency>
 
-		<dependency>
-			<groupId>javax.validation</groupId>
-			<artifactId>validation-api</artifactId>
-			<version>1.0.0.GA</version>
-		</dependency>
+        <dependency>
+            <!-- Validation API Implementation -->
+            <groupId>org.hibernate</groupId>
+            <artifactId>hibernate-validator</artifactId>
+            <scope>runtime</scope>
+        </dependency>
 
-		<dependency>
-			<groupId>log4j</groupId>
-			<artifactId>log4j</artifactId>
-			<version>1.2.17</version>
-		</dependency>
+        <dependency>
+            <groupId>javax.validation</groupId>
+            <artifactId>validation-api</artifactId>
+            <version>1.0.0.GA</version>
+        </dependency>
 
-		<dependency>
-			<groupId>com.informatica.mdm</groupId>
-			<artifactId>siperian-cleanse</artifactId>
-			<version>9.0.1.0.0.0.126</version>
-		</dependency>
+        <dependency>
+            <groupId>log4j</groupId>
+            <artifactId>log4j</artifactId>
+            <version>1.2.17</version>
+        </dependency>
 
-		<dependency>
-			<groupId>com.informatica.mdm</groupId>
-			<artifactId>siperian-common</artifactId>
-			<version>9.5.1.0.0.200.98352</version>
-		</dependency>
+        <dependency>
+            <groupId>com.informatica.mdm</groupId>
+            <artifactId>siperian-cleanse</artifactId>
+            <version>9.0.1.0.0.0.126</version>
+        </dependency>
 
-		<dependency>
-			<groupId>commons-pool</groupId>
-			<artifactId>commons-pool</artifactId>
-			<version>1.6</version>
-		</dependency>
-	</dependencies>
-	<profiles>
-		<profile>
-			<id>pro</id>
-			<build>
-				<plugins>
-					<plugin>
-						<groupId>org.codehaus.mojo</groupId>
-						<artifactId>build-helper-maven-plugin</artifactId>
-						<version>${javaVersion}</version>
-						<executions>
-							<execution>
-								<id>add-resource</id>
-								<phase>generate-resources</phase>
-								<goals>
-									<goal>add-resource</goal>
-								</goals>
-								<configuration>
-									<resources>
-										<resource>
-											<directory>src/test/resources/pro</directory>
-										</resource>
-									</resources>
-								</configuration>
-							</execution>
-						</executions>
-					</plugin>
-					
-					<plugin>
-					    <groupId>org.apache.maven.plugins</groupId>
-					    <artifactId>maven-jxr-plugin</artifactId>
-					</plugin>
+        <dependency>
+            <groupId>com.informatica.mdm</groupId>
+            <artifactId>siperian-common</artifactId>
+            <version>9.5.1.0.0.200.98352</version>
+        </dependency>
 
-					<plugin>
-					    <groupId>org.apache.maven.plugins</groupId>
-					    <artifactId>maven-checkstyle-plugin</artifactId>
-					</plugin>
-					
-					<plugin>
-					    <groupId>org.apache.maven.plugins</groupId>
-					    <artifactId>maven-pmd-plugin</artifactId>
-					</plugin>
-					
-					<plugin>
-					    <groupId>org.codehaus.mojo</groupId>
-					    <artifactId>findbugs-maven-plugin</artifactId>
-					</plugin>
-					
-					<plugin>
-					    <groupId>org.apache.maven.plugins</groupId>
-					    <artifactId>maven-surefire-plugin</artifactId>
-					</plugin>
-					
-					<plugin>
-					    <groupId>org.apache.maven.plugins</groupId>
-					    <artifactId>maven-failsafe-plugin</artifactId>
-					</plugin>
-					
-					<plugin>
-					    <groupId>org.jacoco</groupId>
-					    <artifactId>jacoco-maven-plugin</artifactId>
-					</plugin>
-					
-					<plugin>
-					    <groupId>org.apache.maven.plugins</groupId>
-					    <artifactId>maven-pmd-plugin</artifactId>
-					</plugin>
-					
-					<plugin>
-					    <groupId>org.codehaus.mojo</groupId>
-					    <artifactId>findbugs-maven-plugin</artifactId>
-					</plugin>
-					
-					<plugin>
-					    <groupId>org.apache.maven.plugins</groupId>
-					    <artifactId>maven-surefire-plugin</artifactId>
-					</plugin>
-					
-					<plugin>
-					    <groupId>org.apache.maven.plugins</groupId>
-					    <artifactId>maven-failsafe-plugin</artifactId>
-					</plugin>
-					
-					<plugin>
-					    <groupId>org.jacoco</groupId>
-					    <artifactId>jacoco-maven-plugin</artifactId>
-					</plugin>
-				</plugins>
-			</build>
-		</profile>
-		<profile>
-			<id>itg</id>
-			<build>
-				<plugins>
-					<plugin>
-						<groupId>org.codehaus.mojo</groupId>
-						<artifactId>build-helper-maven-plugin</artifactId>
-						<version>${javaVersion}</version>
-						<executions>
-							<execution>
-								<id>add-resource</id>
-								<phase>generate-resources</phase>
-								<goals>
-									<goal>add-resource</goal>
-								</goals>
-								<configuration>
-									<resources>
-										<resource>
-											<directory>src/test/resources/itg</directory>
-										</resource>
-									</resources>
-								</configuration>
-							</execution>
-						</executions>
-					</plugin>
-					
-					<plugin>
-					    <groupId>org.apache.maven.plugins</groupId>
-					    <artifactId>maven-jxr-plugin</artifactId>
-					</plugin>
-					
-					<plugin>
-					    <groupId>org.apache.maven.plugins</groupId>
-					    <artifactId>maven-checkstyle-plugin</artifactId>
-					</plugin>
-					
-					<plugin>
-					    <groupId>org.apache.maven.plugins</groupId>
-					    <artifactId>maven-pmd-plugin</artifactId>
-					</plugin>
-					
-					<plugin>
-					    <groupId>org.codehaus.mojo</groupId>
-					    <artifactId>findbugs-maven-plugin</artifactId>
-					</plugin>
-					
-					<plugin>
-					    <groupId>org.apache.maven.plugins</groupId>
-					    <artifactId>maven-surefire-plugin</artifactId>
-					</plugin>
-					
-					<plugin>
-					    <groupId>org.apache.maven.plugins</groupId>
-					    <artifactId>maven-failsafe-plugin</artifactId>
-					</plugin>
-					
-					<plugin>
-					    <groupId>org.jacoco</groupId>
-					    <artifactId>jacoco-maven-plugin</artifactId>
-					</plugin>
-				</plugins>
-			</build>
-			<activation>
-				<activeByDefault>true</activeByDefault>
-			</activation>
-		</profile>
-	</profiles>
+        <dependency>
+            <groupId>commons-pool</groupId>
+            <artifactId>commons-pool</artifactId>
+            <version>1.6</version>
+        </dependency>
+    </dependencies>
+    <profiles>
+        <profile>
+            <id>pro</id>
+            <build>
+                <plugins>
+                    <plugin>
+                        <groupId>org.codehaus.mojo</groupId>
+                        <artifactId>build-helper-maven-plugin</artifactId>
+                        <version>${javaVersion}</version>
+                        <executions>
+                            <execution>
+                                <id>add-resource</id>
+                                <phase>generate-resources</phase>
+                                <goals>
+                                    <goal>add-resource</goal>
+                                </goals>
+                                <configuration>
+                                    <resources>
+                                        <resource>
+                                            <directory>src/test/resources/pro</directory>
+                                        </resource>
+                                    </resources>
+                                </configuration>
+                            </execution>
+                        </executions>
+                    </plugin>
+
+                    <plugin>
+                        <groupId>org.apache.maven.plugins</groupId>
+                        <artifactId>maven-jxr-plugin</artifactId>
+                    </plugin>
+
+                    <plugin>
+                        <groupId>org.apache.maven.plugins</groupId>
+                        <artifactId>maven-checkstyle-plugin</artifactId>
+                    </plugin>
+
+                    <plugin>
+                        <groupId>org.apache.maven.plugins</groupId>
+                        <artifactId>maven-pmd-plugin</artifactId>
+                    </plugin>
+
+                    <plugin>
+                        <groupId>org.codehaus.mojo</groupId>
+                        <artifactId>findbugs-maven-plugin</artifactId>
+                    </plugin>
+
+                    <plugin>
+                        <groupId>org.apache.maven.plugins</groupId>
+                        <artifactId>maven-surefire-plugin</artifactId>
+                    </plugin>
+
+                    <plugin>
+                        <groupId>org.apache.maven.plugins</groupId>
+                        <artifactId>maven-failsafe-plugin</artifactId>
+                    </plugin>
+
+                    <plugin>
+                        <groupId>org.jacoco</groupId>
+                        <artifactId>jacoco-maven-plugin</artifactId>
+                    </plugin>
+
+                    <plugin>
+                        <groupId>org.apache.maven.plugins</groupId>
+                        <artifactId>maven-pmd-plugin</artifactId>
+                    </plugin>
+
+                    <plugin>
+                        <groupId>org.codehaus.mojo</groupId>
+                        <artifactId>findbugs-maven-plugin</artifactId>
+                    </plugin>
+
+                    <plugin>
+                        <groupId>org.apache.maven.plugins</groupId>
+                        <artifactId>maven-surefire-plugin</artifactId>
+                    </plugin>
+
+                    <plugin>
+                        <groupId>org.apache.maven.plugins</groupId>
+                        <artifactId>maven-failsafe-plugin</artifactId>
+                    </plugin>
+
+                    <plugin>
+                        <groupId>org.jacoco</groupId>
+                        <artifactId>jacoco-maven-plugin</artifactId>
+                    </plugin>
+                </plugins>
+            </build>
+        </profile>
+        <profile>
+            <id>itg</id>
+            <build>
+                <plugins>
+                    <plugin>
+                        <groupId>org.codehaus.mojo</groupId>
+                        <artifactId>build-helper-maven-plugin</artifactId>
+                        <version>${javaVersion}</version>
+                        <executions>
+                            <execution>
+                                <id>add-resource</id>
+                                <phase>generate-resources</phase>
+                                <goals>
+                                    <goal>add-resource</goal>
+                                </goals>
+                                <configuration>
+                                    <resources>
+                                        <resource>
+                                            <directory>src/test/resources/itg</directory>
+                                        </resource>
+                                    </resources>
+                                </configuration>
+                            </execution>
+                        </executions>
+                    </plugin>
+
+                    <plugin>
+                        <groupId>org.apache.maven.plugins</groupId>
+                        <artifactId>maven-jxr-plugin</artifactId>
+                    </plugin>
+
+                    <plugin>
+                        <groupId>org.apache.maven.plugins</groupId>
+                        <artifactId>maven-checkstyle-plugin</artifactId>
+                    </plugin>
+
+                    <plugin>
+                        <groupId>org.apache.maven.plugins</groupId>
+                        <artifactId>maven-pmd-plugin</artifactId>
+                    </plugin>
+
+                    <plugin>
+                        <groupId>org.codehaus.mojo</groupId>
+                        <artifactId>findbugs-maven-plugin</artifactId>
+                    </plugin>
+
+                    <plugin>
+                        <groupId>org.apache.maven.plugins</groupId>
+                        <artifactId>maven-surefire-plugin</artifactId>
+                    </plugin>
+
+                    <plugin>
+                        <groupId>org.apache.maven.plugins</groupId>
+                        <artifactId>maven-failsafe-plugin</artifactId>
+                    </plugin>
+
+                    <plugin>
+                        <groupId>org.jacoco</groupId>
+                        <artifactId>jacoco-maven-plugin</artifactId>
+                    </plugin>
+                </plugins>
+            </build>
+            <activation>
+                <activeByDefault>true</activeByDefault>
+            </activation>
+        </profile>
+    </profiles>
 </project>

@@ -35,6 +35,8 @@
         <springVersion>2.5.6</springVersion>
         <validationApiVersion>1.0.0.GA</validationApiVersion>
 
+        <compilerPluginVersion>3.2</compilerPluginVersion>
+
         <!-- Code analysis plugins -->
         <checkstylePluginVersion>2.13</checkstylePluginVersion>
         <checkstyleVersion>6.2</checkstyleVersion>
@@ -43,6 +45,10 @@
         <jacocoPluginVersion>0.7.2.201409121644</jacocoPluginVersion>
         <jxrPluginVersion>2.5</jxrPluginVersion>
         <surefirePluginVersion>2.18.1</surefirePluginVersion>
+
+        <!-- build -->
+        <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
+        <project.reporting.outputEncoding>UTF-8</project.reporting.outputEncoding>
     </properties>
 
     <modules>
@@ -203,6 +209,7 @@
 
                 <plugin>
                     <artifactId>maven-compiler-plugin</artifactId>
+                    <version>${compilerPluginVersion}</version>
                     <inherited>true</inherited>
                     <configuration>
                         <source>${javaVersion}</source>

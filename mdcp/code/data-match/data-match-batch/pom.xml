@@ -5,7 +5,7 @@
     <parent>
         <artifactId>data-match</artifactId>
         <groupId>com.hp.it.120482</groupId>
-        <version>1.0.38</version>
+        <version>1.0.39</version>
     </parent>
 
     <artifactId>data-match-batch</artifactId>

@@ -31,7 +31,7 @@
     delegate_to: localhost
 
   - name: wait for data-match database load is finished
-    wait_for: path={{ casfw_home }}/current/{{ data_match_instance }}/var/log/data-match-web/ad-engine.log search_regex=</GetConfig> timeout=600
+    wait_for: path={{ casfw_home }}/current/{{ data_match_instance }}/var/log/data-match-web/ad-engine.log search_regex=</GetConfig> timeout=900
 
   - name: check databases loaded
     action: command bash {{ casfw_home }}/data-match-functions.sh checkDatabasesLoaded

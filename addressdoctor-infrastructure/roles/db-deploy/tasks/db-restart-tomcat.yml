@@ -25,7 +25,7 @@
     action: shell cat {{ casfw_home }}/current/{{ data_match_instance }}/var/log/data-match-web/ad-engine.log | tail -2 | head -1 
     register: wait_db_load_finished_result
     until: wait_db_load_finished_result.stdout.find("</GetConfig>") != -1
-    retries: 20
+    retries: 30
     delay: 30
 
   - name: Check databases loaded

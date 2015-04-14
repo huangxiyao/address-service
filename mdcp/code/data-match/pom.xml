@@ -3,7 +3,7 @@
 
     <groupId>com.hp.it.120482</groupId>
     <artifactId>data-match</artifactId>
-    <version>2015.07-SNAPSHOT</version>
+    <version>1.0.43</version>
     <packaging>pom</packaging>
 
     <name>Data matching tools</name>

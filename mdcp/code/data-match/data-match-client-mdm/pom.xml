@@ -5,20 +5,13 @@
     <parent>
         <groupId>com.hp.it.120482</groupId>
         <artifactId>data-match</artifactId>
-        <version>1.0.40</version>
+        <version>2015.07-SNAPSHOT</version>
     </parent>
 
     <artifactId>data-match-client-mdm</artifactId>
 
     <name>Data match client mdm code</name>
     <description>Client mdm code for the data match project is found here</description>
-
-    <scm>
-        <connection>scm:git:https://cgit-pro.houston.hp.com/gerrit/p/address-service.git</connection>
-        <developerConnection>scm:git:https://cgit-pro.houston.hp.com/gerrit/p/address-service.git</developerConnection>
-        <url>https://cgit-pro.houston.hp.com/gerrit/gitweb?p=address-service.git;a=summary</url>
-        <tag>HEAD</tag>
-    </scm>
 
     <dependencies>
         <dependency>
@@ -42,7 +35,6 @@
         <dependency>
             <groupId>javax.validation</groupId>
             <artifactId>validation-api</artifactId>
-            <version>1.0.0.GA</version>
         </dependency>
 
         <dependency>
@@ -129,11 +121,6 @@
                     <plugin>
                         <groupId>org.jacoco</groupId>
                         <artifactId>jacoco-maven-plugin</artifactId>
-                    </plugin>
-
-                    <plugin>
-                        <groupId>org.apache.maven.plugins</groupId>
-                        <artifactId>maven-pmd-plugin</artifactId>
                     </plugin>
 
                     <plugin>

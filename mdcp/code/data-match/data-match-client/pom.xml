@@ -4,7 +4,7 @@
     <parent>
         <artifactId>data-match</artifactId>
         <groupId>com.hp.it.120482</groupId>
-        <version>2015.07-SNAPSHOT</version>
+        <version>2015.07-SNAPSHOT</version> <!-- force change -->
     </parent>
 
     <artifactId>data-match-client</artifactId>
@@ -63,7 +63,7 @@
         </dependency>
     </dependencies>
 
-    <!-- We still have java5 clients, so I'm going to compile to java 5, but this client jar can be used on java6 clients 
+    <!-- We still have java5 clients, so I'm going to compile to java 5, but this client jar can be used on java6 clients
         as well. -->
     <build>
         <plugins>

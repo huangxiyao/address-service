@@ -17,7 +17,7 @@
     <inceptionYear>2011</inceptionYear>
 
     <properties>
-        <addressDoctorVersion>5.6.0</addressDoctorVersion>
+        <addressDoctorVersion>5.7.0</addressDoctorVersion>
         <aspectJVersion>1.6.7</aspectJVersion>
         <casVersion>2014.11.3</casVersion>
         <cxfVersion>2.2.9</cxfVersion>

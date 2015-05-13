@@ -6,7 +6,7 @@
   su: yes
   su_user: casfw
   vars:
-    proxy_bundle_version: 1.0.64
+    proxy_bundle_version: 1.0.65
     proxybundlesnapshot: false
     jdk_verion: 1.7.0_65
     httpd_confd_path: /etc/httpd/conf.d

@@ -1,8 +1,8 @@
 [proxy-bundle-int]
-c1t05804.itcs.hp.com
-c1t05808.itcs.hp.com
-c2t05806.itcs.hp.com
-c2t05809.itcs.hp.com
+c1t09894.itcs.hpicorp.net
+c1t09895.itcs.hpicorp.net
+c2t09896.itcs.hpicorp.net
+c2t09897.itcs.hpicorp.net
 
 [proxy-bundle-ext]
 c1t05912.itcs.hp.com
@@ -12,7 +12,7 @@ c2t06003.itcs.hp.com
 
 [proxy-bundle:children]
 proxy-bundle-int
-proxy-bundle-ext
+# proxy-bundle-ext
 
 [db-deploy]
 g1t6285.austin.hpicorp.net

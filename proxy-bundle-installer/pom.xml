@@ -3,7 +3,7 @@
 
 	<groupId>com.hp.it.120482</groupId>
 	<artifactId>proxy-bundle-installer</artifactId>
-	<version>2015.05.r1</version> <!-- force change -->
+	<version>2015.05.r2</version> <!-- force change -->
 
 	<packaging>cdi</packaging>
 	<name>MDCP Proxy Bundle</name>

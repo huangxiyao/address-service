@@ -4,4 +4,4 @@ useraccount: casfw
 usergroup: casfwgrp
 casfw_home: /opt/casfw
 
-lb_urls : [ address-service-inc-itg-g1.itcs.hp.com, address-service-inc-itg-g2.itcs.hp.com, address-service-inc-itg.glb.itcs.hp.com ]
+lb_urls : [ address-service-itg.core.hpicorp.net, address-service-itg.glb1.hpicorp.net, address-service-inc-itg-g1.itcs.hpicorp.net, address-service-inc-itg-g2.itcs.hpicorp.net ]

@@ -1,0 +1,22 @@
+[proxy-bundle-int]
+# g2t0596g.austin.hp.com
+# g9t0535g.houston.hp.com
+
+[proxy-bundle-ext]
+# g2t2472g.austin.hp.com
+# g2t2473g.austin.hp.com
+# g9t1777g.houston.hp.com
+# g9t1778g.houston.hp.com
+
+[proxy-bundle:children]
+# proxy-bundle-int
+# proxy-bundle-ext
+
+[db-deploy]
+# g2t0629.austin.hp.com
+# g9t0575.houston.hp.com
+
+[data-match]
+# g2t0629.austin.hp.com
+# g9t0575.houston.hp.com
+

@@ -1,5 +1,7 @@
-[proxy-bundle-int]
+[proxy-bundle-int-g1]
 c1t09889.itcs.hpicorp.net
+
+[proxy-bundle-int-g2]
 c2t09888.itcs.hpicorp.net
 
 [proxy-bundle-ext]
@@ -7,7 +9,8 @@ c1t05915.itcs.hp.com
 c2t06001.itcs.hp.com
 
 [proxy-bundle:children]
-proxy-bundle-int
+proxy-bundle-int-g1
+proxy-bundle-int-g2
 # proxy-bundle-ext
 
 [db-deploy]

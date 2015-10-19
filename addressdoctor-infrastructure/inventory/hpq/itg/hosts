@@ -1,0 +1,17 @@
+[proxy-bundle-int]
+# c2t01798.itcs.hp.com
+
+[proxy-bundle-ext]
+# c2t02424.itcs.hp.com
+# c2t02425.itcs.hp.com
+
+[proxy-bundle:children]
+# proxy-bundle-int
+# proxy-bundle-ext
+
+[db-deploy]
+# g2t0604.austin.hp.com
+
+[data-match]
+# g2t0604.austin.hp.com
+

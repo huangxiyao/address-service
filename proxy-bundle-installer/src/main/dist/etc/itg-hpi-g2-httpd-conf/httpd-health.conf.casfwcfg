@@ -1,0 +1,22 @@
+<IfModule !mod_cgi.c>
+  LoadModule cgi_module modules/mod_cgi.so
+</IfModule>
+
+<IfModule !mod_rewrite.c>
+  LoadModule rewrite_module modules/mod_rewrite.so
+</IfModule>
+
+<Directory @@casfw_home@@/software/www/about/health>
+  Options FollowSymLinks
+  DirectoryIndex index.html
+
+  AddHandler cgi-script cgi pl
+  Options +ExecCGI
+
+  AllowOverride All
+  Allow from all
+  Order allow,deny
+</Directory>
+
+RewriteEngine On
+RewriteRule ^/about/health @@casfw_home@@/software/www/about/health/health.pl [NC,L]

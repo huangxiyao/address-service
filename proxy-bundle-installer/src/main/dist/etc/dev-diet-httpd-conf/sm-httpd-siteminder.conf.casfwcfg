@@ -1,2 +1,0 @@
-SmInitFile              @@casfw_home@@/etc/conf.d/siteminder/WebAgent.conf
-LoadModule sm_module    /opt/webhost_sw/siteminder6qmr5-cr032/webagent/bin/libmod_sm22.so

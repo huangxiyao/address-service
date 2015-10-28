@@ -1,0 +1,51 @@
+<beans xmlns="http://www.springframework.org/schema/beans"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:jaxws="http://cxf.apache.org/jaxws"
+	xsi:schemaLocation="
+http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans.xsd
+http://cxf.apache.org/jaxws http://cxf.apache.org/schemas/jaxws.xsd">
+
+	<import resource="classpath:META-INF/cxf/cxf.xml" />
+	<import resource="classpath:META-INF/cxf/cxf-extension-soap.xml" />
+	<import resource="classpath:META-INF/cxf/cxf-servlet.xml" />
+
+	<bean id="addressDoctorEngine" class="com.hp.it.cas.match.address.AddressDoctorEngine" />
+
+	<bean id="casServiceSoapImpl" class="com.hp.it.cas.match.address.soap.CASServiceSoapImpl">
+		<constructor-arg index="0" ref="addressDoctorAddressAnalyzer"></constructor-arg>
+	</bean>
+
+	<bean id="addressFinder" class="com.hp.it.cas.match.address.AddressFinder">
+		<constructor-arg index="0" ref="addressDoctorEngine" />
+	</bean>
+
+	<bean id="addressDoctorAddressAnalyzer"
+		class="com.hp.it.cas.match.address.legacy.LegacyAddressDoctorAddressAnalyzer">
+		<constructor-arg index="0" ref="addressDoctorEngine" />
+	</bean>
+
+	<jaxws:endpoint id="casServiceSoapImplEndpoint" address="/address/v1"
+		implementor="#casServiceSoapImpl" />
+
+	<bean id="localeList" class="java.util.ArrayList">
+		<constructor-arg>
+			<list>
+				<bean class="java.util.Locale">
+					<constructor-arg index="0" value="en" />
+					<constructor-arg index="1" value="US" />
+				</bean>
+			</list>
+		</constructor-arg>
+	</bean>
+
+	<bean id="messageInterpolator"
+		class="com.hp.it.cas.foundation.message.MessageSourceMessageInterpolator" />
+
+	<bean id="addressFinderResource" class="com.hp.it.cas.match.address.rest.AddressFinderResource">
+		<constructor-arg index="0" ref="addressFinder" />
+		<constructor-arg index="1" ref="messageInterpolator"/>
+		<constructor-arg index="2">
+			<bean factory-bean="localeList" factory-method="toArray" />
+		</constructor-arg>
+	</bean>
+
+</beans>

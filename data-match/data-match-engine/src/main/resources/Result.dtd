@@ -1,0 +1,287 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+
+<!ELEMENT Result (ResultData*)>
+<!ATTLIST Result  
+  ProcessStatus CDATA #REQUIRED 
+  ModeUsed (COUNTRYRECOGNITION | PARSE | FASTCOMPLETION | BATCH | INTERACTIVE | CERTIFIED) "BATCH"
+
+  Count (0 | 1 | 2 | 3 | 4 | 5 | 6 | 7 | 8 | 9 | 10 | 11 | 12 | 13 | 14 | 15 | 16 | 17 | 18 | 19 | 20 ) "0"
+  CountOverflow (YES | NO) "NO"
+  
+  CountryISO3 CDATA #REQUIRED
+
+  PreferredScript (DATABASE | POSTAL_ADMIN_PREF | POSTAL_ADMIN_ALT | LATIN | LATIN_1 | LATIN_ALT | ASCII_SIMPLIFIED | ASCII_EXTENDED) "DATABASE"
+  PreferredLanguage (DATABASE | ENGLISH | ALTERNATIVE_1 | ALTERNATIVE_2 | ALTERNATIVE_3) "DATABASE"
+>
+
+<!-- ProcessStatus:     The process status, i.e. "V4" / documentation: 5.15 Understanding Process Status Values -->
+<!-- ModeUsed:          The process mode (i.e. "PARSE") actually used; this may not be the same as requested by the Mode parameter in the Parameters.xml -->
+<!-- Count:             The number of results (0..20) -->
+<!-- CountOverflow:     Is "YES" when additional results have been discarded (as Count can not be larger then 20), "NO" otherwise -->
+<!-- CountryISO3 provides the three character country name representation as defined by ISO -->
+<!-- PreferredScript:   The preferred script -->
+<!-- PreferredLanguage: The preferred language -->
+
+
+<!ELEMENT ResultData (AddressElements?, AddressLines?, AddressComplete?, EnrichmentData?)>
+<!ATTLIST ResultData
+  ResultNumber CDATA #REQUIRED
+  MailabilityScore CDATA #REQUIRED
+  ResultPercentage CDATA #REQUIRED
+  ElementResultStatus CDATA #REQUIRED
+  ElementInputStatus CDATA #REQUIRED  
+  ElementRelevance CDATA #REQUIRED    
+>
+
+<!-- ResultNumber:        The number of the result (1..20) / documentation: 5.16 Understanding Mailability Scores -->
+<!-- MailabilityScore:    The mailability score (0..5) -->
+<!-- ResultPercentage:    The likeness of parsed and validated input in percent  / 5.20 Understanding ResultPercentage Values -->
+<!-- see documentation: 5.19 Understanding Element Status and Relevance Values -->
+<!-- ElementResultStatus: The element result status (length 20 characters) / 5.19.2 ElementResultStatus -->
+<!-- ElementInputStatus:  The element result status (length 20 characters) / 5.19.1 ElementInputStatus -->
+<!-- ElementRelevance:    The element relevance for correct postal addressing (length 20 characters) / 5.19.3 ElementRelevance -->
+
+
+<!ELEMENT AddressElements (Key*, Country*, Locality*, PostalCode*, Province*, Street*, Number*, Building*, SubBuilding*,
+  DeliveryService*, Organization*, Contact*, Residue*)>
+<!-- Address elements, may containe one or more of the elements mentioned above -->
+
+
+<!ELEMENT AddressLines (RecipientLine*, DeliveryAddressLine*, CountrySpecificLocalityLine*, FormattedAddressLine*)>
+<!-- Address lines, may contain one or more of the elements mentioned above -->
+
+
+<!ELEMENT RecipientLine (#PCDATA)>
+<!ATTLIST RecipientLine
+  Line (1 | 2 | 3 | 4 | 5 | 6) "1"
+>
+<!-- Recipient lines, Line 1..6 -->
+
+
+<!ELEMENT DeliveryAddressLine (#PCDATA)>
+<!ATTLIST DeliveryAddressLine
+  Line (1 | 2 | 3 | 4 | 5 | 6)  "1"
+>
+<!-- Delivery address lines, Line 1..6 -->
+
+
+<!ELEMENT CountrySpecificLocalityLine (#PCDATA)>
+<!ATTLIST CountrySpecificLocalityLine
+  Line (1 | 2 | 3 | 4 | 5 | 6) "1"
+>
+<!-- Country specific locality lines, Line 1..6 -->
+
+
+<!ELEMENT FormattedAddressLine (#PCDATA)>
+<!ATTLIST FormattedAddressLine
+  Line (1 | 2 | 3 | 4 | 5 | 6 | 7 | 8 | 9 | 10 | 11 | 12 | 13 | 14 | 15 | 16 | 17 | 18 | 19)  "1"
+>
+<!-- Formatted address lines, Line 1..19 -->
+
+
+<!ELEMENT AddressComplete (#PCDATA)>
+<!-- The complete address as one string, lines are separated by delimiters -->
+
+
+<!ELEMENT Key (#PCDATA)>
+<!ATTLIST Key
+  Item (1 | 2 | 3) "1"
+  Type (RECORD_ID | TRANSACTION_KEY) "RECORD_ID"
+>
+
+<!ELEMENT Country (#PCDATA)>
+<!ATTLIST Country
+  Item (1 | 2 | 3) "1"
+  Type (ABBREVIATION | ISO2 | ISO3 | ISO_NUMBER | NAME_CN | NAME_DA | NAME_DE | NAME_EN | NAME_ES | NAME_FI | NAME_FR | NAME_GR | 
+    NAME_HU | NAME_IT | NAME_JP | NAME_KR | NAME_NL | NAME_PL | NAME_PT | NAME_RU | NAME_SA | NAME_SE) "NAME_EN"
+>
+
+<!-- Country NAME_?? contains the country name in different languages, while ABBREVIATION may provide a more concise form (where available) -->
+<!-- Country ISO_2, ISO_3 and ISO_NUMBER contain the different country name representations as defined by ISO -->
+
+<!ELEMENT Locality (#PCDATA)>
+<!ATTLIST Locality
+  Item (1 | 2 | 3 | 4 | 5 | 6) "1"
+  Type (COMPLETE | NAME | SORTING_CODE | ADD_INFO) "COMPLETE"
+>
+<!-- Locality ADD_INFO may contain parts of the locality input that could not be matched against reference data during validation -->
+<!-- Where Locality sub-element separation was not sucessful, COMPLETE output will be identical to NAME -->
+
+<!ELEMENT PostalCode (#PCDATA)>
+<!ATTLIST PostalCode
+  Item (1 | 2 | 3) "1"
+  Type (FORMATTED | UNFORMATTED | BASE | ADD_ON) "FORMATTED"
+>
+<!-- PostalCode FORMATTED contains the regionally accepted postal code, while UNFORMATTED provides a more compact form -->
+<!-- PostalCode FORMATTED, UNFORMATTED and BASE may well be identical for most countries, apart from special formats like ZIP+4 in the USA, where the ZIP would be in BASE and  the +4 in ADD_ON -->
+
+
+<!ELEMENT Province (#PCDATA)>
+<!ATTLIST Province
+  Item (1 | 2 | 3 | 4 | 5 | 6) "1"
+  Type (COUNTRY_STANDARD | ABBREVIATION | EXTENDED) "COUNTRY_STANDARD"
+>
+<!-- Province COUNTRY_STANDARD contains the regionally accepted province name, while ABBREVIATION may provide a more concise form (where available) -->
+<!-- Province EXTENDED may provide an alternative provice name, where available as part of the reference data -->
+
+<!ELEMENT Street (#PCDATA)>
+<!ATTLIST Street
+  Item (1 | 2 | 3 | 4 | 5 | 6) "1"
+  Type (COMPLETE | COMPLETE_WITH_NUMBER | NAME | PRE_DESCRIPTOR | POST_DESCRIPTOR | PRE_DIRECTIONAL | POST_DIRECTIONAL | ADD_INFO) "COMPLETE"
+>
+<!-- Street PRE_DESCRIPTOR and POST_DESCRIPTOR are leading or trailing street type descriptors, like e.g. Way or Avenue -->
+<!-- Street PRE_DIRECTIONAL and POST_DIRECTIONAL are leading or trailing street directional descriptors, like e.g. North or South -->
+<!-- Street ADD_INFO may contain parts of the street input that could not be matched against reference data during validation -->
+<!-- Where Street sub-element separation was not sucessful, COMPLETE output will be identical to NAME -->
+
+<!ELEMENT Number (#PCDATA)>
+<!ATTLIST Number
+  Item (1 | 2 | 3 | 4 | 5 | 6) "1"
+  Type (COMPLETE | NUMBER | DESCRIPTOR | ADD_INFO) "COMPLETE"
+>
+<!-- Number ADD_INFO may contain parts of the number input that could not be matched against reference data during validation -->
+<!-- Where Number sub-element separation was not sucessful, COMPLETE output will be identical to NUMBER -->
+
+
+<!ELEMENT Building (#PCDATA)>
+<!ATTLIST Building
+  Item (1 | 2 | 3 | 4 | 5 | 6) "1"
+  Type (COMPLETE | COMPLETE_WITH_SUBBUILDING | NAME | NUMBER | DESCRIPTOR) "COMPLETE"
+>
+<!-- Building DESCRIPTOR is the building  type descriptor, like e.g. Tower -->
+<!-- Where Building sub-element separation was not sucessful, COMPLETE output will be identical to NAME -->
+
+<!ELEMENT SubBuilding (#PCDATA)>
+<!ATTLIST SubBuilding
+  Item (1 | 2 | 3 | 4 | 5 | 6) "1"
+  Type (COMPLETE | NAME | NUMBER | DESCRIPTOR) "COMPLETE"
+>
+<!-- SubBuilding DESCRIPTOR is the building  type descriptor, like e.g. Tower -->
+<!-- Where SubBuilding sub-element separation was not sucessful, COMPLETE output will be identical to NAME -->
+
+
+<!ELEMENT DeliveryService (#PCDATA)>
+<!ATTLIST DeliveryService
+  Item (1 | 2 | 3) "1"
+  Type (COMPLETE | DESCRIPTOR | NUMBER | ADD_INFO) "COMPLETE"
+>
+<!-- DeliveryService ADD_INFO may contain parts of the delivery service input that could not be matched against reference data during validation -->
+<!-- Where DeliveryService sub-element separation was not sucessful, COMPLETE output will be identical to DESCRIPTOR -->
+
+
+<!ELEMENT Organization (#PCDATA)>
+<!ATTLIST Organization
+  Item (1 | 2 | 3) "1"
+  Type (COMPLETE | NAME | DESCRIPTOR | DEPARTMENT) "COMPLETE"
+>
+<!-- Where Organization sub-element separation was not sucessful, COMPLETE output will be identical to NAME -->
+
+<!ELEMENT Contact (#PCDATA)>
+<!ATTLIST Contact
+  Item (1 | 2 | 3) "1"
+  Type (COMPLETE | FIRST_NAME | MIDDLE_NAME | LAST_NAME | NAME | TITLE | FUNCTION | SALUTATION | GENDER) "COMPLETE"
+>
+<!-- Where Contact sub-element separation was not sucessful, COMPLETE output will be identical to NAME -->
+
+<!ELEMENT Residue (#PCDATA)>
+<!ATTLIST Residue
+  Item (1 | 2 | 3 | 4 | 5 | 6) "1"
+  Type (NECESSARY | SUPERFLUOUS | UNRECOGNIZED) "UNRECOGNIZED"  
+>
+<!-- Residue may contain unrecognized parts of the input that could not be matched against reference data during validation -->
+<!-- Where possible, a characterization in necessary or superfluous is attempted -->
+
+<!ELEMENT EnrichmentData (GeoCoding*, CASS*, SERP* , SNA* ,SupplementaryGB*, SupplementaryUS* )>
+<!ATTLIST EnrichmentData
+  GeoCodingStatus CDATA #REQUIRED
+  CASSStatus CDATA #REQUIRED
+  SERPStatus CDATA #REQUIRED
+  SNAStatus CDATA #REQUIRED
+  SupplementaryGBStatus CDATA #REQUIRED
+  SupplementaryUSStatus CDATA #REQUIRED
+>
+<!-- Enrichment data, may contain one or more of the elements mentioned above -->
+<!-- GeoCodingStatus: The geocoding status (EGC0..EGC8) / documentation: 5.17 Understanding Geocoding Status Values -->
+<!-- CASSStatus:      The CASS status (ECA0..ECA8) -->
+
+
+<!ELEMENT GeoCoding (#PCDATA)>
+<!ATTLIST GeoCoding      
+  Type (COMPLETE | LATITUDE | LONGITUDE | LAT_LONG_UNIT) "COMPLETE"    
+>
+<!-- Geocoding results -->
+<!-- Type="COMPLETE": The complete result, consisting of a concatenated string of the 3 other types -->
+<!-- Type="LATITUDE": The latitude in the format -->
+<!-- Type="LONGITUDE": The longitude in the format -->
+<!-- Type="LAT_LONG_UNIT": The unit of both latitude and longitude, i.e. "WGS84" -->
+
+
+<!ELEMENT CASS (#PCDATA)>
+<!ATTLIST CASS  
+  Type (ERRORCODE | BARCODE | DELIVERY_POINT |  RECORDTYPE | CARRIER_ROUTE | CONGRESSIONAL_DISTRICT |
+  DELIVERY_POINT_CHECK_DIGIT | HIGHRISE_DEFAULT | HIGHRISE_EXACT | RURALROUTE_DEFAULT | RURALROUTE_EXACT |
+  LACS | DPV_CONFIRMATION | DPV_CMRA | DPV_FALSE_POSITIVE | DPV_FOOTNOTE_1 | DPV_FOOTNOTE_2 | DPV_FOOTNOTE_COMPLETE |DPV_FOOTNOTE_3 |
+  LACSLINK_RETURNCODE | SUITELINK_RETURNCODE | EWS_RETURNCODE | ZIPMOVE_RETURNCODE | DSF2_NOSTATS_INDICATOR | DSF2_VACANT_INDICATOR |
+  DEFAULT_FLAG | LACSLINK_INDICATOR) "ERRORCODE"    
+>
+
+<!-- CASS results, see documentation: 6.24.1 How do I validate an address using CASS rules? -->
+<!-- Type="ERRORCODE":                  Internal error code -->
+<!-- Type="BARCODE":                    The delivery point barcode, 11 numeric characters -->
+<!-- Type="DELIVERY_POINT":             The delivery point, 2 numeric characters -->
+<!-- Type="RECORDTYPE":                 The record type, one uppercase alpha character, i.e. "S" -->
+<!-- Type="CARRIER_ROUTE":              The carrier route, 4 alpha-numeric characters, i.e. "R002" -->
+<!-- Type="CONGRESSIONAL_DISTRICT":     The congressional district number, i.e. "5" -->
+<!-- Type="DELIVERY_POINT_CHECK_DIGIT": The check digit for the delivery point barcode, one numeric character -->
+<!-- Type="HIGHRISE_DEFAULT":           Flag indicating if the address was matched to a ZIP+4 highrise default address: "Y" if yes, "N" otherwise -->
+<!-- Type="HIGHRISE_EXACT":             Flag indicating if the address was matched to a ZIP+4 highrise exact address: "Y" if yes, "N" otherwise -->
+<!-- Type="RURALROUTE_DEFAULT":         Flag indicating if the address was matched to a ZIP+4 rural route default address: "Y" if yes, "N" otherwise -->
+<!-- Type="RURALROUTE_EXACT":           Flag indicating if the address was matched to a ZIP+4 rural route exact address: "Y" if yes, "N" otherwise -->
+<!-- Type="LACS":                       Flag indicating if the address was converted by LACS: "L" if yes, "" otherwise -->
+<!-- Type="DPV_CONFIRMATION":           Flag indicating to what extent the address was DPV confirmed, single character "Y", "D", "S", "N" or "" -->
+<!-- Type="DPV_CMRA":                   Flag indicating whether the address was identified as CMRA false positive: "Y" if yes, "N" or "" otherwise -->
+<!-- Type="DPV_FALSE_POSITIVE":         Flag indicating whether the address was identified as DPV false positive: "Y" if yes, "N" or "" otherwise -->
+<!-- Type="DPV_FOOTNOTE_1":             The DPV footnote 1 -->
+<!-- Type="DPV_FOOTNOTE_2":             The DPV footnote 2 -->
+<!-- Type="DPV_FOOTNOTE_3":             The DPV footnote 3 -->
+<!-- Type="DPV_FOOTNOTE_COMPLETE":      The DPV footnote 1 + footnote 2 + footnote 3 + -->
+<!-- Type="LACSLINK_RETURNCODE":        The LACSLINK return code -->
+<!-- Type="SUITELINK_RETURNCODE":       The SUITELINK return code -->
+<!-- Type="EWS_RETURNCODE":             Flag indicating whether the address was found in the EWS data: "Y" if yes, ""otherwise -->
+<!-- Type="ZIPMOVE_RETURNCODE":         The ZIPMOVE return code -->
+<!-- Type="DSF2_NOSTATS_INDICATOR":     Flag indicating the result of the call to the DPV NOSTATS Table -->
+<!-- Type="DSF2_VACANT_INDICATOR":      Flag indicating the result of the call to the DPV VACANT Table -->
+
+<!ELEMENT SERP (#PCDATA)>
+<!ATTLIST SERP      
+  Type (CATEGORY) "CATEGORY"    
+>
+<!-- SERP results -->
+<!-- Type="CATEGORY":                  Validation status V,VQ,C,N, see documentation: 6.24.2 How do I validate an address using SERP rules? -->
+
+<!ELEMENT SNA (#PCDATA)>
+<!ATTLIST SNA      
+  Type (CATEGORY) "CATEGORY"    
+>
+<!-- SNA results -->
+<!-- Type="CATEGORY":                  Validation status ORI/RES/AVE/NOK, see documentation: 6.24.3 How do I validate an address using SNA rules? -->
+
+<!ELEMENT SupplementaryGB (#PCDATA)>
+<!ATTLIST SupplementaryGB      
+  Type (DELIVERY_POINT_SUFFIXES) "DELIVERY_POINT_SUFFIXES"    
+>
+<!-- SupplementaryGB, see documentation: 6.13 How do I retrieve address enrichments? -->
+<!-- Type="DELIVERY_POINT_SUFFIXES":             The DELIVERY_POINT_SUFFIXES -->
+
+
+<!ELEMENT SupplementaryUS (#PCDATA)>
+<!ATTLIST SupplementaryUS      
+  Type (COUNTY_FIPS_CODE | STATE_FIPS_CODE | MSA_ID | CBSA_ID | FINANCE_NUMBER| RECORD_TYPE) "COUNTY_FIPS_CODE"    
+>
+<!-- SupplementaryUS, see documentation: 6.13 How do I retrieve address enrichments? -->
+<!-- Type="COUNTY_FIPS_CODE":         The COUNTY_FIPS_CODE -->
+<!-- Type="STATE_FIPS_CODE":          The STATE_FIPS_CODE -->
+<!-- Type="MSA_ID":                   The MSA_ID -->
+<!-- Type="CBSA_ID":                  The CBSA_ID -->
+<!-- Type="FINANCE_NUMBER":           The FINANCE_NUMBER -->
+<!-- Type="RECORD_TYPE":              The RECORD_TYPE -->

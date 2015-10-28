@@ -1,0 +1,98 @@
+<?xml version="1.0" encoding="ISO-8859-1"?>
+
+<web-app xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xmlns="http://java.sun.com/xml/ns/javaee" xmlns:web="http://java.sun.com/xml/ns/javaee/web-app_2_5.xsd"
+	xsi:schemaLocation="http://java.sun.com/xml/ns/javaee http://java.sun.com/xml/ns/javaee/web-app_2_5.xsd"
+	id="data-matching" version="2.5">
+<!-- 
+	<resource-ref>
+		<description>Container-managed JNDI data source. (see src/main/webapp/META-INF/context.xml)</description>
+		<res-ref-name>jdbc/SecurityDatasource</res-ref-name>
+		<res-type>javax.sql.DataSource</res-type>
+	</resource-ref>
+ -->
+	<context-param>
+		<param-name>log4jConfigLocation</param-name>
+		<param-value>classpath:log4j.xml</param-value>
+	</context-param>
+
+	<context-param>
+		<param-name>log4jExposeWebAppRoot</param-name>
+		<param-value>false</param-value>
+	</context-param>
+
+	<description>legacy-match</description>
+	<display-name>legacy-match</display-name>
+	<listener>
+		<listener-class>com.sun.xml.ws.transport.http.servlet.WSServletContextListener</listener-class>
+	</listener>
+<!-- 
+	<filter>
+		<filter-name>WebResourceSecurityFilter</filter-name>
+		<filter-class>com.hp.it.cas.security.web.WebResourceSecurityFilter</filter-class>
+		<init-param>
+			<param-name>applicationProcessUID</param-name>
+			<param-value>w-mdcp:prd-http</param-value>
+		</init-param>
+		<init-param>
+			<param-name>internalAuthenticationSystemAssetAlias</param-name>
+			<param-value>CAS Framework</param-value>
+		</init-param>
+		<init-param>
+			<param-name>exceptionHandlerType</param-name>
+			<param-value>service</param-value>
+		</init-param>
+		<init-param>
+			<param-name>dataAccess</param-name>
+			<param-value>jdbc</param-value>
+		</init-param>
+	</filter>
+
+	<filter-mapping>
+		<filter-name>WebResourceSecurityFilter</filter-name>
+		<url-pattern>/match/*</url-pattern>
+	</filter-mapping>
+ -->
+ 	
+ 	<filter>
+		<filter-name>WebResourceFilter</filter-name>
+		<filter-class>com.hp.it.cas.match.address.web.WebResourceFilter</filter-class>
+	</filter>
+
+	<filter-mapping>
+		<filter-name>WebResourceFilter</filter-name>
+		<url-pattern>/match/*</url-pattern>
+	</filter-mapping>
+ 	
+	<servlet>
+		<description>JAX-WS endpoint - fromjava</description>
+		<display-name>CASServiceSoapImplService</display-name>
+		<servlet-name>CASServiceSoapImplService</servlet-name>
+		<servlet-class>com.sun.xml.ws.transport.http.servlet.WSServlet</servlet-class>
+	</servlet>
+
+	<servlet-mapping>
+		<servlet-name>CASServiceSoapImplService</servlet-name>
+		<url-pattern>/legacy-match/address/v1</url-pattern>
+	</servlet-mapping>
+
+	<session-config>
+		<session-timeout>60</session-timeout>
+	</session-config>
+
+	<servlet>
+		<servlet-name>MatchingApplication</servlet-name>
+		<servlet-class>com.sun.jersey.spi.container.servlet.ServletContainer</servlet-class>
+		<init-param>
+			<param-name>javax.ws.rs.Application</param-name>
+			<param-value>com.hp.it.cas.match.address.web.MatchingApplication</param-value>
+		</init-param>
+		<load-on-startup>1</load-on-startup>
+	</servlet>
+
+	<servlet-mapping>
+		<servlet-name>MatchingApplication</servlet-name>
+		<url-pattern>/match/*</url-pattern>
+	</servlet-mapping>
+
+</web-app>

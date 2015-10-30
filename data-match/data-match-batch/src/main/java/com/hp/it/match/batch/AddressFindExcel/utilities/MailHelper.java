@@ -25,8 +25,8 @@ public class MailHelper {
 
 	private static final String CHARSET = "gbk";
 
-	private static final String SMTP_HOST_NAME = "smtp3.hp.com";
-	private static final String EMAIL_FROM = "noreply@hp.com";
+	private static final String SMTP_HOST_NAME = "smtp3.hpe.com";
+	private static final String EMAIL_FROM = "noreply@hpe.com";
 
 	public static final String EMAIL_TO = "EMAIL_TO";
 	public static final String EMAIL_CC = "EMAIL_CC";

@@ -1,5 +1,0 @@
-if [ "$(uname -m)" != "x86_64" ]; then
-    echo "This installer was built for Linux 64-bit but your system's architecture is $(uname -m)."
-    echo "Aborting."
-    exit 3
-fi

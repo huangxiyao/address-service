@@ -1,0 +1,117 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+
+<!ELEMENT InputData (AddressElements?, AddressLines?, AddressComplete?)>
+<!-- InputData.dtd has been defined in symmetry with Result.dtd, please refer to Result.dtd for an explanation of the elements and attributes contained herein -->
+<!-- Thus the majority of AddressElement Item Types documented here is not really intended for actual use on input:-->
+<!-- Please refrain from setting Type attributes explicitly on input - omitting them corresponds to their default values, which yields decent processing results in most practical situations. -->
+
+<!-- see documentation: 5.9 Understanding AddressElement Items and AddressLines -->
+<!-- see documentation: 5.10 Understanding Address Item Types -->
+<!ELEMENT AddressElements ((Key | Country | Locality | PostalCode | Province | Street | Number | Building | SubBuilding |
+  DeliveryService | Organization | Contact | Residue)*)>
+
+<!-- see documentation: 6.7.3 Partially fielded address input -->
+<!ELEMENT AddressLines (RecipientLine*, DeliveryAddressLine*, CountrySpecificLocalityLine*, FormattedAddressLine*)>
+
+<!ELEMENT RecipientLine (#PCDATA)>
+<!ATTLIST RecipientLine
+  Line (1 | 2 | 3 | 4 | 5 | 6) "1"
+>
+
+<!ELEMENT DeliveryAddressLine (#PCDATA)>
+<!ATTLIST DeliveryAddressLine
+  Line (1 | 2 | 3 | 4 | 5 | 6)  "1"
+>
+
+<!ELEMENT CountrySpecificLocalityLine (#PCDATA)>
+<!ATTLIST CountrySpecificLocalityLine
+  Line (1 | 2 | 3 | 4 | 5 | 6) "1"
+>
+
+<!ELEMENT FormattedAddressLine (#PCDATA)>
+<!ATTLIST FormattedAddressLine
+  Line (1 | 2 | 3 | 4 | 5 | 6 | 7 | 8 | 9 | 10 | 11 | 12 | 13 | 14 | 15 | 16 | 17 | 18 | 19)  "1"
+>
+
+<!-- see documentation: 6.7.4 Unfielded address input -->
+<!ELEMENT AddressComplete (#PCDATA)>
+
+<!ELEMENT Key (#PCDATA)>
+<!ATTLIST Key
+  Item (1 | 2 | 3) "1"
+  Type (RECORD_ID | TRANSACTION_KEY) "RECORD_ID"
+>
+
+<!-- see documentation: 6.7.2 Fielded address input -->
+<!ELEMENT Country (#PCDATA)>
+<!ATTLIST Country
+  Item (1 | 2 | 3) "1"
+  Type (ABBREVIATION | ISO2 | ISO3 | ISO_NUMBER | NAME) "NAME"
+>
+
+<!ELEMENT Locality (#PCDATA)>
+<!ATTLIST Locality
+  Item (1 | 2 | 3 | 4 | 5 | 6) "1"
+  Type (COMPLETE | NAME | SORTING_CODE | ADD_INFO) "COMPLETE"
+>
+
+<!ELEMENT PostalCode (#PCDATA)>
+<!ATTLIST PostalCode
+  Item (1 | 2 | 3) "1"
+  Type (FORMATTED | UNFORMATTED) "UNFORMATTED"
+>
+
+<!ELEMENT Province (#PCDATA)>
+<!ATTLIST Province
+  Item (1 | 2 | 3 | 4 | 5 | 6) "1"
+  Type (COUNTRY_STANDARD | ABBREVIATION | EXTENDED) "COUNTRY_STANDARD"
+>
+
+<!ELEMENT Street (#PCDATA)>
+<!ATTLIST Street
+  Item (1 | 2 | 3 | 4 | 5 | 6) "1"
+  Type (COMPLETE | COMPLETE_WITH_NUMBER | NAME | PRE_DESCRIPTOR | POST_DESCRIPTOR | PRE_DIRECTIONAL | POST_DIRECTIONAL | ADD_INFO) "COMPLETE"  
+>
+
+<!ELEMENT Number (#PCDATA)>
+<!ATTLIST Number
+  Item (1 | 2 | 3 | 4 | 5 | 6) "1"
+  Type (COMPLETE | NUMBER | DESCRIPTOR | ADD_INFO) "COMPLETE"
+>
+
+<!ELEMENT Building (#PCDATA)>
+<!ATTLIST Building
+  Item (1 | 2 | 3 | 4 | 5 | 6) "1"
+  Type (COMPLETE | COMPLETE_WITH_SUBBUILDING | NAME | NUMBER | DESCRIPTOR) "COMPLETE"
+  
+>
+
+<!ELEMENT SubBuilding (#PCDATA)>
+<!ATTLIST SubBuilding
+  Item (1 | 2 | 3 | 4 | 5 | 6) "1"
+  Type (COMPLETE | NAME | NUMBER | DESCRIPTOR) "COMPLETE"
+>
+
+<!ELEMENT DeliveryService (#PCDATA)>
+<!ATTLIST DeliveryService
+  Item (1 | 2 | 3) "1"
+  Type (COMPLETE | DESCRIPTOR | NUMBER | ADD_INFO) "COMPLETE"
+>
+
+<!ELEMENT Organization (#PCDATA)>
+<!ATTLIST Organization
+  Item (1 | 2 | 3) "1"
+  Type (COMPLETE | NAME | DESCRIPTOR | DEPARTMENT) "COMPLETE"
+>
+
+<!ELEMENT Contact (#PCDATA)>
+<!ATTLIST Contact
+  Item (1 | 2 | 3) "1"
+  Type (COMPLETE | FIRST_NAME | MIDDLE_NAME | LAST_NAME | NAME | TITLE | FUNCTION | SALUTATION | GENDER) "COMPLETE"
+>
+
+<!ELEMENT Residue (#PCDATA)>
+<!ATTLIST Residue
+  Item (1 | 2 | 3 | 4 | 5 | 6) "1"
+  Type (NECESSARY | SUPERFLUOUS) "NECESSARY"
+>

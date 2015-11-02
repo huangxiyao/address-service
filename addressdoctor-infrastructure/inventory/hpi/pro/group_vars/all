@@ -1,7 +1,0 @@
-release_environment : pro
-
-useraccount: casfw
-usergroup: casfwgrp
-casfw_home: /opt/casfw
-
-lb_urls : [ address-service.core.hpicorp.net, address-service.glb.itcs.hpicorp.net, address-service-inc-g1.itcs.hpicorp.net, address-service-inc-g2.itcs.hpicorp.net ]

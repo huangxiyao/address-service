@@ -1,0 +1,5 @@
+release_environment : pro
+
+useraccount: casfw
+usergroup: casfwgrp
+casfw_home: /opt/casfw

@@ -1,0 +1,5 @@
+release_environment : itg
+
+useraccount: casfw
+usergroup: casfwgrp
+casfw_home: /opt/casfw

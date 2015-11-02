@@ -5,6 +5,8 @@
   connection: local
   gather_facts: no
   serial: 1
+  su: yes
+  su_user: casfw
   vars:
     downloadtool_version: @@downloadtool_version@@
     download_xml_version: @@download_xml_version@@
@@ -17,4 +19,5 @@
     useraccount: casfw
     usergroup: casfwgrp
   roles:
+  - common
   - db-download

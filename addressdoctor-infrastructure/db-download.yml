@@ -1,8 +1,7 @@
 
 ---
 # This playbook for Address Doctor databases download
-- hosts: 127.0.0.1
-  connection: local
+- hosts: db-download
   gather_facts: no
   serial: 1
   su: yes

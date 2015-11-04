@@ -44,7 +44,3 @@
 
   - name: Final Cleanup
     action: command bash {{ casfw_home }}/db-download-functions.sh finalCleanup
-
-  - name: Remove the su file from /tmp/
-    shell: cd /tmp/; find -maxdepth 1 -type f -name "su.sh" | xargs rm
-    su: no

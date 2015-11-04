@@ -14,7 +14,7 @@
     https_proxy_host: web-proxy.austin.hp.com
     https_proxy_port: 8088
     casfw_home: /tmp
-    useraccount: casfw
-    usergroup: casfwgrp
+    useraccount: jenkins
+    usergroup: jenkins
   roles:
   - db-download

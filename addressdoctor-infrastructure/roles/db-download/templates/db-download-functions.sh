@@ -1,6 +1,6 @@
 #!/bin/bash
 
-HOME="/opt/casfw"
+HOME="/tmp"
 userinput="$1"
 
 jdkpath="{{ casfw_home }}/software/openjdk"

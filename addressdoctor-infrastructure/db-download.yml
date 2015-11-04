@@ -8,12 +8,12 @@
   vars:
     downloadtool_version: @@downloadtool_version@@
     download_xml_version: @@download_xml_version@@
-    adm_client_folder: /opt/casfw/address-doctor/databases/ADM-Client
-    db_folder: /opt/casfw/address-doctor/databases/stage
+    adm_client_folder: /tmp/address-doctor/databases/ADM-Client
+    db_folder: /tmp/address-doctor/databases/stage
     jdk_verion: 1.7.0_65
     https_proxy_host: web-proxy.austin.hp.com
     https_proxy_port: 8088
-    casfw_home: /opt/casfw
+    casfw_home: /tmp
     useraccount: casfw
     usergroup: casfwgrp
   roles:

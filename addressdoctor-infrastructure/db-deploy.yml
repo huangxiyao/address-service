@@ -7,7 +7,7 @@
   su: yes
   su_user: casfw
   vars:
-    db_source_folder: /opt/casfw/address-doctor/databases/stage
+    db_source_folder: /tmp/address-doctor/databases/stage
     db_target_folder: /opt/casfw/address-doctor/databases
     db_latest_version: @@db_latest_version@@
     data_match_instance1: data-match1

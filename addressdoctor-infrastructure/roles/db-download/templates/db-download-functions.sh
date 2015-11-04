@@ -55,8 +55,8 @@ function installJDK {
 
 function prepareDownloadtool {
     cd {{ adm_client_folder }}
-    unzip Downloadtool-{{ downloadtool_version }}.zip
-    unzip download-{{ download_xml_version }}.zip
+    jar xf Downloadtool-{{ downloadtool_version }}.zip
+    jar xf download-{{ download_xml_version }}.zip
     rm -f Downloadtool-{{ downloadtool_version }}.zip
     rm -f download-{{ download_xml_version }}.zip
 }
@@ -124,7 +124,14 @@ function unzipDBFiles {
 
     # unzip all the zip db files to db stage folder
     # clear unzip output log
-    unzip "*.zip" -d {{ db_folder }} > /dev/null
+    # unzip "*.zip" -d {{ db_folder }} > /dev/null
+    # Use jar command to unzip *.zip files
+    dbFileList=$(ls *zip)
+    cd {{ db_folder }}
+    for zipFile in ${dbFileList[*]}
+    do
+        jar xf {{ adm_client_folder }}/Downloads/$zipFile
+    done
 }
 
 function finalCleanup {

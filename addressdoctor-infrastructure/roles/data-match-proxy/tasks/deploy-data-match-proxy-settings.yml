@@ -1,0 +1,20 @@
+---
+  - name: Copy the data-match casfw.conf script to -> /opt/casfw/
+    copy: src=casfw.conf dest={{ casfw_home }}/ mode="u+rwx,g+rx,o+rx" owner={{ useraccount }} group={{ usergroup }} force
+
+  - name: Creates the directory -> /opt/casfw/apache/conf.d if it does not exist
+    file: path={{ casfw_home }}/apache/conf.d state=directory mode="u+rwx,g+rx,o+rx" owner={{ useraccount }} group={{ usergroup }} force=yes
+
+  - name: Copy the address-service.conf to -> /opt/casfw/apache/conf.d
+    copy: src=address-service.conf dest={{ casfw_home }}/apache/conf.d/ mode="u+rwx,g+rx,o+rx" owner={{ useraccount }} group={{ usergroup }} force
+
+  - name: copy /opt/casfw/casfw.conf /etc/httpd/conf.d/
+    action: command bash /opt/casfw/data-match-proxy-functions.sh copyCasfwConfScript
+    su: no
+
+  - name: Restart Cloud Apache Instance
+    action: command bash {{ casfw_home }}/data-match-proxy-functions.sh restartCloudApacheInstance
+    su: no
+
+  - name: Final cleanup
+    action: command bash {{ casfw_home }}/data-match-proxy-functions.sh finalCleanup

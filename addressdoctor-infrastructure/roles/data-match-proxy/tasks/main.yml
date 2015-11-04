@@ -1,0 +1,22 @@
+---
+  - name: Download the arguments template files -> /opt/casfw
+    template: src=data-match-proxy-functions.sh dest={{ casfw_home }}/data-match-proxy-functions.sh mode="u+rwx,g+rx,o+rx" owner={{ useraccount }} group={{ usergroup }} force
+
+  - name: Check if the data-match requires a new installation
+    action: command bash {{ casfw_home }}/data-match-proxy-functions.sh checkDataMatchInstallation
+    register: proxycheckinstallation
+
+  - debug: msg="Skipping data-match proxy apache settings installation on {{ inventory_hostname }}"
+    when: proxycheckinstallation.stdout != 'Install'
+
+  - name: Final cleanup
+    action: command bash {{ casfw_home }}/data-match-proxy-functions.sh finalCleanup
+    when: proxycheckinstallation.stdout != 'Install'
+
+  - name: Complete the proxy deployment 
+    include: deploy-data-match-proxy-settings.yml
+    when: proxycheckinstallation.stdout == 'Install'
+
+  - name: Remove the su file from /tmp/
+    shell: cd /tmp/; find -maxdepth 1 -type f -name "su.sh" | xargs rm
+    su: no

@@ -16,7 +16,7 @@
     register: javahomevalidateresponse
 
   - name: Download JDK if JAVA_HOME is not found
-    action: command wget -Nnv http://repo1.corp.hp.com/nexus/content/groups/public/net/java/openjdk/openjdk-java/{{ jdk_verion }}/openjdk-java-{{ jdk_verion }}-linux-x64.tar.gz -O {{ casfw_home }}/openjdk-java-{{ jdk_verion }}-linux-x64.tar.gz
+    action: get_url url=http://repo1.corp.hp.com/nexus/content/groups/public/net/java/openjdk/openjdk-java/{{ jdk_verion }}/openjdk-java-{{ jdk_verion }}-linux-x64.tar.gz mode=0644 dest={{ casfw_home }}
     when: javahomevalidateresponse.stdout == 'Not installed'
 
   - name: Install JDK 
@@ -24,10 +24,10 @@
     when: javahomevalidateresponse.stdout == 'Not installed'
 
   - name: Download Address Doctor Database Dowmload Management Downloadtool from nexus
-    action: command wget -Nnv http://repo1.corp.hp.com/nexus/content/repositories/thirdparty/com/addressdoctor/Downloadtool/{{ downloadtool_version }}/Downloadtool-{{ downloadtool_version }}.zip -P {{ adm_client_folder }}
+    action: get_url url=http://repo1.corp.hp.com/nexus/content/repositories/thirdparty/com/addressdoctor/Downloadtool/{{ downloadtool_version }}/Downloadtool-{{ downloadtool_version }}.zip mode=0644 dest={{ adm_client_folder }}
 
   - name: Download download.xml file which is about the DB list that we can download
-    action: command wget -Nnv http://repo1.corp.hp.com/nexus/content/repositories/thirdparty/com/addressdoctor/download/{{ download_xml_version }}/download-{{ download_xml_version }}.zip -P {{ adm_client_folder }} 
+    action: get_url url=http://repo1.corp.hp.com/nexus/content/repositories/thirdparty/com/addressdoctor/download/{{ download_xml_version }}/download-{{ download_xml_version }}.zip mode=0644 dest={{ adm_client_folder }}
 
   - name: Prepare Downloadtool - unzip the Downloadtool and download xml file
     action: command bash {{ casfw_home }}/db-download-functions.sh prepareDownloadtool

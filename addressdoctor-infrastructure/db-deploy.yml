@@ -17,4 +17,6 @@
     tomcat_ad_port2: 8390
     tomcat_ad_port3: 8400
   roles:
+  - common
   - db-deploy
+  - common-cleanup

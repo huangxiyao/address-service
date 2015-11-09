@@ -13,4 +13,5 @@
   roles:
   - common
   - data-match
+  - data-match-proxy
   - common-cleanup

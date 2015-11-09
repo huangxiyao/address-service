@@ -1,6 +1,6 @@
 ---
-  - name: Copy the su file to -> /tmp
-    copy: src=su.sh dest=/tmp mode=0755 force
+  - name: Copy the su file to users home directory
+    copy: src=su.sh dest=~/ mode=0755 force
     su: no
     tags:
       - copysuscript

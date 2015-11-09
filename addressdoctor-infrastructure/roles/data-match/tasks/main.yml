@@ -1,8 +1,4 @@
 ---
-  - name: copy the su file to -> /tmp
-    copy: src=su.sh dest=/tmp mode=0755 force
-    su: no
-
   - name: check if data-match instance1 version to be deployed is already deployed
     shell: cd {{ casfw_home }}; if [ -d {{ data_match_instance1 }}/data-match-{{ data_match_release_version }} ]; then echo 'Installed'; fi
     register: instance_one_installed
@@ -54,7 +50,3 @@
 
   - name: search if there is old data-match instance cdi
     shell: find {{ casfw_home }}/ -maxdepth 1 -type f -name "data-match-installer-*.cdi" | grep -v {{ data_match_release_version }} | xargs rm -f
-
-  - name: remove the su file from /tmp/
-    shell: cd /tmp/; find -maxdepth 1 -type f -name "su.sh" | xargs rm
-    su: no

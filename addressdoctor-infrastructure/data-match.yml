@@ -11,4 +11,6 @@
   vars_files:
   - roles/data-match/vars/{{ release_environment }}-vars.yml
   roles:
+  - common
   - data-match
+  - common-cleanup

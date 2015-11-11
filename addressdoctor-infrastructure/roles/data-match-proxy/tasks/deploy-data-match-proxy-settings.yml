@@ -8,13 +8,27 @@
   - name: Copy the address-service.conf to -> /opt/casfw/apache/conf.d
     copy: src=address-service.conf dest={{ casfw_home }}/apache/conf.d/ mode="u+rwx,g+rx,o+rx" owner={{ useraccount }} group={{ usergroup }} force
 
+  - name: Check if it is clould apache or webhost apache
+    action: command bash /opt/casfw/data-match-proxy-functions.sh apacheTypeCheck
+    register: apachetypecheck
+
   - name: copy /opt/casfw/casfw.conf /etc/httpd/conf.d/
-    action: command bash /opt/casfw/data-match-proxy-functions.sh copyCasfwConfScript
+    action: command bash /opt/casfw/data-match-proxy-functions.sh copyCasfwConfToCloudApache
     su: no
+    when: apachetypecheck.stdout == 'cloudhost'
 
   - name: Restart Cloud Apache Instance
     action: command bash {{ casfw_home }}/data-match-proxy-functions.sh restartCloudApacheInstance
     su: no
+    when: apachetypecheck.stdout == 'cloudhost'
+
+  - name: copy /opt/casfw/casfw.conf /opt/webhost/local/WHA-General-Inst/apache/conf.d
+    action: command bash /opt/casfw/data-match-proxy-functions.sh copyCasfwConfToWebhostApache
+    when: apachetypecheck.stdout == 'webhost'
+
+  - name: Restart Webhost Apache Instance
+    action: command bash {{ casfw_home }}/data-match-proxy-functions.sh restartWebhostApacheInstance
+    when: apachetypecheck.stdout == 'webhost'
 
   - name: Final cleanup
     action: command bash {{ casfw_home }}/data-match-proxy-functions.sh finalCleanup

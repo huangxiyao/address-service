@@ -32,3 +32,19 @@
 
   - name: Final cleanup
     action: command bash {{ casfw_home }}/data-match-proxy-functions.sh finalCleanup
+
+########## validation #################
+  - name: Wait for apache port to come up
+    wait_for: host={{ inventory_hostname }} port=80 delay=15 state=started
+    su: no
+    delegate_to: localhost
+
+  - name: validate apache instance health page
+    uri: url={{ item.url }} status_code={{ item.statuscode }}
+    retries: 5
+    delegate_to: localhost
+    su: no
+    with_items:
+      - { url: 'http://{{ inventory_hostname }}/{{ health_check_url }}', statuscode: '200' }
+      - { url: 'http://{{ inventory_hostname }}/match/about/health', statuscode: '204' }
+      - { url: 'http://{{ inventory_hostname }}/legacy-match/address/v1', statuscode: '200' }

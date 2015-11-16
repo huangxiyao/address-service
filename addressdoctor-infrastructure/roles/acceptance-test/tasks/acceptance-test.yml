@@ -1,6 +1,6 @@
 ---
   - name: validate LB apache health page
-    uri: url=https://{{ item }}/DO_NOT_REMOVE/health_check.html
+    uri: url=https://{{ item }}/{{ health_check_url }} status_code=200
     retries: 5
     delegate_to: localhost
     with_items: lb_urls
@@ -12,7 +12,7 @@
     with_items: lb_urls
 
   - name: validate LB data-match restful endpoint
-    uri: url=https://{{ item[0]  }}/match/{{ item[1] }}/documentation
+    uri: url=https://{{ item[0]  }}/match/{{ item[1] }}/documentation status_code=200
     retries: 5
     delegate_to: localhost
     with_nested:
@@ -20,7 +20,7 @@
       - [ validatedAddress, certifiedAddress, looselyValidatedAddress, addressSuggestions, fastCompletionAddress ]
 
   - name: validate LB data-match soap endpoint
-    uri: url=https://{{ item }}/legacy-match/address/v1?wsdl
+    uri: url=https://{{ item }}/legacy-match/address/v1?wsdl status_code=200
     retries: 5
     delegate_to: localhost
     with_items: lb_urls

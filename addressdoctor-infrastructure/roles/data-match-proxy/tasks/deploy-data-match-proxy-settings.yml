@@ -47,4 +47,4 @@
     with_items:
       - { url: 'http://{{ inventory_hostname }}/{{ health_check_url }}', statuscode: '200' }
       - { url: 'http://{{ inventory_hostname }}/match/about/health', statuscode: '204' }
-      - { url: 'http://{{ inventory_hostname }}/legacy-match/address/v1', statuscode: '200' }
+      - { url: 'http://{{ inventory_hostname }}/legacy-match/address/v1?wsdl', statuscode: '200' }

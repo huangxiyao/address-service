@@ -1,0 +1,68 @@
+#!/bin/bash
+
+# Runs all scripts located in the init.d directory. This script is intended
+# to be used to control all CAS services located on this server.
+
+CASFW_HOME="$(cd "$(dirname "$0")/.." && pwd -P)"
+INIT=$CASFW_HOME/init.d
+USER="casfw"
+
+#echo "$(id -un) 0=$0 @=$@"
+
+# ----------------------------------------------------------------------
+
+if [ $(id -un) != "${USER}" ]
+then
+        exec su -m "${USER}" -c "$0 $@"
+fi
+
+# ----------------------------------------------------------------------
+
+start() {
+        for script in $(ls $INIT)
+        do
+                $INIT/$script start
+        done
+}
+
+stop() {
+        for script in $(ls $INIT)
+        do
+                $INIT/$script stop
+        done
+}
+
+restart() {
+        stop
+        start
+}
+
+status() {
+        status=0
+        for script in $(ls $INIT)
+        do
+                $INIT/$script status
+                if [ $? -ne 0 ]; then
+                        status=1
+                fi
+        done
+        return $status
+}
+
+case "$1" in
+  start)
+        start
+        ;;
+  stop)
+        stop
+        ;;
+  status)
+        status
+        ;;
+  restart)
+        restart
+        ;;
+  *)
+        echo $"Usage: $prog {start|stop|restart|status}"
+        exit 1
+esac

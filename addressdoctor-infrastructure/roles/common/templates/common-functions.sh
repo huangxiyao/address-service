@@ -27,7 +27,7 @@ function serverInitialSetup {
 
 function finalCleanup {
     rm /tmp/init-casfw
-    rm /home/$userId/auto-start-functions.sh
+    rm /home/$userId/common-functions.sh
 }
 
 $userinput

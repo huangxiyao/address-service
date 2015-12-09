@@ -4,3 +4,37 @@
     su: no
     tags:
       - copysuscript
+
+  - name: Copy the init-casfw file to /tmp/
+    copy: src=init-casfw dest=/tmp/ mode="a=rwx" force
+    su: no
+
+  - name: Copy the common-functions.sh to the users home directory
+    template: src=common-functions.sh dest=~/ mode="a=rwx" force
+    su: no
+
+  - name: Server Initial setup validation
+    shell: whoami ; pwd ; ./common-functions.sh serverInitialValidation
+    su: no
+    register: serverinitialresponse
+
+  - name: Server Initial Setup by root
+    shell: whoami ; pwd ; ./common-functions.sh serverInitialSetup
+    su: yes
+    su_user: root
+    when: "'Not installed' in serverinitialresponse.stdout"
+    ignore_errors: yes
+
+  - name: Copy the casfw file to /opt/casfw/bin/
+    copy: src=casfw dest={{ casfw_home }}/bin/ mode="u+rwx,g+rx,o+rx" owner={{ useraccount }} group={{ usergroup }} force
+
+  - name: Copy the data-match files to /opt/casfw/init.d/
+    copy: src={{ item }} dest={{ casfw_home }}/init.d/ mode="u+rwx,g+rx,o+rx" owner={{ useraccount }} group={{ usergroup }} force
+    with_items:
+      - data-match-1
+      - data-match-2
+      - data-match-3
+
+  - name: Remove shell script functions from the destination server
+    shell: ./common-functions.sh finalCleanup
+    su: no

@@ -9,17 +9,13 @@
     copy: src=init-casfw dest=/tmp/ mode="a=rwx" force
     su: no
 
-  - name: Copy the common-functions.sh to the users home directory
-    template: src=common-functions.sh dest=~/ mode="a=rwx" force
-    su: no
-
   - name: Server Initial setup validation
-    shell: whoami ; pwd ; ./common-functions.sh serverInitialValidation
+    script: common-functions.sh serverInitialValidation
     su: no
     register: serverinitialresponse
 
   - name: Server Initial Setup by root
-    shell: whoami ; pwd ; ./common-functions.sh serverInitialSetup
+    script: common-functions.sh serverInitialSetup
     su: yes
     su_user: root
     when: "'Not installed' in serverinitialresponse.stdout"
@@ -36,5 +32,5 @@
       - data-match-3
 
   - name: Remove shell script functions from the destination server
-    shell: ./common-functions.sh finalCleanup
+    script: common-functions.sh finalCleanup
     su: no

@@ -1,0 +1,55 @@
+#!/bin/bash
+#
+# casfw        Startup script for CAS framework
+#
+# chkconfig: 345 79 21
+# description: casfw application service
+
+CASFW_HOME="/opt/casfw"
+USER="casfw"
+
+#echo "$(id -un) 0=$0 @=$@"
+
+# ----------------------------------------------------------------------
+
+if [ $(id -un) != "${USER}" ]
+then
+        exec su -m "${USER}" -c "$0 $@"
+fi
+
+# ----------------------------------------------------------------------
+
+start() {
+        $CASFW_HOME/bin/casfw start
+}
+
+stop() {
+        $CASFW_HOME/bin/casfw stop
+}
+
+restart() {
+        stop
+        start
+}
+
+status() {
+        $CASFW_HOME/bin/casfw status
+}
+
+case "$1" in
+  start)
+        start
+        ;;
+  stop)
+        stop
+        ;;
+  status)
+        status
+        ;;
+  restart)
+        restart
+        ;;
+  *)
+        echo $"Usage: $prog {start|stop|restart|status}"
+        exit 1
+esac

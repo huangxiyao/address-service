@@ -1,9 +1,0 @@
-#!/bin/bash
-
-#
-# Controls all CAS services located on this server. Each individual service
-# is controlled here as a group. All services are started, stopped and
-# restarted via the specific control scripts for each service.
-
-CASFW_HOME="$(cd "$(dirname "$0")/.." && pwd -P)"
-"${CASFW_HOME}/data-match2/data-match*/bin/data-match" "$@"

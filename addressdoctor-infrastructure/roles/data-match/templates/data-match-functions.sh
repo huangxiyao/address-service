@@ -21,8 +21,8 @@ function instanceRunningStatus {
 
 function stopInstanceProcess {
     cd {{ casfw_home }}
-    if [ -f './current/{{ data_match_instance }}/bin/tomcat-ad.sh' ]; then
-      bash ./current/{{ data_match_instance }}/bin/tomcat-ad.sh stop -force
+    if [ -f './current/{{ data_match_instance }}/bin/data-match' ]; then
+      bash ./current/{{ data_match_instance }}/bin/data-match stop
     fi
 }
 

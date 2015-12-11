@@ -29,6 +29,7 @@
       src: "{{ casfw_home }}/{{ item.instance }}/data-match-{{ data_match_release_version }}/bin/data-match"
       dest: "{{ casfw_home }}/init.d/{{ item.symlink }}"
       state: link
+      force: yes
     with_items:
       - { instance: "data-match1", symlink: "data-match-1" }
       - { instance: "data-match2", symlink: "data-match-2" }

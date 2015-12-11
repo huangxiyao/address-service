@@ -29,7 +29,7 @@
 
   - name: Create /opt/casfw/init.d/ symlinks
     file:
-      src: "{{ casfw_home }}/{{ item.instance }}/data-match-{{ data_match_release_version }}/bin/data-match"
+      src: "{{ casfw_home }}/{{ item.instance }}/data-match-{{ data_match_release_version }}/bin/tomcat-ad.sh"
       dest: "{{ casfw_home }}/init.d/{{ item.symlink }}"
       state: link
       force: yes

@@ -3,7 +3,8 @@
 # Runs all scripts located in the init.d directory. This script is intended
 # to be used to control all CAS services located on this server.
 
-CASFW_HOME="$(cd "$(dirname "$0")/.." && pwd -P)"
+SELF=$(readlink --canonicalize "$0")
+CASFW_HOME="${SELF%/*/*}"
 INIT=$CASFW_HOME/init.d
 USER="casfw"
 

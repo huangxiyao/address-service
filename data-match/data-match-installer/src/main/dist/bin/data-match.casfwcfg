@@ -18,9 +18,8 @@ fi
 
 # ----------------------------------------------------------------------
 
-CASFW_HOME="$(cd "$(dirname "$0")/.." && pwd -P)"
-
 SELF=$(readlink --canonicalize "$0")
+CASFW_HOME="${SELF%/*/*}"
 
 umask u=rwx,g=rx,o=rx
 

@@ -24,20 +24,6 @@
   - name: Copy the casfw file to /opt/casfw/bin/
     copy: src=casfw dest={{ casfw_home }}/bin/ mode="u+rwx,g+rx,o+rx" owner={{ useraccount }} group={{ usergroup }} force
 
-  - name: Create /opt/casfw/init.d directory
-    file: path="{{ casfw_home }}/init.d" state="directory" owner={{ useraccount }} group={{ usergroup }}
-
-  - name: Create /opt/casfw/init.d/ symlinks
-    file:
-      src: "{{ casfw_home }}/current/{{ item.instance }}/bin/tomcat-ad.sh"
-      dest: "{{ casfw_home }}/init.d/{{ item.symlink }}"
-      state: link
-      force: yes
-    with_items:
-      - { instance: "data-match1", symlink: "data-match-1" }
-      - { instance: "data-match2", symlink: "data-match-2" }
-      - { instance: "data-match3", symlink: "data-match-3" }
-
   - name: Remove shell script functions from the destination server
     script: common-functions.sh finalCleanup
     su: no

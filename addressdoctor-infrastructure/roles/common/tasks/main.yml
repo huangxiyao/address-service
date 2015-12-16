@@ -24,13 +24,6 @@
   - name: Copy the casfw file to /opt/casfw/bin/
     copy: src=casfw dest={{ casfw_home }}/bin/ mode="u+rwx,g+rx,o+rx" owner={{ useraccount }} group={{ usergroup }} force
 
-  - name: Copy the data-match files to /opt/casfw/init.d/
-    copy: src={{ item }} dest={{ casfw_home }}/init.d/ mode="u+rwx,g+rx,o+rx" owner={{ useraccount }} group={{ usergroup }} force
-    with_items:
-      - data-match-1
-      - data-match-2
-      - data-match-3
-
   - name: Remove shell script functions from the destination server
     script: common-functions.sh finalCleanup
     su: no

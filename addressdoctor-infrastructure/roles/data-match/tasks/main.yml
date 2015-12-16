@@ -19,11 +19,11 @@
     register: cdi_check
     ignore_errors: yes
 
-  - name: download data-match installation CDI 
+  - name: download data-match installation CDI
     action: command wget -Nnv http://repo1.corp.hp.com/nexus/content/repositories/releases/com/hp/it/120482/data-match-installer/{{ data_match_release_version }}/data-match-installer-{{ data_match_release_version }}.cdi -P {{ casfw_home }}
     when: not datamatchsnapshot and "'{{ data_match_release_version }}' in cdi_check.stdout"
 
-  - name: download data-match installation CDI (snapshot) 
+  - name: download data-match installation CDI (snapshot)
     action: command wget -Nnv http://repo1.corp.hp.com/nexus/service/local/artifact/maven/redirect?r=snapshots&g=com.hp.it.120482&a=data-match-installer&v={{ data_match_release_version }}&e=cdi -O {{ casfw_home }}/data-match-installer-{{ data_match_release_version }}.cdi
     when: datamatchsnapshot and "'{{ data_match_release_version }}' in cdi_check.stdout"
 
@@ -47,6 +47,20 @@
   - name: deploy data-match instance3
     include: deploy.yml data_match_instance={{ data_match_instance3 }} release_env={{ release_env3 }} port={{ port3 }}
     when: "'Installed' not in instance_three_installed.stdout"
+
+  - name: Create /opt/casfw/init.d directory
+    file: path="{{ casfw_home }}/init.d" state="directory" owner={{ useraccount }} group={{ usergroup }}
+
+  - name: Create /opt/casfw/init.d/ symlinks
+    file:
+      src: "{{ casfw_home }}/{{ item.instance }}/data-match-{{ data_match_release_version }}/bin/tomcat-ad.sh"
+      dest: "{{ casfw_home }}/init.d/{{ item.symlink }}"
+      state: link
+      force: yes
+    with_items:
+      - { instance: "data-match1", symlink: "data-match-1" }
+      - { instance: "data-match2", symlink: "data-match-2" }
+      - { instance: "data-match3", symlink: "data-match-3" }
 
   - name: search if there is old data-match instance cdi
     shell: find {{ casfw_home }}/ -maxdepth 1 -type f -name "data-match-installer-*.cdi" | grep -v {{ data_match_release_version }} | xargs rm -f

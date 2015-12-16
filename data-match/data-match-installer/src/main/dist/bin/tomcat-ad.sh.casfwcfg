@@ -1,8 +1,25 @@
-#!/bin/sh
+#!/bin/bash
 
-# This file is deployed into {casfw_home}/bin so let's walk up
-# the directory hierarchy to get to CASFW root directory
-CASFW_HOME="$(cd "$(dirname "$0")/.." && pwd)"
+#
+# Controls all CAS services located on this server. Each individual service
+# is controlled here as a group. All services are started, stopped and
+# restarted via the specific control scripts for each service.
+
+
+#echo "$(id -un) 0=$0 @=$@"
+
+# ----------------------------------------------------------------------
+USER="casfw"
+
+if [ $(id -un) != "${USER}" ]
+then
+        exec su -m "${USER}" -c "$0 $@"
+fi
+
+# ----------------------------------------------------------------------
+
+SELF=$(readlink --canonicalize "$0")
+CASFW_HOME="${SELF%/*/*}"
 
 umask u=rwx,g=rx,o=rx
 
@@ -22,37 +39,50 @@ fi
 export CATALINA_PID=${CASFW_HOME}/var/tomcat-ad.pid
 export DISPLAY=
 
-if [[ $1 != "keepRunning" ]]; then
-    ${CATALINA_HOME}/bin/catalina.sh $*
-    
-    if [[ $? -eq 0 && $1 = "start" ]]; then
-	    nohup "${CASFW_HOME}/bin/tomcat-ad.sh" keepRunning >> "${CASFW_HOME}/var/tomcat-ad.out" 2>&1 &
-	fi
-	
-fi
+
+
+start() {
+    "${CATALINA_HOME}/bin/catalina.sh" start
+    nohup "${SELF}" keepRunning >> "${CASFW_HOME}/var/tomcat-ad.out" 2>&1 &
+}
+
+stop() {
+    "${CATALINA_HOME}/bin/catalina.sh" stop -force
+    sleep 10
+    status
+}
+
+restart() {
+    stop
+    start
+    status
+}
+
+status() {
+    checkTomcatPid
+}
 
 # Check tomcat server status per 1 minute and recover tomcat server automatically when crashed
-function keepRunning
-{
-	currentPID=$(cat "${CATALINA_PID}")
-	
+keepRunning() {
+    currentPID=$(cat "${CATALINA_PID}")
+
     while [ "1" = "1" ]; do
         sleep 60
-        
+
         if [ -r "${CATALINA_PID}" ]; then
             runningPID=$(cat "${CATALINA_PID}")
 
             if [ $currentPID -ne $runningPID ]; then
-				echo "$(date +"%Y-%m-%d %T") : tomcat-ad ${currentPID} was normally stopped then normally start with ${runningPID}."
-				exit 0
-			else
-				ps -p $currentPID >/dev/null 2>&1
-				if [ $? -ne 0 ]; then
-					echo "$(date +"%Y-%m-%d %T") : Address-Engine ${CASFW_HOME} appears to be crashed. Starting Tomcat." >> ${CASFW_HOME}/var/log/tomcat-ad/ad-engine-crash.log 2>&1
-					${CATALINA_HOME}/bin/catalina.sh start
-					currentPID=$(cat "${CATALINA_PID}")
-				fi
-			fi
+                echo "$(date +"%Y-%m-%d %T") : tomcat-ad ${currentPID} was normally stopped then normally start with ${runningPID}."
+                exit 0
+            else
+                ps -p $currentPID >/dev/null 2>&1
+                if [ $? -ne 0 ]; then
+                    echo "$(date +"%Y-%m-%d %T") : Address-Engine ${CASFW_HOME} appears to be crashed. Starting Tomcat." >> ${CASFW_HOME}/var/log/tomcat-ad/ad-engine-crash.log 2>&1
+                    ${CATALINA_HOME}/bin/catalina.sh start
+                    currentPID=$(cat "${CATALINA_PID}")
+                fi
+            fi
        elif [ ! -e "${CATALINA_PID}" ]; then
             echo "$(date +"%Y-%m-%d %T") : ${CATALINA_PID} PID file does not exist. ${CASFW_HOME} server has stop normally."
             exit 0
@@ -63,7 +93,55 @@ function keepRunning
     done
 }
 
+checkTomcatPid() {
+    if getTomcatPid "${CATALINA_PID}"; then
+            echo "${CASFW_HOME} Running"
+            return 0;
+    else
+            echo "${CASFW_HOME} Stopped"
+            return 1;
+    fi
+}
+
+getTomcatPid() {
+    local pidfile="$1"
+    if [ ! -f $pidfile ]; then
+            return 1;
+    fi
+    pid="$(<$pidfile)"
+    checkTomcatStatus $pid || return 1
+    return 0;
+}
+
+checkTomcatStatus() {
+    local pid="$1"
+    if [ -z "$pid" -o "$pid" == " " ]; then
+            return 1;
+    fi
+    if [ ! -e /proc/$pid ]; then
+            return 1;
+    fi
+    return 0;
+}
+
 case "$1" in
-    keepRunning)
-        keepRunning ;;
+  start)
+        start
+        ;;
+  stop)
+        stop
+        ;;
+  status)
+        status
+        ;;
+  restart)
+        restart
+        ;;
+  keepRunning)
+        keepRunning
+        ;;
+  *)
+        echo "Usage: $prog {start|stop|restart|status}"
+        exit 1
 esac
+

@@ -63,8 +63,7 @@ status() {
 }
 
 # Check tomcat server status per 1 minute and recover tomcat server automatically when crashed
-function keepRunning
-{
+keepRunning() {
     currentPID=$(cat "${CATALINA_PID}")
 
     while [ "1" = "1" ]; do

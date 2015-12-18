@@ -1,0 +1,16 @@
+---
+#This playbook for Address-Service Monitoring
+- hosts: as-monitoring
+  gather_facts: no
+  tasks:
+  - name: Apache health check
+    local_action: uri url="http://{{ inventory_hostname }}/{{ health_check_url }}" status_code=200
+    retries: 5
+
+  - name: SOAP endpoint
+    local_action: uri url="http://{{ inventory_hostname }}/legacy-match/address/v1?wsdl" status_code=200
+    retries: 5
+
+  - name: ReST documentation
+    local_action: uri url="http://{{ inventory_hostname }}/match/validatedAddress/documentation" status_code=200
+    retries: 5

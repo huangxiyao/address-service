@@ -5,3 +5,11 @@ c9t16994.itcs.hpecorp.net
 [db-deploy]
 c4t17002.itcs.hpecorp.net
 c9t16994.itcs.hpecorp.net
+
+[load-balancers]
+address-service-dev.core.hpecorp.net
+address-service-dev.glb.itcs.hpecorp.net
+
+[as-monitoring:children]
+data-match
+load-balancers

@@ -3,14 +3,10 @@
 - hosts: as-monitoring
   gather_facts: no
   tasks:
-  - name: Apache health check
-    local_action: uri url="http://{{ inventory_hostname }}/{{ health_check_url }}" status_code=200
+  - name: Address-Service Monitoring
+    local_action: shell url="http://{{ inventory_hostname }}/{{ item }}"; status=$(curl -o "/dev/null" -s -w "%{http_code}" "${url}"); if [[ ${status} -ne 200 ]]; then echo "${JOB_NAME}-${BUILD_NUMBER} ${url} ${status}" >> as-monitor-result.txt; echo ${status}; fi
     retries: 5
-
-  - name: SOAP endpoint
-    local_action: uri url="http://{{ inventory_hostname }}/legacy-match/address/v1?wsdl" status_code=200
-    retries: 5
-
-  - name: ReST documentation
-    local_action: uri url="http://{{ inventory_hostname }}/match/validatedAddress/documentation" status_code=200
-    retries: 5
+    with_items:
+      - "{{ health_check_url }}"
+      - legacy-match/address/v1?wsdl
+      - match/validatedAddress/documentation

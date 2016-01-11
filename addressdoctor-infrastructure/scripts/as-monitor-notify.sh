@@ -5,7 +5,14 @@
 # ================================================================================
 
 ENVIRONMENT="$1"
-FLOW_TOKEN="f15e4c48063baa75b9617d297f60a372" # Jenkins Flowdock Test
+UPPERENV=$(echo "$ENVIRONMENT" | tr '[[:lower:]]' '[[:upper:]]')
+
+isTest="$2"
+FLOW_TOKEN="f15e4c48063baa75b9617d297f60a372" # CAS Team Test Flow
+if [[ "$isTest" == "" ]]
+then
+    FLOW_TOKEN="0c0eb8d69dbebae357df44680f7b855d" # CAS Team Flow
+fi
 
 RESULTFILE="as-monitor-result.txt";
 FAILEDRECORDS=""
@@ -40,7 +47,7 @@ function postFailedRecordsToFlowdockInbox {
          --form "author[avatar]=http://jenkins-ci.org/sites/default/files/images/headshot.png" \
          --form "title= <a href=${BUILD_URL}console>${JOB_NAME}-${BUILD_NUMBER} Console Output</a>" \
          --form "tags=AS-Monitoring" \
-         --form "external_thread_id=extract:as:monitor:$ENVIRONMENT" \
+         --form "external_thread_id=extract:as:monitor:$UPPERENV" \
          --form "thread[title]=$JOB_NAME" \
          --form "thread[status][color]=orange" \
          --form "thread[status][value]=failure" \

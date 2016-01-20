@@ -69,4 +69,14 @@ function curlTest {
     echo "$checkurl - SUCCESS with curl command test."
 }
 
+function opensslTest {
+    response=$(echo -e "HEAD / HTTP/1.0\r\nHost: ${lb_url}\r\n\r\n" | openssl s_client -servername ${lb_url} -connect ${lb_url}:443 -state)
+    if ! echo "${response}" | grep -q "Verify return code: 0 (ok)"
+    then
+      error "$response - SSL Check Failed with openssl command."
+    fi
+
+    echo "SSL Check SUCCESS with openssl command."
+}
+
 $userinput

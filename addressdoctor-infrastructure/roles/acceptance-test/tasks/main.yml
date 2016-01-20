@@ -33,15 +33,6 @@
       - "{{ groups['lb-alias'] }}"
       - [ validatedAddress, certifiedAddress, looselyValidatedAddress, addressSuggestions, fastCompletionAddress ]
 
-  - name: download soap test file and function template file -> /tmp
-    template: src={{ item.src }} dest=/tmp mode={{ item.mode }} force
-    with_items:
-      - { src: 'soap_envelope.xml', mode: '0644' }
-      - { src: 'acceptance-test-functions.sh', mode: '0755' }
-
   - name: validate LB data-match soap addresses
-    action: command bash /tmp/acceptance-test-functions.sh soapValidationTest {{ item }}
+    script: acceptance-test-functions.sh soapValidationTest {{ item }}
     with_items: "{{ groups['lb-alias'] }}"
-
-  - name: final cleanup
-    action: command bash /tmp/acceptance-test-functions.sh finalCleanup

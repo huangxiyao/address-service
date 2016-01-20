@@ -36,3 +36,12 @@
   - name: validate LB data-match soap addresses
     script: acceptance-test-functions.sh soapValidationTest {{ item }}
     with_items: "{{ groups['lb-alias'] }}"
+
+########## SSL Check ##########
+  - name: SSL Check with jrunscript command
+    script: acceptance-test-functions.sh jrunscriptTest {{ item }} {{ health_check_url }}
+    with_items: "{{ groups['lb-alias'] }}"
+
+  - name: SSL Check with curl command
+    script: acceptance-test-functions.sh curlTest {{ item }}
+    with_items: "{{ groups['lb-alias'] }}"

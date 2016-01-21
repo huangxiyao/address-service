@@ -41,11 +41,14 @@
   - name: SSL Check with jrunscript command
     script: acceptance-test-functions.sh jrunscriptTest {{ item }} {{ health_check_url }}
     with_items: "{{ groups['lb-alias'] }}"
+    when: "'{{ release_environment }}' != 'dev'"
 
   - name: SSL Check with curl command
     script: acceptance-test-functions.sh curlTest {{ item }}
     with_items: "{{ groups['lb-alias'] }}"
+    when: "'{{ release_environment }}' != 'dev'"
 
   - name: SSL Check with OpenSSL command
     script: acceptance-test-functions.sh opensslTest {{ item }}
     with_items: "{{ groups['lb-alias'] }}"
+    when: "'{{ release_environment }}' != 'dev'"

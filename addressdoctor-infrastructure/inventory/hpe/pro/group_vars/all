@@ -5,5 +5,3 @@ usergroup: casfwgrp
 casfw_home: /opt/casfw
 
 health_check_url: DO_NOT_REMOVE/health_check.htm
-
-lb_urls: [ address-service.core.hpecorp.net ]

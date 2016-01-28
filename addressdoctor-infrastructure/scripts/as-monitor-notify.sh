@@ -20,7 +20,7 @@ TABLE=""
 
 if [[ -f $RESULTFILE ]]
 then
-    FAILEDRECORDS=$(cat $RESULTFILE | grep "${JOB_NAME}-${BUILD_NUMBER}")
+    FAILEDRECORDS=$(cat $RESULTFILE | grep "${JOB_NAME}-${BUILD_NUMBER}" | sed "s/${JOB_NAME}-${BUILD_NUMBER} //g")
 fi
 
 function retrieveFailedRecords {
@@ -28,8 +28,8 @@ function retrieveFailedRecords {
 
 while read record
 do
-    url=$(echo ${record} | awk '{print $2}');
-    status=$(echo ${record} | awk '{print $3}');
+    url=$(echo ${record} | awk '{print $1}');
+    status=$(echo ${record} | awk '{print $2}');
     TABLE=${TABLE}"<tr><td><a href="${url}">"${url}"</a></td><td>"${status}"</td></tr>";
 done << EOF
 $FAILEDRECORDS

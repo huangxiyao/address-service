@@ -5,3 +5,17 @@ g9t6454.houston.hpecorp.net
 [db-deploy]
 g4t8318.houston.hpecorp.net
 g9t6454.houston.hpecorp.net
+
+[lb-alias]
+address-service.core.hpecorp.net
+
+[lb-gslb]
+address-service-pro.glb1.hpecorp.net
+
+[load-balancers:children]
+lb-alias
+lb-gslb
+
+[as-monitoring:children]
+data-match
+load-balancers

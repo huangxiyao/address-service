@@ -1,7 +1,49 @@
 ---
-  - debug: msg="Skipping acceptance-test due to lb_urls is not defined"
-    when: lb_urls is not defined
+  - name: validate LB apache health page
+    uri: url=https://{{ item }}/{{ health_check_url }} status_code=200
+    retries: 5
+    delegate_to: localhost
+    with_items: "{{ groups['lb-alias'] }}"
 
-  - name: Starting acceptance test
-    include: acceptance-test.yml
-    when: lb_urls is defined
+  - name: validate LB data-match health page
+    uri: url=https://{{ item }}/match/about/health status_code=204
+    retries: 5
+    delegate_to: localhost
+    with_items: "{{ groups['lb-alias'] }}"
+
+  - name: validate LB data-match restful endpoint
+    uri: url=https://{{ item[0]  }}/match/{{ item[1] }}/documentation status_code=200
+    retries: 5
+    delegate_to: localhost
+    with_nested:
+      - "{{ groups['lb-alias'] }}"
+      - [ validatedAddress, certifiedAddress, looselyValidatedAddress, addressSuggestions, fastCompletionAddress ]
+
+  - name: validate LB data-match soap endpoint
+    uri: url=https://{{ item }}/legacy-match/address/v1?wsdl status_code=200
+    retries: 5
+    delegate_to: localhost
+    with_items: "{{ groups['lb-alias'] }}"
+
+  - name: validate LB data-match restful addresses
+    uri: url=https://{{ item[0] }}/match/{{ item[1] }}?country1=US&deliveryAddressLine1=745+Riverhaven+Drive&characterScriptDetectionIndicator=false&postalCode1=30024 HEADER_X-HP-Application-Process-UID="w-mdcp:prd-http"
+    retries: 5
+    delegate_to: localhost
+    with_nested:
+      - "{{ groups['lb-alias'] }}"
+      - [ validatedAddress, certifiedAddress, looselyValidatedAddress, addressSuggestions, fastCompletionAddress ]
+
+  - name: validate LB data-match soap addresses
+    script: acceptance-test-functions.sh soapValidationTest {{ item }}
+    with_items: "{{ groups['lb-alias'] }}"
+
+########## SSL Check ##########
+  - name: SSL Check with jrunscript command
+    script: acceptance-test-functions.sh jrunscriptTest {{ item }} {{ health_check_url }}
+    with_items: "{{ groups['lb-alias'] }}"
+    when: "'{{ release_environment }}' != 'dev'"
+
+  - name: SSL Check with curl command
+    script: acceptance-test-functions.sh curlTest {{ item }}
+    with_items: "{{ groups['lb-alias'] }}"
+    when: "'{{ release_environment }}' != 'dev'"

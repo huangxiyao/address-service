@@ -6,7 +6,7 @@
   su: yes
   su_user: casfw
   vars:
-    data_match_release_version: 2016.02.r6
+    data_match_release_version: 2016.02.r7
     datamatchsnapshot: false
   vars_files:
   - roles/data-match/vars/{{ release_environment }}-vars.yml

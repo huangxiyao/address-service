@@ -6,14 +6,9 @@ ad_max_result_count=100
 ad_max_memory_usage_mb=10240
 ad_db_path=/opt/casfw/address-doctor/databases/all
 ad_cache_size=LARGE
-ad_unlock_code_current=AAVY71XYM2Z0QQ4PN46R3H7K23T7HY8QTPNC
+ad_unlock_code_current=1ZD9Z4RX5JUZDFFF3688U26ZXUM5JN8MEEVA
 ad_unlock_code_future=EEJRSH5QN36TC21AJVNJMXRJD1C926YK005A
-<<<<<<< HEAD
 ad_unlock_code_geocoding1=KA3R610YM940NFKJ59EMC4V8SUR5C91JHP4C
-=======
-ad_unlock_code_supplementary=PF2H9UNMTM79MYADA8SAZ5MD0WYAC8YFZ5SC
-ad_unlock_code_geocoding1=1JS0L46XXJV53A4QM4FZCD0DW9EF3MNKAKKC
->>>>>>> 81cef517353c8388de3e7b7eb2a7b051d0b5c1f8
 ad_unlock_code_geocoding=TA91RQQXTR1QNE1E1WTDLCJE066S8YFEXUTC
 ad_max_address_object_count=30
 ad_max_thread_count=15

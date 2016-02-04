@@ -99,9 +99,9 @@ function checkDatabasesLoaded {
     if [ $validateresult -eq 0 ]; then
         error "No unlock code is valid for VALIDATION"
     fi
-    if [ $supplementaryresult -eq 0 ]; then
-        error "No unlock code is valid for SUPPLEMENTART"
-    fi
+    # if [ $supplementaryresult -eq 0 ]; then
+    #    error "No unlock code is valid for SUPPLEMENTART"
+    #fi
     if [ $geocodingresult -eq 0 ]; then
          error "No unlock code is valid for GEO_STANDARD"
     fi

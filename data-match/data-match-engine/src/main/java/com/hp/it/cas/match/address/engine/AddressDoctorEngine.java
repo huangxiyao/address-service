@@ -66,7 +66,7 @@ public enum AddressDoctorEngine {
 		AddressObject objectToReturn = null;
 		try {
 			if (objectQueue.isEmpty()) {
-				logger.error("Batch mode queue drained.  Consider increasing MaxAddressObject Count.");
+				logger.error("Batch mode queue drained.  Consider increasing MaxAddressObject Count.DevOps Demo");
 			}
 			objectToReturn = objectQueue.take();
 			objectToReturn.clearData();

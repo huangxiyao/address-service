@@ -1,0 +1,47 @@
+Requirement:
+For week of Feb 8th to Feb 12th, process the apache logs on HPE AD servers and generate the usage reports.
+Give a count number of each service (ReST/SOAP) usage by each day.
+Give a count number of each Country ISO usage by each day.
+
+Here are the apache ssl_access_log file format:
+15.50.51.174 - - [08/Feb/2016:04:11:42 +0000] "GET /match/validatedAddress?country1=US&locality1=San+Diego&province1=CA&deliveryAddressLine1=Building_AR&postalCode1=92130 HTTP/1.1" 200 3082
+16.250.28.31 - - [08/Feb/2016:03:41:29 +0000] "GET /match/validatedAddress/documentation HTTP/1.0" 200 42162
+16.250.28.31 - - [08/Feb/2016:03:41:31 +0000] "GET /legacy-match/address/v1?wsdl HTTP/1.0" 200 6182
+
+The ReST request is like "/match/validatedAdress".
+The SOAP request is like "/legacy-match/".
+
+###############################################################################################################################################
+Steps:
+1. Download apache ssl_access_log files from HPE AD servers of those days.
+HPE ITG apache log path: /opt/cloudhost/logs/apache
+HPE PRO apache log path: /opt/webhost/logs/WHA-General-Inst/apache/logs
+2. The log files should be .gz file, use gunzip command to unzip them.
+3. Use java code to parse the log file and save necessary info to local oracle database table.
+4. Use select statement to clollect the result and summary the result into an excel file.
+
+###############################################################################################################################################
+SQL Statements:
+create table TB_ADUSAGE(
+str_env varchar2(3),
+str_server varchar2(8),
+str_service varchar2(4),
+str_remote varchar2(15),
+str_date varchar2(11),
+str_iso varchar2(4)
+);
+
+select str_env, str_date, str_service, count(str_service) from tb_adusage
+where str_date = '08/Feb/2016' or str_date = '09/Feb/2016' or str_date = '10/Feb/2016' or str_date = '11/Feb/2016' or str_date = '12/Feb/2016'
+group by str_env, str_date, str_service
+order by str_env, str_date;
+
+select str_env, str_date, str_iso, count(str_iso) from tb_adusage
+where (str_date = '08/Feb/2016' or str_date = '09/Feb/2016' or str_date = '10/Feb/2016' or str_date = '11/Feb/2016' or str_date = '12/Feb/2016') and str_iso != 'NULL' and str_env = 'itg'
+group by str_env, str_date, str_iso
+order by str_env, str_date, count(str_iso) desc;
+
+select str_env, str_date, str_iso, count(str_iso) from tb_adusage
+where (str_date = '08/Feb/2016' or str_date = '09/Feb/2016' or str_date = '10/Feb/2016' or str_date = '11/Feb/2016' or str_date = '12/Feb/2016') and str_iso != 'NULL' and str_env = 'pro'
+group by str_env, str_date, str_iso
+order by str_env, str_date, count(str_iso) desc;

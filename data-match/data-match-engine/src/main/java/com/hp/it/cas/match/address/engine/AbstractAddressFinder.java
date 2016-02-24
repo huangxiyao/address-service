@@ -584,6 +584,39 @@ public abstract class AbstractAddressFinder {
 			if (addressObject.getResultEnrichmentElementExists(resultIndex + 1,  token)){
 				addAddressElement(addressObject.getResultEnrichmentElement(resultIndex + 1, token, "NAD_ID"), "NAD_ID", addressData.getSupplementaryZa());
 			}
+			
+			token = "CASS";
+			if (addressObject.getResultEnrichmentElementExists(resultIndex + 1,  token)){
+				addAddressElement(addressObject.getResultEnrichmentElement(resultIndex + 1, token, "BARCODE"), "BARCODE", addressData.getCass());
+				addAddressElement(addressObject.getResultEnrichmentElement(resultIndex + 1, token, "DELIVERY_POINT"), "DELIVERY_POINT", addressData.getCass());
+				addAddressElement(addressObject.getResultEnrichmentElement(resultIndex + 1, token, "RECORDTYPE"), "RECORDTYPE", addressData.getCass());
+				addAddressElement(addressObject.getResultEnrichmentElement(resultIndex + 1, token, "CARRIER_ROUTE"), "CARRIER_ROUTE", addressData.getCass());
+				addAddressElement(addressObject.getResultEnrichmentElement(resultIndex + 1, token, "ERRORCODE"), "ERRORCODE", addressData.getCass());
+				addAddressElement(addressObject.getResultEnrichmentElement(resultIndex + 1, token, "CONGRESSIONAL_DISTRICT"), "CONGRESSIONAL_DISTRICT", addressData.getCass());
+				addAddressElement(addressObject.getResultEnrichmentElement(resultIndex + 1, token, "DELIVERY_POINT_CHECK_DIGIT"), "DELIVERY_POINT_CHECK_DIGIT", addressData.getCass());
+				addAddressElement(addressObject.getResultEnrichmentElement(resultIndex + 1, token, "HIGHRISE_DEFAULT"), "HIGHRISE_DEFAULT", addressData.getCass());
+				addAddressElement(addressObject.getResultEnrichmentElement(resultIndex + 1, token, "HIGHRISE_EXACT"), "HIGHRISE_EXACT", addressData.getCass());
+				addAddressElement(addressObject.getResultEnrichmentElement(resultIndex + 1, token, "RURALROUTE_DEFAULT"), "RURALROUTE_DEFAULT", addressData.getCass());
+				addAddressElement(addressObject.getResultEnrichmentElement(resultIndex + 1, token, "RURALROUTE_EXACT"), "RURALROUTE_EXACT", addressData.getCass());
+				addAddressElement(addressObject.getResultEnrichmentElement(resultIndex + 1, token, "DPV_CONFIRMATION"), "DPV_CONFIRMATION", addressData.getCass());
+				addAddressElement(addressObject.getResultEnrichmentElement(resultIndex + 1, token, "DPV_CMRA"), "DPV_CMRA", addressData.getCass());
+				addAddressElement(addressObject.getResultEnrichmentElement(resultIndex + 1, token, "DPV_FALSE_POSITIVE"), "DPV_FALSE_POSITIVE", addressData.getCass());
+				addAddressElement(addressObject.getResultEnrichmentElement(resultIndex + 1, token, "DPV_FOOTNOTE_1"), "DPV_FOOTNOTE_1", addressData.getCass());
+				addAddressElement(addressObject.getResultEnrichmentElement(resultIndex + 1, token, "DPV_FOOTNOTE_2"), "DPV_FOOTNOTE_2", addressData.getCass());
+				addAddressElement(addressObject.getResultEnrichmentElement(resultIndex + 1, token, "DPV_FOOTNOTE_3"), "DPV_FOOTNOTE_3", addressData.getCass());
+				addAddressElement(addressObject.getResultEnrichmentElement(resultIndex + 1, token, "DPV_FOOTNOTE_COMPLETE"), "DPV_FOOTNOTE_COMPLETE", addressData.getCass());
+				addAddressElement(addressObject.getResultEnrichmentElement(resultIndex + 1, token, "LACSLINK_RETURNCODE"), "LACSLINK_RETURNCODE", addressData.getCass());
+				addAddressElement(addressObject.getResultEnrichmentElement(resultIndex + 1, token, "SUITELINK_RETURNCODE"), "SUITELINK_RETURNCODE", addressData.getCass());
+				addAddressElement(addressObject.getResultEnrichmentElement(resultIndex + 1, token, "EWS_RETURNCODE"), "EWS_RETURNCODE", addressData.getCass());
+				addAddressElement(addressObject.getResultEnrichmentElement(resultIndex + 1, token, "ZIPMOVE_RETURNCODE"), "ZIPMOVE_RETURNCODE", addressData.getCass());
+				addAddressElement(addressObject.getResultEnrichmentElement(resultIndex + 1, token, "DSF2_NOSTATS_INDICATOR"), "DSF2_NOSTATS_INDICATOR", addressData.getCass());
+				addAddressElement(addressObject.getResultEnrichmentElement(resultIndex + 1, token, "DSF2_VACANT_INDICATOR"), "DSF2_VACANT_INDICATOR", addressData.getCass());
+				addAddressElement(addressObject.getResultEnrichmentElement(resultIndex + 1, token, "DEFAULT_FLAG"), "DEFAULT_FLAG", addressData.getCass());
+				addAddressElement(addressObject.getResultEnrichmentElement(resultIndex + 1, token, "LACSLINK_INDICATOR"), "LACSLINK_INDICATOR", addressData.getCass());
+				addAddressElement(addressObject.getResultEnrichmentElement(resultIndex + 1, token, "RDI"), "RDI", addressData.getCass());
+				addAddressElement(addressObject.getResultEnrichmentElement(resultIndex + 1, token, "ELOT_FLAG"), "ELOT_FLAG", addressData.getCass());
+				addAddressElement(addressObject.getResultEnrichmentElement(resultIndex + 1, token, "ELOT_SEQUENCE"), "ELOT_SEQUENCE", addressData.getCass());
+			}
 
 			addressData.setCompleteAddress(addressObject.getResultAddressComplete(resultIndex + 1));
 

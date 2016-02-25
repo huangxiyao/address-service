@@ -482,6 +482,16 @@ public class AddressQueryResult {
 		 * <dd>Flag indicating the result of the call to the DPV NOSTATS Table</dd>
 		 * <dt>DSF2_VACANT_INDICATOR</dt>
 		 * <dd>Flag indicating the result of the call to the DPV VACANT Table</dd>
+		 * <dt>DEFAULT_FLAG</dt>
+		 * <dd>Flag indicating the default address</dd>
+		 * <dt>LACSLINK_INDICATOR</dt>
+		 * <dd>Flag indicating the LACSLINK</dd>
+		 * <dt>RDI</dt>
+		 * <dd>Residential Delivery Indicator</dd>
+		 * <dt>ELOT_FLAG</dt>
+		 * <dd>Enhanced Line Of Travel ascending or descending flag</dd>
+		 * <dt>ELOT_SEQUENCE</dt>
+		 * <dd>Enhanced Line Of Travel sequence number</dd>
 		 * </dl>
 		 * 
 		 * @return CASS address element data

@@ -585,19 +585,21 @@ public abstract class AbstractAddressFinder {
 				addAddressElement(addressObject.getResultEnrichmentElement(resultIndex + 1, token, "NAD_ID"), "NAD_ID", addressData.getSupplementaryZa());
 			}
 			
+			/* */
 			token = "CASS";
 			if (addressObject.getResultEnrichmentElementExists(resultIndex + 1,  token)){
+				addAddressElement(addressObject.getResultEnrichmentElement(resultIndex + 1, token, "ERRORCODE"), "ERRORCODE", addressData.getCass());
 				addAddressElement(addressObject.getResultEnrichmentElement(resultIndex + 1, token, "BARCODE"), "BARCODE", addressData.getCass());
 				addAddressElement(addressObject.getResultEnrichmentElement(resultIndex + 1, token, "DELIVERY_POINT"), "DELIVERY_POINT", addressData.getCass());
 				addAddressElement(addressObject.getResultEnrichmentElement(resultIndex + 1, token, "RECORDTYPE"), "RECORDTYPE", addressData.getCass());
 				addAddressElement(addressObject.getResultEnrichmentElement(resultIndex + 1, token, "CARRIER_ROUTE"), "CARRIER_ROUTE", addressData.getCass());
-				addAddressElement(addressObject.getResultEnrichmentElement(resultIndex + 1, token, "ERRORCODE"), "ERRORCODE", addressData.getCass());
 				addAddressElement(addressObject.getResultEnrichmentElement(resultIndex + 1, token, "CONGRESSIONAL_DISTRICT"), "CONGRESSIONAL_DISTRICT", addressData.getCass());
 				addAddressElement(addressObject.getResultEnrichmentElement(resultIndex + 1, token, "DELIVERY_POINT_CHECK_DIGIT"), "DELIVERY_POINT_CHECK_DIGIT", addressData.getCass());
 				addAddressElement(addressObject.getResultEnrichmentElement(resultIndex + 1, token, "HIGHRISE_DEFAULT"), "HIGHRISE_DEFAULT", addressData.getCass());
 				addAddressElement(addressObject.getResultEnrichmentElement(resultIndex + 1, token, "HIGHRISE_EXACT"), "HIGHRISE_EXACT", addressData.getCass());
 				addAddressElement(addressObject.getResultEnrichmentElement(resultIndex + 1, token, "RURALROUTE_DEFAULT"), "RURALROUTE_DEFAULT", addressData.getCass());
 				addAddressElement(addressObject.getResultEnrichmentElement(resultIndex + 1, token, "RURALROUTE_EXACT"), "RURALROUTE_EXACT", addressData.getCass());
+				addAddressElement(addressObject.getResultEnrichmentElement(resultIndex + 1, token, "LACS"), "LACS", addressData.getCass());
 				addAddressElement(addressObject.getResultEnrichmentElement(resultIndex + 1, token, "DPV_CONFIRMATION"), "DPV_CONFIRMATION", addressData.getCass());
 				addAddressElement(addressObject.getResultEnrichmentElement(resultIndex + 1, token, "DPV_CMRA"), "DPV_CMRA", addressData.getCass());
 				addAddressElement(addressObject.getResultEnrichmentElement(resultIndex + 1, token, "DPV_FALSE_POSITIVE"), "DPV_FALSE_POSITIVE", addressData.getCass());

@@ -585,7 +585,6 @@ public abstract class AbstractAddressFinder {
 				addAddressElement(addressObject.getResultEnrichmentElement(resultIndex + 1, token, "NAD_ID"), "NAD_ID", addressData.getSupplementaryZa());
 			}
 			
-			/* */
 			token = "CASS";
 			if (addressObject.getResultEnrichmentElementExists(resultIndex + 1,  token)){
 				addAddressElement(addressObject.getResultEnrichmentElement(resultIndex + 1, token, "ERRORCODE"), "ERRORCODE", addressData.getCass());

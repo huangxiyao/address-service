@@ -97,6 +97,12 @@ class AddressQueryResultJsonRepresentation extends StandardResponseJsonRepresent
 		}
 		arrayWriter.endArray();
 		
+		arrayWriter = objectWriter.name("cass").array();
+		for(AddressElement element: result.getCass()){
+			writeAddressElement(arrayWriter, element);
+		}
+		arrayWriter.endArray();
+		
 		arrayWriter = objectWriter.name("supplementaryBR").array();
 		for(AddressElement element: result.getSupplementaryBr()){
 			writeAddressElement(arrayWriter, element);

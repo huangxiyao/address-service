@@ -17,6 +17,8 @@ fi
 RESULTFILE="as-monitor-result.txt";
 FAILEDRECORDS=""
 TABLE=""
+STATUS=""
+COLOR=""
 
 if [[ -f $RESULTFILE ]]
 then
@@ -38,7 +40,7 @@ EOF
     TABLE=${TABLE}"</table>";
 }
 
-function postFailedRecordsToFlowdockInbox {
+function postMonitorResultToFlowdockInbox {
     curl --silent \
          --header "Accept: application/json" \
          --form "flow_token=$FLOW_TOKEN" \
@@ -49,8 +51,8 @@ function postFailedRecordsToFlowdockInbox {
          --form "tags=AS-Monitoring" \
          --form "external_thread_id=extract:as:monitor:$UPPERENV" \
          --form "thread[title]=$JOB_NAME" \
-         --form "thread[status][color]=orange" \
-         --form "thread[status][value]=failure" \
+         --form "thread[status][color]=${COLOR}" \
+         --form "thread[status][value]=${STATUS}" \
          --form "body= ${TABLE}" \
          "https://api.flowdock.com/messages" > /dev/null
 }
@@ -58,10 +60,24 @@ function postFailedRecordsToFlowdockInbox {
 if [[ $FAILEDRECORDS != "" ]]
 then
     echo "Sending out the FAILED Monitor notification..."
+    STATUS="failure"
+    COLOR="orange"
     retrieveFailedRecords
-    postFailedRecordsToFlowdockInbox
+    postMonitorResultToFlowdockInbox
     exit 1
 else
-    echo "Monitors are SUCCESS!"
-    exit 0
+    let lastBuildNumber=${BUILD_NUMBER}-1
+    lastFailedRecords=$(cat $RESULTFILE | grep "${JOB_NAME}-${lastBuildNumber}" | sed "s/${JOB_NAME}-${lastBuildNumber} //g")
+    if [[ $lastFailedRecords != "" ]]
+    then
+        STATUS="success"
+        COLOR="green"
+        TABLE="Services are back to normal now!"
+        postMonitorResultToFlowdockInbox
+        echo "Services are back to normal"
+        exit 0
+    else
+        echo "Monitors are SUCCESS!"
+        exit 0
+    fi
 fi

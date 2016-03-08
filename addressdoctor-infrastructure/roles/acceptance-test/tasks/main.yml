@@ -47,3 +47,19 @@
     script: acceptance-test-functions.sh curlTest {{ item }}
     with_items: "{{ groups['lb-alias'] }}"
     when: "'{{ release_environment }}' != 'dev'"
+
+########## RDI Result Verification ##########
+  - name: Check RDI feature which is in Certifed Mode Verification for US address
+    uri:
+      url=https://{{ item }}/match/certifiedAddress?country1=US&deliveryAddressLine1=11925%20Jones%20RD&locality1=Houston&postalCode1=77070&province1=TX
+      status_code=200
+      HEADER_X-HP-Application-Process-UID=hpit:CD-TEST
+    retries: 5
+    delegate_to: localhost
+    with_items: "{{ groups['lb-alias'] }}"
+    register: returnResult
+
+  - debug: msg="RDI result returned by AD"
+    delegate_to: localhost
+    with_items: returnResult.results
+    when: ("{{ item.json.content.resultData[0].cass[18].type }}" == "RDI")

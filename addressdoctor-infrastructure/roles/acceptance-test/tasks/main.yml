@@ -59,7 +59,7 @@
     with_items: "{{ groups['lb-alias'] }}"
     register: returnResult
 
-  - debug: msg="RDI result returned by AD"
+  - debug: msg="It is residential address and the RDI should be returned with Y."
     delegate_to: localhost
     with_items: returnResult.results
-    when: ("{{ item.json.content.resultData[0].cass[18].type }}" == "RDI")
+    when: ("{{ item.json.content.resultData[0].cass[18].type }}" == "RDI" and "{{ item.json.content.resultData[0].cass[18].value }}" == "Y")

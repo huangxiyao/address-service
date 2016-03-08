@@ -52,6 +52,7 @@ function checkDatabasesLoaded {
     validateresult=0
     supplementaryresult=0
     geocodingresult=0
+    singlelineresult=0
     for (( i=0 ; i<={{'${#unlockcodes[@]}'}} ; i=i+1 ))
     do
       seq=$(($i % 14))
@@ -76,8 +77,11 @@ function checkDatabasesLoaded {
             if [ $type = "SUPPLEMENTARY" ]; then
                supplementaryresult=1
             fi
-             if [ $type = "GEO_STANDARD" ]; then
+            if [ $type = "GEO_STANDARD" ]; then
                 geocodingresult=1
+            fi
+            if [ $type = "SINGLE_LINE_VALIDATION" ]; then
+                singlelineresult=1
             fi
          fi
          continue
@@ -104,6 +108,9 @@ function checkDatabasesLoaded {
     fi
     if [ $geocodingresult -eq 0 ]; then
          error "No unlock code is valid for GEO_STANDARD"
+    fi
+    if [ $singlelineresult -eq 0 ]; then
+         error "No unlock code is valid for SINGLE_LINE_VALIDATION"
     fi
 }
 

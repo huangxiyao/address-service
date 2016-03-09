@@ -8,6 +8,7 @@
   <UnlockCode>@@ad_unlock_code_us_geocoding_future@@</UnlockCode>
   <UnlockCode>@@ad_unlock_code_supplementary_current@@</UnlockCode>
   <UnlockCode>@@ad_unlock_code_supplementary_future@@</UnlockCode>
+  <UnlockCode>@@ad_unlock_code_single_line_validation@@</UnlockCode>
   <DataBase CountryISO3="ALL" Path="@@ad_db_path@@" PreloadingType="@@ad_preloading_type@@" Type="CERTIFIED"/>
   <DataBase CountryISO3="ALL" Path="@@ad_db_path@@" PreloadingType="@@ad_preloading_type@@" Type="BATCH_INTERACTIVE"/>
   <DataBase CountryISO3="ALL" Path="@@ad_db_path@@" PreloadingType="@@ad_preloading_type@@" Type="SUPPLEMENTARY"/>

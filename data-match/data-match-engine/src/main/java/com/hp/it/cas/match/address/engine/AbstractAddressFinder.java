@@ -506,7 +506,11 @@ public abstract class AbstractAddressFinder {
 			token = "SupplementaryGB";
 			if (addressObject.getResultEnrichmentElementExists(resultIndex + 1, token)){
 				addAddressElement(addressObject.getResultEnrichmentElement(resultIndex + 1 , token, "DELIVERY_POINT_SUFFIXES"),"DELIVERY_POINT_SUFFIXES", addressData.getSupplementaryGb());
+				addAddressElement(addressObject.getResultEnrichmentElement(resultIndex + 1 , token, "DELIVERY_POINT_TYPE"),"DELIVERY_POINT_TYPE", addressData.getSupplementaryGb());
 				addAddressElement(addressObject.getResultEnrichmentElement(resultIndex + 1 , token, "UDPRN"),"UDPRN", addressData.getSupplementaryGb());
+				addAddressElement(addressObject.getResultEnrichmentElement(resultIndex + 1 , token, "ADDRESS_KEY"),"ADDRESS_KEY", addressData.getSupplementaryGb());
+				addAddressElement(addressObject.getResultEnrichmentElement(resultIndex + 1 , token, "ORGANIZATION_KEY"),"ORGANIZATION_KEY", addressData.getSupplementaryGb());
+				addAddressElement(addressObject.getResultEnrichmentElement(resultIndex + 1 , token, "UPRN"),"UPRN", addressData.getSupplementaryGb());
 			}
 			
 			token = "SupplementaryUS";			
@@ -522,6 +526,7 @@ public abstract class AbstractAddressFinder {
 				addAddressElement(addressObject.getResultEnrichmentElement(resultIndex + 1 , token, "CENSUS_BLOCK_NO"),"CENSUS_BLOCK_NO", addressData.getSupplementaryUs());
 				addAddressElement(addressObject.getResultEnrichmentElement(resultIndex + 1 , token, "CENSUS_BLOCK_GROUP"),"CENSUS_BLOCK_GROUP", addressData.getSupplementaryUs());
 				addAddressElement(addressObject.getResultEnrichmentElement(resultIndex + 1 , token, "PMSA_ID"),"PMSA_ID", addressData.getSupplementaryUs());
+				addAddressElement(addressObject.getResultEnrichmentElement(resultIndex + 1 , token, "MCD_ID"),"MCD_ID", addressData.getSupplementaryUs());
 				addAddressElement(addressObject.getResultEnrichmentElement(resultIndex + 1 , token, "PLACE_FIPS_CODE"),"PLACE_FIPS_CODE", addressData.getSupplementaryUs());
 				addAddressElement(addressObject.getResultEnrichmentElement(resultIndex + 1 , token, "TIME_ZONE_CODE"),"TIME_ZONE_CODE", addressData.getSupplementaryUs());
 				addAddressElement(addressObject.getResultEnrichmentElement(resultIndex + 1 , token, "TIME_ZONE_NAME"),"TIME_ZONE_NAME", addressData.getSupplementaryUs());
@@ -547,25 +552,28 @@ public abstract class AbstractAddressFinder {
 			
 			token = "SupplementaryCH";
 			if (addressObject.getResultEnrichmentElementExists(resultIndex + 1,  token)){
-				addAddressElement(addressObject.getResultEnrichmentElement(resultIndex + 1, token, "POCO_EXT"), "POCO_EXT", addressData.getSupplementaryCh());
+				addAddressElement(addressObject.getResultEnrichmentElement(resultIndex + 1, token, "POSTAL_CODE_EXTENSION"), "POSTAL_CODE_EXTENSION", addressData.getSupplementaryCh());
 			}
 			
 			token = "SupplementaryDE";
 			if (addressObject.getResultEnrichmentElementExists(resultIndex + 1,  token)){
-				addAddressElement(addressObject.getResultEnrichmentElement(resultIndex + 1, token, "DEU_AGS"), "DEU_AGS", addressData.getSupplementaryDe());
-				addAddressElement(addressObject.getResultEnrichmentElement(resultIndex + 1, token, "DEU_LOCALITY_ID"), "DEU_LOCALITY_ID", addressData.getSupplementaryDe());
-				addAddressElement(addressObject.getResultEnrichmentElement(resultIndex + 1, token, "DEU_STREET_ID"), "DEU_STREET_ID", addressData.getSupplementaryDe());
+				addAddressElement(addressObject.getResultEnrichmentElement(resultIndex + 1, token, "LOCALITY_ID"), "LOCALITY_ID", addressData.getSupplementaryDe());
+				addAddressElement(addressObject.getResultEnrichmentElement(resultIndex + 1, token, "STREET_ID"), "STREET_ID", addressData.getSupplementaryDe());
+				addAddressElement(addressObject.getResultEnrichmentElement(resultIndex + 1, token, "AGS"), "AGS", addressData.getSupplementaryDe());
+				addAddressElement(addressObject.getResultEnrichmentElement(resultIndex + 1, token, "STREET_CODE"), "STREET_CODE", addressData.getSupplementaryDe());
 			}
 			
 			token = "SupplementaryFR";
 			if (addressObject.getResultEnrichmentElementExists(resultIndex + 1,  token)){
 				addAddressElement(addressObject.getResultEnrichmentElement(resultIndex + 1, token, "INSEE_CODE"), "INSEE_CODE", addressData.getSupplementaryFr());
+				addAddressElement(addressObject.getResultEnrichmentElement(resultIndex + 1, token, "INSEE_9_CODE"), "INSEE_9_CODE", addressData.getSupplementaryFr());
 			}
 			
 			token = "SupplementaryJP";
 			if (addressObject.getResultEnrichmentElementExists(resultIndex + 1,  token)){
-				addAddressElement(addressObject.getResultEnrichmentElement(resultIndex + 1, token, "NEW_CHOUMEI_AZA_CODE"), "NEW_CHOUMEI_AZA_CODE", addressData.getSupplementaryJp());
 				addAddressElement(addressObject.getResultEnrichmentElement(resultIndex + 1, token, "CHOUMEI_AZA_CODE"), "CHOUMEI_AZA_CODE", addressData.getSupplementaryJp());
+				addAddressElement(addressObject.getResultEnrichmentElement(resultIndex + 1, token, "NEW_CHOUMEI_AZA_CODE"), "NEW_CHOUMEI_AZA_CODE", addressData.getSupplementaryJp());
+				addAddressElement(addressObject.getResultEnrichmentElement(resultIndex + 1, token, "GAIKU_CODE"), "GAIKU_CODE", addressData.getSupplementaryJp());
 			}
 			
 			token = "SupplementaryPL";

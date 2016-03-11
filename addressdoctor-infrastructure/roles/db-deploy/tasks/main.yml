@@ -6,13 +6,21 @@
   - name: Check disk space if it is enough and should not less than 40GB
     action: command bash {{ casfw_home }}/db-deploy-functions.sh checkDiskSpace
 
-  - name: Initial DB latest version folder which will save the latest DB files
+  - name: Initial DB latest version zip folder which will save the latest zip DB files
+    action: command bash {{ casfw_home }}/db-deploy-functions.sh initialDBLatestVersionZipFolder
+
+  - name: Copy the DB zip files to target server and put them under the db latest version zip folder
+    copy: src={{ item }} dest={{ db_target_folder }}/{{ db_latest_version }}_zip mode=0755 owner={{ useraccount }} group={{ usergroup }} force
+    with_fileglob:
+      - "{{ db_source_folder }}/*.zip"
+
+  - name: Initial DB latest version folder which will save the latest DB MD files
     action: command bash {{ casfw_home }}/db-deploy-functions.sh initialDBLatestVersionFolder
 
-  - name: Copy the DB MD files to target server and put in under the db latest version folder
-    copy: src={{ item }} dest={{ db_target_folder }}/{{ db_latest_version }} mode=0755 owner={{ useraccount }} group={{ usergroup }} force
-    with_fileglob:
-      - "{{ db_source_folder }}/*.MD"
+  - name: Unzip all the DB zip files to db latest version folder
+    action: command bash {{ casfw_home }}/db-deploy-functions.sh unzipDBFiles
+    async: 0
+    poll: 10
 
   - name: Update DB symbol link and point to the latest db version folder
     action: command bash {{ casfw_home }}/db-deploy-functions.sh updateDBSymLink

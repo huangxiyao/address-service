@@ -37,10 +37,8 @@
     async: 0
     poll: 10
 
-  - name: Unzip all the DB zip files to stage folder
-    action: command bash {{ casfw_home }}/db-download-functions.sh unzipDBFiles
-    async: 0
-    poll: 10
+  - name: Handle the duplicated zip files
+    action: command bash {{ casfw_home }}/db-download-functions.sh handleDuplicatedDBFiles
 
   - name: Final Cleanup
     action: command bash {{ casfw_home }}/db-download-functions.sh finalCleanup

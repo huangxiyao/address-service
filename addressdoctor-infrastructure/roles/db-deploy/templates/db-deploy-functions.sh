@@ -19,6 +19,15 @@ function checkDiskSpace {
     fi
 }
 
+# initial db latest version zip folder
+function initialDBLatestVersionZipFolder {
+    if [[ -d {{ db_target_folder }}/{{ db_latest_version }}_zip ]]; then
+        mv {{ db_target_folder }}/{{ db_latest_version }}_zip {{ db_target_folder }}/{{ db_latest_version }}_zip_"$(date +"%Y-%m-%d-%H:%M:%S")"
+    fi
+    
+    mkdir -p {{ db_target_folder }}/{{ db_latest_version }}_zip
+}
+
 # initial db latest version folder
 function initialDBLatestVersionFolder {
     if [[ -d {{ db_target_folder }}/{{ db_latest_version }} ]]; then
@@ -26,6 +35,15 @@ function initialDBLatestVersionFolder {
     fi
     
     mkdir -p {{ db_target_folder }}/{{ db_latest_version }}
+}
+
+function unzipDBFiles {
+    # change to directory of the zip files
+    cd {{ db_target_folder }}/{{ db_latest_version }}_zip
+
+    # unzip all the zip db files to db latest version folder
+    # clear unzip output log
+    unzip "*.zip" -d {{ db_target_folder }}/{{ db_latest_version }} > /dev/null
 }
 
 # Update DB Symlink

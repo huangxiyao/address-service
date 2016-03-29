@@ -5,6 +5,7 @@
 
   - name: Stop data-match instance when running
     action: command bash {{ casfw_home }}/db-restart-tomcat-functions.sh stopDataMatchInstance
+    ignore_errors: yes
 
   - name: Wait for data-match port to stopped
     wait_for: host={{ inventory_hostname }} port={{ port }} delay=15 state=stopped

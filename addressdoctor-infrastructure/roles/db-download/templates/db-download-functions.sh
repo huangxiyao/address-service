@@ -71,13 +71,7 @@ function downloadDB {
     xargs -a {{ casfw_home }}/db-download-args.txt ${JAVA_HOME}/bin/java > /dev/null
 }
 
-function unzipDBFiles {
-	# check if the target db folder exist or not
-	if [[ -d {{ db_folder }} ]]; then
-        mv {{ db_folder }} {{ db_folder }}_"$(date +"%Y-%m-%d-%H:%M:%S")"
-    fi
-    mkdir -p {{ db_folder }}
-
+function handleDuplicatedDBFiles {
     # change to directory of the zip files
 	cd {{ adm_client_folder }}/Downloads
     
@@ -95,8 +89,13 @@ function unzipDBFiles {
     if [[ $num -gt 0 ]]; then
         for filePrefix in ${duplicatedFilePrefix[*]}
         do
-            # back up the old files which product id is 01, for example: DB5_SGP5BI_01_150201.zip
-            oldFiles=($(ls | grep $filePrefix | grep _01_))
+            # find out the latest (product id) file of the duplicated zip files
+            # For Example: DB5_SGP5BI_01_150201.zip DB5_SGP5BI_02_150201.zip (_02_ is the latest one)
+            # For Example: DB5_ESP5BI_02_150301.zip DB5_ESP5BI_03_151001.zip (_03_ is the latest one)
+            latestProductID=($(ls | grep $filePrefix | awk -F "_" '{print $3}' | sort -n | tail -1))
+            
+            #back up the old files which product id is not the latest one
+            oldFiles=($(ls | grep $filePrefix | grep "_"$latestProductID"_" -v))
             for oldFile in ${oldFiles[*]}
             do
                 # back up the old db files
@@ -104,34 +103,6 @@ function unzipDBFiles {
             done
         done
     fi
-
-#    # handle the duplicated files
-#    if [[ $num -gt 0 ]]; then
-#        for filePrefix in ${duplicatedFilePrefix[*]}
-#        do
-#            # find out the latest date of the duplicated zip files
-#            latestDate=($(ls | grep $filePrefix | awk -F "_" '{print $4}' | awk -F "." '{print $1}' | sort -n | tail -1))
-            
-#            # find out the old zip db files
-#            oldFiles=($(ls | grep $filePrefix | grep $latestDate -v))
-#            for oldFile in ${oldFiles[*]}
-#            do
-#                # back up the old db files
-#                mv $oldFile $oldFile"_bak"
-#            done
-#        done
-#    fi
-
-    # unzip all the zip db files to db stage folder
-    # clear unzip output log
-    # unzip "*.zip" -d {{ db_folder }} > /dev/null
-    # Use jar command to unzip *.zip files
-    dbFileList=$(ls *zip)
-    cd {{ db_folder }}
-    for zipFile in ${dbFileList[*]}
-    do
-        jar xf {{ adm_client_folder }}/Downloads/$zipFile
-    done
 }
 
 function finalCleanup {

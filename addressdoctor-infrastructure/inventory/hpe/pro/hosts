@@ -6,6 +6,10 @@ g9t6454.houston.hpecorp.net
 g4t8318.houston.hpecorp.net
 g9t6454.houston.hpecorp.net
 
+[hpq-proxy-servers]
+g2t0596g.austin.hp.com
+g9t0535g.houston.hp.com
+
 [lb-alias]
 address-service.core.hpecorp.net
 

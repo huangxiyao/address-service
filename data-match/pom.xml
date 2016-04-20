@@ -49,8 +49,8 @@
         <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
         <project.reporting.outputEncoding>UTF-8</project.reporting.outputEncoding>
 
-		<distributeSnapshotUrl>http://repo1.corp.hp.com/nexus/content/repositories/snapshots</distributeSnapshotUrl>
-        <distributeReleaseUrl>http://repo1.corp.hp.com/nexus/content/repositories/releases</distributeReleaseUrl>
+		<distributeSnapshotUrl>http://repo1.core.hpecorp.net/nexus/content/repositories/snapshots</distributeSnapshotUrl>
+        <distributeReleaseUrl>http://repo1.core.hpecorp.net/nexus/content/repositories/releases</distributeReleaseUrl>
     </properties>
 
     <modules>

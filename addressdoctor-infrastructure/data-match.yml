@@ -8,6 +8,7 @@
   vars:
     data_match_release_version: @@data_match_release_version@@
     datamatchsnapshot: false
+    nexus_host: repo1.core.hpecorp.net
   vars_files:
   - roles/data-match/vars/{{ release_environment }}-vars.yml
   roles:

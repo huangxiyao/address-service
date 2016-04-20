@@ -271,7 +271,11 @@ public enum CharacterScript {
 	 * @return The identified script, if unidentified, return <code>null</code>.
 	 */
 	public static CharacterScript detect(String source) {
-		return analyze(source).getScript();
+		Analysis analysisTmp = analyze(source);
+		if(analysisTmp != null){
+			return analysisTmp.getScript();
+		}
+		return null;
 	}
 
 	/**

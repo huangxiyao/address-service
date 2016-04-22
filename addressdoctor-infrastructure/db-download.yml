@@ -15,5 +15,6 @@
     casfw_home: /tmp
     useraccount: jenkins
     usergroup: jenkins
+    nexus_host: repo1.core.hpecorp.net
   roles:
   - db-download

@@ -20,11 +20,11 @@
     ignore_errors: yes
 
   - name: download data-match installation CDI
-    action: command wget -Nnv http://repo1.corp.hp.com/nexus/content/repositories/releases/com/hp/it/120482/data-match-installer/{{ data_match_release_version }}/data-match-installer-{{ data_match_release_version }}.cdi -P {{ casfw_home }}
+    action: command wget -Nnv http://{{ nexus_host }}/nexus/content/repositories/releases/com/hp/it/120482/data-match-installer/{{ data_match_release_version }}/data-match-installer-{{ data_match_release_version }}.cdi -P {{ casfw_home }}
     when: not datamatchsnapshot and "'{{ data_match_release_version }}' in cdi_check.stdout"
 
   - name: download data-match installation CDI (snapshot)
-    action: command wget -Nnv http://repo1.corp.hp.com/nexus/service/local/artifact/maven/redirect?r=snapshots&g=com.hp.it.120482&a=data-match-installer&v={{ data_match_release_version }}&e=cdi -O {{ casfw_home }}/data-match-installer-{{ data_match_release_version }}.cdi
+    action: command wget -Nnv http://{{ nexus_host }}/nexus/service/local/artifact/maven/redirect?r=snapshots&g=com.hp.it.120482&a=data-match-installer&v={{ data_match_release_version }}&e=cdi -O {{ casfw_home }}/data-match-installer-{{ data_match_release_version }}.cdi
     when: datamatchsnapshot and "'{{ data_match_release_version }}' in cdi_check.stdout"
 
   - debug: msg="Skipping data-match instance1 installation on {{ inventory_hostname }}"

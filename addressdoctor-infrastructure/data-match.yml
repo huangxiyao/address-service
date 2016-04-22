@@ -6,7 +6,7 @@
   su: yes
   su_user: casfw
   vars:
-    data_match_release_version: 2016.03.r8
+    data_match_release_version: 2016.04.r1
     datamatchsnapshot: false
     nexus_host: repo1.core.hpecorp.net
   vars_files:

@@ -63,3 +63,16 @@
     delegate_to: localhost
     with_items: returnResult.results
     when: ("{{ item.json.content.resultData[0].cass[18].type }}" == "RDI" and "{{ item.json.content.resultData[0].cass[18].value }}" == "Y")
+###### Check Supplementary issue for country Germany (ISO2: DE)########
+  - name: Check Supplementary issue for country Germany (ISO2: DE)
+    uri: url=http://{{ item }}/match/validatedAddress?country1=DE&locality1=Dortmund&province1=Nordrhein-Westfalen&postalCode1=44287&deliveryAddressLine1=Riesestr. 19&characterScriptDetectionIndicator=true HEADER_X-HP-Application-Process-UID="w-mdcp:prd-http"
+    retries: 5
+    delegate_to: localhost
+    with_items: "{{ groups['lb-alias'] }}"
+
+###### Check Supplementary issue for country Switzerland (ISO2: CH) ################## 
+  - name: Check Supplementary issue for country Switzerland (ISO2: CH)
+    uri: url=http://{{ item }}/match/validatedAddress?country1=CHE&deliveryAddressLine1="BADSTRASSE 50"&locality1="BRUGG AG"&postalCode1=5200&province1=AARGAU HEADER_X-HP-Application-Process-UID="w-mdcp:prd-http"
+    retries: 5
+    delegate_to: localhost
+    with_items: "{{ groups['lb-alias'] }}"

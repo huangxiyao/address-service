@@ -72,7 +72,7 @@
 
 ###### Check Supplementary issue for country Switzerland (ISO2 CH) ################## 
   - name: Check Supplementary issue for country Switzerland (ISO2 CH)
-    uri: url=http://{{ item }}/match/validatedAddress?country1=CHE&deliveryAddressLine1="BADSTRASSE 50"&locality1="BRUGG AG"&postalCode1=5200&province1=AARGAU&characterScriptDetectionIndicator=true HEADER_X-HP-Application-Process-UID="w-mdcp:prd-http"
+    uri: url=http://{{ item }}/match/validatedAddress?country1=US&deliveryAddressLine1=745+Riverhaven+Drive&characterScriptDetectionIndicator=false&postalCode1=30024 HEADER_X-HP-Application-Process-UID="w-mdcp:prd-http"
     retries: 5
     delegate_to: localhost
     with_items: "{{ groups['lb-alias'] }}"
